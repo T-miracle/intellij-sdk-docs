@@ -1,25 +1,29 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Plugin Configuration File
+# 插件配置文件
 
 <show-structure for="chapter" depth="4"/>
 
-<link-summary>Plugin configuration file contains all the information about the plugin, as well as all registered extensions, actions, listeners, etc.</link-summary>
+<link-summary>插件配置文件包含有关插件的所有信息，以及所有注册的扩展、操作、监听器等。</link-summary>
 
-The <path>plugin.xml</path> configuration file contains all the information about the plugin, which is displayed in the [plugins settings dialog](https://www.jetbrains.com/help/idea/managing-plugins.html), and all registered extensions, actions, listeners, etc.
-Sections below describe all the elements in detail.
+<path>plugin.xml</path> 配置文件包含有关插件的所有信息，这些信息显示在[插件设置对话框](https://www.jetbrains.com/help/idea/managing-plugins.html)中，以及所有注册的扩展、操作、侦听器等。
+以下各节详细描述了所有元素。
 
-The example <path>plugin.xml</path> files can be found in the [IntelliJ SDK Docs Code Samples](https://github.com/JetBrains/intellij-sdk-code-samples) repository.
+示例 <path>plugin.xml</path> 文件可以在 [IntelliJ SDK 文档代码示例](https://github.com/JetBrains/intellij-sdk-code-samples) 存储库中找到。
 
-## Additional Plugin Configuration Files
+> 译者注：
+>
+> 具体位置点击 [此处](https://github.com/JetBrains/intellij-sdk-code-samples/blob/main/theme_basics/resources/META-INF/plugin.xml) 查看
 
-A plugin can contain additional configuration files beside the main <path>plugin.xml</path>.
-They have the same format, and they are included with the `config-file` attribute of [`<depends>`](#idea-plugin__depends) elements specifying [plugin dependencies](plugin_dependencies.md).
-However, some elements and attributes required in <path>plugin.xml</path> are ignored in additional configuration files.
-If the requirements differ, the documentation below will state it explicitly.
-One use case for additional configuration files is when a plugin provides optional features that are only available in some IDEs and require [certain modules](plugin_compatibility.md#modules-specific-to-functionality).
+## 1.附加插件配置文件
 
-## Useful Resources
+插件可以在主 <path>plugin.xml</path> 旁边包含其他配置文件。
+它们具有相同的格式，并且包含在指定 [插件依赖项](plugin_dependencies.md) 的 [`<depends>`](#idea-plugin__depends) 元素的 `config-file` 属性中。
+但是，<path>plugin.xml</path> 中所需的一些元素和属性在其他配置文件中会被忽略。
+如果要求不同，下面的文档将明确说明。
+附加配置文件的一个用例是当插件提供仅在某些 IDE 中可用并且需要 [某些模块](plugin_compatibility.md#modules-specific-to-functionality) 的可选功能时。
+
+## 2.实用的资源
 
 Please make sure to follow the guidelines from [Plugin Overview page](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html) for an optimal presentation of your plugin on JetBrains Marketplace.
 The _Busy Plugin Developers. Episode 2_ discusses [5 tips for optimizing JetBrains Marketplace plugin page](https://youtu.be/oB1GA9JeeiY?t=52) in more detail.
@@ -94,7 +98,7 @@ Required
 
 Attributes
 :
-- `url` _(optional; ignored in [additional configuration](#additional-plugin-configuration-files))_<br/>
+- `url` _(optional; ignored in [additional configuration](#1))_<br/>
   The link to the plugin homepage displayed on the plugin page in the [JetBrains Marketplace](https://plugins.jetbrains.com).
 - `require-restart` _(optional)_<br/>
   The boolean value determining whether the plugin installation, update, or uninstallation requires the IDE restart (see [](dynamic_plugins.md) for details).<br/>
@@ -136,7 +140,7 @@ Please use characters, numbers, and `'.'`/`'-'`/`'_'` symbols only and keep it r
 
 {style="narrow"}
 Required
-: no; ignored in [additional config file](#additional-plugin-configuration-files)<br/>
+: no; ignored in [additional config file](#1)<br/>
 **It is highly recommended to set in <path>plugin.xml</path> file.**<br/>
 The element can be skipped in the source <path>plugin.xml</path> file if the Gradle [`patchPluginXml`](tools_gradle_intellij_plugin.md#tasks-patchpluginxml) task is enabled and configured.
 
@@ -158,7 +162,7 @@ The user-visible plugin display name (Title Case).
 
 {style="narrow"}
 Required
-: **yes**; ignored in [additional config file](#additional-plugin-configuration-files)
+: **yes**; ignored in [additional config file](#1)
 
 Example
 :
@@ -176,7 +180,7 @@ Plugins uploaded to the JetBrains Marketplace must follow semantic versioning.
 
 {style="narrow"}
 Required
-: **yes**; ignored in [additional config file](#additional-plugin-configuration-files)<br/>
+: **yes**; ignored in [additional config file](#1)<br/>
 The element can be skipped in the source <path>plugin.xml</path> file if the Gradle [`patchPluginXml`](tools_gradle_intellij_plugin.md#tasks-patchpluginxml) task is enabled and configured.
 
 Example
@@ -194,7 +198,7 @@ Example
 
 {style="narrow"}
 Required
-: only for paid or freemium plugins; ignored in [additional config file](#additional-plugin-configuration-files)<br/>
+: only for paid or freemium plugins; ignored in [additional config file](#1)<br/>
 **Do not add `<product-descriptor>` element in a free plugin.**
 
 Attributes
@@ -219,7 +223,7 @@ The plugin's range of compatible IntelliJ-based IDE versions.
 
 {style="narrow"}
 Required
-: **yes**; ignored in [additional config file](#additional-plugin-configuration-files)<br/>
+: **yes**; ignored in [additional config file](#1)<br/>
 The element can be skipped in the source <path>plugin.xml</path> file if the Gradle [`patchPluginXml`](tools_gradle_intellij_plugin.md#tasks-patchpluginxml) task is enabled and configured.
 
 Attributes
@@ -252,7 +256,7 @@ The vendor name or organization ID (if created) in the <control>Plugins</control
 
 {style="narrow"}
 Required
-: **yes**; ignored in [additional config file](#additional-plugin-configuration-files)
+: **yes**; ignored in [additional config file](#1)
 
 Attributes
 :
@@ -287,7 +291,7 @@ Simple HTML elements, like text formatting, paragraphs, lists, etc., are allowed
 
 {style="narrow"}
 Required
-: **yes**; ignored in [additional config file](#additional-plugin-configuration-files)<br/>
+: **yes**; ignored in [additional config file](#1)<br/>
 The element can be skipped in the source <path>plugin.xml</path> file if the Gradle [`patchPluginXml`](tools_gradle_intellij_plugin.md#tasks-patchpluginxml) task is enabled and configured.
 
 Example
@@ -317,7 +321,7 @@ Simple HTML elements, like text formatting, paragraphs, lists, etc., are allowed
 
 {style="narrow"}
 Required
-: no; ignored in [additional config file](#additional-plugin-configuration-files)<br/>
+: no; ignored in [additional config file](#1)<br/>
 The element can be skipped in the source <path>plugin.xml</path> file if the Gradle [`patchPluginXml`](tools_gradle_intellij_plugin.md#tasks-patchpluginxml) task is enabled and configured.
 
 Example
@@ -360,7 +364,7 @@ Attributes
     - `true` - the plugin will be loaded
     - `false` (default) - the plugin will not be loaded
 - `config-file` _(optional)_<br/>
-  Relative path to an [additional configuration file](#additional-plugin-configuration-files), loaded only if the dependency plugin is installed in the current IDE.
+  Relative path to an [additional configuration file](#1), loaded only if the dependency plugin is installed in the current IDE.
 
 Examples
 :
@@ -404,7 +408,7 @@ Declares incompatibility with a provided module.
 
 {style="narrow"}
 Required
-: no; ignored in [additional config file](#additional-plugin-configuration-files)
+: no; ignored in [additional config file](#1)
 
 Example
 :

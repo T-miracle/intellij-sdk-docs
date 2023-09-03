@@ -1,6 +1,6 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Explore the IntelliJ Platform API
+# 探索 IntelliJ 平台 API
 
 <link-summary>Strategies and tools for exploring the API.</link-summary>
 

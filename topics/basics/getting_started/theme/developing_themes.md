@@ -1,16 +1,16 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Developing a Theme
+# 开发主题
 
-<link-summary>Develop an IntelliJ Platform-based IDE theme using Plugin DevKit.</link-summary>
+<link-summary>使用 Plugin DevKit 开发基于 IntelliJ 平台的 IDE 主题。</link-summary>
 
-This documentation section will help you get started with developing theme plugins for the IntelliJ Platform-based IDEs.
+本文档部分将帮助您开始为基于 IntelliJ 平台的 IDE 开发主题插件。
 
-The DevKit-based theme development workflow includes:
+基于 DevKit 的主题开发工作流程包括：
 
-* [Setting Up a Development Environment](setting_up_theme_environment.md)
-* [Creating a Theme Project](creating_theme_project.md)
-* [Customizing a Theme](themes_customize.md)
-* [Building and Running a Theme](running_and_debugging_a_theme.md)
-* [Deploying a Theme in IDE](deploying_theme.md)
-* [Uploading a Theme to JetBrains Marketplace](publishing_plugin.md#uploading-a-plugin-to-jetbrains-marketplace)
+* [设置开发环境](setting_up_theme_environment.md)
+* [创建主题项目](creating_theme_project.md)
+* [定制主题](themes_customize.md)
+* [构建和运行主题](running_and_debugging_a_theme.md)
+* [在 IDE 中部署主题](deploying_theme.md)
+* [将主题上传到 JetBrains 插件市场](publishing_plugin.md#uploading-a-plugin-to-jetbrains-marketplace)

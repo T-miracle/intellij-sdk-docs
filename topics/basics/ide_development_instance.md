@@ -1,4 +1,4 @@
-# IDE Development Instance
+# IDE 开发实例
 
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
@@ -114,7 +114,7 @@ To disable auto-reload, set `idea.auto.reload.plugins` to `false` explicitly (20
 
 </tabs>
 
-## The Development Instance Sandbox Directory
+## 3 开发实例沙盒目录
 
 The _Sandbox Home_ directory contains the [settings, caches, logs, and plugins](#development-instance-settings-caches-logs-and-plugins) for a Development Instance of the IDE.
 This information is stored in a different location than for the [installed IDE itself](https://intellij-support.jetbrains.com/hc/en-us/articles/206544519-Directories-used-by-the-IDE-to-store-settings-caches-plugins-and-logs).

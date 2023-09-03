@@ -1,44 +1,44 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Creating a Theme Project
+# 创建主题项目
 
-<link-summary>Creating a theme plugin project with Plugin DevKit wizard and generated project overview.</link-summary>
+<link-summary>使用 Plugin DevKit 向导创建主题插件项目并生成项目概述。</link-summary>
 
-This documentation page describes a DevKit-based theme project generated with the [New Project Wizard](https://www.jetbrains.com/help/idea/new-project-wizard.html).
+本文档页面描述了使用[新建项目向导](https://www.jetbrains.com/help/idea/new-project-wizard.html)生成的基于 DevKit 的主题项目。
 
-## Creating a Theme with New Project Wizard
+## 使用新建项目向导创建主题
 
-Before creating a theme project, make sure that [development environment is set up](setting_up_theme_environment.md).
+创建主题项目前，请确保[开发环境已搭建](setting_up_theme_environment.md)。
 
-<procedure title="Create Theme Plugin" id="create-theme">
+<procedure title="创建主题插件" id="create-theme">
 
-Launch the <control>New Project</control> wizard via the <ui-path>File | New | Project...</ui-path> action and provide the following information:
-1. Select the <control>IDE Plugin</control> generator type from the list on the left.
-2. Specify the project <control>Name</control> and <control>Location</control>.
-3. Choose the <control>Theme</control> option in the project <control>Type</control>.
-4. As the <control>JDK</control> select the [configured SDK](setting_up_theme_environment.md#configuring-intellij-platform-plugin-sdk).
-5. Click the <control>Create</control> button to generate the project.
+通过 <control>新项目</control> 向导 <ui-path>File | New | Project...</ui-path> 操作并提供以下信息:
+1. 从左侧列表中选择 <control>IDE 插件</control> 生成器类型。
+2. 指定项目 <control>名称</control> 和 <control>位置</control> 。
+3. 在项目 <control>类型</control> 中选择 <control>主题</control> 选项。
+4. 作为 <control>JDK</control>，选择[配置的SDK](setting_up_theme_environment.md#intellij-sdk)。
+5. 点击 <control>创建</control> 按钮来生成项目。
 
 </procedure>
 
-### Components of a Wizard-Generated Gradle IntelliJ Platform Theme
+### 根据向导生成的 Gradle IntelliJ 平台主题的组件
 
-For the example `my_theme` created with the steps describes above, the _IDE Plugin_ generator creates the following directory content:
+使用上述步骤创建的示例 “my_theme”，_IDE 插件_ 将生成以下目录内容：
 
 ```text
 my_theme
-├── resources
+├── resources // 资源
 │   ├── META-INF
-│   │   └── plugin.xml
-│   │   └── pluginIcon.svg
+│   │   └── plugin.xml // 插件主配置文件
+│   │   └── pluginIcon.svg // 插件图标
 │   └── theme
-│       └── my_theme.theme.json
+│       └── my_theme.theme.json // 主题配色文件
 └── my_theme.iml
 ```
 
-- <path>META-INF</path> directory with:
-  - <path>[plugin.xml](plugin_configuration_file.md)</path> configuration file containing preconfigured theme provider
-  - <path>pluginIcon.svg</path> file that is a [plugin logo](plugin_icon_file.md)
+- <path>META-INF</path> 目录：
+  - <path>[plugin.xml](plugin_configuration_file.md)</path> 包含预配置主题提供程序的配置文件
+  - <path>pluginIcon.svg</path> 文件是[插件 logo](plugin_icon_file.md)
 
     It is recommended to replace it with a custom icon.
 - <path>my_theme.theme.json</path> - a minimal [theme description file](themes_customize.md#introduction-to-theme-description-file-syntax)

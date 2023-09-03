@@ -2,15 +2,15 @@
 <!DOCTYPE instance-profile
         SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
 <instance-profile id="ijs" name="IntelliJ Platform Plugin SDK" start-page="welcome.topic">
-  <toc-element topic="welcome.topic" toc-title="Home"/>
-  <toc-element toc-title="Introduction">
+  <toc-element topic="welcome.topic" toc-title="首页"/>
+  <toc-element toc-title="介绍">
     <toc-element topic="intellij_platform.md">
       <toc-element topic="platform_contributions.md"/>
       <toc-element topic="intellij_coding_guidelines.md"/>
     </toc-element>
-    <toc-element topic="about.md" toc-title="The IntelliJ Platform SDK">
+    <toc-element topic="about.md" toc-title="IntelliJ 平台 SDK">
       <toc-element topic="key_topics.md"/>
-      <toc-element topic="intellij-sdk-docs-original_CONTRIBUTING.md" toc-title="Contributing to the SDK"
+      <toc-element topic="intellij-sdk-docs-original_CONTRIBUTING.md" toc-title="为 SDK 做出贡献"
                    accepts-web-file-names="intellij-sdk-docs-original-CONTRIBUTING.html">
         <toc-element topic="sdk_style.md" accepts-web-file-names="CONTRIBUTING.html"/>
         <toc-element topic="sdk_code_guidelines.md"/>
@@ -21,16 +21,16 @@
     <toc-element topic="getting_help.topic"/>
     <toc-element topic="content_updates.md" accepts-web-file-names="recently_updated.html"/>
   </toc-element>
-  <toc-element toc-title="Part I — Plugins">
+  <toc-element toc-title="第一部分——插件">
     <toc-element topic="plugins_quick_start.md" accepts-web-file-names="basics.html">
-      <toc-element topic="plugin_alternatives.md" toc-title="Plugin Alternatives"/>
+      <toc-element topic="plugin_alternatives.md" toc-title="插件替代品"/>
       <toc-element topic="plugin_required_experience.md"/>
       <toc-element topic="plugin_types.md" accepts-web-file-names="types-of-plugins.html"/>
     </toc-element>
     <toc-element topic="developing_plugins.md"
                  accepts-web-file-names="getting-started.html,gradle-build-system.html,build_system.html">
       <toc-element topic="creating_plugin_project.md" accepts-web-file-names="gradle-prerequisites.html">
-        <toc-element topic="plugin_github_template.md" toc-title="Plugin GitHub Template"
+        <toc-element topic="plugin_github_template.md" toc-title="插件 GitHub 模板"
                      accepts-web-file-names="github-template.html"/>
         <toc-element topic="migrating_plugin_devkit_to_gradle.md"/>
       </toc-element>
@@ -43,7 +43,7 @@
     </toc-element>
     <toc-element topic="plugin_structure.topic">
       <toc-element topic="plugin_content.md"/>
-      <toc-element topic="bundling_plugin_openapi_sources.md" toc-title="Plugin API Sources"/>
+      <toc-element topic="bundling_plugin_openapi_sources.md" toc-title="插件 API 源"/>
       <toc-element topic="plugin_class_loaders.md"/>
       <toc-element topic="plugin_actions.md"/>
       <toc-element topic="plugin_extensions.md" accepts-web-file-names="plugin_extensions_and_extension_points.html"/>
@@ -59,15 +59,15 @@
     <toc-element topic="plugin_user_experience.md"/>
     <toc-element topic="faq.md"/>
   </toc-element>
-  <toc-element toc-title="Part II — Base Platform">
+  <toc-element toc-title="第二部分 —— 基础平台">
     <toc-element topic="fundamentals.md" accepts-web-file-names="reference_guide.html,architectural_overview.html">
-      <toc-element toc-title="Component Model"/>
+      <toc-element toc-title="组件模型"/>
       <toc-element topic="disposers.md"/>
       <toc-element topic="general_threading_rules.md" toc-title="Threading">
-        <toc-element toc-title="Background Tasks"/>
+        <toc-element toc-title="后台任务"/>
       </toc-element>
       <toc-element topic="messaging_infrastructure.md"/>
-      <toc-element toc-title="Queries and Query Executors"/>
+      <toc-element toc-title="查询和查询执行器"/>
     </toc-element>
     <toc-element topic="ide_infrastructure.md"/>
     <toc-element topic="user_interface_components.md">
@@ -83,7 +83,7 @@
       <toc-element topic="lists_and_trees.md"/>
       <toc-element topic="status_bar_widgets.md"/>
       <toc-element topic="misc_swing_components.md"/>
-      <toc-element topic="work_with_icons_and_images.md" toc-title="Icons and Images"/>
+      <toc-element topic="work_with_icons_and_images.md" toc-title="图标和图片"/>
       <toc-element topic="color_scheme_management.md"/>
       <toc-element topic="themes_metadata.md"/>
     </toc-element>
@@ -94,7 +94,7 @@
         <toc-element topic="grouping_action.md"/>
       </toc-element>
     </toc-element>
-    <toc-element topic="persistence.md" toc-title="Persistence">
+    <toc-element topic="persistence.md" toc-title="持久化">
       <toc-element topic="persisting_state_of_components.md"/>
       <toc-element topic="persisting_sensitive_data.md"/>
     </toc-element>
@@ -108,7 +108,7 @@
     </toc-element>
     <toc-element topic="documents.md"/>
     <toc-element topic="editors.md">
-      <toc-element topic="editor_basics.md" toc-title="Editor Basics">
+      <toc-element topic="editor_basics.md" toc-title="编辑器基础知识">
         <toc-element topic="working_with_text.md"/>
         <toc-element topic="coordinates_system.md"/>
         <toc-element topic="editor_events.md"/>
@@ -122,18 +122,18 @@
       <toc-element topic="run_configurations_tutorial.md"/>
     </toc-element>
     <toc-element topic="vcs_integration_for_plugins.md">
-      <toc-element toc-title="Diff"/>
-      <toc-element toc-title="Local History"/>
+      <toc-element toc-title="差异"/>
+      <toc-element toc-title="本地历史"/>
     </toc-element>
-    <toc-element toc-title="Tasks and Contexts"/>
+    <toc-element toc-title="任务和背景"/>
     <toc-element topic="localization_guide.md"/>
-    <toc-element toc-title="Diagrams"/>
+    <toc-element toc-title="图表"/>
   </toc-element>
-  <toc-element toc-title="Part III — Project Model">
+  <toc-element toc-title="第三部分——项目模型">
     <toc-element topic="project_structure.md"/>
     <toc-element topic="project.md">
       <toc-element topic="trusted_projects.md"/>
-      <toc-element topic="project_wizard.md" toc-title="Project Wizard"/>
+      <toc-element topic="project_wizard.md" toc-title="项目向导"/>
       <toc-element topic="intro_project_wizard.md" accepts-web-file-names="project_wizard.html">
         <toc-element topic="adding_new_steps.md"/>
         <toc-element topic="module_types.md"/>
@@ -146,8 +146,8 @@
     <toc-element topic="facet.md"/>
     <toc-element topic="external_system_integration.md"/>
   </toc-element>
-  <toc-element toc-title="Part IV — PSI">
-    <toc-element topic="psi.md" toc-title="What Is the PSI?"/>
+  <toc-element toc-title="第四部分 —— PSI">
+    <toc-element topic="psi.md" toc-title="什么是 PSI？"/>
     <toc-element topic="psi_files.md"/>
     <toc-element topic="file_view_providers.md"/>
     <toc-element topic="psi_elements.md"/>
@@ -161,11 +161,11 @@
       <toc-element topic="stub_indexes.md"/>
     </toc-element>
     <toc-element topic="element_patterns.md"/>
-    <toc-element topic="uast.md" toc-title="Unified AST"/>
+    <toc-element topic="uast.md" toc-title="统一的 AST"/>
     <toc-element topic="xml_dom_api.md"/>
   </toc-element>
-  <toc-element toc-title="Part V — Features">
-    <toc-element toc-title="Navigation"/>
+  <toc-element toc-title="第五部分 —— 特点">
+    <toc-element toc-title="导航"/>
     <toc-element topic="editing.md">
       <toc-element toc-title="Code Completion"/>
       <toc-element topic="postfix_completion.md">
@@ -185,28 +185,28 @@
         <toc-element topic="code_intentions_preview.md"/>
       </toc-element>
     </toc-element>
-    <toc-element topic="analyzing.md" toc-title="Analysing">
+    <toc-element topic="analyzing.md" toc-title="分析">
       <toc-element topic="syntax_errors.md"/>
-      <toc-element toc-title="Annotators"/>
-      <toc-element topic="code_inspections.md" toc-title="Inspections">
+      <toc-element toc-title="注解器"/>
+      <toc-element topic="code_inspections.md" toc-title="检查">
         <toc-element topic="inspection_options.md"/>
         <toc-element toc-title="Profiles"/>
-        <toc-element toc-title="Scopes"/>
+        <toc-element toc-title="作用域"/>
         <toc-element toc-title="Suppressing Highlights"/>
         <toc-element toc-title="Structural Search"/>
       </toc-element>
       <toc-element topic="controlling_highlighting.md"/>
     </toc-element>
-    <toc-element toc-title="Refactoring"/>
+    <toc-element toc-title="重构"/>
     <toc-element topic="project_view.md">
       <toc-element topic="tree_structure_view.md"/>
     </toc-element>
-    <toc-element toc-title="Unit Testing"/>
+    <toc-element toc-title="单元测试"/>
     <toc-element topic="build_system.md">
       <toc-element topic="external_builder_api.md"/>
     </toc-element>
   </toc-element>
-  <toc-element toc-title="Part VI — Testing">
+  <toc-element toc-title="第六部分 — 测试">
     <toc-element topic="testing_plugins.md" accepts-web-file-names="testing_plugins.html"/>
     <toc-element topic="tests_and_fixtures.md"/>
     <toc-element topic="light_and_heavy_tests.md"/>
@@ -215,7 +215,7 @@
     <toc-element topic="testing_highlighting.md"/>
     <toc-element topic="testing_faq.md"/>
   </toc-element>
-  <toc-element toc-title="Part VII — Custom Languages">
+  <toc-element toc-title="第七部分 — 自定义语言">
     <toc-element topic="custom_language_support.md">
       <toc-element topic="registering_file_type.md"/>
       <toc-element topic="implementing_lexer.md"/>
@@ -239,7 +239,7 @@
       <toc-element topic="code_inspections_and_intentions.md"/>
       <toc-element topic="structure_view.md"/>
       <toc-element topic="navbar.md"/>
-      <toc-element toc-title="Code Hierarchy"/>
+      <toc-element toc-title="代码层次结构"/>
       <toc-element topic="surround_with.md"/>
       <toc-element topic="go_to_class_and_go_to_symbol.md"/>
       <toc-element topic="documentation.md"/>
@@ -285,13 +285,13 @@
       <toc-element topic="documentation_test.md"/>
     </toc-element>
     <toc-element topic="language_injection.md"/>
-    <toc-element toc-title="Build System"/>
-    <toc-element toc-title="Compiler"/>
-    <toc-element toc-title="Debugger"/>
+    <toc-element toc-title="构建系统"/>
+    <toc-element toc-title="编译器"/>
+    <toc-element toc-title="调试器"/>
   </toc-element>
-  <toc-element toc-title="Part VIII — Product Specific">
-    <toc-element topic="dev_alternate_products.md" toc-title="Developing for Multiple Products"/>
-    <toc-element topic="plugin_compatibility.md" toc-title="Compatibility with Multiple Products"/>
+  <toc-element toc-title="第八部分 — Product Specific">
+    <toc-element topic="dev_alternate_products.md" toc-title="开发多种产品"/>
+    <toc-element topic="plugin_compatibility.md" toc-title="与多种产品的兼容性"/>
     <toc-element topic="android_studio.md" toc-title="Android Studio">
       <toc-element topic="android_studio_releases_list.md"/>
     </toc-element>
@@ -319,16 +319,16 @@
     <toc-element topic="phpstorm.md"
                  toc-title="PhpStorm">
       <toc-element topic="php_open_api.md" accepts-web-file-names="php_open_api.html"
-                   toc-title="Working with the PHP Open API">
+                   toc-title="使用 PHP 开放 API">
         <toc-element topic="php_open_api_php_type_providers.md"/>
-        <toc-element topic="php_open_api_breaking_changes.md" toc-title="Breaking Changes">
+        <toc-element topic="php_open_api_breaking_changes.md" toc-title="重大变化">
           <toc-element topic="php_open_api_breaking_changes_203.md" toc-title="2020.3"/>
           <toc-element topic="php_open_api_breaking_changes_202.md" toc-title="2020.2"/>
         </toc-element>
       </toc-element>
       <toc-element topic="php_extension_point_list.md"/>
       <toc-element topic="existing_plugins.md" accepts-web-file-names="existing_plugins.html"
-                   toc-title="Existing Third Party Plugins"/>
+                   toc-title="现有的第三方插件"/>
     </toc-element>
     <toc-element topic="pycharm.md" toc-title="PyCharm"/>
     <toc-element topic="rider.md" toc-title="Rider">
@@ -341,11 +341,11 @@
       <toc-element topic="webstorm_extension_point_list.md"/>
     </toc-element>
   </toc-element>
-  <toc-element toc-title="Part IX — Custom IDEs">
-    <toc-element toc-title="Build Your Own IDE"/>
-    <toc-element toc-title="Licensing"/>
+  <toc-element toc-title="第九部分 — 自定义 IDE">
+    <toc-element toc-title="构建您自己的 IDE"/>
+    <toc-element toc-title="许可"/>
   </toc-element>
-  <toc-element toc-title="Part X — Themes">
+  <toc-element toc-title="第十部分 —— 主题">
     <toc-element topic="themes_getting_started.md" accepts-web-file-names="themes-intro.html"/>
     <toc-element topic="developing_themes.md" accepts-web-file-names="using-dev-kit.html">
       <toc-element topic="setting_up_theme_environment.md" accepts-web-file-names="setting-up-environment.html"/>
@@ -355,13 +355,13 @@
       <toc-element topic="deploying_theme.md" accepts-web-file-names="deploying-plugin.html"/>
     </toc-element>
     <toc-element topic="theme_structure.md" accepts-web-file-names="themes.html">
-      <toc-element topic="themes_customize.md" toc-title="Customizing a Theme"/>
-      <toc-element topic="themes_extras.md" toc-title="Adding Schemes and Images"/>
+      <toc-element topic="themes_customize.md" toc-title="定制主题"/>
+      <toc-element topic="themes_extras.md" toc-title="添加主题方案和图像"/>
     </toc-element>
   </toc-element>
-  <toc-element toc-title="Appendix I — Resources">
+  <toc-element toc-title="附录一 — 资源">
     <toc-element topic="glossary.md"/>
-    <toc-element topic="explore_api.md" toc-title="Explore the API"/>
+    <toc-element topic="explore_api.md" toc-title="探索 API"/>
     <toc-element topic="build_number_ranges.md"/>
     <toc-element topic="intellij_artifacts.md"/>
     <toc-element topic="extension_point_list.md"/>
@@ -373,9 +373,9 @@
     <toc-element topic="plugin_repository_obsolete.md"
                  accepts-web-file-names="api_reference.html,feature_extractor.html,plugin_details.html,custom_channels.html,plugins_list.html,maven_interface.html,plugin_upload.html,plugin_developers.html"/>
   </toc-element>
-  <toc-element toc-title="Appendix II — API and Compatibility">
+  <toc-element toc-title="附录 II — API 和兼容性">
     <toc-element topic="verifying_plugin_compatibility.md"/>
-    <toc-element topic="api_changes_list.md" toc-title="Incompatible API Changes"
+    <toc-element topic="api_changes_list.md" toc-title="不兼容的 API 更改"
                  accepts-web-file-names="api-changes-list-2016.html,api-changes-list-2017.html,api-changes-list-2018.html">
       <toc-element topic="api_changes_list_2023.md" toc-title="2023.*"/>
       <toc-element topic="api_changes_list_2022.md" toc-title="2022.*"/>
@@ -383,7 +383,7 @@
       <toc-element topic="api_changes_list_2020.md" toc-title="2020.*"/>
       <toc-element topic="api_changes_list_2019.md" toc-title="2019.*"/>
     </toc-element>
-    <toc-element topic="api_notable.md" toc-title="Notable API Changes"
+    <toc-element topic="api_notable.md" toc-title="显着的 API 变化"
                  accepts-web-file-names="api-notable-list-2018.html">
       <toc-element topic="api_notable_list_2023.md" toc-title="2023.*"/>
       <toc-element topic="api_notable_list_2022.md" toc-title="2022.*"/>
@@ -393,23 +393,23 @@
     </toc-element>
     <toc-element topic="api_internal.md"/>
   </toc-element>
-  <toc-element toc-title="Appendix III — Tooling">
+  <toc-element toc-title="附录 III — 工具">
     <toc-element topic="tools_gradle_intellij_plugin.md">
-      <toc-element topic="tools_gradle_intellij_plugin_examples.md" toc-title="Usage Examples"/>
-      <toc-element topic="tools_gradle_intellij_plugin_build_features.md" toc-title="Build Features"/>
-      <toc-element topic="tools_gradle_intellij_plugin_faq.md" toc-title="Frequently Asked Questions"/>
-      <toc-element toc-title="Migration Guide from 0.x to 1.x"
+      <toc-element topic="tools_gradle_intellij_plugin_examples.md" toc-title="使用示例"/>
+      <toc-element topic="tools_gradle_intellij_plugin_build_features.md" toc-title="构建特点"/>
+      <toc-element topic="tools_gradle_intellij_plugin_faq.md" toc-title="常问问题"/>
+      <toc-element toc-title="从 0.x 到 1.x 的迁移指南"
                    target-for-accept-web-file-names="https://lp.jetbrains.com/gradle-intellij-plugin/"/>
     </toc-element>
     <toc-element topic="tools_gradle_grammar_kit_plugin.md"/>
-    <toc-element toc-title="IDE Tooling">
+    <toc-element toc-title="IDE 工具">
       <toc-element topic="internal_actions_intro.md" accepts-web-file-names="interal_actions_menu.html">
         <toc-element topic="enabling_internal.md"/>
-        <toc-element topic="internal_ui_sub.md" toc-title="UI Tools">
+        <toc-element topic="internal_ui_sub.md" toc-title="用户界面（UI）工具">
           <toc-element topic="internal_ui_inspector.md" accepts-web-file-names="internal_uii.html"
-                       toc-title="UI Inspector"/>
+                       toc-title="用户界面（UI）检查器"/>
           <toc-element topic="internal_ui_laf_defaults.md" accepts-web-file-names="internal_ui_lafd.html"
-                       toc-title="LaF Defaults"/>
+                       toc-title="LaF 默认值"/>
         </toc-element>
       </toc-element>
     </toc-element>

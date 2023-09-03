@@ -1,72 +1,72 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Setting Up a Development Environment
+# 设置开发环境
 
-<link-summary>Setting up a development environment required for developing a theme.</link-summary>
+<link-summary>搭建开发主题所需的开发环境。</link-summary>
 
-<procedure title="Preliminary Steps">
+<procedure title="初步步骤">
 
-Use the following checklist to ensure that you are ready to develop your custom theme:
+使用以下清单确保您准备好开发自定义主题：
 
-1. **[IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/download/)** or **[IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/)** is installed.
-2. **Plugin DevKit** plugin is [enabled in IntelliJ IDEA](https://www.jetbrains.com/help/idea/managing-plugins.html).
-3. **IntelliJ IDEA CE source code** is checked-out. _(Optional)_
+1. **[IntelliJ IDEA 社区版](https://www.jetbrains.com/idea/download/)** 或 **[IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/) ** 已安装。
+2. **Plugin DevKit** 插件[在 IntelliJ IDEA 中启用](https://www.jetbrains.com/help/idea/managing-plugins.html)。
+3. **IntelliJ IDEA CE 源代码**已签出。 _（可选）_
 
-   This step is needed only when you plan to debug the IntelliJ Platform code.
-   See [](#get-intellij-idea-ce-source-code) for more details.
-4. **IntelliJ Platform SDK** is [configured](#configuring-intellij-platform-plugin-sdk).
+   仅当您打算调试 IntelliJ 平台代码时才需要执行此步骤。
+   有关更多详细信息，请参阅 [](#intellij-idea-ce)。
+4. **IntelliJ 平台 SDK** 已[配置](#intellij-sdk)。
 
 </procedure>
 
-## Get IntelliJ IDEA CE Source Code
+## 获取 IntelliJ IDEA CE 源代码
 
-Getting the IntelliJ IDEA CE source code is not a requirement for theme development as debugging the platform code while developing a theme is a rare situation.
-In case you are developing a plugin extending IDE behavior, or you need to understand how some components work internally, having sources makes debugging much more straightforward.
+获取 IntelliJ IDEA CE 源代码并不是主题开发的必要条件，因为在开发主题时调试平台代码的情况很少见。
+如果您正在开发扩展 IDE 行为的插件，或者您需要了解某些组件的内部工作原理，那么拥有源代码可以使调试变得更加简单。
 
-For detailed instructions on how to check out the code efficiently, refer to the _Getting IntelliJ IDEA Community Edition Source Code_ section of [IntelliJ IDEA Community Edition README file](%gh-ic%/README.md).
-Note that building the checked-out sources is not required in this case.
+有关如何高效查看代码的详细说明，请参阅 [IntelliJ IDEA 社区版 README 文件](%gh-ic%/README.md) 的 _获取 IntelliJ IDEA 社区版 源代码_ 部分。
+请注意，在这种情况下不需要构建签出的源。
 
-## Configuring IntelliJ Platform Plugin SDK
+## 配置 IntelliJ 平台插件 SDK
 
-> For more information about SDKs, see [SDKs section](https://www.jetbrains.com/help/idea/working-with-sdks.html) in the IntelliJ IDEA Web Help.
+> 有关 SDK 的更多信息，请参阅 IntelliJ IDEA Web 帮助中的 [SDK 部分](https://www.jetbrains.com/help/idea/working-with-sdks.html)。
 
-### Download IntelliJ-Based IDE
+### 下载基于 IntelliJ 的 IDE
 
-To see the effects of the developed plugin in real IDE, it is required to run the plugin in an [](ide_development_instance.md).
-In most cases, it is enough to download and use _[IntelliJ IDEA](https://www.jetbrains.com/idea/download/) Community Edition_.
-If it is required to style components used only in a specific IDE like _IntelliJ IDEA Ultimate_ or _WebStorm_, they can also be used as SDK, but debugging the core code will only work with the _IntelliJ IDEA Community Edition_.
+要在真实的 IDE 中查看开发的插件的效果，需要在[](ide_development_instance.md)中运行插件。
+大多数情况下，下载使用 _[IntelliJ IDEA](https://www.jetbrains.com/idea/download/)社区版_ 就足够了。
+如果需要对仅在 _IntelliJ IDEA Ultimate_ 或 _WebStorm_ 等特定 IDE 中使用的组件进行样式化，它们也可以用作 SDK，但调试核心代码只能与 _IntelliJ IDEA 社区版_ 一起使用。
 
-### Add JDK and IntelliJ Platform Plugin SDK
+### 添加 JDK 和 IntelliJ 平台插件 SDK
 
-The first step of configuring a theme plugin SDK is adding the JDK.
+配置主题插件 SDK 的第一步是添加 JDK。
 
 <include from="snippets.md" element-id="apiChangesJavaVersion"/>
 
-<procedure title="Add JDK" id="add-jdk">
+<procedure title="添加 JDK" id="add-jdk">
 
-1. Go to <ui-path>File | Project Structure | Platform Settings | SDKs</ui-path>.
-2. Click the <control>Add</control> button (<control>+</control>).
-3. If you have the required JDK installation on your machine, and it is detected, select it from the <control>Detected SDKs</control> list.
-   If your JDK is not detected, select the <control>Add JDK...</control> option and choose the installation folder.
+1. 跳转到 <ui-path>File（文件） | Project Structure（项目结构） | Platform Settings（平台设置） | SDKs（SDK）</ui-path>.
+2. 点击 <control>添加</control> 按钮 (<control>+</control>).
+3. 如果您的计算机上安装了所需的 JDK，并且检测到了它，请从 <control>检测到的 SDK</control> 列表中选择它。
+   如果未检测到您的 JDK，请选择 <control>添加 JDK...</control> 选项并选择安装文件夹。
 
-   If the required JDK is not installed on your machine, the simplest option is using <control>Download JDK...</control> and choosing the distribution options.
-4. Click the <control>Apply</control> button.
+   如果您的计算机上未安装所需的 JDK，最简单的选择是使用 <control>下载 JDK...</control> 并选择分发选项。
+4. 点击 <control>应用</control> 按钮.
 
 </procedure>
 
-The second step is adding IntelliJ Platform Plugin SDK that will use the JDK configured in the first step.
+第二步是添加 IntelliJ 平台插件 SDK，它将使用第一步中配置的 JDK。
 
-<procedure title="Add IntelliJ Platform Plugin SDK" id="add-intellij-platform-plugin-sdk">
+<procedure title="添加 IntelliJ 平台插件 SDK" id="add-intellij-platform-plugin-sdk">
 
-1. Go to <ui-path>File | Project Structure | Platform Settings | SDKs</ui-path>.
-2. Click the <control>Add</control> button (<control>+</control>).
-3. Select the <control>Add IntelliJ Platform Plugin SDK...</control> option.
-4. Choose the installation folder of the IDE [downloaded previously](#download-intellij-based-ide) (on macOS, select application icon in <path>/Applications/</path>).
-5. In the <control>Select Internal Java Platform</control> dialog, select the JDK configured in the [previous step](#add-jdk) and click <control>OK</control> button.
-6. In the added SDK, specify the <control>Sandbox Home</control> directory.
+1. 跳转到 <ui-path>File（文件） | Project Structure（项目结构） | Platform Settings（平台设置） | SDKs（SDK）</ui-path>.
+2. 点击 <control>添加</control> 按钮 (<control>+</control>).
+3. 选择 <control>添加 IntelliJ 平台插件 SDK...</control> 选项。
+4. 选择 IDE 的安装文件夹[之前下载](#intellij-ide)（在 macOS 上，选择 <path>/Applications/</path> 中的应用程序图标）。
+5. 在 <control>选择内部Java平台</control> 对话框中，选择[上一步]中配置的JDK(#add-jdk)，然后单击 <control>确定</control> 按钮。
+6. 在添加的SDK中，指定 <control>Sandbox Home</control> 目录。
 
-   See [](ide_development_instance.md#the-development-instance-sandbox-directory) for details.
-7. If debugging is required, select the <control>Sourcepath</control> tab, click the <control>Add</control> button (<control>+</control>) and select the root folder of [the checked-out sources](#get-intellij-idea-ce-source-code).
-8. Click the <control>Apply</control> button.
+   有关详细信息，请参阅 [](ide_development_instance.md#3)。
+7. 如果需要调试，请选择 <control>源路径</control> 选项卡，单击 <control>添加</control> 按钮（<control>+</control>）并选择[签出源的根文件夹](#intellij-idea-ce)。
+8. 点击 <control>应用</control> 按钮。
 
 </procedure>
