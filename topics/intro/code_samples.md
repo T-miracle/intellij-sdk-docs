@@ -1,8 +1,8 @@
-# Code Samples
+# 代码示例
 
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<link-summary>Accessing SDK Docs code samples.</link-summary>
+<link-summary>访问 SDK 文档代码示例。</link-summary>
 
 This guide comes with a number of sample plugins available from dedicated [intellij-sdk-code-samples](https://github.com/JetBrains/intellij-sdk-code-samples) GitHub repository.
 

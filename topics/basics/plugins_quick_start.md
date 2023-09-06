@@ -2,21 +2,21 @@
 
 # 快速入门指南
 
-<link-summary>Introduction to IntelliJ Platform plugin development.</link-summary>
+<link-summary>IntelliJ 平台插件开发简介。</link-summary>
 
-This section covers the basics of working with the IntelliJ Platform.
-It will familiarize you with the working environment, project structure, and frequently used API components.
+本节介绍使用 IntelliJ 平台的基础知识。
+它将帮助您熟悉工作环境、项目结构和常用的 API 组件。
 
 * [](plugin_alternatives.md)
 * [](plugin_required_experience.md)
 * [](plugin_types.md)
 * [](developing_plugins.md)
 * [](plugin_structure.topic)
-* [Implementing Plugin in Kotlin](using_kotlin.md)
+* [使用 Kotlin 实现插件](using_kotlin.md)
 * [](plugin_signing.md)
 * [](ide_development_instance.md)
 * [](faq.md)
 
-> If you are interested in the UI theme development, please see [Part X - Themes](themes_getting_started.md).
+> 如果您对UI主题开发感兴趣，请参阅[第十部分-主题](themes_getting_started.md)。
 >
 {style="note"}

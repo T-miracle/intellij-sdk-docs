@@ -1,8 +1,8 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# The IntelliJ Platform
+# IntelliJ 平台
 
-<link-summary>Introduction to the IntelliJ Platform, plugins, and IDEs based on it.</link-summary>
+<link-summary>介绍 IntelliJ 平台、插件以及基于该平台的 IDE。</link-summary>
 
 The IntelliJ Platform is not a product in and of itself but provides a platform for building IDEs.
 It is used to power JetBrains products such as [IntelliJ IDEA](https://www.jetbrains.com/idea/).

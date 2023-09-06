@@ -1,64 +1,64 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# IntelliJ Platform Coding Guidelines
+# IntelliJ 平台编码指南
 
-<link-summary>Coding guidelines for the code contributed to the IntelliJ Platform.</link-summary>
+<link-summary>为 IntelliJ 平台贡献的代码的编码指南。</link-summary>
 
-If you are writing code that you would like to contribute to the IntelliJ Platform, following these guidelines will make it easier for the JetBrains development team to review and accept your changes.
+如果您正在编写想要贡献给 IntelliJ 平台的代码，遵循这些指南将使 JetBrains 开发团队更容易审查并接受您的更改。
 
-## Following the Latest Source Code
+## 遵循最新的源代码
 
-If you submit patches, we strongly recommend building your patches against the latest version of the code from the [intellij-community Git repository](intellij_platform.md#open-source).
-The easiest way to do so is to clone the repository, track your work in Git, and provide your changes as described in [](platform_contributions.md#submit-a-patch).
+如果您提交补丁，我们强烈建议您根据 [intellij-community Git 存储库](intellij_platform.md#open-source) 中的最新版本代码构建补丁。
+最简单的方法是克隆存储库，在 Git 中跟踪您的工作，并按照 [](platform_contributions.md#submit-a-patch) 中所述提供更改。
 
-## General Architectural Principles
+## 一般架构原则
 
-Please do your best to follow common Java architectural principles. "Effective Java" by Joshua Bloch is the right place to start.
+请尽量遵循常见的 Java 架构原则，Joshua Bloch 的《Effective Java》是一个好的开始。
 
-## Tests
+## 测试
 
-Functional tests cover most of the existing functionality of IntelliJ IDEA.
-If tests cover the area you're modifying, you must run the tests and make sure that your changes do not introduce any new test failures.
-It's also strongly recommended that you provide new functional tests that cover the bugs you fix or the new features that you add.
+功能测试涵盖了 IntelliJ IDEA 的大部分现有功能。
+如果测试覆盖了您正在修改的区域，则必须运行测试并确保您的更改不会引入任何新的问题。
+强烈建议您提供新的功能测试，以涵盖您修复的错误或添加的新功能。
 
-## Code Formatting
+## 代码格式化
 
-We're generally pretty lax about code formatting, but at least the following conventions must be observed:
+我们通常对代码格式相当宽松，但至少必须遵守以下约定：
 
-- 2 space indents in source files
-- Use `my` prefix for instance variables and `our` prefix for class variables.
-- New source code files must include a copyright statement with the Apache 2 license and the name of the contributor.
+- 源文件中的 2 个空格缩进
+- 对实例变量使用 “my” 前缀，对类变量使用 “our” 前缀。
+- 新的源代码文件必须包含带有 Apache 2 许可证的版权声明和贡献者姓名。
 
-The easiest way to follow our code formatting guidelines is to reformat your code submissions using the shared code style, which is included in the IntelliJ IDEA Community Edition project directory.
+遵循我们的代码格式化指南的最简单方法是使用共享代码样式重新格式化您的代码提交，该样式包含在 IntelliJ IDEA 社区版 项目目录中。
 
-## Inspections
+## 检查
 
-The IntelliJ IDEA Community Edition project includes a shared inspection profile.
-We strongly recommend making sure that the code you submit does not contain any warnings highlighted by the inspections configured in that inspection profile.
+IntelliJ IDEA 社区版 项目包括共享检查配置文件。
+我们强烈建议您确保提交的代码中，不包含该检查配置文件配置的检查突出显示的任何警告。
 
-## Javadoc Comments
+## Javadoc 注释
 
-If your code adds new OpenAPI interfaces, classes, methods, or extension points, you must provide Javadoc comments describing the parameters and intended usage of the APIs.
-Providing Javadoc or other comments for other parts of the code is a good idea but isn't required.
+如果您的代码添加了新的 OpenAPI 接口、类、方法或扩展点，则必须提供描述 API 参数和预期用途的 Javadoc 注释。
+为代码的其他部分提供 Javadoc 或其他注释是一个好主意，但不是必需的。
 
-## Commits
+## 提交
 
-To avoid unnecessary work when reviewing your changes, please follow these guidelines:
+为了避免在检查更改时进行不必要的工作，请遵循以下准则：
 
-- Look through all of your changes in your patch or pull request before you submit it to us.
-  Make sure that everything you've changed is there for a reason.
-- Please don't include unfinished work in the patch.
-  Make sure that it doesn't contain any TODO comments.
-  If you added some code and ended up not needing it, please make sure that you delete it before you submit your patch.
-- Please don't include any changes that affect formatting, fixing "yellow code" (warnings), or code style along with actual changes that fix a bug or implement a feature.
-  No one likes to leave poor code, but remember that having these changes mixed complicates the process of review.
-- Please don't fix multiple problems within a single patch or pull request.
-- Please don't commit your changes to configuration files (<path>runConfigurations/IDEA.xml</path>, <path>codeStyleSettings.xml</path>, <path>misc.xml</path>, etc.) unless it is essential for the fix itself.
-- Please avoid moving or renaming code unless it is necessary for the fix. Keeping backwards compatibility is critical for the platform.
+- 在将补丁或拉取请求提交给我们之前，请仔细检查您在补丁或拉取请求中的所有更改。
+  确保你所做的一切改变都是有原因的。
+- 请不要在补丁中包含未完成的工作。
+  确保它不包含任何 TODO 注释。
+  如果您添加了一些代码但最终不需要它，请确保在提交补丁之前将其删除。
+- 请不要包含任何影响格式、修复“黄色代码”（警告）、代码样式的更改 以及 修复错误或实现功能 的实际更改。
+  没有人喜欢留下糟糕的代码，但请记住，混合这些更改会使审查过程变得复杂。
+- 请不要在单个补丁或拉取请求中修复多个问题。
+- 请不要将更改提交到配置文件（<path>runConfigurations/IDEA.xml</path>、<path>codeStyleSettings.xml</path>、<path>misc.xml</path> 等），除非这对于修复本身至关重要。
+- 除非修复所必需，否则请避免移动或重命名代码。保持向后兼容性对于平台至关重要。
 
-The ideal pull request would contain one commit with everything needed to fix the bug or implement a feature, but nothing else.
-"Commit early, commit often" perfectly applies only to local commits, but such "public commits" are hard to review (the reviewer needs either to go commit by commit spending more time to review work-in-progress, or to review all changes at once thus losing valuable information stored in commit messages).
+理想的拉取请求将包含一次提交，其中包含修复错误或实现功能所需的所有内容，但仅此而已。
+“尽早提交，经常提交”完全适用于本地提交，但是这样的“公开提交”很难审查(审阅者需要花费更多的时间来审查正在进行的工作，或者一次审查所有更改，从而丢失存储在提交消息中的有价值的信息)。
 
-The best would be to commit early, but then to squash all commits into one with a descriptive commit message.
+最好的办法是尽早提交，然后将所有提交压缩为一个带有描述性提交消息的提交。
 
-Sometimes several commits for a single issue are also acceptable, but each of these should be self-contained "steps" to solve the problem.
+有时，对单个问题进行多次提交也是可以接受的，但每个提交都应该是解决问题的独立“步骤”。

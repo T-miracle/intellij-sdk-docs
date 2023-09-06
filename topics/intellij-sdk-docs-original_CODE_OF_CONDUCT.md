@@ -1,10 +1,10 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Code of Conduct
+# 行为守则
 
-<link-summary>The Code of Conduct reference link.</link-summary>
+<link-summary>行为准则参考链接。</link-summary>
 
-<tldr>The JetBrains Open Source and Community Code of Conduct.</tldr>
+<tldr>JetBrains 开源和社区行为准则。</tldr>
 
-This project and the corresponding community is governed by the [JetBrains Open Source and Community Code of Conduct](https://github.com/jetbrains#code-of-conduct).
-Please make sure you read it.
+该项目和相应的社区受 [JetBrains 开源和社区行为准则](https://github.com/jetbrains#code-of-conduct) 管辖。
+请务必阅读它。

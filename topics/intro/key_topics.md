@@ -2,7 +2,7 @@
 
 # Key Topics
 
-<link-summary>Overview of IntelliJ Platform key concepts and extension points.</link-summary>
+<link-summary>IntelliJ 平台关键概念和扩展点概述。</link-summary>
 
 The IntelliJ Platform is extensive and very capable, and its size and scope can initially be very daunting.
 This page is intended to list the key topics that a plugin author would be interested in, and provide quick links to the most common extension points.
