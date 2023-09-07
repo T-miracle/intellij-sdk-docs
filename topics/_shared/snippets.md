@@ -1,6 +1,6 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Snippets
+# 片段
 {is-library="true"}
 
 <snippet id="missingContent">
@@ -24,7 +24,7 @@
 
 <snippet id="jetbrainsProductOpenSourceLicense">
 
-> Qualifying Open Source projects can [apply for free licenses](https://www.jetbrains.com/community/opensource/) of JetBrains products.
+> 合格的开源项目可以[申请 JetBrains 产品的免费许可证](https://www.jetbrains.com/community/opensource/)。
 
 </snippet>
 

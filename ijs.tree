@@ -289,7 +289,7 @@
     <toc-element toc-title="编译器"/>
     <toc-element toc-title="调试器"/>
   </toc-element>
-  <toc-element toc-title="第八部分 — Product Specific">
+  <toc-element toc-title="第八部分 — 产品特定">
     <toc-element topic="dev_alternate_products.md" toc-title="开发多种产品"/>
     <toc-element topic="plugin_compatibility.md" toc-title="与多种产品的兼容性"/>
     <toc-element topic="android_studio.md" toc-title="Android Studio">
