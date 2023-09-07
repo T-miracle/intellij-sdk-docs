@@ -5,7 +5,7 @@
 [![Build](https://img.shields.io/github/actions/workflow/status/JetBrains/intellij-sdk-docs/code-samples.yml?branch=main&style=flat-square)][gh:workflow-code-samples]
 [![Slack](https://img.shields.io/badge/Slack-%23intellij--platform-blue?style=flat-square&logo=Slack)][jb:slack]
 
-欢迎来到 [IntelliJ Platform SDK 文档](https://plugins.jetbrains.com/docs/intellij/?from=GH-README) 站点的存储库。
+欢迎来到 [IntelliJ Platform SDK 文档](https://blog.namichong.com/translation-docs/intellij-platform-sdk/welcome.html) 站点的存储库。
 
 > **注意**
 > 代码示例也可以在 [IntelliJ SDK 代码示例](https://github.com/JetBrains/intellij-sdk-code-samples) 镜像存储库中找到。
