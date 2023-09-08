@@ -22,9 +22,3 @@ publish-indexes:
             --version ${{env.CONFIG_JSON_VERSION}} \
             --index-directory algolia-indexes/ \
             2>&1 | tee algolia-update-index-log.txt
-env:
-    ALGOLIA_APP_NAME: 1CHQA0UPET
-    ALGOLIA_INDEX_NAME: intellij-sdk-docs
-    ALGOLIA_KEY: ${{ secrets.ALGOLIA_KEY }}
-    CONFIG_JSON_PRODUCT: ijs
-    CONFIG_JSON_VERSION: 1.0.0
