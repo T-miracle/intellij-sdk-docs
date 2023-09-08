@@ -20,16 +20,16 @@
         <og-twitter>@JBPlatform</og-twitter>
         <og-image>https://resources.jetbrains.com/storage/products/jetbrains/img/meta/preview.png</og-image>
         <enable-browser-edits>true</enable-browser-edits>
-        <browser-edits-url>https://github.com/JetBrains/intellij-sdk-docs/edit/main/</browser-edits-url>
+        <browser-edits-url>https://github.com/T-miracle/intellij-sdk-docs/edit/main/</browser-edits-url>
         <images-prefix-override>images/</images-prefix-override>
         <noindex-content status="deprecated">false</noindex-content>
         <noindex-content status="eap">false</noindex-content>
         <noindex-content status="release">false</noindex-content>
 
-        <algolia-api-key>8c2683cac2d71d547b55183297abb506</algolia-api-key>
-        <algolia-id>OHIV241QET</algolia-id>
-        <algolia-index>prod_JETBRAINSCOM_HELP</algolia-index>
-        <algolia-product-id>intellij</algolia-product-id>
+        <algolia-api-key>b2164178006efda97bc5f1f116925c77</algolia-api-key>
+        <algolia-id>1CHQA0UPET</algolia-id>
+        <algolia-index>intellij-sdk-docs</algolia-index>
+        <algolia-product-id>intellij-sdk-docs</algolia-product-id>
         <algolia-product-version></algolia-product-version>
 
         <analytics-head-script-file>google-analytics-code.html</analytics-head-script-file>

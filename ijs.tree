@@ -11,7 +11,7 @@
     <toc-element topic="about.md" toc-title="IntelliJ 平台 SDK">
       <toc-element topic="key_topics.md"/>
       <toc-element topic="intellij-sdk-docs-original_CONTRIBUTING.md" toc-title="为 SDK 做出贡献"
-                   accepts-web-file-names="intellij-sdk-docs-original-CONTRIBUTING.html">
+                   accepts-web-file-names="intellij-sdk-docs-original-contributing.html">
         <toc-element topic="sdk_style.md" accepts-web-file-names="CONTRIBUTING.html"/>
         <toc-element topic="sdk_code_guidelines.md"/>
       </toc-element>
