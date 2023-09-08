@@ -26,5 +26,5 @@ env:
     ALGOLIA_APP_NAME: 1CHQA0UPET
     ALGOLIA_INDEX_NAME: intellij-sdk-docs
     ALGOLIA_KEY: ${{ secrets.ALGOLIA_KEY }}
-    CONFIG_JSON_PRODUCT: instance ID
-    CONFIG_JSON_VERSION: version from writerside.cfg
+    CONFIG_JSON_PRODUCT: intellij-sdk-docs
+    CONFIG_JSON_VERSION: 
