@@ -1,0 +1,29 @@
+env:
+    ALGOLIA_APP_NAME: 1CHQA0UPET
+    ALGOLIA_INDEX_NAME: intellij-sdk-docs
+    ALGOLIA_KEY: ${{ secrets.ALGOLIA_KEY }}
+    CONFIG_JSON_PRODUCT: ijs
+    CONFIG_JSON_VERSION: 1.0.0
+publish-indexes:
+    needs: build-job
+    runs-on: ubuntu-latest
+    container:
+        image: registry.jetbrains.team/p/writerside/builder/algolia-publisher:2.0.32-2
+
+    steps:
+        - uses: actions/checkout@v3
+        - uses: actions/download-artifact@v3
+          with:
+            name: algolia-indexes
+        - uses: montudor/action-zip@v1
+          with:
+            args: unzip -qq ${{ env.ALGOLIA_ARTIFACT }} -d algolia-indexes
+        - run: |
+            env "algolia-key=${{env.ALGOLIA_KEY}}" java -jar /opt/builder/help-publication-agent.jar \
+            update-index \
+            --application-name ${{env.ALGOLIA_APP_NAME}} \
+            --index-name ${{env.ALGOLIA_INDEX_NAME}} \
+            --product ${{env.CONFIG_JSON_PRODUCT}} \
+            --version ${{env.CONFIG_JSON_VERSION}} \
+            --index-directory algolia-indexes/ \
+            2>&1 | tee algolia-update-index-log.txt
