@@ -1,8 +1,8 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Glossary
+# 词汇表
 
-<link-summary>Glossary of IntelliJ Platform specific terms.</link-summary>
+<link-summary>IntelliJ 平台特定术语词汇表。</link-summary>
 
 See also [Oracle's Java Technology Glossary](https://www.oracle.com/java/technologies/glossary.html).
 

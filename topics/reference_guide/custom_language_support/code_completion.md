@@ -1,8 +1,8 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Code Completion
+# 代码补全
 
-<link-summary>Implementing context-aware code completion in custom languages.</link-summary>
+<link-summary>使用自定义语言实现上下文感知代码补全。</link-summary>
 
 <tldr>
 

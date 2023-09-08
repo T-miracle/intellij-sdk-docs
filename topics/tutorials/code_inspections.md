@@ -1,8 +1,8 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Code Inspections
+# 代码检查
 
-<link-summary>Tutorial: implementing Inspections to highlight code in the editor.</link-summary>
+<link-summary>教程：实施检查以突出显示编辑器中的代码。</link-summary>
 
 <tldr>
 

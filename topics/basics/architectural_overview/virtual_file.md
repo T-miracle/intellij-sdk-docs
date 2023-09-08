@@ -1,8 +1,8 @@
-# Virtual Files
+# 虚拟文件
 
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<link-summary>Virtual Files represent local or remote files provided by the Virtual File System.</link-summary>
+<link-summary>虚拟文件表示虚拟文件系统提供的本地或远程文件。</link-summary>
 
 A [`VirtualFile`](%gh-ic%/platform/core-api/src/com/intellij/openapi/vfs/VirtualFile.java) (VF) is the IntelliJ Platform's representation of a file in a [Virtual File System (VFS)](virtual_file_system.md).
 

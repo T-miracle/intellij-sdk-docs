@@ -1,36 +1,36 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Key Topics
+# 重点专题
 
 <link-summary>IntelliJ 平台关键概念和扩展点概述。</link-summary>
 
-The IntelliJ Platform is extensive and very capable, and its size and scope can initially be very daunting.
-This page is intended to list the key topics that a plugin author would be interested in, and provide quick links to the most common extension points.
+IntelliJ 平台广泛且功能强大，其规模和范围最初可能非常令人害怕。
+此页面旨在列出插件作者感兴趣的关键专题，并提供最常见扩展点的快速链接。
 
-## Essential Concepts
+## 基本概念
 
 - [](developing_plugins.md).
 - [](testing_plugins.md).
-- Component model - the IntelliJ Platform is a component-based application and is responsible for creating components and injecting dependencies.
-  Understanding this is necessary for building plugins.
-- [Extension Points](plugin_extensions.md) - how to register components with extension points, and how to find out what extension points are available.
-- [](virtual_file.md) - all file access should go through the Virtual File System, which abstracts and caches the file system.
-  It means you can work with files that are on the local file system, in a zip file or are old versions from version control.
+- 组件模型 - IntelliJ 平台是一个基于组件的应用程序，负责创建组件和注入依赖项。
+  理解这一点对于构建插件是必要的。
+- [扩展点](plugin_extensions.md) - 如何使用扩展点注册组件，以及如何查找可用的扩展点。
+- [](virtual_file.md) - 所有文件访问都应通过虚拟文件系统，该系统抽象并缓存文件系统。
+  这意味着您可以使用本地文件系统上的文件、zip 文件中的文件或版本控制中的旧版本文件。
 
-> See also [](glossary.md) for a handy reference of common terms.
+> 另请参阅 [](glossary.md) 以获取常用术语的便捷参考。
 >
 
-## Code Model
+## 代码模型
 
-The IntelliJ Platform's code model is called the PSI - the [Program Structure Interface](psi.md).
-The PSI parses code, builds indexes, and creates a semantic model.
+IntelliJ 平台的代码模型称为 PSI - [程序结构接口](psi.md)。
+PSI 用于解析代码、构建索引并创建语义模型。
 
-## Common Extension Points
+## 常用扩展点
 
-The IntelliJ Platform is extremely extensible, and most features and services can be extended.
-Some common extension points are:
+IntelliJ 平台的可扩展性极强，大多数功能和服务都可以扩展。
+一些常见的扩展点有以下几点：
 
-* [](basic_action_system.md) - menu and toolbar items
-* [](code_inspections.md) - code analysis that looks at the syntax trees and semantic models and highlight issues in the editor.
-* [](code_intentions.md) - context-specific actions that are available in the <shortcut>Alt+Enter</shortcut> menu when the text caret is at a particular location.
+* [](basic_action_system.md) - 菜单和工具栏项
+* [](code_inspections.md) - 代码分析，查看语法树和语义模型并在编辑器中突出显示问题。
+* [](code_intentions.md) - 当文本插入符号位于特定位置时，可在 <shortcut>Alt+Enter</shortcut> 菜单中执行特定于上下文的操作。
 * [](code_completion.md).

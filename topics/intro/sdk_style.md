@@ -1,8 +1,8 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# SDK Docs Style Guide
+# SDK 文档风格指南
 
-<link-summary>Writing and notation styleguide for SDK Docs.</link-summary>
+<link-summary>SDK 文档的写作和引用风格指南。</link-summary>
 
 This document describes the writing style used in authoring open-source IntelliJ Platform SDK documentation.
 Before you begin, please read this page thoroughly, as well as the [Code of Conduct](intellij-sdk-docs-original_CODE_OF_CONDUCT.md) and [License](https://github.com/JetBrains/intellij-sdk-docs/blob/main/LICENSE.txt) documents.

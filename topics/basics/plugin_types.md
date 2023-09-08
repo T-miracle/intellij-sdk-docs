@@ -2,65 +2,65 @@
 
 # 插件类型
 
-<link-summary>Overview and examples of different kinds of plugins.</link-summary>
+<link-summary>不同类型插件的概述和示例。</link-summary>
 
-Products based on the IntelliJ Platform can be modified and adjusted for custom purposes by adding plugins.
-All downloadable plugins are available from the [JetBrains Marketplace](https://plugins.jetbrains.com/).
+基于 IntelliJ 平台的产品可以通过添加插件进行修改和调整以实现自定义目的。
+所有可下载的插件均可从 [JetBrains Marketplace](https://plugins.jetbrains.com/) 获取。
 
-The most common types of plugins include:
+最常见的插件类型包括：
 
-* Custom language support
-* Framework integration
-* Tool integration
-* User interface add-ons
-* Themes
+* 自定义语言支持
+* 框架整合
+* 工具集成
+* 用户界面附加组件
+* 主题
 
-> In some cases, implementing an actual IntelliJ Platform plugin might not be necessary, as [alternative solutions](plugin_alternatives.md) exist.
+> 在某些情况下，可能不需要实现实际的 IntelliJ 平台插件，因为存在[替代解决方案](plugin_alternatives.md)。
 >
 
-## Custom Language Support
+## 自定义语言支持
 
-Custom language support provides basic functionality for working with a particular programming language, that includes:
+自定义语言支持提供了使用特定编程语言的基本功能，其中包括：
 
-* File type recognition
-* Lexical analysis
-* Syntax highlighting
-* Formatting
-* Code insight and code completion
-* Inspections and quick-fixes
-* Intention actions
+* 文件类型识别
+* 词法分析
+* 语法高亮
+* 格式化
+* 代码洞察和代码补全
+* 检查和快速修复
+* 意图行动
 
-Plugins can also augment existing (bundled) custom languages, e.g., by providing additional inspections, intentions, or any other features.
+插件还可以增强现有（捆绑）的自定义语言，例如，通过提供额外的检查、意图或任何其他功能。
 
-Refer to the [Custom Language Support Tutorial](custom_language_support_tutorial.md) to learn more about the topic.
+请参阅[自定义语言支持教程](custom_language_support_tutorial.md) 以了解有关该主题的更多信息。
 
-## Framework Integration
+## 框架集成
 
-Framework integration consists of improved code insight features, which are typical for a given framework, as well as the option to use framework-specific functionality directly from the IDE.
-Sometimes it also includes language support elements for a custom syntax or DSL.
+框架集成包括改进的代码洞察功能（这是给定框架的典型功能），以及直接从 IDE 使用特定于框架的功能的选项。
+有时它还包括自定义语法或 DSL 的语言支持元素。
 
-* Specific code insight
-* Direct access to framework-specific functionality
+* 具体代码洞察
+* 直接访问特定于框架的功能
 
-Refer to the [IntelliJ-HCL](%gh-ij-plugins%/terraform) as an example of framework integration.
-More reference plugins can be found on [JetBrains Marketplace](https://plugins.jetbrains.com/search?orderBy=update%20date&shouldHaveSource=true&tags=Framework).
+框架集成示例请参考[IntelliJ-HCL](%gh-ij-plugins%/terraform)。
+更多参考插件可以在 [JetBrains Marketplace](https://plugins.jetbrains.com/search?orderBy=update%20date&shouldHaveSource=true&tags=Framework) 上找到。
 
-## Tool Integration
+## 工具集成
 
-Tool integration makes it possible to manipulate third-party tools and components directly from the IDE without switching contexts, that implies:
+工具集成使得可以直接从 IDE 操作第三方工具和组件，而无需切换上下文，这意味着：
 
-* Implementation of additional actions
-* Related UI components
-* Access to external resources
+* 实施额外行动
+* 相关UI组件
+* 访问外部资源
 
-Refer to the [Gerrit integration](https://plugins.jetbrains.com/plugin/7272) plugin as an example.
+请参考 [Gerrit 集成](https://plugins.jetbrains.com/plugin/7272) 插件作为示例。
 
-## User Interface Add-Ons
+## 用户界面附加组件
 
-Plugins in this category apply various changes to the standard user interface of the IDE.
-Some newly added components are interactive and provide new functionality, while others are limited to visual modifications only.
-The [Foldable ProjectView](https://plugins.jetbrains.com/plugin/17288-foldable-projectview) plugin may serve as an example.
+此类别中的插件对 IDE 的标准用户界面进行了各种更改。
+一些新添加的组件是交互式的，并提供了新功能，而有些组件则仅限于视觉修改。
+[Foldable ProjectView](https://plugins.jetbrains.com/plugin/17288-foldable-projectview) 插件可以作为示例。
 
-## Themes
+## 主题
 
-[Themes](themes_getting_started.md) give designers the ability to customize the appearance of built-in IDE UI elements.
+[主题](themes_getting_started.md) 使设计人员能够自定义内置 IDE UI 元素的外观。

@@ -1,10 +1,10 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Content Updates
+# 内容更新
 
-<link-summary>Notable updates and additions to this documentation.</link-summary>
+<link-summary>本文档的显着更新和补充。</link-summary>
 
-This page lists notable additions and updates to the SDK documentation and [](code_samples.md).
+此页面列出了 SDK 文档和 [](code_samples.md) 的重要补充和更新。
 
 See [GitHub Changelog](https://github.com/JetBrains/intellij-sdk-docs/commits/main) ([RSS](https://github.com/JetBrains/intellij-sdk-docs/commits/main.atom)) for a detailed changelog.
 

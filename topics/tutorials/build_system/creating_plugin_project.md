@@ -1,8 +1,8 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Creating a Plugin Gradle Project
+# 创建插件 Gradle 项目
 
-<link-summary>Creating and running a Gradle-based IntelliJ Platform plugin projects.</link-summary>
+<link-summary>创建并运行基于 Gradle 的 IntelliJ 平台插件项目。</link-summary>
 
 This documentation page describes a Gradle-based plugin project generated with the [New Project Wizard](https://www.jetbrains.com/help/idea/new-project-wizard.html), but the project generated with [](plugin_github_template.md) covers all the described files and directories.
 

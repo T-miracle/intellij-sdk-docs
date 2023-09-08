@@ -1,8 +1,8 @@
-# Extensions
+# 扩展
 
 <!-- Copyright 2000-2023 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-<link-summary>Extensions are the most common way of customizing functionality in the IDE.</link-summary>
+<link-summary>扩展是 IDE 中自定义功能的最常见方式。</link-summary>
 
 _Extensions_ are the most common way for a plugin to extend the IntelliJ Platform's functionality in a way that is not as straightforward as adding an action to a menu or toolbar.
 

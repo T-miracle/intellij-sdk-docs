@@ -1,8 +1,8 @@
-# Intentions
+# 意图
 
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<link-summary>Intention actions allowing to fix code issues or transform the code to a different form.</link-summary>
+<link-summary>意图操作允许修复代码问题或将代码转换为不同的形式。</link-summary>
 
 <tldr>
 

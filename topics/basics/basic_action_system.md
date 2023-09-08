@@ -1,8 +1,8 @@
-# Actions
+# 操作
 
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<link-summary>Adding custom actions to IntelliJ Platform-based IDEs menus and toolbar.</link-summary>
+<link-summary>将自定义操作添加到基于 IntelliJ 平台的 IDE 菜单和工具栏。</link-summary>
 
 <tldr>
 

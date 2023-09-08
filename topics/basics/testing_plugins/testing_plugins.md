@@ -1,8 +1,8 @@
-# Testing Overview
+# 测试概述
 
 <!-- Copyright 2000-2022 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<link-summary>Introduction to testing plugins.</link-summary>
+<link-summary>测试插件简介。</link-summary>
 
 Most of the tests in the IntelliJ Platform codebase are *model-level functional tests*.
 What this means is the following:

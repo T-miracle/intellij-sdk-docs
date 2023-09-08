@@ -1,6 +1,6 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Verifying Plugin Compatibility
+# 验证插件兼容性
 
 <link-summary>Tooling for ensuring compatibility.</link-summary>
 
