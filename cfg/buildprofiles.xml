@@ -29,7 +29,7 @@
         <algolia-api-key>b2164178006efda97bc5f1f116925c77</algolia-api-key>
         <algolia-id>1CHQA0UPET</algolia-id>
         <algolia-index>intellij-sdk-docs</algolia-index>
-        <algolia-product-id>intellij-sdk-docs</algolia-product-id>
+        <algolia-product-id>ijs</algolia-product-id>
         <algolia-product-version></algolia-product-version>
 
         <analytics-head-script-file>google-analytics-code.html</analytics-head-script-file>
