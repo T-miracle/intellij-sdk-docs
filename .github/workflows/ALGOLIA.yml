@@ -8,7 +8,6 @@ env:
   ALGOLIA_INDEX_NAME: intellij-sdk-docs
   ALGOLIA_KEY: ${{ secrets.ALGOLIA_KEY }}
   CONFIG_JSON_PRODUCT: ijs
-  CONFIG_JSON_VERSION: 1.0.0
 
 jobs:
   build-job:
