@@ -11,7 +11,7 @@ env:
   CONFIG_JSON_VERSION: 1.0.0
 
 jobs:
-  build:
+  build-job:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
