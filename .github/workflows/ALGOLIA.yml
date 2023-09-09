@@ -1,10 +1,7 @@
-name: ALGOLIA
-
 on:
   push:
     branches:
       - main
-
 
 env:
   ALGOLIA_APP_NAME: 1CHQA0UPET
@@ -16,6 +13,7 @@ env:
 jobs:
   publish-indexes:
   # Requires the build-job results
+    needs: build-job
     runs-on: ubuntu-latest
     container:
       image: registry.jetbrains.team/p/writerside/builder/algolia-publisher:2.0.32-2
