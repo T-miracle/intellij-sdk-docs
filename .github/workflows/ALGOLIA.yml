@@ -20,6 +20,10 @@ jobs:
 
       - name: Upload algolia-indexes
         uses: actions/upload-artifact@v3
+        with:
+          name: algolia-indexes
+          path: ${{ env.ALGOLIA_ARTIFACT }}
+          retention-days: 7
           
   publish-indexes:
     needs: build-job
