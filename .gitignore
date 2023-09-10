@@ -37,5 +37,6 @@ gradle-app.setting
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
 
+webHelpIJS2.zip
 #algolia-indexes-HI.zip
 webHelpImages.zip

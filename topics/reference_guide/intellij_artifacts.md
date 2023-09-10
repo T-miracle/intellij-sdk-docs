@@ -1,8 +1,8 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# IntelliJ Platform Artifacts Repositories
+# IntelliJ 平台工件存储库
 
-<link-summary>Overview of the repositories hosting artifacts related to the IntelliJ Platform.</link-summary>
+<link-summary>托管与 IntelliJ 平台相关的工件的存储库概述。</link-summary>
 
 > When using additional repositories, make sure to use HTTPS always.
 >

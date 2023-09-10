@@ -4,19 +4,19 @@
     <variables>
         <web-root>https://plugins.jetbrains.com/docs</web-root>
         <product-web-url>https://blog.namichong.com/translation-docs/intellij-platform-sdk/</product-web-url>
-        <search-scope/>
+        <!--<search-scope/>-->
         <fallback-url/>
         <download-page>https://jb.gg/ipe</download-page>
         <download-title>IntelliJ 平台资源管理器</download-title>
         <showDownloadButton>true</showDownloadButton>
-        <generate-sitemap-url-prefix>https://plugins.jetbrains.com/docs/intellij/</generate-sitemap-url-prefix>
+        <generate-sitemap-url-prefix>https://blog.namichong.com/translation-docs/intellij-platform-sdk/</generate-sitemap-url-prefix>
         <feedbackRequireEmail>false</feedbackRequireEmail>
         <!--<feedback-url>https://forms-service.jetbrains.com/feedback</feedback-url>
         <feedback-widget>true</feedback-widget>-->
         <webmaster>https://plugins.jetbrains.com/docs/intellij/getting-help.html</webmaster>
         <feedback-support>https://www.jetbrains.com/support/</feedback-support>
         <sideblocks>true</sideblocks>
-        <config-search-scopes-provider>https://data.services.jetbrains.com/search/</config-search-scopes-provider>
+        <!--<config-search-scopes-provider>https://data.services.jetbrains.com/search/</config-search-scopes-provider>-->
         <og-twitter>@JBPlatform</og-twitter>
         <og-image>https://resources.jetbrains.com/storage/products/jetbrains/img/meta/preview.png</og-image>
         <enable-browser-edits>true</enable-browser-edits>
@@ -26,9 +26,9 @@
         <noindex-content status="eap">false</noindex-content>
         <noindex-content status="release">false</noindex-content>
 
-        <algolia-api-key>b2164178006efda97bc5f1f116925c77</algolia-api-key>
+        <!--<algolia-api-key>b2164178006efda97bc5f1f116925c77</algolia-api-key>
         <algolia-id>1CHQA0UPET</algolia-id>
-        <algolia-index>intellij-sdk-docs</algolia-index>
+        <algolia-index>intellij-sdk-docs</algolia-index>-->
 
         <analytics-head-script-file>google-analytics-code.html</analytics-head-script-file>
         <analytics-body-html-file>google-analytics-noscript.html</analytics-body-html-file>
