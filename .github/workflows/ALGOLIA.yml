@@ -10,7 +10,7 @@ env:
   ALGOLIA_KEY: ${{ secrets.ALGOLIA_KEY }}
   CONFIG_JSON_PRODUCT: ijs
   CONFIG_JSON_VERSION: 1.0.0
-  ALGOLIA_ARTIFACT: algolia-indexes-HI.zip
+  ALGOLIA_ARTIFACT: algolia-indexes-IJS.zip
 
 jobs:
   build-job:
