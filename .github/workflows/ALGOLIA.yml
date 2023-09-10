@@ -10,6 +10,7 @@ env:
   ALGOLIA_KEY: ${{ secrets.ALGOLIA_KEY }}
   CONFIG_JSON_PRODUCT: ijs
   CONFIG_JSON_VERSION: 1.0.0
+  ALGOLIA_ARTIFACT: algolia-indexes-HI.zip
 
 jobs:
   build-job:
@@ -22,7 +23,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: algolia-indexes
-          path: ${{ env.ALGOLIA_ARTIFACT }}
+          path: artifacts/${{ env.ALGOLIA_ARTIFACT }}
           retention-days: 7
           
   publish-indexes:
