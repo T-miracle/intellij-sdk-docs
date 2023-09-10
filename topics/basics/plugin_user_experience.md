@@ -1,8 +1,8 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Plugin User Experience (UX)
+# 插件用户体验 (UX)
 
-<link-summary>Ensuring a good user experience for your plugin.</link-summary>
+<link-summary>确保您的插件具有良好的用户体验。</link-summary>
 
 _User Experience (UX)_ is a term describing the experience users feel when using a product.
 It covers not only aspects like visual presentation, performance, stability, or ease of use, but anything that affects the user's satisfaction.

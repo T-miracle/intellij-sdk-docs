@@ -3,13 +3,13 @@
 <!DOCTYPE topic SYSTEM "https://resources.jetbrains.com/writerside/1.0/html-entities.dtd">
 <topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
-       id="plugin_structure" title="Plugin Structure">
+       id="plugin_structure" title="插件结构">
 
     <section-starting-page>
 
-        <title>Plugin Structure</title>
+        <title>插件结构</title>
         <description>
-            Learn about the plugin system structure and plugin components lifecycle.
+            了解插件系统结构和插件组件生命周期。
         </description>
 
         <spotlight>
