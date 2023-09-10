@@ -13,5 +13,5 @@
     <vars src="v.list" />
     <vars src="v-releases.list" />
     <snippets dir="code_samples"/>
-    <instance src="ijs.tree" keymaps-mode="none" id="intellij" web-path="/intellij/" version="1.0.0"/>
+    <instance src="ijs.tree" keymaps-mode="none" id="intellij" web-path="/intellij/"/>
 </ihp>
