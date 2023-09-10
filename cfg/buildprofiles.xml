@@ -29,8 +29,6 @@
         <algolia-api-key>b2164178006efda97bc5f1f116925c77</algolia-api-key>
         <algolia-id>1CHQA0UPET</algolia-id>
         <algolia-index>intellij-sdk-docs</algolia-index>
-        <algolia-product-id>intellij</algolia-product-id>
-        <algolia-product-version>1.0.0</algolia-product-version>
 
         <analytics-head-script-file>google-analytics-code.html</analytics-head-script-file>
         <analytics-body-html-file>google-analytics-noscript.html</analytics-body-html-file>

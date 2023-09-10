@@ -36,7 +36,7 @@ IntelliJ 平台完全支持插件，JetBrains 托管 [JetBrains Marketplace](htt
 > 在某些情况下，可能不需要实现实际的 IntelliJ 平台插件，因为存在[替代解决方案](plugin_alternatives.md)。
 >
 
-## 开源
+## 开源（open source）
 
 IntelliJ 平台是开源的，遵循 [Apache 许可证](%gh-ic%/LICENSE.txt)，并且[托管在 GitHub 上](https://github.com/JetBrains/intellij-community)。
 

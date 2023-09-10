@@ -58,7 +58,7 @@ Flora 扩展可以访问所有可用的 IntelliJ 平台 API，就像常规插件
 >
 {style="note"}
 
-## PhpStorm 高级元数据
+## PhpStorm 高级元数据（advanced metadata）
 
 [PhpStorm](https://www.jetbrains.com/phpstorm/) 支持特殊的[元数据文件](https://www.jetbrains.com/help/phpstorm/ide-advanced-metadata.html) 描述方法和功能。
 此信息用于使用现有的 IDE 功能，例如代码完成、导航、查找用法等。

@@ -61,6 +61,6 @@
 一些新添加的组件是交互式的，并提供了新功能，而有些组件则仅限于视觉修改。
 [Foldable ProjectView](https://plugins.jetbrains.com/plugin/17288-foldable-projectview) 插件可以作为示例。
 
-## 主题
+## 主题 (themes)
 
 [主题](themes_getting_started.md) 使设计人员能够自定义内置 IDE UI 元素的外观。

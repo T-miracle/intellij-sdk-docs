@@ -15,7 +15,7 @@
 >
 > 具体位置点击 [此处](https://github.com/JetBrains/intellij-sdk-code-samples/blob/main/theme_basics/resources/META-INF/plugin.xml) 查看
 
-## 1.附加插件配置文件
+## 附加插件配置文件（additional plugin configuration files）
 
 插件可以在主 <path>plugin.xml</path> 旁边包含其他配置文件。
 它们具有相同的格式，并且包含在指定 [插件依赖项](plugin_dependencies.md) 的 [`<depends>`](#idea-plugin__depends) 元素的 `config-file` 属性中。
