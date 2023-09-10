@@ -21,7 +21,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: algolia-indexes
-          path: artifacts/${{ env.ALGOLIA_ARTIFACT }}
+          path: ${{ env.ALGOLIA_ARTIFACT }}
           retention-days: 7
 
   publish-indexes:
