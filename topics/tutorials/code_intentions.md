@@ -33,11 +33,18 @@ The [conditional_operator_intention](%gh-sdk-samples%/conditional_operator_inten
 - How to invoke a quick fix action for a token element under cursor using the [`PsiElementBaseIntentionAction`](%gh-ic%/platform/lang-api/src/com/intellij/codeInsight/intention/PsiElementBaseIntentionAction.java) class.
 - How to create a JUnit test for this plugin using the [`IdeaTestFixtureFactory`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/fixtures/IdeaTestFixtureFactory.java) class.
 
+> In case of providing multiple intention actions for a single element, their ordering is indeterministic due to performance reasons.
+> It is possible to push specific items up or down by implementing
+> [`HighPriorityAction`](%gh-ic%/platform/analysis-api/src/com/intellij/codeInsight/intention/HighPriorityAction.java)
+> or
+> [`LowPriorityAction`](%gh-ic%/platform/analysis-api/src/com/intellij/codeInsight/intention/LowPriorityAction.java)
+> respectively.
+>
+{style="note"}
+
 ## Sample Plugin
 
-When launched, this plugin adds the <control>Convert ternary operator if statement</control> item to the <control>Conditional Operator</control> node in the Intentions List:
-
-![Intention settings dialog](IntentionsList.png)
+When launched, the sample plugin adds the <control>SDK: Convert ternary operator to if statement</control> item to the <control>SDK intentions</control> group in the <ui-path>Settings | Editor | Intentions</ui-path>.
 
 #### Running the Plugin
 
@@ -48,24 +55,10 @@ See [Code Samples](code_samples.md) on how to set up and run the plugin.
 The plugin analyzes symbols under the cursor in your code opened in the editor.
 If the cursor is positioned on the `?` conditional operator, IntelliJ IDEA proposes to replace this conditional (ternary) operator with the "if-then-else" statement:
 
-![Convert ternary operator intention popup](TernaryOperator.png)
+![Convert ternary operator intention popup](ternary_operator_intention.png)
+{width=675}
 
-In this example:
-
-<compare>
-
-```java
-return (n>=0) ? n : -n;
-```
-
-```java
-if ((n>=0)) {
-  return n;
-} else {
-  return -n;
-}
-```
-</compare>
+Invoking <control>SDK: Convert ternary operator to if statement</control> intention action will result in transforming expression to the form visible in the [preview](code_intentions_preview.md) popup (code fragment on the right).
 
 #### Testing the Plugin
 

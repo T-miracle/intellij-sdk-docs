@@ -17,26 +17,33 @@ This page lists a number of common questions/issues and techniques useful for te
 - [`PsiTestUtil`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/PsiTestUtil.java)
 - [`VfsTestUtil`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/VfsTestUtil.java)
 - [`IoTestUtil`](%gh-ic%/platform/testFramework/src/com/intellij/openapi/util/io/IoTestUtil.java)
+- [`LeakHunter`](%gh-ic%/platform/testFramework/common/src/LeakHunter.java)
 
 ### UI
+
+See [](testing_plugins.md#ui-tests) for UI integration tests.
 
 - [`ProjectViewTestUtil`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/ProjectViewTestUtil.java)
 - [`TestLookupElementPresentation`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/fixtures/TestLookupElementPresentation.java)
 - [`IconTestUtil`](%gh-ic%/platform/testFramework/src/com/intellij/ui/IconTestUtil.java)
 - [`TreeTestUtil`](%gh-ic%/platform/testFramework/src/com/intellij/ui/tree/TreeTestUtil.java)
+- [`EdtTestUtil`](%gh-ic%/platform/testFramework/common/src/EdtTestUtil.java)
 
 ## Issues
 
 ### "No Tests Found" targeting 2021.3+
 
-Please see [notes](https://plugins.jetbrains.com/docs/intellij/api-changes-list-2021.html#20213).
+Please see [notes](api_changes_list_2021.md#20213).
 
 ### How to avoid flaky tests?
 
 Always call `super.tearDown()` inside `finally {..}` block of your test class to avoid leaks and side effects from previously run (failed) tests:
 
+<tabs>
+<tab title="Java" group-key="java">
+
 ```java
-void tearDown() {
+protected void tearDown() throws Exception {
   try {
     // test specific tear down calls
   }
@@ -48,6 +55,25 @@ void tearDown() {
   }
 }
 ```
+</tab>
+
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+override fun tearDown() {
+  try {
+    // test specific tear down calls
+  }
+  catch (e: Throwable) {
+    addSuppressedException(e)
+  }
+  finally {
+    super.tearDown()
+  }
+}
+```
+</tab>
+</tabs>
 
 Avoid OS-specific assumptions (e.g., filesystem case-sensitivity, hardcoded separator instead of `java.io.File.separator`, default encoding, line endings).
 
@@ -152,7 +178,7 @@ It's done by setting the `idea.home.path` system property to the absolute path o
 
 
 <tabs>
-<tab title="Kotlin">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 test {
@@ -161,7 +187,7 @@ test {
 ```
 
 </tab>
-<tab title="Groovy">
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 test {

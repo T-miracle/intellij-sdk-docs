@@ -98,6 +98,15 @@ The change to the PSI tree is accomplished by the usual approach to modification
 * Substituting the original left and right operands into the new `PsiMethodCallExpression`.
 * Replacing the original binary expression with the `PsiMethodCallExpression`.
 
+> In case of providing multiple quick fixes for a single element, their ordering is indeterministic due to performance reasons.
+> It is possible to push specific items up or down by implementing
+> [`HighPriorityAction`](%gh-ic%/platform/analysis-api/src/com/intellij/codeInsight/intention/HighPriorityAction.java)
+> or
+> [`LowPriorityAction`](%gh-ic%/platform/analysis-api/src/com/intellij/codeInsight/intention/LowPriorityAction.java)
+> respectively.
+>
+{style="note"}
+
 ### Inspection Description
 
 The inspection description is an HTML file.
@@ -168,19 +177,8 @@ See [](code_samples.md) on how to set up and run the plugin.
 The plugin inspects your code opened in the IntelliJ IDEA editor.
 The plugin highlights the code fragments where two `String` expressions are compared by `==` or `!=` and proposes to replace this code fragment with `.equals()`:
 
-![Comparing String References inspection highlighting and quick fix](comparingReferences.png)
+![Comparing String References inspection highlighting and quick fix](comparing_references.png)
+{width=680}
 
 In this example, the `str1` and `str2` are variables of the String type.
-Invoking <control>SDK: Use equals()</control> replaces:
-
-<compare>
-
-```java
-return (str1 == str2);
-```
-
-```java
-return (str1.equals(str2));
-```
-
-</compare>
+Invoking <control>SDK: Use equals()</control> will result in transforming expression to the form visible in the [preview](code_intentions_preview.md) popup (code fragment on the right).
