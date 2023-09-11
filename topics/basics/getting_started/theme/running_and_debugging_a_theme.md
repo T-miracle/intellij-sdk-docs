@@ -1,6 +1,6 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Running and Debugging a Theme
+# 运行和调试主题
 
 <link-summary>Running and debugging a theme in the actual IDE instance.</link-summary>
 
@@ -8,7 +8,7 @@ In most cases, the results of theme plugin can be previewed by running the <cont
 Sometimes, when more advanced styling options are implemented, the previewing theme may not be enough to see all the changes.
 This page explains how to run or debug the theme plugin in the IDE configured as a part of [project SDK](setting_up_theme_environment.md).
 
-## Create Plugin Run Configuration
+## 创建插件运行配置 { id="创建插件运行配置" }
 
 To run and debug a plugin directly from a theme plugin project, a _Plugin_ run configuration must be added.
 
@@ -22,7 +22,6 @@ To run and debug a plugin directly from a theme plugin project, a _Plugin_ run c
 3. Provide the configuration <control>Name</control>, e.g., _Run Theme_.
 4. Ensure that <control>Use classpath of module</control> specifies the current theme plugin module.
 5. Click the <control>Apply</control> button.
-
 
 </procedure>
 

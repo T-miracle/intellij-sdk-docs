@@ -4,86 +4,87 @@
 
 <link-summary>SDK 文档的写作和引用风格指南。</link-summary>
 
-This document describes the writing style used in authoring open-source IntelliJ Platform SDK documentation.
-Before you begin, please read this page thoroughly, as well as the [Code of Conduct](intellij-sdk-docs-original_CODE_OF_CONDUCT.md) and [License](https://github.com/JetBrains/intellij-sdk-docs/blob/main/LICENSE.txt) documents.
-Please see also [](intellij-sdk-docs-original_CONTRIBUTING.md) for some general remarks.
-For information about contributing to the IntelliJ Platform itself, please visit [Contributing to the IntelliJ Platform](platform_contributions.md).
+本文档描述了编写开源 IntelliJ Platform SDK 文档时使用的写作风格。
+在开始之前，请仔细阅读本页以及 [行为准则](intellij-sdk-docs-original_CODE_OF_CONDUCT.md) 和 [许可证](https://github.com/JetBrains/intellij-sdk-docs/blob/main/LICENSE.txt) 文档。
+另请参阅 [](intellij-sdk-docs-original_CONTRIBUTING.md) 了解一些一般性说明。
+有关为 IntelliJ 平台本身做出贡献的信息，请访问 [为 IntelliJ 平台做出贡献](platform_contributions.md)。
 
-First and foremost, we should keep in mind our audience and their objectives:
-_Someone reading technical content is usually looking to answer a specific question.
-That question might be broad or narrowly-focused, but either way, our goal is to provide answers without distraction._
+首先，我们应该牢记我们的受众和他们的目标:
 
-The style of the Intellij Platform SDK documentation is captured by using a markup language named [Markdown](https://github.github.com/gfm/).
+_阅读技术内容的人通常是在寻找一个特定问题的答案。
+这个问题可能是广泛的，也可能是狭隘的，但无论如何，我们的目标是在不分散注意力的情况下提供答案_
 
-To verify grammar and correct spelling, it is highly recommended to use [Grazie Professional](https://plugins.jetbrains.com/plugin/16136-grazie-professional) plugin to highlight any issues on-the-fly in the IDE.
+Intellij 平台 SDK 文档 的风格是通过使用名为 [Markdown](https://github.github.com/gfm/) 的标记语言来捕获的。
 
-## Documentation Markup
+为了验证语法和正确的拼写，强烈建议使用 [Grazie Professional](https://plugins.jetbrains.com/plugin/16136-grazie-professional) 插件来突出显示 IDE 中的任何问题。
 
-The documentation project is using [Writerside](https://plugins.jetbrains.com/plugin/20158-writerside/), so the plugin should be installed to have full support in the IDE.
-The topic files themselves are [Markdown](https://github.github.com/gfm/) files (<path>*.md</path>) using some Writerside-specific custom tags (see below).
+## 文档标记
 
-### Page Format
+文档项目使用 [Writerside](https://plugins.jetbrains.com/plugin/20158-writerside/)，因此应安装该插件才能在 IDE 中获得全面支持。
+主题文件本身是使用一些 Writerside 特定自定义标签的 [Markdown](https://github.github.com/gfm/) 文件 (<path>*.md</path>)（见下文）。
 
-Each Markdown file **must** start with a copyright notice, formatted using HTML comment notation:
+### 页面格式
+
+每个 Markdown 文件**必须**以版权声明开头，并使用 HTML 注释符号进行格式化：
 
 ```html
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 ```
 
-It **must** be followed by a header defining its title using the level 1 heading:
+它**必须**后面跟着一个使用 1 级标题定义的标题：
 
 ```
 # Contributing to the IntelliJ Platform SDK
 ```
 
-The page title should be as concise as possible, so it can be reused in the [](#table-of-contents) as is.
+页面标题应尽可能简洁，以便可以在 [](#目录) 中按原样重复使用。
 
-#### Excerpt
+#### 摘抄
 
-Every page **should** provide a short excerpt (usually one sentence) using dedicated `<link-summary>` tag before the main page contents:
+每个页面**应该**在主页内容之前使用专用的 `<link-summary>` 标签提供一个简短的摘录（通常是一个句子）：
 
 ```html
 
-<link-summary>Defining groups of related settings.</link-summary>
+<link-summary>定义相关设置的含义。</link-summary>
 ```
 
-#### Highlighted Links
+#### 突出显示的链接
 
-A page can highlight related topics and other important links before the actual content using `<tldr>` tag.
-Links must be grouped using "**Bold Category Name**: link1, link2, \[...]" ([Example](language_and_filetype.md)).
+页面可以使用 `<tldr>` 标记在实际内容之前突出显示相关主题和其他重要链接。
+链接必须使用“**粗体类别名称**：link1、link2、\[...]”（[示例](language_and_filetype.md)）进行分组。
 
-Use _Reference_ to link to other topics, _Code_ to link to code/files, _Platform UI Guidelines_ for links to [IntelliJ Platform UI Guidelines](https://jetbrains.design/intellij/), and _Product Help_ for links to [IntelliJ IDEA Help](https://www.jetbrains.com/help/idea).
+使用 _参考_ 链接到其他主题，使用 _代码_ 链接到代码/文件，使用 _平台 UI 指南_ 链接到[IntelliJ 平台 UI 指南](https://jetbrains.design/intellij/)，并使用 _产品帮助_ 链接到[IntelliJ IDEA帮助](https://www.jetbrains.com/help/idea)。
 
-#### Introductory Text
+#### 介绍性文字
 
-Do **not** use headings like _Introduction_, _Overview_, etc. for any introductory text.
+**不要**使用 _介绍_、 _概述_ 等标题作为任何介绍性文本。
 
-## Content Style
+## 内容风格
 
-### Terminology
+### 术语
 
-Consistent terminology helps the reader grasp new concepts more quickly:
+一致的术语有助于读者更快地掌握新概念：
 
-* The open-source code in the GitHub repository `intellij-community` is known as the IntelliJ Platform.
-  Use the full phrase in the SDK documentation.
-* IDEs based on the IntelliJ Platform are described as _IntelliJ Platform-based IDEs_.
-  Once that term is used on a page, authors may use _IDEs_.
-* When referring to JetBrains products always use the full name such as _IntelliJ IDEA Ultimate Edition_.
-  However, only use product names when extensibility or functionality is particular to a product.
+* GitHub 存储库 `intellij-community` 中的开源代码被称为 IntelliJ 平台。
+  使用 SDK 文档中的完整短语。
+* 基于 IntelliJ 平台 的 IDE 被描述为 _基于 IntelliJ 平台的 IDE_。
+  一旦在页面上使用该术语，作者就可以使用 _IDE_。
+* 当提及 JetBrains 产品时，请始终使用全名，例如 _IntelliJ IDEA Ultimate Edition_。
+  但是，仅当可扩展性或功能特定于产品时才使用产品名称。
 
-> TODO/todo comments are discouraged in the main branch of `intellij-sdk-docs`.
-> There are always exceptions, but the best practice is to resolve all TODOs before the final review.
-> If immediate resolution isn't possible, write a YouTrack [SDK Issue](https://youtrack.jetbrains.com/issues/IJSDK) that captures the TODO and remove the comment from the document.
+> 在 `intellij-sdk-docs` 的主分支中不鼓励使用 TODO/todo 注释。
+> 例外总是会有的，但最佳的习惯是在最终审核之前解决所有 TODO。
+> 如果无法立即解决，请编写一个 YouTrack [SDK 问题](https://youtrack.jetbrains.com/issues/IJSDK) 来捕获 TODO 并从文档中删除注释。
 >
-{title="Do not use TODOs"}
+{title="不要使用 TODO"}
 
-### Text Format Conventions
+### 文本格式约定
 
-Start every sentence on a new line.
-For very long sentences, add additional line breaks after `,`, `:` or other sensible places.
-Very long [links](#links) should also be on a separate line.
+每个句子都另起一行。
+对于很长的句子，请在 `,`、`:` 或其他合理的地方添加额外的换行。
+很长的 [链接](#links) 也应该单独一行。
 
-Consistent text styles are used to standardize references and keywords:
+使用一致的文本样式来标准化参考文献和关键字：
 
 * Menu paths are wrapped using `<ui-path>` with pipe characters separating each level: `<ui-path>Settings | Editor</ui-path>`: <ui-path>Settings | Editor</ui-path>
   Inside tables, use `&#124;` instead of `|` to prevent escaping problems.
@@ -98,14 +99,14 @@ Consistent text styles are used to standardize references and keywords:
 * See [Guidelines for Highlighting Syntax](#guidelines-for-highlighting-syntax) for best practices for representing code fragments.
 * See [Links to IntelliJ Platform Source](#links-to-intellij-platform-source) for more details about representing names of source files in links.
 
-### Links
+### 链接
 
-Links are handled as standard Markdown links and can be anchored to external sites, pages within the site, or headings in the pages.
+链接作为标准 Markdown 链接处理，可以锚定到外部站点、站点内的页面或页面中的标题。
 
-When a Markdown header is converted to an HTML header, it is assigned an ID so that it can be linked.
-For example, `## Basics` gets the ID of `basics`, and can be linked either on the same page or cross-page as described below.
+当 Markdown 标头转换为 HTML 标头时，它会被分配一个 ID，以便可以链接。
+例如，`## Basics` 获取 `basics` 的 ID，并且可以在同一页面或跨页面链接，如下所述。
 
-In some cases (e.g., the same heading text appears multiple times on the same page), it is necessary to specify a distinct ID manually:
+在某些情况下（例如，相同的标题文本在同一页面上多次出现），有必要手动指定不同的 ID：
 
 ```
 ## Task 1
@@ -119,9 +120,9 @@ In some cases (e.g., the same heading text appears multiple times on the same pa
 [...]
 ```
 
-#### General Links
+#### 一般链接
 
-General Markdown links have the default Markdown link style:
+一般 Markdown 链接具有默认的 Markdown 链接样式：
 
 * `[Gradle](https://gradle.org)`{disable-links} ([Gradle](https://gradle.org)) links to an external site, such as companies, articles, etc.
   If URL contains `%` character, append `{interpolate-variables="false"}`.
@@ -318,7 +319,7 @@ For **SVG** images, use this notation:
 
 </tabs>
 
-## Table of Contents
+## 目录 { id="目录" }
 
 The table of contents for the site is displayed in the tree view on the left side of the site, and it is generated from the <path>ijs.tree</path> file.
 The list can have nested items, which are displayed as child items in the table of contents.
