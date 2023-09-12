@@ -1,6 +1,6 @@
 on:
   push:
-    branches: ['cn']
+    branches: [ cn ]
   workflow_dispatch:
 
 env:
