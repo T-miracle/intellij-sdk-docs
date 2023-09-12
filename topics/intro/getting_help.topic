@@ -10,7 +10,7 @@
     <!-- TODO temporary workaround as right TOC doesn't switch fully   -->
     <show-structure depth="0"/>
 
-    <link-summary>How to submit issues about this guide and get support for plugin development.</link-summary>
+    <link-summary>如何提交有关本指南的问题并获得插件开发支持。</link-summary>
 
     <note switcher-key="Chinese">
         <p>This page is also available in English (switch Language in the top bar).</p>

@@ -1,8 +1,8 @@
-# Publishing a Plugin
+# 发布插件
 
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<link-summary>Publishing a plugin to JetBrains Marketplace manually or with Gradle IntelliJ Plugin.</link-summary>
+<link-summary>手动或使用 Gradle IntelliJ 插件将插件发布到 JetBrains Marketplace。</link-summary>
 
 When your plugin is ready, you can publish it to a [JetBrains Marketplace](https://plugins.jetbrains.com) plugin repository so that other users can install it in IDE.
 The first plugin publication, even when a project uses the Gradle setup, must be [uploaded manually](#uploading-a-plugin-to-jetbrains-marketplace).
@@ -49,7 +49,7 @@ See also [Marketplace Docs](https://plugins.jetbrains.com/docs/marketplace/uploa
 
 New versions can be uploaded manually on the plugin's detail page, see [Marketplace Docs](https://plugins.jetbrains.com/docs/marketplace/plugin-updates.html) for details.
 
-## Publishing Plugin With Gradle
+## 使用 Gradle 发布插件 { id="使用Gradle发布插件" }
 
 Once you have [configured Gradle support](configuring_plugin_project.md), and [uploaded the plugin](#uploading-a-plugin-to-jetbrains-marketplace) to the plugin repository at least once, you can automatically build and deploy your plugin to the [JetBrains Marketplace](https://plugins.jetbrains.com).
 

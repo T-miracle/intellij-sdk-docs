@@ -4,35 +4,36 @@
 
 <link-summary>创建并运行基于 Gradle 的 IntelliJ 平台插件项目。</link-summary>
 
-This documentation page describes a Gradle-based plugin project generated with the [New Project Wizard](https://www.jetbrains.com/help/idea/new-project-wizard.html), but the project generated with [](plugin_github_template.md) covers all the described files and directories.
+这个文档页面描述了一个基于gradle的插件项目，它是用[新建项目向导](https://www.jetbrains.com/help/idea/new-project-wizard.html)生成的，
+但如果是用[](plugin_github_template.md)生成的项目将会涵盖了所有描述的文件和目录。
 
-## Creating a Plugin with New Project Wizard
+## 使用新建项目向导创建插件
 
-<procedure title="Create IDE Plugin" id="create-ide-plugin">
+<procedure title="创建IDE插件" id="create-ide-plugin">
 
-Launch the <control>New Project</control> wizard via the <ui-path>File | New | Project...</ui-path> action and provide the following information:
-1. Select the <control>IDE Plugin</control> generator type from the list on the left.
-2. Specify the project <control>Name</control> and <control>Location</control>.
-3. Choose the <control>Plugin</control> option in the project <control>Type</control>.
-4. _Only in IntelliJ IDEA older than 2023.1:_
+通过 <ui-path>File（文件） | New（新建） | Project...（项目）</ui-path> 操作启动 <control>New Project（新项目）</control> 向导，并进行以下操作步骤：
+1. 从左侧列表中选择 <control>IDE Plugin</control> 生成器类型。
+2. 指定项目 <control>Name（名称）</control> 和 <control>Location（位置）</control>。
+3. 在项目 <control>Type（类型）</control> 中选择 <control>Plugin（插件）</control> 选项。
+4. _仅在 2023.1 之前的 IntelliJ IDEA 中：_
 
-   Choose the <control>Language</control> the plugin will use for implementation.
-   For this example select the <control>Kotlin</control> option.
-   See also [Kotlin for Plugin Developers](using_kotlin.md) for more information.
+   选择将用于实现插件的<control>Language（语言）</control>。
+   对于本示例，选择 <control>Kotlin</control> 选项。
+   另请参阅 [面向插件开发者的 Kotlin](using_kotlin.md) 了解更多信息。
 
-   > Projects generated with IntelliJ IDEA 2023.1 or newer, support both Kotlin and Java sources out of the box.
-   > Project generator automatically creates <path>$PLUGIN_DIR$/src/main/kotlin</path> sources directory.
-   > To add Java sources, create <path>$PLUGIN_DIR$/src/main/java</path> directory.
+   > 使用 IntelliJ IDEA 2023.1 或更新版本生成的项目，既支持Kotlin源代码，也支持Java源代码。
+   > 项目生成器会自动创建 <path>$PLUGIN_DIR$/src/main/kotlin</path> 源目录。
+   > 如果要添加 Java 源代码，请创建 <path>$PLUGIN_DIR$/src/main/java</path> 目录。
    >
    {style="note"}
 
-5. Provide the <control>Group</control> which is typically an inverted company domain (e.g. `com.example.mycompany`).
-   It is used for the Gradle property `project.group` value in the project's Gradle build script.
-6. Provide the <control>Artifact</control> which is the default name of the build project artifact (without a version).
-   It is also used for the Gradle property `rootProject.name` value in the project's <path>settings.gradle.kts</path> file.
-   For this example, enter `my_plugin`.
-7. Select <control>JDK</control> 11.
-   This JDK will be the default JRE used to run Gradle, and the JDK version used to compile the plugin sources.
+5. 提供一个 <control>Group（组织）</control> 名称，它通常是一个公司的反向域名（例如 `com.example.mycompany`）。
+   它用于项目 Gradle 构建脚本中 Gradle 属性的 `project.group` 值。
+6. 提供一个 <control>Artifact（工件）</control> 名称，它是构建项目工件的默认名称（没有版本）。
+   它还用于项目的 <path>settings.gradle.kts</path> 文件中的 Gradle 属性 `rootProject.name` 值。
+   对于本示例，输入 `my_plugin`。
+7. 选择 <control>JDK</control> 11。
+   该 JDK 将是用于运行 Gradle 的默认 JRE，以及用于编译插件源的 JDK 版本。
 
 <include from="snippets.md" element-id="apiChangesJavaVersion"/>
 

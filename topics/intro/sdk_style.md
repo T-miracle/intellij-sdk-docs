@@ -82,24 +82,24 @@ Intellij 平台 SDK 文档 的风格是通过使用名为 [Markdown](https://git
 
 每个句子都另起一行。
 对于很长的句子，请在 `,`、`:` 或其他合理的地方添加额外的换行。
-很长的 [链接](#links) 也应该单独一行。
+很长的 [链接](#链接) 也应该单独一行。
 
 使用一致的文本样式来标准化参考文献和关键字：
 
-* Menu paths are wrapped using `<ui-path>` with pipe characters separating each level: `<ui-path>Settings | Editor</ui-path>`: <ui-path>Settings | Editor</ui-path>
-  Inside tables, use `&#124;` instead of `|` to prevent escaping problems.
-* User interface element names like labels, buttons, checkboxes, etc. are wrapped using `<control>`: `Press <control>Continue</continue>`: Press <control>Continue</control>
-* Non-code keywords and quotations, or the names of non-code files are formatted as italic style: \_Theme\_ (_Theme_), \_README.md\_ (_README.md_.)
-  Examples of this file type include _LICENSE.txt_ and _README.md_.
-* Code keywords and classnames are formatted as code style: \`interface\`: `interface`, \`AnAction\`: `AnAction`, \`name\` attribute: `name` attribute.
-* Filenames are wrapped using `<path>`: `<path>build.gradle.kts</path>` <path>build.gradle.kts</path>.
-* File formats are shown as all capital letters: PNG and XML.
-* Filename extensions are not capitalized when part of a full filename, path, or URL: <path>plugin.xml</path>.
-* Keyboard shortcuts are wrapped using `<shortcut>`: `press <shortcut>Alt+Insert</shortcut>` becomes "press <shortcut>Alt+Insert</shortcut>".
-* See [Guidelines for Highlighting Syntax](#guidelines-for-highlighting-syntax) for best practices for representing code fragments.
-* See [Links to IntelliJ Platform Source](#links-to-intellij-platform-source) for more details about representing names of source files in links.
+* 菜单路径使用 `<ui-path>` 包裹，并用管道字符分隔每个级别： `<ui-path>Settings | Editor</ui-path>`: <ui-path>Settings | Editor</ui-path>。
+  在表格内部， 使用 `&#124;` 代替 `|` 防止出现问题。
+* 用户界面元素名称（如标签、按钮、复选框等）使用 `<control>` 进行包装： `Press <control>Continue</continue>`：Press <control>Continue</control>
+* 非代码关键字和引用，或者非代码文件的名称被格式化为斜体样式：\_Theme\_ (_Theme_)、\_README.md\_ (_README.md_.)
+  此文件类型的示例包括 _LICENSE.txt_ 和 _README.md_。
+* 代码关键字和类名的格式为代码样式：\`interface\`：`interface`，\`AnAction \`：`AnAction`，\`name \`属性：`name`属性。
+* 文件名使用 `<path>` 包装：`<path>build.gradle.kts</path>` <path>build.gradle.kts</path>。
+* 文件格式显示为全部大写字母：PNG 和 XML。
+* 当文件扩展名是完整文件名、路径或 URL 的一部分时，文件扩展名不会大写：<path>plugin.xml</path>。
+* 键盘快捷键使用 `<shortcut>` 进行包装：`press <shortcut>Alt+Insert</shortcut>` 变为 “press <shortcut>Alt+Insert</shortcut>”。
+* 有关表示代码片段的最佳实践，请参阅[突出显示语法指南](#guidelines-for-highlighting-syntax)。
+* 有关在链接中表示源文件名称的更多详细信息，请参阅 [IntelliJ 平台源代码链接](#链接到IntelliJ平台源代码)。
 
-### 链接
+### 链接 { id="链接" }
 
 链接作为标准 Markdown 链接处理，可以锚定到外部站点、站点内的页面或页面中的标题。
 
@@ -124,9 +124,9 @@ Intellij 平台 SDK 文档 的风格是通过使用名为 [Markdown](https://git
 
 一般 Markdown 链接具有默认的 Markdown 链接样式：
 
-* `[Gradle](https://gradle.org)`{disable-links} ([Gradle](https://gradle.org)) links to an external site, such as companies, articles, etc.
-  If URL contains `%` character, append `{interpolate-variables="false"}`.
-* Linking to pages and page sections within the SDK documentation:
+* `[Gradle](https://gradle.org)`{disable-links} ([Gradle](https://gradle.org)) 链接到外部网站，例如公司、文章等。
+  如果 URL 包含 `%` 字符，请附加 `{interpolate-variables="false"}`。
+* 链接到 SDK 文档中的页面和页面部分：
     * `[Page Title](page.md)`{disable-links} or `[](page.md)` (use page title as link text) links to an SDK doc page (all located under <path>/topics</path>).
       Note that the extension is <path>.md</path>, _NOT_ <path>.html</path>.
     * Specific _sections_ on pages in the SDK documentation are linked by using section anchors.
@@ -138,10 +138,10 @@ Intellij 平台 SDK 文档 的风格是通过使用名为 [Markdown](https://git
   If the desired link label is the same as an SDK doc page or section title, leave the label part empty, e.g., `[](test-page.md)`{disable-links} or `[](test-page.md#section-1)`{disable-links}.
   The empty link label will be automatically filled with the actual page or section title.
 
-#### Links to IntelliJ Platform Source
+#### 链接到 IntelliJ 平台源代码 { id="链接到IntelliJ平台源代码" }
 
-Links to files in the IntelliJ Platform (`intellij-community`) repository use `%\gh-ic%` prefix instead of the full URL to the repository.
-Links to files in source code packages in other GitHub repositories follow much the same rules, except the links use a different custom `gh-...` prefix defined in <path>v.list</path>.
+指向 IntelliJ 平台 (`intellij-community`) 存储库中文件的链接使用 `%\gh-ic%` 前缀，而不是存储库的完整 URL。
+指向其他 GitHub 存储库中源代码包中的文件的链接遵循大致相同的规则，除了链接使用 <path>v.list</path> 中定义的不同自定义 `gh-...` 前缀。
 
 * `[README.md](%\gh-ic%/README.md)`{disable-links} links to general, non-code information files. ([README.md](%gh-ic%/README.md))
   Examples of this file type include _LICENSE.txt_ and _README.md_.
@@ -166,7 +166,7 @@ In-paragraph code fragments and IntelliJ Platform APIs are formatted according t
 * The FQN is used for the first reference to an interface, class, or package on a page.
   Rather than `AnAction`, introduce it as `com.intellij.openapi.actionSystem.AnAction`.
   Subsequent references on the page can be `AnAction`.
-  Exception: the FQN is not used with a GitHub [link](#links).
+  Exception: the FQN is not used with a GitHub [link](#链接).
 * Method names always use empty parentheses: "call `bar()` to apply."
   Method names are prefixed with the class/interface name when needed for clarity: `Foo.bar()`.
 
