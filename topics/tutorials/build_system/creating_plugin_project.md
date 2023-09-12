@@ -35,9 +35,9 @@
 7. 选择 <control>JDK</control> 11。
    该 JDK 将是用于运行 Gradle 的默认 JRE，以及用于编译插件源的 JDK 版本。
 
-<include from="snippets.md" element-id="apiChangesJavaVersion"/>
+    <include from="snippets.md" element-id="apiChangesJavaVersion"/>
 
-8. After providing all the information, click the <control>Create</control> button to generate the project.
+8. 提供所有信息后，单击 <control>Create（创建）</control> 按钮生成项目。
 
 </procedure>
 
