@@ -41,9 +41,9 @@
 
 </procedure>
 
-### Components of a Wizard-Generated Gradle IntelliJ Platform Plugin
+### 使用向导生成的 Gradle IntelliJ 平台插件的组件 { id="使用向导生成的Gradle-IntelliJ平台插件的组件" }
 
-For the example `my_plugin` created with the steps describes above, the _IDE Plugin_ generator creates the following directory content:
+对于使用上述步骤创建的示例 `my_plugin`，_IDE Plugin_ 生成器会创建以下目录内容：
 
 ```text
 my_plugin
@@ -68,15 +68,16 @@ my_plugin
 └── settings.gradle.kts
 ```
 
-* The default IntelliJ Platform <path>build.gradle.kts</path> file (see next paragraph).
-* The <path>gradle.properties</path> file, containing properties used by Gradle build script.
-* The <path>settings.gradle.kts</path> file, containing a definition of the `rootProject.name` and required repositories.
-* The Gradle Wrapper files, and in particular the <path>gradle-wrapper.properties</path> file, which specifies the version of Gradle to be used to build the plugin.
-  If needed, the IntelliJ IDEA Gradle plugin downloads the version of Gradle specified in this file.
-* The <path>META-INF</path> directory under the default `main` [source set](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java_project_layout) contains the plugin [configuration file](plugin_configuration_file.md) and [plugin icon](plugin_icon_file.md).
-* The _Run Plugin_ [run configuration](https://www.jetbrains.com/help/idea/run-debug-configuration.html).
+* 默认的 IntelliJ 平台 <path>build.gradle.kts</path> 文件（请参阅下一段）。
+* <path>gradle.properties</path> 文件，包含 Gradle 构建脚本使用的属性。
+* <path>settings.gradle.kts</path> 文件，包含 `rootProject.name` 和所需存储库的定义。
+* Gradle Wrapper 文件，特别是 <path>gradle-wrapper.properties</path> 文件，它指定用于构建插件的 Gradle 版本。
+  如果需要，IntelliJ IDEA Gradle 插件会下载此文件中指定的 Gradle 版本。
+* 默认 `main` [源集合](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java_project_layout) 下的 <path>META-INF</path> 目录
+  包含插件 [configuration文件](plugin_configuration_file.md) 和 [插件图标](plugin_icon_file.md)。
+* _Run Plugin_ [运行配置](https://www.jetbrains.com/help/idea/run-debug-configuration.html)。
 
-The generated `my_plugin` project <path>build.gradle.kts</path> file:
+生成的 `my_plugin` 项目 <path>build.gradle.kts</path> 文件：
 
 ```kotlin
 plugins {
@@ -92,17 +93,17 @@ repositories {
   mavenCentral()
 }
 
-// Configure Gradle IntelliJ Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
+// 配置 Gradle IntelliJ 插件
+// 阅读更多：https://blog.namichong.com/translation-docs/intellij-platform-sdk/tools-gradle-intellij-plugin.html
 intellij {
   version.set("2022.2.5")
-  type.set("IC") // Target IDE Platform
+  type.set("IC") // 目标 IDE 平台
 
-  plugins.set(listOf(/* Plugin Dependencies */))
+  plugins.set(listOf(/* 插件依赖 */))
 }
 
 tasks {
-  // Set the JVM compatibility versions
+  // 设置 JVM 兼容版本
   withType<JavaCompile> {
     sourceCompatibility = "17"
     targetCompatibility = "17"
@@ -128,48 +129,50 @@ tasks {
 }
 ```
 
-* Three Gradle plugins are explicitly declared:
-  * The [Gradle Java](https://docs.gradle.org/current/userguide/java_plugin.html) plugin (`java`).
-  * The [Kotlin Gradle](https://kotlinlang.org/docs/gradle-configure-project.html#apply-the-plugin) plugin (`org.jetbrains.kotlin.jvm`).
-  * The [](tools_gradle_intellij_plugin.md) (`org.jetbrains.intellij`).
-* The <control>Group</control> from the [New Project](#create-ide-plugin) wizard is the `project.group` value.
-* The `sourceCompatibility` line is injected to enforce using Java 11 JDK to compile Java sources.
-* The values of the [`intellij.version`](tools_gradle_intellij_plugin.md#intellij-extension-version) and [`intellij.type`](tools_gradle_intellij_plugin.md#intellij-extension-type) properties specify the version and type of the IntelliJ Platform to be used to build the plugin.
-* The empty placeholder list for [plugin dependencies](tools_gradle_intellij_plugin.md#intellij-extension-plugins).
-* The values of the [`patchPluginXml.sinceBuild`](tools_gradle_intellij_plugin.md#tasks-patchpluginxml-sincebuild) and [`patchPluginXml.untilBuild`](tools_gradle_intellij_plugin.md#tasks-patchpluginxml-untilbuild) properties specifying the minimum and maximum versions of the IDE build the plugin is compatible with.
-* The initial [`signPlugin`](tools_gradle_intellij_plugin.md#tasks-signplugin) and [`publishPlugin`](tools_gradle_intellij_plugin.md#tasks-publishplugin) tasks configuration.
-  See the [](publishing_plugin.md#publishing-plugin-with-gradle) section for more information.
+* 显式声明了三个 Gradle 插件：
+  * [Gradle Java](https://docs.gradle.org/current/userguide/java_plugin.html) 插件 (`java`)。
+  * [Kotlin Gradle](https://kotlinlang.org/docs/gradle-configure-project.html#apply-the-plugin) 插件 (`org.jetbrains.kotlin.jvm`)。
+  * [](tools_gradle_intellij_plugin.md) (`org.jetbrains.intellij`)。
+* [新建项目](#create-ide-plugin) 向导中的 <control>Group</control> 是 `project.group` 值。
+* 注入 `sourceCompatibility` 行以强制使用 Java 11 JDK 编译 Java 源代码。
+* [`intellij.version`](tools_gradle_intellij_plugin.md#intellij-extension-version) 和
+  [`intellij.type`](tools_gradle_intellij_plugin.md#intellij-extension-type) 属性的值指定 IntelliJ 的版本和类型，它们用于构建插件的平台。
+* [插件依赖项](tools_gradle_intellij_plugin.md#intellij-extension-plugins) 的空占位符列表。
+* [`patchPluginXml.sinceBuild`](tools_gradle_intellij_plugin.md#tasks-patchpluginxml-sincebuild)
+  和 [`patchPluginXml.untilBuild`](tools_gradle_intellij_plugin.md#tasks-patchpluginxml-untilbuild) 属性的值指定的最小和最大版本IDE 构建插件兼容。
+* 初始 [`signPlugin`](tools_gradle_intellij_plugin.md#tasks-signplugin) 和 [`publishPlugin`](tools_gradle_intellij_plugin.md#tasks-publishplugin) 任务配置。
+  阅读 [](publishing_plugin.md#使用Gradle发布插件) 章节查看更多详细信息。
 
-> Consider using the [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template) which additionally provides CI setup covered with GitHub Actions.
+> 可以考虑使用 [IntelliJ 平台插件模板](https://github.com/JetBrains/intellij-platform-plugin-template)，它还提供了 GitHub Actions 涵盖的 CI 设置。
 
-#### Plugin Gradle Properties and Plugin Configuration File Elements
+#### 插件 Gradle 属性 和 插件配置文件元素
 
-The Gradle properties `rootProject.name` and `project.group` will not, in general, match the respective [plugin configuration file](plugin_configuration_file.md) <path>plugin.xml</path> elements [`<name>`](plugin_configuration_file.md#idea-plugin__name) and [`<id>`](plugin_configuration_file.md#idea-plugin__id).
-There is no IntelliJ Platform-related reason they should as they serve different functions.
+Gradle 的属性 `rootProject.name` 和 `project.group` 通常不会与 [插件配置文件](plugin_configuration_file.md) <path>plugin.xml</path> 元素的 [`<name>`](plugin_configuration_file.md#idea-plugin__name) 和 [`<id>`](plugin_configuration_file.md#idea-plugin__id) 相匹配。
+它们没有理由匹配，因为它们具有不同的功能，与IntelliJ平台无关。
 
-The `<name>` element (used as the plugin's display name) is often the same as `rootProject.name`, but it can be more explanatory.
+`<name>`元素（用作插件的显示名称）通常与`rootProject.name`相同，但可以更具解释性。
 
-The `<id>` value must be a unique identifier over all plugins, typically a concatenation of the specified <control>Group</control> and <control>Artifact</control>.
-Please note that it is impossible to change the `<id>` of a published plugin without losing automatic updates for existing installations.
+`<id>`值必须是所有插件中的唯一标识符，通常是指定的`<control>Group</control>`和`<control>Artifact</control>`的串联。
+请注意，发布的插件无法更改`<id>`，否则会失去对现有安装的自动更新支持。
 
-## Running a Plugin With the `runIde` Gradle task
+## 使用 `runIde` Gradle 任务运行插件
 
-Gradle projects are run from the IDE's Gradle Tool window.
+Gradle项目是从IDE的Gradle工具窗口中运行的。
 
-### Adding Code to the Project
+### 向项目添加代码
 
-Before running [`my_plugin`](#components-of-a-wizard-generated-gradle-intellij-platform-plugin), some code can be added to provide simple functionality.
-See the [Creating Actions](working_with_custom_actions.md) tutorial for step-by-step instructions for adding a menu action.
+在运行 [`my_plugin`](#使用向导生成的Gradle-IntelliJ平台插件的组件)之前，可以添加一些代码以提供简单的功能。
+查看 [创建操作](working_with_custom_actions.md) 教程，以获取逐步添加菜单操作的说明。
 
-### Executing the Plugin
+### 执行插件
 
-The _IDE Plugin_ generator automatically creates the _Run Plugin_ run configuration that can be executed via the <ui-path>Run | Run...</ui-path> action or can be found in the <control>Gradle</control> tool window under the <control>Run Configurations</control> node.
+_IDE Plugin（IDE 插件）_ 生成器会自动创建一个 _Run Plugin（运行插件）_ 运行配置，可以通过 <ui-path>Run （运行）| Run（运行）...</ui-path> 操作执行，或者在 <control>Gradle</control> 工具窗口的 <control>Run Configurations（运行配置）</control> 节点下找到。
 
-To execute the Gradle `runIde` task directly, open the <control>Gradle</control> tool window and search for the <control>runIde</control> task under the <control>Tasks</control> node.
-If it's not on the list, hit the re-import button in the [toolbar](https://www.jetbrains.com/help/idea/jetgradle-tool-window.html#gradle_toolbar) at the top of the Gradle tool window.
-When the <control>runIde</control> task is visible, double-click it to execute.
+要直接执行 Gradle `runIde` 任务，请打开 <control>Gradle</control> 工具窗口，在 <control>Tasks</control> 节点下搜索 <control>runIde</control> 任务。
+如果它不在列表中，请点击 Gradle 工具顶部的 [工具栏](https://www.jetbrains.com/help/idea/jetgradle-tool-window.html#gradle_toolbar) 上的重新导入按钮。
+当 <control>runIde</control> 任务可见时，双击它来执行。
 
-To debug your plugin in a _standalone_ IDE instance, please see [How to Debug Your Own IntelliJ IDEA Instance](https://medium.com/agorapulse-stories/how-to-debug-your-own-intellij-idea-instance-7d7df185a48d) blog post.
+要在 _独立的_ IDE 实例中调试您的插件，请参阅 [如何调试您自己的 IntelliJ IDEA 实例](https://medium.com/agorapulse-stories/how-to-debug-your-own-intellij-idea-instance-7d7df185a48d) 博客文章。
 
-> For more information about how to work with Gradle-based projects see the [Working with Gradle in IntelliJ IDEA](https://www.youtube.com/watch?v=6V6G3RyxEMk) screencast and working with [Gradle tasks](https://www.jetbrains.com/help/idea/work-with-gradle-tasks.html) in the IntelliJ IDEA help.
+> 要了解有关如何处理基于 Gradle 的项目的更多信息，请参阅 [在 IntelliJ IDEA 中使用 Gradle](https://www.youtube.com/watch?v=6V6G3RyxEMk) 的屏幕录像和 IntelliJ IDEA 帮助中的有关 [Gradle 任务](https://www.jetbrains.com/help/idea/work-with-gradle-tasks.html) 的内容。
 >
