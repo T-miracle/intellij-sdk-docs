@@ -151,7 +151,7 @@ The `SimpleReferenceContributor` implementation is registered using the `com.int
 
 ## Run the Project with the Reference Contributor
 
-Run the project by using the Gradle [`runIde`](creating_plugin_project.md#running-a-plugin-with-the-runide-gradle-task) task.
+Run the project by using the Gradle [`runIde`](creating_plugin_project.md#使用runIde-Gradle任务运行插件) task.
 
 The IDE now resolves the property and provides [completion](https://www.jetbrains.com/help/idea/auto-completing-code.html#basic_completion) suggestions:
 
@@ -185,7 +185,7 @@ The `SimpleRefactoringSupportProvider` implementation is registered with the Int
 
 ## Run the Project
 
-Run the project by using the Gradle [`runIde`](creating_plugin_project.md#running-a-plugin-with-the-runide-gradle-task) task.
+Run the project by using the Gradle [`runIde`](creating_plugin_project.md#使用runIde-Gradle任务运行插件) task.
 
 The IDE now supports [refactoring](https://www.jetbrains.com/help/idea/rename-refactorings.html) suggestions:
 

@@ -5,7 +5,7 @@
 <link-summary>Overview of IDE instance used for running and debugging a plugin during development.</link-summary>
 
 A JetBrains feature for developing plugins is running or debugging a plugin project from within IntelliJ IDEA.
-Selecting the [`runIde`](creating_plugin_project.md#running-a-plugin-with-the-runide-gradle-task) task for a Gradle-based project (or [Run](running_and_debugging_a_theme.md) menu for a DevKit-based project) will launch a _Development Instance_ of the IDE with the plugin enabled.
+Selecting the [`runIde`](creating_plugin_project.md#使用runIde-Gradle任务运行插件) task for a Gradle-based project (or [Run](running_and_debugging_a_theme.md) menu for a DevKit-based project) will launch a _Development Instance_ of the IDE with the plugin enabled.
 This page describes how to control some settings for the Development Instance.
 
 > See also [`runIde` task](tools_gradle_intellij_plugin.md#tasks-runide) properties and [Advanced Configuration](https://www.jetbrains.com/help/idea/tuning-the-ide.html) for general VM options and properties.
@@ -114,7 +114,7 @@ To disable auto-reload, set `idea.auto.reload.plugins` to `false` explicitly (20
 
 </tabs>
 
-## 开发实例沙盒目录 (the-development-instance-sandbox-directory)
+## 开发实例沙盒目录 { id="开发实例沙盒目录" }
 
 The _Sandbox Home_ directory contains the [settings, caches, logs, and plugins](#development-instance-settings-caches-logs-and-plugins) for a Development Instance of the IDE.
 This information is stored in a different location than for the [installed IDE itself](https://intellij-support.jetbrains.com/hc/en-us/articles/206544519-Directories-used-by-the-IDE-to-store-settings-caches-plugins-and-logs).

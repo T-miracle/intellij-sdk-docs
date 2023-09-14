@@ -38,7 +38,7 @@ configuration file using the `com.intellij.spellchecker.support` extension point
 
 ## Run the Project
 
-Run the project by using the Gradle [`runIde`](creating_plugin_project.md#running-a-plugin-with-the-runide-gradle-task) task.
+Run the project by using the Gradle [`runIde`](creating_plugin_project.md#使用runIde-Gradle任务运行插件) task.
 
 Open the <path>test.simple</path> file and make an intentional spelling mistake.
 The IDE will highlight the error and suggest a quick fix.

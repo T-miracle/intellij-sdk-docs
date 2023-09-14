@@ -40,7 +40,7 @@ IntelliJ 平台完全支持 [plugins](developing_plugins.md)，JetBrains 托管 
 >
 {style="note"}
 
-## 开源（Open Source）
+## 开源 { id="开源" }
 
 IntelliJ 平台是开源的，遵循 [Apache 许可证](%gh-ic%/LICENSE.txt)，并且[托管在 GitHub 上](https://github.com/JetBrains/intellij-community)。
 
@@ -54,7 +54,7 @@ IntelliJ 平台的版本由相应的 IntelliJ IDEA 社区版 发行版的版本�
 
 通常，基于 IntelliJ 平台的 IDE 将包含 “intellij-community” 存储库作为 Git 子模块，并提供配置来描述 “intellij-community” 中的哪些插件以及哪些自定义插件将构成产品。
 
-## 基于 IntelliJ 平台的 IDE
+## 基于 IntelliJ 平台的 IDE { id="基于IntelliJ平台的IDE" }
 
 IntelliJ 平台是许多 JetBrains IDE 的基础。
 [IntelliJ IDEA Ultimate](idea_ultimate.md) 是 IntelliJ IDEA Community Edition 的超集，

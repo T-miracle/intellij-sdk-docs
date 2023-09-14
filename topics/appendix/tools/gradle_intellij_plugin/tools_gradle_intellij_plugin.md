@@ -430,7 +430,7 @@ Default value
 #### sandboxDir
 {#intellij-extension-sandboxdir}
 
-The path of [sandbox directory](ide_development_instance.md#the-development-instance-sandbox-directory) that is used for running IDE with developed plugin.
+The path of [sandbox directory](ide_development_instance.md#开发实例沙盒目录) that is used for running IDE with developed plugin.
 
 {style="narrow"}
 Type
@@ -1276,7 +1276,7 @@ Note that you need to [upload the plugin](publishing_plugin.md#uploading-a-plugi
 
 See the instruction on [how to generate authentication token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html).
 
-See [](publishing_plugin.md#publishing-plugin-with-gradle) tutorial for step-by-step instructions.
+See [](publishing_plugin.md#使用Gradle发布插件) tutorial for step-by-step instructions.
 
 
 #### token

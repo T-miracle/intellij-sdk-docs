@@ -140,7 +140,7 @@ Comments in SDK code sample Gradle build scripts should only draw attention to t
 
 For SDK code samples, a few alterations are needed to the default <path>build.gradle.kts</path> file produced by the plugin wizard:
 * Maintain the Gradle properties `version` (`project.version`) and `group` (`project.group`).
-  See the [Plugin Gradle Properties](creating_plugin_project.md#plugin-gradle-properties-and-plugin-configuration-file-elements) section for how these Gradle properties relate to the elements in <path>plugin.xml</path>.
+  See the [Plugin Gradle Properties](creating_plugin_project.md#插件Gradle属性和插件配置文件元素) section for how these Gradle properties relate to the elements in <path>plugin.xml</path>.
 * Add the following statement to the [Patching DSL](tools_gradle_intellij_plugin.md#tasks-patchpluginxml) (`patchPluginXml {...}`) section:
   ```kotlin
   // Patches <version> value in plugin.xml

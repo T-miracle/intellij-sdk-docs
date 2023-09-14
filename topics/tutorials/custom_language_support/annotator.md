@@ -85,7 +85,7 @@ Using the `com.intellij.annotator` extension point in the plugin configuration f
 
 ## Run the Project
 
-Run the plugin by using the Gradle [`runIde`](creating_plugin_project.md#running-a-plugin-with-the-runide-gradle-task) task.
+Run the plugin by using the Gradle [`runIde`](creating_plugin_project.md#使用runIde-Gradle任务运行插件) task.
 
 As a test, define the following Java file containing a Simple Language `prefix:value` pair:
 

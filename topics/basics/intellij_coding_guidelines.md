@@ -8,7 +8,7 @@
 
 ## 遵循最新的源代码
 
-如果您提交补丁，我们强烈建议您根据 [intellij-community Git 存储库](intellij_platform.md#open-source) 中的最新版本代码构建补丁。
+如果您提交补丁，我们强烈建议您根据 [intellij-community Git 存储库](intellij_platform.md#开源) 中的最新版本代码构建补丁。
 最简单的方法是克隆存储库，在 Git 中跟踪您的工作，并按照 [](platform_contributions.md#submit-a-patch) 中所述提供更改。
 
 ## 一般架构原则

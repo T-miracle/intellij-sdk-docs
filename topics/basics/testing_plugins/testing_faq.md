@@ -85,7 +85,7 @@ Use `Application.invokeLater(runnable, myProject.getDisposed())`.
 ### How to avoid test failure when using resources?
 
 In some situations, added or changed files (e.g. XML DTDs provided by a plugin) are not refreshed in [](virtual_file_system.md).
-In such cases, simply delete <path>test-system/caches</path> in your [sandbox directory](ide_development_instance.md#the-development-instance-sandbox-directory) and try again.
+In such cases, simply delete <path>test-system/caches</path> in your [sandbox directory](ide_development_instance.md#开发实例沙盒目录) and try again.
 
 ### How to enable DEBUG/TRACE logging?
 

@@ -101,7 +101,7 @@ Run Configuration _(RC)_
 ## S
 
 Structural Search and Replace _(SSR)_
-: Allows searching and replacing code by defining the structure of the searched code fragments, see [](plugin_alternatives.md#structural-search-and-replace-inspections).
+: Allows searching and replacing code by defining the structure of the searched code fragments, see [](plugin_alternatives.md#结构搜索和替换检查).
 
 Stubs
 : A subset of a &rarr;&nbsp;_Program Structure Interface_ tree in a binary serialized compact format, see [](stub_indexes.md).

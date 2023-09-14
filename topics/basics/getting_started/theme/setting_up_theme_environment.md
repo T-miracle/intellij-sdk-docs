@@ -65,7 +65,7 @@
 5. 在 <control>选择内部Java平台</control> 对话框中，选择[上一步]中配置的JDK(#add-jdk)，然后单击 <control>确定</control> 按钮。
 6. 在添加的SDK中，指定 <control>Sandbox Home</control> 目录。
 
-   有关详细信息，请参阅 [](ide_development_instance.md#3)。
+   有关详细信息，请参阅 [](ide_development_instance.md#开发实例沙盒目录)。
 7. 如果需要调试，请选择 <control>源路径</control> 选项卡，单击 <control>添加</control> 按钮（<control>+</control>）并选择[签出源的根文件夹](#intellij-idea-ce)。
 8. 点击 <control>应用</control> 按钮。
 

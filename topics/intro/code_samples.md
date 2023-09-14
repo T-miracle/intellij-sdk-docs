@@ -36,4 +36,4 @@
 
 ## 运行代码示例
 
-使用 <control>Gradle</control> 工具窗口中相应项目的 <control>Tasks（任务）</control> 节点下显示的 Gradle [`runIde`](creating_plugin_project.md#executing-the-plugin) 任务运行插件。
+使用 <control>Gradle</control> 工具窗口中相应项目的 <control>Tasks（任务）</control> 节点下显示的 Gradle [`runIde`](creating_plugin_project.md#执行插件) 任务运行插件。

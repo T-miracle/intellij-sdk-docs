@@ -90,7 +90,7 @@ If it fails:
 1. Try a newer version of the IDE (eventually latest available from [Early Access Program](https://eap.jetbrains.com)), in some cases platform bugs might be an issue.
    See this [list of known platform issues](https://youtrack.jetbrains.com/issues/IDEA?q=%23dynamic-plugins%20) related to handling dynamic plugins.
 
-2. Try in a fresh and new configuration (e.g., clean the [sandbox](ide_development_instance.md#the-development-instance-sandbox-directory) or use a different configuration directory).
+2. Try in a fresh and new configuration (e.g., clean the [sandbox](ide_development_instance.md#开发实例沙盒目录) or use a different configuration directory).
 
 ### Logging
 

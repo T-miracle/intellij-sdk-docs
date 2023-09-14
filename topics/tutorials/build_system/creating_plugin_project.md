@@ -145,7 +145,7 @@ tasks {
 
 > 可以考虑使用 [IntelliJ 平台插件模板](https://github.com/JetBrains/intellij-platform-plugin-template)，它还提供了 GitHub Actions 涵盖的 CI 设置。
 
-#### 插件 Gradle 属性 和 插件配置文件元素
+#### 插件 Gradle 属性 和 插件配置文件元素 { id="插件Gradle属性和插件配置文件元素" }
 
 Gradle 的属性 `rootProject.name` 和 `project.group` 通常不会与 [插件配置文件](plugin_configuration_file.md) <path>plugin.xml</path> 元素的 [`<name>`](plugin_configuration_file.md#idea-plugin__name) 和 [`<id>`](plugin_configuration_file.md#idea-plugin__id) 相匹配。
 它们没有理由匹配，因为它们具有不同的功能，与IntelliJ平台无关。
@@ -155,7 +155,7 @@ Gradle 的属性 `rootProject.name` 和 `project.group` 通常不会与 [插件�
 `<id>`值必须是所有插件中的唯一标识符，通常是指定的`<control>Group</control>`和`<control>Artifact</control>`的串联。
 请注意，发布的插件无法更改`<id>`，否则会失去对现有安装的自动更新支持。
 
-## 使用 `runIde` Gradle 任务运行插件
+## 使用 `runIde` Gradle 任务运行插件 { id="使用runIde-Gradle任务运行插件" }
 
 Gradle项目是从IDE的Gradle工具窗口中运行的。
 
@@ -164,7 +164,7 @@ Gradle项目是从IDE的Gradle工具窗口中运行的。
 在运行 [`my_plugin`](#使用向导生成的Gradle-IntelliJ平台插件的组件)之前，可以添加一些代码以提供简单的功能。
 查看 [创建操作](working_with_custom_actions.md) 教程，以获取逐步添加菜单操作的说明。
 
-### 执行插件
+### 执行插件 { id="执行插件" }
 
 _IDE Plugin（IDE 插件）_ 生成器会自动创建一个 _Run Plugin（运行插件）_ 运行配置，可以通过 <ui-path>Run （运行）| Run（运行）...</ui-path> 操作执行，或者在 <control>Gradle</control> 工具窗口的 <control>Run Configurations（运行配置）</control> 节点下找到。
 

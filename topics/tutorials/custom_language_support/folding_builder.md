@@ -53,7 +53,7 @@ The `SimpleFoldingBuilder` implementation is registered with the IntelliJ Platfo
 
 ## Run the Project
 
-Run the plugin by using the Gradle [`runIde`](creating_plugin_project.md#running-a-plugin-with-the-runide-gradle-task) task.
+Run the plugin by using the Gradle [`runIde`](creating_plugin_project.md#使用runIde-Gradle任务运行插件) task.
 
 Now when a Java file is opened in the editor, it shows the property's value instead of the key.
 This is because `SimpleFoldingBuilder.isCollapsedByDefault()` always returns `true`.

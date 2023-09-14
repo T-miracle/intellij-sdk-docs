@@ -124,7 +124,7 @@ Disabling of the task is suggested for plugins that are not intended to provide 
 ### How to show log file of sandbox instance
 
 The most convenient way to see the logs of running IDE is to add a tab to the <control>Run</control> tool window displaying the contents of <path>idea.log</path> file.
-In the Gradle `runIde` run configuration, add the log file path according to [sandbox location](ide_development_instance.md#the-development-instance-sandbox-directory) as described in [View logs](https://www.jetbrains.com/help/idea/setting-log-options.html).
+In the Gradle `runIde` run configuration, add the log file path according to [sandbox location](ide_development_instance.md#开发实例沙盒目录) as described in [View logs](https://www.jetbrains.com/help/idea/setting-log-options.html).
 
 ### How to add a custom file inside plugin distribution
 

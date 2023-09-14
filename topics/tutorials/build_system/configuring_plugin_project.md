@@ -63,7 +63,7 @@ Using the corresponding JetBrains Runtime is also the default, so for this use-c
 
 The IntelliJ Platform IDE used for the [Development Instance](ide_development_instance.md) can be different from that used to build the plugin project.
 Setting the [`runIde.ideDir`](tools_gradle_intellij_plugin.md#tasks-runide-idedir) property will define an IDE to be used for the Development Instance.
-This attribute is commonly used when running or debugging a plugin in an [alternate IntelliJ Platform-based IDE](intellij_platform.md#ides-based-on-the-intellij-platform).
+This attribute is commonly used when running or debugging a plugin in an [alternate IntelliJ Platform-based IDE](intellij_platform.md#基于IntelliJ平台的IDE).
 
 ### Running Against Alternate Versions of the JetBrains Runtime
 
@@ -91,7 +91,7 @@ For those [`patchPluginXml`](tools_gradle_intellij_plugin.md#tasks-patchpluginxm
 > To maintain and generate an up-to-date changelog, try using [Gradle Changelog Plugin](https://github.com/JetBrains/gradle-changelog-plugin).
 >
 
-As discussed in [](creating_plugin_project.md#components-of-a-wizard-generated-gradle-intellij-platform-plugin), the Gradle properties `project.version`, `project.group`, and `rootProject.name` are all generated based on the input to the Wizard.
+As discussed in [](creating_plugin_project.md#使用向导生成的Gradle-IntelliJ平台插件的组件), the Gradle properties `project.version`, `project.group`, and `rootProject.name` are all generated based on the input to the Wizard.
 However, the [](tools_gradle_intellij_plugin.md) does not combine and substitute those Gradle properties for the default [`<id>`](plugin_configuration_file.md#idea-plugin__id) and [`<name>`](plugin_configuration_file.md#idea-plugin__name) elements in the <path>plugin.xml</path> file.
 
 The best practice is to keep `project.version` current.

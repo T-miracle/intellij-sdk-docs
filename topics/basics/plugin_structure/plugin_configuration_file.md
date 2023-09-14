@@ -15,7 +15,7 @@
 >
 > 具体位置点击 [此处](https://github.com/JetBrains/intellij-sdk-code-samples/blob/main/theme_basics/resources/META-INF/plugin.xml) 查看
 
-## 附加插件配置文件（additional plugin configuration files）
+## 附加插件配置文件 { id="附加插件配置文件" }
 
 插件可以在主 <path>plugin.xml</path> 旁边包含其他配置文件。
 它们具有相同的格式，并且包含在指定 [插件依赖项](plugin_dependencies.md) 的 [`<depends>`](#idea-plugin__depends) 元素的 `config-file` 属性中。
@@ -98,7 +98,7 @@ Required
 
 Attributes
 :
-- `url` _(optional; ignored in [additional configuration](#1))_<br/>
+- `url` _(optional; ignored in [additional configuration](#附加插件配置文件))_<br/>
   The link to the plugin homepage displayed on the plugin page in the [JetBrains Marketplace](https://plugins.jetbrains.com).
 - `require-restart` _(optional)_<br/>
   The boolean value determining whether the plugin installation, update, or uninstallation requires the IDE restart (see [](dynamic_plugins.md) for details).<br/>
@@ -140,7 +140,7 @@ Please use characters, numbers, and `'.'`/`'-'`/`'_'` symbols only and keep it r
 
 {style="narrow"}
 Required
-: no; ignored in [additional config file](#1)<br/>
+: no; ignored in [additional config file](#附加插件配置文件)<br/>
 **It is highly recommended to set in <path>plugin.xml</path> file.**<br/>
 The element can be skipped in the source <path>plugin.xml</path> file if the Gradle [`patchPluginXml`](tools_gradle_intellij_plugin.md#tasks-patchpluginxml) task is enabled and configured.
 
@@ -162,7 +162,7 @@ The user-visible plugin display name (Title Case).
 
 {style="narrow"}
 Required
-: **yes**; ignored in [additional config file](#1)
+: **yes**; ignored in [additional config file](#附加插件配置文件)
 
 Example
 :
@@ -180,7 +180,7 @@ Plugins uploaded to the JetBrains Marketplace must follow semantic versioning.
 
 {style="narrow"}
 Required
-: **yes**; ignored in [additional config file](#1)<br/>
+: **yes**; ignored in [additional config file](#附加插件配置文件)<br/>
 The element can be skipped in the source <path>plugin.xml</path> file if the Gradle [`patchPluginXml`](tools_gradle_intellij_plugin.md#tasks-patchpluginxml) task is enabled and configured.
 
 Example
@@ -198,7 +198,7 @@ Example
 
 {style="narrow"}
 Required
-: only for paid or freemium plugins; ignored in [additional config file](#1)<br/>
+: only for paid or freemium plugins; ignored in [additional config file](#附加插件配置文件)<br/>
 **Do not add `<product-descriptor>` element in a free plugin.**
 
 Attributes
@@ -223,7 +223,7 @@ The plugin's range of compatible IntelliJ-based IDE versions.
 
 {style="narrow"}
 Required
-: **yes**; ignored in [additional config file](#1)<br/>
+: **yes**; ignored in [additional config file](#附加插件配置文件)<br/>
 The element can be skipped in the source <path>plugin.xml</path> file if the Gradle [`patchPluginXml`](tools_gradle_intellij_plugin.md#tasks-patchpluginxml) task is enabled and configured.
 
 Attributes
@@ -256,7 +256,7 @@ The vendor name or organization ID (if created) in the <control>Plugins</control
 
 {style="narrow"}
 Required
-: **yes**; ignored in [additional config file](#1)
+: **yes**; ignored in [additional config file](#附加插件配置文件)
 
 Attributes
 :
@@ -291,7 +291,7 @@ Simple HTML elements, like text formatting, paragraphs, lists, etc., are allowed
 
 {style="narrow"}
 Required
-: **yes**; ignored in [additional config file](#1)<br/>
+: **yes**; ignored in [additional config file](#附加插件配置文件)<br/>
 The element can be skipped in the source <path>plugin.xml</path> file if the Gradle [`patchPluginXml`](tools_gradle_intellij_plugin.md#tasks-patchpluginxml) task is enabled and configured.
 
 Example
@@ -321,7 +321,7 @@ Simple HTML elements, like text formatting, paragraphs, lists, etc., are allowed
 
 {style="narrow"}
 Required
-: no; ignored in [additional config file](#1)<br/>
+: no; ignored in [additional config file](#附加插件配置文件)<br/>
 The element can be skipped in the source <path>plugin.xml</path> file if the Gradle [`patchPluginXml`](tools_gradle_intellij_plugin.md#tasks-patchpluginxml) task is enabled and configured.
 
 Example
@@ -364,7 +364,7 @@ Attributes
     - `true` - the plugin will be loaded
     - `false` (default) - the plugin will not be loaded
 - `config-file` _(optional)_<br/>
-  Relative path to an [additional configuration file](#1), loaded only if the dependency plugin is installed in the current IDE.
+  Relative path to an [additional configuration file](#附加插件配置文件), loaded only if the dependency plugin is installed in the current IDE.
 
 Examples
 :
@@ -408,7 +408,7 @@ Declares incompatibility with a provided module.
 
 {style="narrow"}
 Required
-: no; ignored in [additional config file](#1)
+: no; ignored in [additional config file](#附加插件配置文件)
 
 Example
 :

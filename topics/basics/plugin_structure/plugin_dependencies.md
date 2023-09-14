@@ -156,7 +156,7 @@ Continuing with the example from [Project Setup](#2-project-setup) above, the de
 A plugin can also specify an optional plugin dependency.
 In this case, the plugin will load even if the plugin it depends on is not installed or enabled, but part of the plugin's functionality will not be available.
 
-Declare additional `optional="true"` and `config-file` attribute pointing to [optional plugin descriptor file](plugin_configuration_file.md#additional-plugin-configuration-files):
+Declare additional `optional="true"` and `config-file` attribute pointing to [optional plugin descriptor file](plugin_configuration_file.md#附加插件配置文件):
 
 ```xml
 <depends

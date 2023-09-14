@@ -69,7 +69,7 @@ To locate the log file, choose the <ui-path>Help | Show Log in Finder/Explorer</
 When [internal mode](enabling_internal.md) is enabled, the currently running IDE log file can be opened using <ui-path>Help | Open Log in Editor</ui-path>.
 
 To locate it for a specific installation, see this [Knowledge Base article](https://intellij-support.jetbrains.com/hc/en-us/articles/206544519).
-See [Development Instance Sandbox Directory](ide_development_instance.md#the-development-instance-sandbox-directory) on how to find it for development instances.
+See [Development Instance Sandbox Directory](ide_development_instance.md#开发实例沙盒目录) on how to find it for development instances.
 
 See [Testing FAQ](testing_faq.md) on how to enable `DEBUG`/`TRACE` level logging during tests, and obtain separate logs for failing tests.
 
