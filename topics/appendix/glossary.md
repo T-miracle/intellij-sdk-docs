@@ -73,7 +73,7 @@ JetBrains Project System _(JPS)_
 : Represents the project model in [External Build](external_builder_api.md#accessing-project-model-and-configuration-from-external-build) process.
 
 JetBrains Runtime _(JBR)_
-: The [JetBrains Runtime](ide_development_instance.md#using-a-jetbrains-runtime-for-the-development-instance) is the default bundled runtime for all IntelliJ Platform-based IDEs by JetBrains.
+: The [JetBrains Runtime](ide_development_instance.md#在开发实例中使用JetBrains-Runtime) is the default bundled runtime for all IntelliJ Platform-based IDEs by JetBrains.
 
 ## N
 

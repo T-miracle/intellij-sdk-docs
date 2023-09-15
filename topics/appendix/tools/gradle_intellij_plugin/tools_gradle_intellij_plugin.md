@@ -477,7 +477,7 @@ Acceptable values
 #### jreRepository
 {#intellij-extension-jrerepository}
 
-URL of repository for downloading [JetBrains Runtime](ide_development_instance.md#using-a-jetbrains-runtime-for-the-development-instance).
+URL of repository for downloading [JetBrains Runtime](ide_development_instance.md#在开发实例中使用JetBrains-Runtime).
 
 {style="narrow"}
 Type
@@ -1386,7 +1386,7 @@ Accepted values
 - `8u202b1483.24`
 - `11_0_2b159`
 
-> For more information about JBR versions and variants, see [](ide_development_instance.md#using-a-jetbrains-runtime-for-the-development-instance).
+> For more information about JBR versions and variants, see [](ide_development_instance.md#在开发实例中使用JetBrains-Runtime).
 >
 {style="note"}
 
@@ -1440,7 +1440,7 @@ Dynamic plugins will be reloaded automatically when their JARs are modified.
 This allows a much faster development cycle by avoiding a full restart of the development instance after code changes.
 Enabled by default in 2020.2 and higher.
 
-See [Enabling Auto-Reload](ide_development_instance.md#enabling-auto-reload) for more details.
+See [Enabling Auto-Reload](ide_development_instance.md#启用自动重载) for more details.
 
 {style="narrow"}
 Type
@@ -1674,7 +1674,7 @@ Acceptable values
 - `8u202b1483.24`
 - `11_0_2b159`
 
-> For more information about JBR versions and variants, see [](ide_development_instance.md#using-a-jetbrains-runtime-for-the-development-instance).
+> For more information about JBR versions and variants, see [](ide_development_instance.md#在开发实例中使用JetBrains-Runtime).
 >
 {style="note"}
 

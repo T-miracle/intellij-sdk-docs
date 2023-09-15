@@ -11,7 +11,7 @@ JetBrains 为插件开发提供的一个特性是可以从 IntelliJ IDEA 内部�
 > 另请参阅 [`runIde`任务](tools_gradle_intellij_plugin.md#tasks-runide) 属性和[高级配置](https://www.jetbrains.com/help/idea/tuning-the-ide.html) 以获取一般VM选项和属性的信息。
 >
 
-## 在开发实例中使用 JetBrains Runtime
+## 在开发实例中使用 JetBrains Runtime {id="在开发实例中使用JetBrains-Runtime"}
 
 一个常见的用例是针对JDK（例如Java 17）开发（构建）插件项目，然后在IDE的开发实例中运行或调试插件。
 在这种情况下，开发实例必须使用 [JetBrains Runtime (JBR)](https://www.jetbrains.com/jetbrains-runtime) 而不是用于构建插件项目的 JDK。
@@ -77,7 +77,7 @@ JetBrains Runtime 以不同的版本发布，用于不同的目的，如调试�
 >
 {style="note"}
 
-## 启用自动重载功能
+## 启用自动重载 {id="启用自动重载"}
 
 从2020.1版本开始，这对于兼容的 [动态插件](dynamic_plugins.md) 可用。
 这可以通过在检测到代码更改后（当JAR文件被修改时）避免完全重新启动开发实例，从而实现更快的开发周期。

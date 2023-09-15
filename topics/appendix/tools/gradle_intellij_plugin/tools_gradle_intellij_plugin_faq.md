@@ -66,7 +66,7 @@ runIde {
 
 ### How to disable automatic reload of dynamic plugins
 
-See [](ide_development_instance.md#enabling-auto-reload) for important caveats.
+See [](ide_development_instance.md#启用自动重载) for important caveats.
 
 Configure [`runIde`](tools_gradle_intellij_plugin.md#tasks-runide) task as follows:
 

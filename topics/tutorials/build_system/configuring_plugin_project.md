@@ -67,7 +67,7 @@ This attribute is commonly used when running or debugging a plugin in an [altern
 
 ### Running Against Alternate Versions of the JetBrains Runtime
 
-Every version of the IntelliJ Platform has a corresponding version of the [JetBrains Runtime](ide_development_instance.md#using-a-jetbrains-runtime-for-the-development-instance).
+Every version of the IntelliJ Platform has a corresponding version of the [JetBrains Runtime](ide_development_instance.md#在开发实例中使用JetBrains-Runtime).
 A different version of the runtime can be used by specifying the [`runIde.jbrVersion`](tools_gradle_intellij_plugin.md#tasks-runide-jbrversion) attribute, describing a version of the JetBrains Runtime that should be used by the IDE Development Instance.
 The Gradle plugin will fetch the specified JetBrains Runtime as needed.
 
