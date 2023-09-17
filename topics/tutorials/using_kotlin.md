@@ -96,7 +96,7 @@ kotlin.stdlib.default.dependency = false
 如果该属性不存在，那么在插件配置验证期间将会报告警告，因为当Kotlin stdlib捆绑在插件存档中时，这是一个常见的问题。
 如果希望在最终存档中包含 Kotlin stdlib，请使用 `kotlin.stdlib.default.dependency = true` 显式指定它。
 
-If a plugin supports [multiple platform versions](build_number_ranges.md), it must either target the lowest bundled `stdlib` version or provide the specific version in plugin distribution.
+如果一个插件支持[多个平台版本](build_number_ranges.md)，它必须要么针对捆绑的 `stdlib` 最低版本，要么在插件分发中提供具体的版本。
 
 | IntelliJ 平台版本 | 捆绑式 `stdlib` 版 |
 |---------------|----------------|
@@ -120,7 +120,7 @@ If a plugin supports [multiple platform versions](build_number_ranges.md), it mu
 > 如果您需要将Kotlin标准库添加到您的**测试项目**依赖项中，请参阅[此部分](testing_faq.md#how-to-test-a-jvm-language)。
 >
 
-### 增量编译
+### 增量编译 {id="增量编译"}
 
 Kotlin Gradle 插件支持 [增量编译](https://kotlinlang.org/docs/gradle-compilation-and-caches.html#incremental-compilation)，这允许跟踪源文件的更改，因此编译器仅处理已更新的代码。
 这可以提高构建效率，因为不必重新编译所有代码。

@@ -2098,7 +2098,7 @@ Validates the plugin project configuration:
 
 - The dependency on the Kotlin Standard Library (stdlib) is automatically added when using the Gradle Kotlin plugin and may conflict with the version provided with the IntelliJ Platform.
 
-> Read more about controlling this behavior on [](using_kotlin.md#kotlin-standard-library).
+> Read more about controlling this behavior on [](using_kotlin.md#kotlin标准库).
 
 - An old default [`runPluginVerifier.downloadDir`][#tasks-runpluginverifier-downloaddir] path contains downloaded IDEs but another default is in use. Links to the [FAQ section](tools_gradle_intellij_plugin_faq.md#the-plugin-verifier-download-directory-is-set-to-but-downloaded-ides-were-also-found-in)
 
