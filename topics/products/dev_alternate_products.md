@@ -85,7 +85,7 @@ Understanding the relationship between build numbers is critical when using this
 * _targetIDE_ is the (version-specific) IntelliJ Platform-based IDE in which the plugin is intended to run, such as Android Studio or PhpStorm.
 * _baseIntelliJPlatformVersion_ is the (version-specific) IntelliJ Platform used in the build of the _targetIDE_.
   The IntelliJ Platform is defined by a specific build of the IntelliJ IDEA Community Edition.
-  The Gradle plugin attribute [`intellij.version`](configuring_plugin_project.md#intellij-platform-configuration) is set to be _baseIntelliJPlatformVersion_.
+  The Gradle plugin attribute [`intellij.version`](configuring_plugin_project.md#intellij平台配置) is set to be _baseIntelliJPlatformVersion_.
 
 For API compatibility, the IntelliJ Platform version used in the _targetIDE_ dictates the _baseIntelliJPlatformVersion_ used for developing a plugin.
 
@@ -118,11 +118,11 @@ This information is used to configure the plugin project's Gradle build script a
 Configuring a Gradle plugin project for using _baseIntelliJPlatformVersion_ requires changing some default settings in the Gradle build script.
 Changes need to be made in two places: [`intellij`](tools_gradle_intellij_plugin.md#configuration-intellij-extension) extension and [`runIde`](tools_gradle_intellij_plugin.md#tasks-runide) task.
 
-The Gradle plugin attributes describing the configuration of the [IntelliJ Platform used to build the plugin project](configuring_plugin_project.md#intellij-platform-configuration) must be explicitly set in the `intellij` task.
+The Gradle plugin attributes describing the configuration of the [IntelliJ Platform used to build the plugin project](configuring_plugin_project.md#intellij平台配置) must be explicitly set in the `intellij` task.
 The [`intellij.type`](tools_gradle_intellij_plugin.md#intellij-extension-type) is `IU` because although the IntelliJ IDEA Community Edition defines the IntelliJ Platform, the PHP plugin is only compatible with IntelliJ IDEA Ultimate.
 The [`intellij.version`](tools_gradle_intellij_plugin.md#intellij-extension-version) is _baseIntelliJPlatformVersion_.
 
-Any [dependencies](configuring_plugin_project.md#plugin-dependencies) on _targetIDE_-specific plugins or modules must be declared in the [`intellij`](tools_gradle_intellij_plugin.md#configuration-intellij-extension) extension.
+Any [dependencies](configuring_plugin_project.md#插件依赖项) on _targetIDE_-specific plugins or modules must be declared in the [`intellij`](tools_gradle_intellij_plugin.md#configuration-intellij-extension) extension.
 Use the Gradle plugin attribute [`intellij.plugins`](tools_gradle_intellij_plugin.md#intellij-extension-plugins) to declare a dependency.
 See the specific product pages in _Part VIII — Product Specific_ for the _targetIDE_ plugin or module name.
 

@@ -62,7 +62,7 @@
 2. 点击 <control>添加</control> 按钮 (<control>+</control>).
 3. 选择 <control>添加 IntelliJ 平台插件 SDK...</control> 选项。
 4. 选择 IDE 的安装文件夹[之前下载](#intellij-ide)（在 macOS 上，选择 <path>/Applications/</path> 中的应用程序图标）。
-5. 在 <control>选择内部Java平台</control> 对话框中，选择[上一步]中配置的JDK(#add-jdk)，然后单击 <control>确定</control> 按钮。
+5. 在 <control>选择内部Java平台</control> 对话框中，选择[上一步](#add-jdk)中配置的JDK，然后单击 <control>确定</control> 按钮。
 6. 在添加的SDK中，指定 <control>Sandbox Home</control> 目录。
 
    有关详细信息，请参阅 [](ide_development_instance.md#开发实例沙盒目录)。

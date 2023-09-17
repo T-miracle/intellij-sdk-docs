@@ -5,7 +5,7 @@
 <link-summary>Defining product compatibility by specifying plugin since-build and until-build ranges.</link-summary>
 
 Use this reference of build number ranges to specify the correct `since-build` and `until-build` values in your plugin descriptor.
-Setting the actual values in <path>[plugin.xml](plugin_configuration_file.md)</path> is managed by [`patchPluginXml`](tools_gradle_intellij_plugin.md#tasks-patchpluginxml) Gradle task, see [](configuring_plugin_project.md#patching-the-plugin-configuration-file).
+Setting the actual values in <path>[plugin.xml](plugin_configuration_file.md)</path> is managed by [`patchPluginXml`](tools_gradle_intellij_plugin.md#tasks-patchpluginxml) Gradle task, see [](configuring_plugin_project.md#修改插件配置文件).
 
 Please note the following regarding values:
 

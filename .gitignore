@@ -40,3 +40,5 @@ gradle-app.setting
 webHelpIJS2.zip
 #algolia-indexes-HI.zip
 webHelpImages.zip
+.idea/kotlinScripting.xml
+.idea/UniappProjectData.xml

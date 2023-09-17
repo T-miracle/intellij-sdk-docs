@@ -20,7 +20,7 @@
         <og-twitter>@JBPlatform</og-twitter>
         <og-image>https://resources.jetbrains.com/storage/products/jetbrains/img/meta/preview.png</og-image>
         <enable-browser-edits>true</enable-browser-edits>
-        <browser-edits-url>https://github.com/T-miracle/intellij-sdk-docs/edit/main/</browser-edits-url>
+        <browser-edits-url>https://github.com/T-miracle/intellij-sdk-docs/edit/cn/</browser-edits-url>
         <images-prefix-override>images/</images-prefix-override>
         <noindex-content status="deprecated">false</noindex-content>
         <noindex-content status="eap">false</noindex-content>
