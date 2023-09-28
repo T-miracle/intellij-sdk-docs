@@ -118,6 +118,14 @@ Register [`ApplicationActivationListener`](%gh-ic%/platform/ide-core/src/com/int
 
 To request restart of the IDE, use [`Application.restart()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/Application.java)
 
+## Launching Browser
+
+Use [`BrowserLauncher`](%gh-ic%/platform/platform-api/src/com/intellij/ide/browsers/BrowserLauncher.kt).
+
+## Open File in System File Manager
+
+Use [`RevealFileAction.openFile()`](%gh-ic%/platform/platform-impl/src/com/intellij/ide/actions/RevealFileAction.java) or `openDirectory()`.
+
 ## Theme Change
 
 Use [`LafManagerListener`](%gh-ic%/platform/platform-api/src/com/intellij/ide/ui/LafManagerListener.java) topic to receive change notifications (e.g., to refresh UI).
