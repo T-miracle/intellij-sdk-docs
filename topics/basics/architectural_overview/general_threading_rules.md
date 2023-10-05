@@ -10,31 +10,58 @@
 
 > [Thread Access Info](https://plugins.jetbrains.com/plugin/16815-thread-access-info) plugin visualizes Read/Write Access and Thread information in debugger.
 
-In general, code-related data structures in the IntelliJ Platform are covered by a single reader/writer lock.
+In general, code-related data structures in the IntelliJ Platform are covered by a single [readers-writer (RW) lock](https://en.wikipedia.org/wiki/Readers%E2%80%93writer_lock){ignore-vars="true"}.
 
-You must not access the model outside a read or write action for the following subsystems:
+Access to the model must be performed in a read or write action for the following subsystems:
 
-- [](psi.md) (PSI)
+- [](psi.md)
 - [](virtual_file_system.md) (VFS)
 - [Project root model](project_structure.md).
 
+> Threading model has changed in 2023.3, please make sure to choose the correct version below.
+>
+{title="2023.3 Threading Model Changes" style="warning"}
+
 ### Read Access
+
+<tabs group="threading">
+
+<tab title="2023.3 and later" group-key="newThreading">
+
+Reading data is allowed from any thread.
+Read operations need to be wrapped in a read action (RA) if not invoked via `Application.invokeLater()`.
+
+</tab>
+
+<tab title="Earlier versions" group-key="oldThreading">
 
 Reading data is allowed from any thread.
 Reading data from the UI thread does not require any special effort.
 However, read operations performed from any other thread need to be wrapped in a read action (RA).
+
+</tab>
+
+</tabs>
+
 The corresponding objects are not guaranteed to survive between several consecutive read actions.
 As a rule of thumb, whenever starting a read action, check if the PSI/VFS/project/module is still valid.
 
-**API**: `ApplicationManager.getApplication().runReadAction()` or [`ReadAction`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/ReadAction.java) `run()`/`compute()`
+#### Read Action (RA) API
+
+- [`Application.runReadAction()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/Application.java)
+- [`ReadAction`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/ReadAction.java) `run()` or `compute()`
 
 ### Write Access
 
 Writing data is only allowed from the UI thread, and write operations always need to be wrapped in a write action (WA).
-Modifying the model is only allowed from write-safe contexts, including user actions and `SwingUtilities.invokeLater()` calls from them (see the next section).
+Modifying the model is only allowed from write-safe contexts, including user actions and `SwingUtilities.invokeLater()` calls from them (see [](#modality-and-invokelater)).
+
 You may not modify PSI, VFS, or project model from inside UI renderers or `SwingUtilities.invokeLater()` calls.
 
-**API**: `ApplicationManager.getApplication().runWriteAction()` or [`WriteAction`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/WriteAction.java) `run()`/`compute()`
+#### Write Action (WA) API
+
+- [`Application.runWriteAction()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/Application.java)
+- [`WriteAction`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/WriteAction.java) `run()` or `compute()`
 
 ## Modality and `invokeLater()`
 
@@ -72,12 +99,12 @@ The current thread's indicator can be retrieved any time via `ProgressIndicatorP
 
 For visible progresses, threads can use `ProgressIndicator` to notify the user about current status: e.g., set text or visual fraction of the work done.
 
-Progress indicators also provide means to handle cancellation of background processes, either by the user (pressing the _Cancel_ button) or from code (e.g., when the current operation becomes obsolete due to some changes in the project).
+Progress indicators also provide means to handle cancellation of background processes, either by the user (pressing the <control>Cancel</control> button) or from code (e.g., when the current operation becomes obsolete due to some changes in the project).
 The progress can be marked as canceled by calling `ProgressIndicator.cancel()`.
-The process reacts to this by calling `ProgressIndicator.checkCanceled()` (or `ProgressManager.checkCanceled()` if no indicator instance at hand).
-This call throws a special unchecked [`ProcessCanceledException`](%gh-ic%/platform/util/base/src/com/intellij/openapi/progress/ProcessCanceledException.java) if the background process has been canceled.
+The process reacts to this by calling `ProgressIndicator.checkCanceled()` (or `ProgressManager.checkCanceled()` if no indicator instances at hand).
+This call throws a special unchecked [`ProcessCanceledException`](%gh-ic%/platform/util/base/src/com/intellij/openapi/progress/ProcessCanceledException.java) (PCE) if the background process has been canceled.
 
-All code working with PSI, or in other kinds of background processes, must be prepared for [`ProcessCanceledException`](%gh-ic%/platform/util/base/src/com/intellij/openapi/progress/ProcessCanceledException.java) being thrown from any point.
+All code working with [PSI](psi.md), or in other kinds of background processes, must be prepared for [`ProcessCanceledException`](%gh-ic%/platform/util/base/src/com/intellij/openapi/progress/ProcessCanceledException.java) (PCE) being thrown from any point.
 This exception should never be logged but rethrown, and it'll be handled in the infrastructure that started the process.
 Use inspection <control>Plugin DevKit | Code | 'ProcessCanceledException' handled incorrectly</control> (2023.3).
 

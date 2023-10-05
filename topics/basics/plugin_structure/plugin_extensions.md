@@ -76,8 +76,9 @@ and one extension to access the `another.plugin.myExtensionPoint` extension poin
 
 Please note the following important points:
 
-- Extension implementations must be stateless. Use explicit [](plugin_services.md) for managing (runtime) data.
-- Avoid any initialization in constructor, see also notes for [Services](plugin_services.md#constructor).
+- Extension implementation must be stateless. Use explicit [](plugin_services.md) for managing (runtime) data.
+- Avoid any initialization in the constructor, see also notes for [Services](plugin_services.md#constructor).
+- Do not perform any static initialization. Use inspection <control>Plugin DevKit | Code | Static initialization in extension point implementations</control> (2023.3).
 
 When using [Kotlin](using_kotlin.md):
 
@@ -133,4 +134,4 @@ Specifying `@org.jetbrains.annotations.Nls` validates a UI `String` capitalizati
 
 Properties marked as `@Deprecated` or annotated with any of [`ApiStatus`](https://github.com/JetBrains/java-annotations/blob/master/common/src/main/java/org/jetbrains/annotations/ApiStatus.java) `@Internal`, `@Experimental`, `@ScheduledForRemoval`, or `@Obsolete` will be highlighted accordingly.
 
-Attributes with `Enum` type support code insight with _lowerCamelCased_ notation (2020.1 and later).
+Attributes with `Enum` type support code insight with _lowerCamelCased_ notation (2020.1 and later). Note: these must not override `toString()`.

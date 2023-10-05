@@ -1,6 +1,6 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
-
 # SDK 文档风格指南
+
+<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 <link-summary>SDK 文档的写作和引用风格指南。</link-summary>
 
@@ -124,9 +124,9 @@ Intellij 平台 SDK 文档 的风格是通过使用名为 [Markdown](https://git
 
 一般 Markdown 链接具有默认的 Markdown 链接样式：
 
-* `[Gradle](https://gradle.org)`{disable-links} ([Gradle](https://gradle.org)) 链接到外部网站，例如公司、文章等。
-  如果 URL 包含 `%` 字符，请附加 `{interpolate-variables="false"}`。
-* 链接到 SDK 文档中的页面和页面部分：
+* `[Gradle](https://gradle.org)`{disable-links} ([Gradle](https://gradle.org)) links to an external site, such as companies, articles, etc.
+  If URL contains `%` character, append `{ignore-vars="true"}`.
+* Linking to pages and page sections within the SDK documentation:
     * `[Page Title](page.md)`{disable-links} or `[](page.md)` (use page title as link text) links to an SDK doc page (all located under <path>/topics</path>).
       Note that the extension is <path>.md</path>, _NOT_ <path>.html</path>.
     * Specific _sections_ on pages in the SDK documentation are linked by using section anchors.
