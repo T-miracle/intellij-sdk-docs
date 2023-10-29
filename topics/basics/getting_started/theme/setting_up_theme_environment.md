@@ -1,19 +1,18 @@
-# Setting Up a Development Environment
+# 设置开发环境
 
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<link-summary>Setting up a development environment required for developing a theme.</link-summary>
+<link-summary>搭建开发主题所需的开发环境。</link-summary>
 
 <procedure title="初步步骤">
 
 <include from="snippets.md" element-id="pluginDevKitAvailability"/>
 
-Use the following checklist to ensure that you are ready to develop your custom theme:
+使用以下检查列表确保您已准备好开发自定义主题：
 
-1. **[IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/download/)** or **[IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/)** is installed.
-2. **Plugin DevKit** plugin is installed and [enabled in IntelliJ IDEA](https://www.jetbrains.com/help/idea/managing-plugins.html).
-3. **IntelliJ IDEA CE source code** is checked-out. _(Optional)_
-
+1. 已安装 **[IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/download/)** 或 **[IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/)**。
+2. 已安装并在 IntelliJ IDEA 中 [启用 **Plugin DevKit** 插件](https://www.jetbrains.com/help/idea/managing-plugins.html)。
+3. 已检出 **IntelliJ IDEA CE 源代码**。 _(可选)_
    仅当您打算调试 IntelliJ 平台代码时才需要执行此步骤。
    有关更多详细信息，请参阅 [](#intellij-idea-ce)。
 4. **IntelliJ 平台 SDK** 已[配置](#intellij-sdk)。

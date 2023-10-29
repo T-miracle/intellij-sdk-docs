@@ -13,4 +13,4 @@
 * [定制主题](themes_customize.md)
 * [构建和运行主题](running_and_debugging_a_theme.md)
 * [在 IDE 中部署主题](deploying_theme.md)
-* [将主题上传到 JetBrains 插件市场](publishing_plugin.md#uploading-a-plugin-to-jetbrains-marketplace)
+* [将主题上传到 JetBrains 插件市场](publishing_plugin.md#上传插件到JetBrainsMarketplace)

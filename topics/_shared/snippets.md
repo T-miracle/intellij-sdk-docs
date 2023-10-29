@@ -5,9 +5,9 @@
 
 <snippet id="missingContent">
 
-> If a topic you are interested in is not covered in the above sections, let us know via the **Was this page helpful?** feedback form below or [other channels](getting_help.topic#problems-with-the-guide).
+> 如果您对上述部分未涵盖的主题感兴趣，请通过下方的**此页面是否有帮助？**反馈表格或[其他渠道](getting_help.topic#problems-with-the-guide)让我们知道。
 >
-> Please be specific about the topics and reasons for adding them, and leave your email in case we need more details. Thanks for your feedback!
+> 请在添加主题时具体说明主题和添加原因，并在需要更多详细信息时留下您的电子邮件地址。感谢您的反馈！
 >
 {title="Something missing?" style="note"}
 
@@ -24,10 +24,10 @@
 
 <snippet id="pluginDevKitAvailability">
 
-_Plugin DevKit_ plugin is bundled with IntelliJ IDEA until 2023.2.
+_Plugin DevKit_ 插件与 IntelliJ IDEA 捆绑在一起直至 2023.2。
 
-> When using IntelliJ IDEA 2023.3 or later, the _Plugin DevKit_ plugin must be installed from JetBrains Marketplace ([Plugin Homepage](https://plugins.jetbrains.com/plugin/22851-plugin-devkit))
-> as it is no longer bundled with the IDE.
+> 在使用 IntelliJ IDEA 2023.3 或更新版本时，必须从 JetBrains Marketplace 安装 _Plugin DevKit_ 插件（[插件主页](https://plugins.jetbrains.com/plugin/22851-plugin-devkit)）。
+> 因为它不再与 IDE 捆绑在一起。
 >
 {title="Plugin DevKit Availability" style="warning"}
 

@@ -1277,7 +1277,7 @@ Output file provided by the [`listBundledPlugins`](#tasks-listbundledplugins) ta
 Publishes plugin to the remote [JetBrains Marketplace](https://plugins.jetbrains.com) repository.
 
 The following attributes are a part of the Publishing DSL `publishPlugin { ... }` in which allows Gradle to upload plugin to [JetBrains Marketplace](https://plugins.jetbrains.com).
-Note that you need to [upload the plugin](publishing_plugin.md#uploading-a-plugin-to-jetbrains-marketplace) to the repository at least once manually (to specify options like the license, repository URL etc.) before uploads through Gradle can be used.
+Note that you need to [upload the plugin](publishing_plugin.md#上传插件到JetBrainsMarketplace) to the repository at least once manually (to specify options like the license, repository URL etc.) before uploads through Gradle can be used.
 
 See the instruction on [how to generate authentication token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html).
 
