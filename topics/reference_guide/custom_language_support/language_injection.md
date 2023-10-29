@@ -174,7 +174,7 @@ As a plugin author, implement [`LanguageInjectionContributor`](%gh-ic%/platform/
 For instance, if you want to inject a YAML or JSON to a literal language depending on some conditions, you could implement this interface like this:
 
 ```java
-public final class MyInjector implements LanguageInjectionContributor {
+final class MyInjector implements LanguageInjectionContributor {
 
   @Override
   public @Nullable Injection getInjection(@NotNull PsiElement context) {
@@ -226,7 +226,7 @@ Plugin authors need to implement `getLanguagesToInject()` to provide a list of p
 For example, inject regular expressions into Java string literal:
 
 ```java
-public class MyRegExpToJavaInjector implements MultiHostInjector {
+final class MyRegExpToJavaInjector implements MultiHostInjector {
 
   @Override
   public void getLanguagesToInject(@NotNull MultiHostRegistrar registrar,
@@ -276,7 +276,7 @@ class MyDsl { void foo() { System.out.println(42); } }
 Here, we need to inject Java into several places at once, i.e. method name and its body:
 
 ```java
-public class MyBizarreDSLInjector implements MultiHostInjector {
+final class MyDSLInjector implements MultiHostInjector {
 
   @Override
   public void getLanguagesToInject(@NotNull MultiHostRegistrar registrar,

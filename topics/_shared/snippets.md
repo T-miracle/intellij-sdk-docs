@@ -22,6 +22,17 @@
 
 </snippet>
 
+<snippet id="pluginDevKitAvailability">
+
+_Plugin DevKit_ plugin is bundled with IntelliJ IDEA until 2023.2.
+
+> When using IntelliJ IDEA 2023.3 or later, the _Plugin DevKit_ plugin must be installed from JetBrains Marketplace ([Plugin Homepage](https://plugins.jetbrains.com/plugin/22851-plugin-devkit))
+> as it is no longer bundled with the IDE.
+>
+{title="Plugin DevKit Availability" style="warning"}
+
+</snippet>
+
 <snippet id="jetbrainsProductOpenSourceLicense">
 
 > Qualifying Open Source projects can [apply for free licenses](https://www.jetbrains.com/community/opensource/) of JetBrains products.
@@ -84,7 +95,7 @@ See [](plugin_listeners.md) on how to register listeners.
 
 **Extension Point** searches for usages inside existing implementations of open-source IntelliJ Platform plugins via [IntelliJ Platform Explorer](https://jb.gg/ipe).
 
-**Implementation** is related Extension Point class.
+**Implementation** is the related Extension Point class.
 
 See [](plugin_extensions.md) on how to declare extensions in your plugin.
 
