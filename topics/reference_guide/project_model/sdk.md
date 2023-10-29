@@ -28,7 +28,7 @@ Sdk projectSdk = ProjectRootManager.getInstance(project).getProjectSdk();
 * To get the project-level SDK:
 
   ```java
-  Sdk projectSdk = ProjectRootManager.getInstance(project).getProjectSdk();
+  Sdk projectSdk = ProjectRootManager.getInstance(project).getProjectSdkName();
   ```
 
 * To get the project-level SDK name:
@@ -46,7 +46,7 @@ Sdk projectSdk = ProjectRootManager.getInstance(project).getProjectSdk();
 * To set the project-level SDK name:
 
   ```java
-  ProjectRootManager.getInstance(project).setProjectSdkName(name);
+  ProjectRootManager.getInstance(project).setProjectSdkName(name, sdk.getSdkType().getName());
   ```
 
 See the [project_model](%gh-sdk-samples%/project_model/src/main/java/org/intellij/sdk/project/model/ProjectSdkAction.java) code sample to get more familiar with SDK manipulation toolset.
@@ -85,7 +85,7 @@ Use `com.intellij.projectSdkSetupValidator` extension point to register an imple
 The following is a simplified example that checks whether an instance of "DemoSdk" has been configured in the project when the user opens a "DemoFileType":
 
 ```kotlin
-class DemoProjectSdkSetupValidator : ProjectSdkSetupValidator {
+internal class DemoProjectSdkSetupValidator : ProjectSdkSetupValidator {
   override fun isApplicableFor(project: Project, file: VirtualFile): Boolean {
     return file.fileType == DemoFileType
   }

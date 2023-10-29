@@ -1,6 +1,6 @@
-# Incompatible Changes in IntelliJ Platform and Plugins API 2023.*
-
 <!-- Copyright 2000-2023 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+
+# Incompatible Changes in IntelliJ Platform and Plugins API 2023.*
 
 <!--
 Before documenting a breaking API change, please make sure that the change cannot be avoided in an alternative way.
@@ -92,10 +92,68 @@ JsonPath library unbundled
 `com.intellij.openapi.actionSystem.ex.ActionUtil.showDumbModeWarning(Project, AnActionEvent[])` method removed
 : Use `showDumbModeWarning(@Nullable Project project, @NotNull AnAction action, AnActionEvent @NotNull ... events)` instead
 
+`com.intellij.profiler.eventtrace` package removed
+: Update code usages.
+
+`org.jetbrains.plugins.gradle.service.project.GradleProjectResolverUtil.buildDependencies(ProjectResolverContext, Map, Map, DataNode, Collection, DataNode)` method parameter type changed from `Map<String, String>` to `ArtifactMappingService`
+: Update usages of this method. Change parameter `artifactsMap` value to an `ArtifactMappingService` instance. It can be obtained from `ProjectResolverContext`, or created in-place using the `MapBasedArtifactMappingService`
+
+`org.jetbrains.plugins.gradle.service.project.GradleProjectResolver.CONFIGURATION_ARTIFACTS` field removed
+: Related mapping information is no longer accessible using this key. Artifacts mapping data is now stored in the instance of the `ArtifactMappingService` and can be obtained via `org.jetbrains.plugins.gradle.service.project.ProjectResolverContext#getArtifactsMap()`.
+
+### Collaboration Tools Module 2023.3
+
+`com.intellij.collaboration.ui.codereview.action.CodeReviewCheckoutRemoteBranchAction` class removed
+: Action moved to a view model.
+
+`com.intellij.collaboration.ui.codereview.details.CodeReviewDetailsBranchComponentFactory.create(CoroutineScope, CodeReviewBranchesViewModel, AnAction, DataContext)` method removed
+: Action moved to a view model.
+
+`com.intellij.collaboration.ui.codereview.diff.viewer.DiffEditorUtilKt` class removed
+: Moved to `com.intellij.collaboration.ui.codereview.editor.EditorComponentInlaysUtilKt.controlInlaysIn`.
+
+`com.intellij.collaboration.ui.toolwindow.ReviewListTabComponentDescriptor` class removed
+: Descriptor removed in favour of tab type `com.intellij.collaboration.ui.toolwindow.ReviewTab`.
+
+`com.intellij.collaboration.ui.toolwindow.ReviewTabsController` class removed
+: Controller reworked to viewmodel `com.intellij.collaboration.ui.toolwindow.ReviewToolwindowProjectViewModel`.
+
+`com.intellij.collaboration.ui.toolwindow.ReviewToolwindowDataKeys.getREVIEW_TABS_CONTROLLER()` method removed
+: Controller reworked to viewmodel `com.intellij.collaboration.ui.toolwindow.ReviewToolwindowProjectViewModel`.
+
+`com.intellij.collaboration.ui.toolwindow.ReviewToolwindowProjectContext` class removed
+: Context reworked to viewmodel `com.intellij.collaboration.ui.toolwindow.ReviewToolwindowProjectViewModel`.
+
+`com.intellij.collaboration.ui.toolwindow.ReviewToolwindowViewModel.getProjectVm()` method return type changed from `SharedFlow<C>` to `SharedFlow<PVM>`
+: Context reworked to viewmodel `com.intellij.collaboration.ui.toolwindow.ReviewToolwindowProjectViewModel`.
+
+`com.intellij.collaboration.ui.toolwindow.ReviewTabsComponentFactory.createReviewListComponent(CoroutineScope, PVM)` abstract method added
+: Context reworked to viewmodel `com.intellij.collaboration.ui.toolwindow.ReviewToolwindowProjectViewModel`.
+
+`com.intellij.collaboration.ui.toolwindow.ReviewTabsComponentFactory.createTabComponent(CoroutineScope, PVM, TVM)` abstract method added
+: Context reworked to viewmodel `com.intellij.collaboration.ui.toolwindow.ReviewToolwindowProjectViewModel`.
+
+`com.intellij.collaboration.ui.toolwindow.ReviewToolwindowTabsManagerKt.manageReviewToolwindowTabs(CoroutineScope, ToolWindow, ReviewToolwindowViewModel, ReviewTabsController, ReviewTabsComponentFactory, String)` method removed
+: Added a tab viewmodel type.
+
+`com.intellij.collaboration.ui.codereview.timeline.TimelineDiffComponentFactory.createDiffComponent(Project, EditorFactory, PatchHunk, Pair, Pair)` method removed
+: Coroutine scope was added to track editor lifetime.
+
+`com.intellij.collaboration.ui.codereview.details.model.CodeReviewChangesViewModelBase` class removed
+: Incorrect EDT-reliant implementation removed.
+
 ### Java Plugin 2023.3
 
 `com.siyeh.ipp.base.Intention` class removed
 : As a part of migration to new experimental [`ModCommand`](%gh-ic%/platform/analysis-api/src/com/intellij/modcommand/ModCommand.java) API, the class was removed completely. It's a part of implementation module and was never intended to be inherited by external plugins. Consider implementing [`LocalInspectionTool`](%gh-ic%/platform/analysis-api/src/com/intellij/codeInspection/LocalInspectionTool.java) directly.
+
+`com.intellij.codeInsight.TailTypes` class renamed to `com.intellij.codeInsight.JavaTailTypes`
+: Update code usages.
+
+### JavaScript Plugin 2023.3
+
+`com.intellij.lang.javascript.buildTools.npm.PackageJsonUtil.createPackageJson(PsiDirectory, boolean)` method removed
+: Use `com.intellij.lang.javascript.buildTools.npm.PackageJsonFileTemplate.create(PsiDirectory, boolean, Consumer<PsiFile>)` instead.
 
 ### External System Run Configuration 2023.3
 
@@ -125,6 +183,69 @@ Fragment builder functions from `ExternalSystemRunConfigurationUtil` file moved 
 `org.jetbrains.kotlin.idea.actions.JavaToKotlinAction.Companion` class renamed to `org.jetbrains.kotlin.idea.actions.JavaToKotlinAction.Handler`
 : In order to not load additional code eagerly on action instantiation.
 
+### Markdown Plugin 2023.3
+
+`org.intellij.plugins.markdown.editor.images` package removed
+: Use `org.intellij.plugins.markdown.images` from `intellij.markdown.images` module.
+
+`org.intellij.plugins.markdown.lang.psi.MarkdownPsiElementFactory.createHtmlBlockWithImage(Project, MarkdownImageData)` method removed
+: Use `org.intellij.plugins.markdown.images.editor.ImagePsiElementFactory.createHtmlBlockWithImage` instead.
+
+`org.intellij.plugins.markdown.lang.psi.MarkdownPsiElementFactory.createHtmlImageTag(Project, MarkdownImageData)` method removed
+: Use `org.intellij.plugins.markdown.images.editor.ImagePsiElementFactory.createHtmlImageTag` instead.
+
+`org.intellij.plugins.markdown.lang.psi.MarkdownPsiElementFactory.createImage(Project, String, String, String)` method removed
+: Use `org.intellij.plugins.markdown.images.editor.ImagePsiElementFactory.createImage`.
+
+`action.org.intellij.plugins.markdown.ui.actions.styling.InsertImageAction.insert.popup.text` property removed from resource bundle `messages.MarkdownBundle`
+: Use `org.intellij.plugins.markdown.images.MarkdownImagesBundle` instead.
+
+`markdown.configure.image.dialog.browse.image.title` property removed from resource bundle `messages.MarkdownBundle`
+: Use `org.intellij.plugins.markdown.images.MarkdownImagesBundle` instead.
+
+`markdown.configure.image.dialog.convert.to.html.label` property removed from resource bundle `messages.MarkdownBundle`
+: Use `org.intellij.plugins.markdown.images.MarkdownImagesBundle` instead.
+
+`markdown.configure.image.dialog.description.label` property removed from resource bundle `messages.MarkdownBundle`
+: Use `org.intellij.plugins.markdown.images.MarkdownImagesBundle` instead.
+
+`markdown.configure.image.dialog.height.label` property removed from resource bundle `messages.MarkdownBundle`
+: Use `org.intellij.plugins.markdown.images.MarkdownImagesBundle` instead.
+
+`markdown.configure.image.dialog.path.label` property removed from resource bundle `messages.MarkdownBundle`
+: Use `org.intellij.plugins.markdown.images.MarkdownImagesBundle` instead.
+
+`markdown.configure.image.dialog.screen.reader.text.panel.title` property removed from resource bundle `messages.MarkdownBundle`
+: Use `org.intellij.plugins.markdown.images.MarkdownImagesBundle` instead.
+
+`markdown.configure.image.dialog.title.label` property removed from resource bundle `messages.MarkdownBundle`
+: Use `org.intellij.plugins.markdown.images.MarkdownImagesBundle` instead.
+
+`markdown.configure.image.dialog.width.label` property removed from resource bundle `messages.MarkdownBundle`
+: Use `org.intellij.plugins.markdown.images.MarkdownImagesBundle` instead.
+
+`markdown.insert.image.dialog.title` property removed from resource bundle `messages.MarkdownBundle`
+: Use `org.intellij.plugins.markdown.images.MarkdownImagesBundle` instead.
+
+### Python Plugin 2023.3
+
+`org.jetbrains.plugins.notebooks.jupyter.variables` package removed
+: It is now part of separate _Jupyter_ plugin.
+
+### Database Plugin 2023.3
+
+`com.intellij.database.datagrid.DataGrid.getName(ModelIndex<GridColumn>)` method removed
+: Only recompilation is needed for classes that implement `DataGrid` and delegate calls to an actual `DataGrid` implementation.
+
+`com.intellij.database.datagrid.DataGrid.setBinaryDisplayType(ModelIndex<GridColumn>, BinaryDisplayType)` method removed
+: Use `com.intellij.database.datagrid.DataGrid.setDisplayType(ModelIndex<GridColumn>, DisplayType)` instead.
+
+`com.intellij.database.datagrid.DataGrid.getBinaryDisplayType(ModelIndex<GridColumn>)` method removed
+: Use `com.intellij.database.datagrid.DataGrid.getDisplayType(ModelIndex<GridColumn>)` instead.
+
+`com.intellij.database.datagrid.DataGrid.getPureBinaryDisplayType(ModelIndex<GridColumn>)` method removed
+: Use `com.intellij.database.datagrid.DataGrid.getPureDisplayType(ModelIndex<GridColumn>)` instead.
+
 ## 2023.2
 
 ### IntelliJ Platform 2023.2
@@ -152,6 +273,9 @@ Specify `displayName`/`key` for `Configurable`
 `com.intellij.database.datagrid.CoreGrid(ModelIndex<Row>, ModelIndex<Column>)` method parameter type changed from `ModelIndex<Row>` to `int`
 : `ModelIndex` class is used to reference data in the table model. Row indexes in the table model start with 0, even when the table is scrolled to page _N>1_. Parameter type was changed to `int` to indicate that it is an absolute index in the DB table.
 
+`com.intellij.database.datagrid.DataGrid.getName(ModelIndex<GridColumn>)` abstract method added
+: Only recompilation is needed for classes that implement `DataGrid` and delegate calls to an actual `DataGrid` implementation.
+
 ### Maven Plugin 2023.2
 
 `org.jetbrains.idea.maven.server.MavenEmbedderWrapper.customizeForResolve(MavenConsole, MavenProgressIndicator)` method removed
@@ -159,7 +283,6 @@ Specify `displayName`/`key` for `Configurable`
 
 `org.jetbrains.idea.maven.server.MavenEmbedderWrapper.execute(VirtualFile, Collection, Collection, List)` method removed
 : Use `executeGoal(Collection, String, MavenProgressIndicator, MavenConsole)` instead.
-
 
 ### Apache Velocity Plugin 2023.2
 
@@ -170,7 +293,6 @@ Specify `displayName`/`key` for `Configurable`
 
 Moved package `com.intellij.jsonpath`
 : It is now part of separate _JSONPath_ plugin. [Add dependency](plugin_dependencies.md) on `com.intellij.jsonpath` to use its API.
-
 
 ## 2023.1
 

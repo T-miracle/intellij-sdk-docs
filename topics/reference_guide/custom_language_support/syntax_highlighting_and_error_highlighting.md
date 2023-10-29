@@ -1,6 +1,6 @@
-# Syntax and Error Highlighting
-
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+
+# Syntax and Error Highlighting
 
 <link-summary>Highlighting syntax and semantic code errors on multiple levels.</link-summary>
 
@@ -16,14 +16,17 @@ The syntax and error highlighting are performed on multiple levels: [](#lexer), 
 
 ## TextAttributesKey
 
-The class used to specify how a particular range of text should be highlighted is called [`TextAttributesKey`](%gh-ic%/platform/core-api/src/com/intellij/openapi/editor/colors/TextAttributesKey.java).
-An instance of this class is created for every distinct type of item that should be highlighted (keyword, number, string, etc.).
+How a particular range of text should be highlighted is defined via [`TextAttributesKey`](%gh-ic%/platform/core-api/src/com/intellij/openapi/editor/colors/TextAttributesKey.java).
+An instance of this class is created for every distinct type of item that should be highlighted (keyword, number, string literal, etc.).
 
-The `TextAttributesKey` defines the default attributes applied to items of the corresponding type (for example, keywords are bold, numbers are blue, strings are bold and green).
-Highlighting from multiple `TextAttributesKey` items can be layered — for example, one key may define an item's boldness and another color.
+The `TextAttributesKey` defines the default attributes applied to items of the corresponding type (for example, keywords are bold, numbers are blue, string literals are bold and green).
+Highlighting from multiple `TextAttributesKey` items can be layered — for example, one key may define an item's boldness and another one its color.
 
-> To inspect applied `TextAttributesKey`(s) for the element at the caret, use <ui-path>Jump to Colors and Fonts</ui-path> action.
+> To inspect applied `TextAttributesKey`(s) in the editor for the element at the caret, use <ui-path>Jump to Colors and Fonts</ui-path> action.
 >
+> The underlying `TextAttributeKey`'s external name for items in <ui-path>Settings | Editor | Color Scheme</ui-path> can be inspected using [UI Inspector](internal_ui_inspector.md#inspecting-settings).
+>
+{title="Looking up existing TextAttributeKey"}
 
 ## Color Settings
 
@@ -47,7 +50,7 @@ Thus, it will work automatically for custom languages that provide a syntax high
 
 The first syntax highlighting level is based on the lexer output and is provided through the [`SyntaxHighlighter`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/fileTypes/SyntaxHighlighter.java) interface.
 The syntax highlighter returns the `TextAttributesKey` instances for each token type, which needs special highlighting.
-For highlighting lexer errors, the standard `TextAttributesKey` for bad characters [`HighlighterColors.BAD_CHARACTER`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/editor/HighlighterColors.java) can be used.
+For highlighting lexer errors [`HighlighterColors.BAD_CHARACTER`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/editor/HighlighterColors.java) should be used.
 
 **Examples:**
 
@@ -56,6 +59,7 @@ For highlighting lexer errors, the standard `TextAttributesKey` for bad characte
 
 > Use [`HtmlSyntaxInfoUtil`](%gh-ic%/platform/lang-impl/src/com/intellij/openapi/editor/richcopy/HtmlSyntaxInfoUtil.java) to create Lexer-based highlighted code samples, e.g. for usage in documentation.
 >
+{title="Creating highlighted code sample"}
 
 ### Semantic Highlighting
 
@@ -98,9 +102,9 @@ To highlight a region of text as a warning or error:
 <tab title="2020.1 and later" group-key="2020.1">
 
 ```java
-    holder.newAnnotation(HighlightSeverity.WARNING, "Invalid code") // or HighlightSeverity.ERROR
-        .withFix(new MyFix(psiElement))
-        .create();
+holder.newAnnotation(HighlightSeverity.WARNING, "Invalid code") // or HighlightSeverity.ERROR
+    .withFix(new MyFix(psiElement))
+    .create();
 ```
 
 </tab>
@@ -122,10 +126,10 @@ To apply additional syntax highlighting:
 <tab title="2020.1 and later" group-key="2020.1">
 
 ```java
-    holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
-        .range(rangeToHighlight)
-        .textAttributes(MyHighlighter.EXTRA_HIGHLIGHT_ATTRIBUTE)
-        .create();
+holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+    .range(rangeToHighlight)
+    .textAttributes(MyHighlighter.EXTRA_HIGHLIGHT_ATTRIBUTE)
+    .create();
 ```
 
 </tab>
@@ -159,5 +163,5 @@ To enable running `ExternalAnnotator` during indexing in [](indexing_and_psi_stu
 
 Existing highlighting can be suppressed programmatically in certain contexts, see [](controlling_highlighting.md).
 
-To force re-highlighting (e.g., after changing plugin specific settings), use
+To force re-highlighting all open or specific file(s) (e.g., after changing plugin specific settings), use
 [`DaemonCodeAnalyzer.restart()`](%gh-ic%/platform/analysis-api/src/com/intellij/codeInsight/daemon/DaemonCodeAnalyzer.java).

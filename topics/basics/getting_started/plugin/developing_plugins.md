@@ -4,27 +4,27 @@
 
 <link-summary>使用 Gradle 和 Gradle IntelliJ 插件开发 IntelliJ 平台插件。</link-summary>
 
-IntelliJ 平台插件 的开发可以使用 [IntelliJ IDEA 社区版](https://www.jetbrains.com/idea/download/)
-或 [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/)。
-两者都包含完整的插件开发工具集。
-强烈建议始终使用最新的可用版本，因为捆绑的 <control>Plugin DevKit</control> 插件开发工具能持续支持新的功能。
-
-要更熟悉 IntelliJ IDEA，请参阅 [IntelliJ IDEA Web 帮助](https://www.jetbrains.com/idea/help/)。
+IntelliJ Platform plugins can be developed by using either [IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/download/) or [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/) as your IDE.
+It is highly recommended to always use the latest available version, as the plugin development tooling support from _Plugin DevKit_ continues supporting new features.
 
 在开始实际开发之前，请确保了解实现最佳效果的所有要求[](plugin_user_experience.md)。
 
 > 在某些情况下，可能不需要实现实际的 IntelliJ 平台插件，因为存在[替代解决方案](plugin_alternatives.md)。
 >
+{title="Plugin Alternatives"}
 
 ## Gradle IntelliJ 插件
 
-构建 IntelliJ 平台插件的推荐解决方案是 [](tools_gradle_intellij_plugin.md)。
-IntelliJ IDEA Ultimate 和 社区版 捆绑了必要的插件来支持基于 Gradle 的插件开发：_Gradle_ 和 _Plugin DevKit_。
-要验证这些插件是否已安装并启用，请参阅有关[管理插件](https://www.jetbrains.com/help/idea/managing-plugins.html)的帮助部分。
+The recommended solution for building IntelliJ Platform plugins is [](tools_gradle_intellij_plugin.md).
 
-Gradle IntelliJ Plugin 管理插件项目的依赖关系 - 基本 IDE 和其他[插件依赖项](plugin_dependencies.md)。
-它提供了任务在 IDE 上来运行你的插件，并打包和[发布](publishing_plugin.md#使用Gradle发布插件)你的插件到[JetBrains Marketplace](https://plugins.jetbrains.com)。
-为了确保插件不受 [API 变更](api_changes_list.md) 的影响（这种情况可能在平台的主要版本之间发生），您可以根据其他 IDE 和版本快速验证您的插件。
+The IntelliJ IDEA Ultimate and Community editions provide the necessary plugins to support Gradle-based plugin development: _Gradle_ and _Plugin DevKit_.
+To verify these plugins are installed and enabled, see the help section about [Managing Plugins](https://www.jetbrains.com/help/idea/managing-plugins.html).
+
+<include from="snippets.md" element-id="pluginDevKitAvailability"/>
+
+Gradle IntelliJ Plugin manages the dependencies of a plugin project - both the base IDE and other [plugin dependencies](plugin_dependencies.md).
+It provides tasks to run the IDE with your plugin and to package and [publish](publishing_plugin.md#publishing-plugin-with-gradle) your plugin to the [JetBrains Marketplace](https://plugins.jetbrains.com).
+To make sure that a plugin is not affected by [API changes](api_changes_list.md), which may happen between major releases of the platform, you can quickly verify your plugin against other IDEs and releases.
 
 创建新的基于 Gradle 的 IntelliJ 平台插件项目主要有两种方法：
 - [新建项目向导](https://www.jetbrains.com/help/idea/new-project-wizard.html) 中提供了专用生成器 - 它创建一个包含所有必需文件的最小插件项目

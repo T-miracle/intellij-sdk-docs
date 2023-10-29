@@ -9,9 +9,6 @@ This FAQ is a topical index of questions that have been asked (and answered) on 
 > See also [Explore the IntelliJ Platform API](explore_api.md) for more information and strategies.
 >
 
-## Unresolved Classes after Upgrading to 2019.2 or later
-*  Dependency on Java plugin must be defined, see [](plugin_compatibility.md#java)
-
 ## Accessing and Modifying the Source Code
 
 > See also [](psi.md) and [](psi_cookbook.md)
@@ -84,7 +81,6 @@ This FAQ is a topical index of questions that have been asked (and answered) on 
 *  [How do I provide a custom icon for files/PSI elements?](https://intellij-support.jetbrains.com/hc/en-us/community/posts/206143779-Is-it-possible-to-change-icon-of-file-in-Project-view-)
 *  [Can I show a progress indicator for WriteActions?](https://intellij-support.jetbrains.com/hc/en-us/community/posts/206139159-WriteActions-and-ProgressIndicator)
 *  [How do I show a custom window or popup based on Structure View?](https://intellij-support.jetbrains.com/hc/en-us/community/posts/206142679-Opening-a-customised-StructureView)
-*  [How do I print messages in the console view?](https://intellij-support.jetbrains.com/hc/en-us/community/posts/206141419-Putting-messages-into-console-window-)
 *  [How do I show the package selector dialog programmatically?](https://intellij-support.jetbrains.com/hc/en-us/community/posts/206794265-Package-selector-dialog)
 *  [How do I provide syntax and error highlighting in a combo box editor?](https://intellij-support.jetbrains.com/hc/en-us/community/posts/206800495-EditorTextField-in-3403-How-to-get-an-Editor-that-does-error-highlighting-)
 *  [How can I provide Close and Rerun buttons in my Usage View window?](https://intellij-support.jetbrains.com/hc/en-us/community/posts/206146779-How-to-get-a-Close-button-in-an-own-Usage-View-)

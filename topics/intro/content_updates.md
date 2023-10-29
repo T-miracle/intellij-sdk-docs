@@ -12,6 +12,12 @@ See [GitHub Changelog](https://github.com/JetBrains/intellij-sdk-docs/commits/ma
 
 ## 2023
 
+### October
+{#october-23}
+
+Kotlin Persisting State Component
+: Add an [example](persisting_state_of_components.md#implementing-the-persistentstatecomponent-interface) of a persistent state component implemented in Kotlin.
+
 ### September
 {#september-23}
 
@@ -24,11 +30,28 @@ Inlay Hints
 Threading Model
 : Update [](general_threading_rules.md) to reflect changes in 2023.3 platform.
 
+Minor Changes and Additions
+:
+- Add information about ordering [quick fixes](code_inspections.md#quick-fix-implementation) and [intentions actions](code_intentions.md#techniques-used).
+- Clarify the information about [declarative inlay hints](inlay_hints.md#declarative-inlay-hints-provider) customization possibilities.
+
+### July
+{#july-23}
+
+Run Configurations
+: Describe techniques for [simplifying run configuration settings editors](run_configurations.md#simplifying-settings-editors).
+
 ### June
 {#june-23}
 
 Execution
 : Rework [](execution.md), [](run_configurations.md), and [](run_configurations_tutorial.md) pages.
+
+Minor Changes and Additions
+:
+- Clarify [the syntax highlighting](testing_highlighting.md#syntax-highlighting) test file format and test implementation initial approach.
+- Clarify referencing icons by paths and icon holder class constants in [](work_with_icons_and_images.md).
+- Add information about requirements for persistent state components to be included in [the _Settings Sync_ plugin synchronization mechanism](persisting_state_of_components.md#settings-sync-plugin).
 
 ### April
 {#april-23}
@@ -45,6 +68,8 @@ by utilizing the [](symbols.md) API and supporting custom syntaxes.
 
 Open Source Plugins Extension Points
 : Added [](oss_plugins_extension_point_list.md) for plugins bundled with [](idea_ultimate.md) and other IDEs.
+
+
 
 ### February
 {#february-23}

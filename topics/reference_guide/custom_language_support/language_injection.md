@@ -1,6 +1,6 @@
-# Language Injection
-
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+
+# Language Injection
 
 <link-summary>Injecting a language into different language elements.</link-summary>
 
@@ -174,7 +174,7 @@ As a plugin author, implement [`LanguageInjectionContributor`](%gh-ic%/platform/
 For instance, if you want to inject a YAML or JSON to a literal language depending on some conditions, you could implement this interface like this:
 
 ```java
-public final class MyInjector implements LanguageInjectionContributor {
+final class MyInjector implements LanguageInjectionContributor {
 
   @Override
   public @Nullable Injection getInjection(@NotNull PsiElement context) {
@@ -226,7 +226,7 @@ Plugin authors need to implement `getLanguagesToInject()` to provide a list of p
 For example, inject regular expressions into Java string literal:
 
 ```java
-public class MyRegExpToJavaInjector implements MultiHostInjector {
+final class MyRegExpToJavaInjector implements MultiHostInjector {
 
   @Override
   public void getLanguagesToInject(@NotNull MultiHostRegistrar registrar,
@@ -276,7 +276,7 @@ class MyDsl { void foo() { System.out.println(42); } }
 Here, we need to inject Java into several places at once, i.e. method name and its body:
 
 ```java
-public class MyBizarreDSLInjector implements MultiHostInjector {
+final class MyDSLInjector implements MultiHostInjector {
 
   @Override
   public void getLanguagesToInject(@NotNull MultiHostRegistrar registrar,
@@ -309,3 +309,7 @@ Now, inside the editor the injected portion will work as expected where foo is t
 ## Formatting
 
 To control delegation of formatting to containing file, implement [`InjectedFormattingOptionsProvider`](%gh-ic%/platform/code-style-api/src/com/intellij/formatting/InjectedFormattingOptionsProvider.java) and register in `com.intellij.formatting.injectedOptions` extension point (_2022.3_).
+
+## Injection Highlighting
+
+To suppress highlighting from <control>Code | Injected language fragment</control> setting in <ui-path>Preferences | Editor | Color Scheme | General</ui-path>, injection host must implement [`InjectionBackgroundSuppressor`](%gh-ic%/platform/analysis-impl/src/com/intellij/psi/impl/source/tree/injected/InjectionBackgroundSuppressor.java).

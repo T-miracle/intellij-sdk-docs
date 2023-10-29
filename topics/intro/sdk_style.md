@@ -18,7 +18,8 @@ Intellij 平台 SDK 文档 的风格是通过使用名为 [Markdown](https://git
 
 为了验证语法和正确的拼写，强烈建议使用 [Grazie Professional](https://plugins.jetbrains.com/plugin/16136-grazie-professional) 插件来突出显示 IDE 中的任何问题。
 
-## 文档标记
+The documentation project is using [Writerside](https://www.jetbrains.com/writerside), so the plugin should be installed to have full support in the IDE.
+The topic files themselves are [Markdown](https://github.github.com/gfm/) files (<path>*.md</path>) using some Writerside-specific custom tags (see below).
 
 文档项目使用 [Writerside](https://plugins.jetbrains.com/plugin/20158-writerside/)，因此应安装该插件才能在 IDE 中获得全面支持。
 主题文件本身是使用一些 Writerside 特定自定义标签的 [Markdown](https://github.github.com/gfm/) 文件 (<path>*.md</path>)（见下文）。

@@ -8,7 +8,7 @@
 
 ## 使用新建项目向导创建主题
 
-创建主题项目前，请确保[开发环境已搭建](setting_up_theme_environment.md)。
+> Before creating a theme project, make sure that [development environment is set up](setting_up_theme_environment.md).
 
 <procedure title="创建主题插件" id="create-theme">
 
@@ -51,7 +51,7 @@ See [](theme_structure.md) for more details.
 Theme plugin project [created with the new project wizard](#create-theme) contains a single theme description file by default.
 In case a plugin needs to provide multiple themes (e.g., dark and light variants), it is possible to add them with the dedicated action.
 
-Additional plugin themes can be added using the DevKit Theme Wizard, which is a part of the Plugin DevKit bundled in IntelliJ IDEA.
+Additional plugin themes can be added using the DevKit Theme Wizard, which is a part of the _Plugin DevKit_ plugin.
 The wizard can be used for both DevKit-based and Gradle-based plugins.
 
 <procedure title="Add Theme" id="add-theme">
