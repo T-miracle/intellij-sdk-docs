@@ -1,6 +1,6 @@
-# Content Updates
-
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+
+# Content Updates
 
 <link-summary>Notable updates and additions to this documentation.</link-summary>
 
@@ -12,11 +12,29 @@ See [GitHub Changelog](https://github.com/JetBrains/intellij-sdk-docs/commits/ma
 
 ## 2023
 
+### December
+{#december-23}
+
+JCEF
+: Revamp [JCEF (Java Chromium Embedded Framework)](jcef.md) page.
+
+### November
+{#november-23}
+
+Minor Changes and Additions
+:
+- Add information about [executing actions programmatically](basic_action_system.md#executing-actions-programmatically).
+- Please see [](tools_gradle_intellij_plugin.md#attaching-sources) on how to set up 2023.2/3 IDEs for Gradle plugin projects.
+
 ### October
 {#october-23}
 
 Kotlin Persisting State Component
 : Add an [example](persisting_state_of_components.md#implementing-the-persistentstatecomponent-interface) of a persistent state component implemented in Kotlin.
+
+Minor Changes and Additions
+:
+- Add section [](module.md#storing-a-reference-to-a-module).
 
 ### September
 {#september-23}

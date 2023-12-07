@@ -2,8 +2,8 @@
 
 plugins {
   id("java")
-  id("org.jetbrains.intellij") version "1.16.0"
-  id("org.jetbrains.kotlin.jvm") version "1.9.10"
+  id("org.jetbrains.intellij") version "1.16.1"
+  id("org.jetbrains.kotlin.jvm") version "1.9.21"
 }
 
 group = "org.intellij.sdk"
@@ -19,7 +19,7 @@ java {
 
 // See https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-  version.set("2022.3.3")
+  version.set("2023.1.5")
 }
 
 tasks {
@@ -29,8 +29,8 @@ tasks {
 
   patchPluginXml {
     version.set("${project.version}")
-    sinceBuild.set("223")
-    untilBuild.set("232.*")
+    sinceBuild.set("231")
+    untilBuild.set("233.*")
   }
 
   compileKotlin {

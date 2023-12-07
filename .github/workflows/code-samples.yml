@@ -7,7 +7,7 @@ on:
     paths: [ 'code_samples/**','.github/workflows/code-samples.yml' ]
 
 env:
-  PLUGIN_VERIFIER_IDE_VERSIONS: '2022.3.3 2023.1.5 2023.2.3'
+  PLUGIN_VERIFIER_IDE_VERSIONS: '2023.1.5 2023.2.5 2023.3'
 
 jobs:
 
@@ -50,7 +50,7 @@ jobs:
       - name: Fetch Sources
         uses: actions/checkout@v4
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: zulu
           java-version: 17

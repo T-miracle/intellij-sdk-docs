@@ -9,7 +9,7 @@ APIs marked with @Deprecated(forRemoval=true), @ApiStatus.Experimental, @ApiStat
 
 To document a new incompatible change, add a new line with the problem pattern followed by a 2nd line with ": "-prefixed human-readable description and recommended fix/action.
 
-The following problem patterns are supported:
+The following problem patterns are supported and must be followed EXACTLY:
 
 <package name> package removed
 
@@ -71,3 +71,15 @@ NOTE: Entries not starting with code quotes (`name`) can be added to document no
 ## 2024.1
 
 ### IntelliJ Platform 2024.1
+
+`com.intellij.application.options.editor.CodeFoldingConfigurable.applyCodeFoldingSettingsChanges()` method removed
+: Use top-level method `CodeFoldingConfigurableKt.applyCodeFoldingSettingsChanges` instead.
+
+`com.intellij.ide.bookmark.providers.LineBookmarkProvider.Companion` class removed
+: Use `com.intellij.ide.bookmark.providers.LineBookmarkProvider.Util` instead.
+
+`com.intellij.execution.process.mediator.util` package removed
+: The sole extension method `Deferred<T>.blockingGet()` contained in this package is an anti-pattern, and was not supposed to be exposed in the first place. The process mediator and the elevation service are now product modules, and no longer part of the platform.
+
+`com.intellij.vcs.log.VcsLogFileHistoryHandler.getSupportedVcs()` abstract method added
+: Must be implemented.
