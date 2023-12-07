@@ -1,8 +1,8 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Listeners
+# 侦听器
 
-<link-summary>Listeners allow subscription to application and project events.</link-summary>
+<link-summary>侦听器允许订阅应用程序和项目事件。</link-summary>
 
 _Listeners_ allow plugins to subscribe to events delivered through the message bus (see [Messaging infrastructure](messaging_infrastructure.md) for details).
 

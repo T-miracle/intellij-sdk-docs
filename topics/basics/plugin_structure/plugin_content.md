@@ -1,24 +1,24 @@
-# Plugin Content
+# 插件内容
 
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<link-summary>Layout and contents of a plugin distribution file.</link-summary>
+<link-summary>插件分发文件的布局和内容。</link-summary>
 
-Plugin distribution will be built using [Gradle](tools_gradle_intellij_plugin.md#tasks-buildplugin) or [Plugin DevKit](deploying_theme.md).
+插件分发将使用[Gradle](tools_gradle_intellij_plugin.md#tasks-buildplugin)或[Plugin DevKit](deploying_theme.md)进行构建。
 
-The plugin <path>.jar</path> file must contain:
+插件 `<path>.jar</path>` 文件必须包含：
 
-- the configuration file (<path>META-INF/plugin.xml</path>) ([Plugin Configuration File](plugin_configuration_file.md))
-- the classes that implement the plugin functionality
-- recommended: plugin logo file(s) (<path>META-INF/pluginIcon*.svg</path>) ([Plugin Logo](plugin_icon_file.md))
+- 配置文件（ `<path>META-INF/plugin.xml</path>`） ([插件配置文件](plugin_configuration_file.md))
+- 实现插件功能的类
+- 推荐：插件标志文件（ `<path>META-INF/pluginIcon*.svg</path>`） ([插件标志](plugin_icon_file.md))
 
-See [](plugin_user_experience.md#distribution-size) for important steps to optimize the plugin distribution file.
+请查看 [](plugin_user_experience.md#distribution-size) 以获取优化插件分发文件的重要步骤。
 
-Targeting a plugin distribution to a specific OS is not possible ([issue](https://youtrack.jetbrains.com/issue/MP-1896)).
+无法将插件分发目标指定为特定的操作系统（[问题](https://youtrack.jetbrains.com/issue/MP-1896)）。
 
-### Plugin Without Dependencies
+### 无依赖插件
 
-A plugin consisting of a single <path>.jar</path> file is placed in the <path>/plugins</path> directory.
+由一个单一的 `<path>.jar</path>` 文件组成的插件被放置在 `<path>/plugins</path>` 目录中。
 
 ```text
 .IntelliJIDEAx0/
@@ -30,17 +30,17 @@ A plugin consisting of a single <path>.jar</path> file is placed in the <path>/p
         └── META-INF
             ├── plugin.xml
             ├── pluginIcon.svg
-            └── pluginIcon_dark.svg
+            ── pluginIcon_dark.svg
 ```
 
-### Plugin With Dependencies
+### 有依赖插件 {id=有依赖插件}
 
-The plugin <path>.jar</path> file is placed in the <path>/lib</path> folder under the plugin's "root" folder, together with all required bundled libraries.
+插件 `<path>.jar</path>` 文件与所有必需的捆绑库一起放置在插件的 "root" 文件夹下的 `<path>/lib</path>` 文件夹中。
 
-All jars from the <path>/lib</path> folder are automatically added to the classpath (see also [Plugin Class Loaders](plugin_class_loaders.md)).
+来自 `<path>/lib</path>` 文件夹的所有 jar 文件都会自动添加到类路径中（请参阅 [插件类加载器](plugin_class_loaders.md)）。
 
-> Do not repackage libraries into the main plugin archive (<path>sample.jar</path> in the sample below).
-> Otherwise, [Plugin Verifier](verifying_plugin_compatibility.md) will yield false positives for unresolved classes and methods.
+> 不要将库重新打包到主插件存档中（在下面示例中的 `<path>sample.jar</path>`）。
+> 否则，[插件验证器](verifying_plugin_compatibility.md) 将对未解析的类和方法产生错误的检测结果。
 >
 {style="warning"}
 

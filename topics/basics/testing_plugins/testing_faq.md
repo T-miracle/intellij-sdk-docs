@@ -151,7 +151,7 @@ Use [`ExternalResourceManagerExImpl.registerResourceTemporarily()`](%gh-ic%/xml/
 
 ### How to replace component/service in tests?
 
-Provide dedicated test implementation via `testServiceImplementation` in [service declaration](plugin_services.md#declaring-a-service), or use [`ServiceContainerUtil`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/ServiceContainerUtil.kt).
+Provide dedicated test implementation via `testServiceImplementation` in [service declaration](plugin_services.md#获取服务), or use [`ServiceContainerUtil`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/ServiceContainerUtil.kt).
 
 ### How to replace extension points in tests?
 

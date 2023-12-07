@@ -14,7 +14,7 @@
 
 > 如果你计划将插件发布到[JetBrains Marketplace](https://plugins.jetbrains.com)之外的仓库，请参考[](custom_plugin_repository.md)文档。
 
-> 如果你的插件随附[额外的库](plugin_content.md#plugin-with-dependencies)，请不要将它们重新打包到主插件存档中。
+> 如果你的插件随附[额外的库](plugin_content.md#有依赖插件)，请不要将它们重新打包到主插件存档中。
 > 否则，[Plugin Verifier](verifying_plugin_compatibility.md)将出现未解析类和方法的误报。
 >
 {style="warning"}

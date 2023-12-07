@@ -1,6 +1,6 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Extension Points
+# 扩展点
 
 <link-summary>Allowing to extend plugin's functionality by other plugins.</link-summary>
 
@@ -95,10 +95,10 @@ public class MyBeanClass extends AbstractExtensionPointBean {
 }
 ```
 
-> See [Extension properties code insight](plugin_extensions.md#extension-properties-code-insight) on how to provide smart completion/validation.
+> See [Extension properties code insight](plugin_extensions.md#扩展属性代码洞察) on how to provide smart completion/validation.
 >
 
-For above extension points usage in _anotherPlugin_ would look like this (see also [Declaring Extensions](plugin_extensions.md#declaring-extensions)):
+For above extension points usage in _anotherPlugin_ would look like this (see also [Declaring Extensions](plugin_extensions.md#声明扩展)):
 
 <path>anotherPlugin/META-INF/plugin.xml</path>
 

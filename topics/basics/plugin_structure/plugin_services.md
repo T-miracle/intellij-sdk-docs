@@ -1,69 +1,68 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Services
+# 服务
 
-<link-summary>Registering and using on-demand services to encapsulate plugin functionality.</link-summary>
+<link-summary>注册和使用按需服务，以封装插件功能。</link-summary>
 
-A _service_ is a plugin component loaded on demand when your plugin calls the `getService()` method of corresponding [`ComponentManager`](%gh-ic%/platform/extensions/src/com/intellij/openapi/components/ComponentManager.java) instance (see [Types](#types)).
-The IntelliJ Platform ensures that only one instance of a service is loaded even though it is called several times.
-Services are used to encapsulate logic operating on a set of related classes or to provide some reusable functionality that can be used across the plugin project, and conceptually don't differ from the service classes in other languages or frameworks.
+一个 _服务_ 是在插件调用相应的 [`ComponentManager`](%gh-ic%/platform/extensions/src/com/intellij/openapi/components/ComponentManager.java) 实例的 `getService()` 方法时按需加载的插件组件（参见 [Types](#类型)）。
+IntelliJ 平台确保只加载一个服务实例，即使它被多次调用。
+服务用于封装在一组相关类上操作的逻辑，或提供一些可在整个插件项目中使用的可重用功能，从概念上讲，它们与其他语言或框架中的服务类别无异。
 
-A service must have an implementation class that is used for service instantiation.
-A service may also have an interface class used to obtain the service instance and provide the service's API.
+服务必须有一个用于服务实例化的实现类。
+服务还可以有一个用于获取服务实例并提供服务 API 的接口类。
 
-A service needing a shutdown hook/cleanup routine can implement [`Disposable`](%gh-ic%/platform/util/src/com/intellij/openapi/Disposable.java) and perform necessary work in `dispose()` (see [Automatically Disposed Objects](disposers.md#automatically-disposed-objects)).
+需要关闭挂钩/清理例程的服务可以实现 [`Disposable`](%gh-ic%/platform/util/src/com/intellij/openapi/Disposable.java) 并在 `dispose()` 中执行必要的工作（参见 [自动处理的对象](disposers.md#automatically-disposed-objects)）。
 
-#### Types
+#### 类型 {id=类型}
 
-The IntelliJ Platform offers three types of services: _application-level_ services (global singleton), _project-level_ services, and _module-level_ services.
-For the latter two, a separate instance of the service is created for each instance of its corresponding scope, see [Project Model Introduction](project_structure.md).
+IntelliJ 平台提供三种类型的服务：_应用级_ 服务（全局单例）、_项目级_ 服务和 _模块级_ 服务。
+对于后两者，将为其相应范围的每个实例创建一个单独的服务实例，参见 [项目模型介绍](project_structure.md)。
 
-> Avoid using module-level services as it can increase memory usage for projects with many modules.
+> 避免使用模块级服务，因为它可能会增加具有许多模块的项目的内存使用。
 >
 {style="note"}
 
-#### Constructor
+#### 构造函数 {id=构造函数}
 
-Project/Module-level service constructors can have a [`Project`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/Project.java)/[`Module`](%gh-ic%/platform/core-api/src/com/intellij/openapi/module/Module.java) argument.
-To improve startup performance, avoid any heavy initializations in the constructor.
+项目/模块级服务的构造函数可以具有 [`Project`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/Project.java)/[`Module`](%gh-ic%/platform/core-api/src/com/intellij/openapi/module/Module.java) 参数。
+为了提高启动性能，避免在构造函数中进行任何繁重的初始化。
 
-> Using constructor injection of dependency services is deprecated (and not supported in [](#light-services)) for performance reasons.
+> 出于性能原因，已弃用（并且在 [](#轻量级服务) 中不支持）使用构造函数注入依赖服务。
 >
-> Other service dependencies must be [acquired only when needed](#retrieving-a-service) in all corresponding methods, e.g., if you need a service to get some data or execute a task, retrieve the service before calling its methods.
-> Do not retrieve services in constructors to store them in class fields.
+> 所有其他服务依赖项必须在所有相应方法中 [仅在需要时获取](#获取服务)，例如，如果需要服务来获取一些数据或执行任务，请在调用其方法之前检索服务。
+> 不要在构造函数中检索服务以将它们存储在类字段中。
 >
-> Use inspection <control>Plugin DevKit | Code | Non-default constructors for service and extension class</control> to verify code.
+> 使用检查 <control>Plugin DevKit | Code | Non-default constructors for service and extension class</control> 来验证代码。
 >
 {style="warning"}
 
-## Light Services
+## 轻量级服务 {id=轻量级服务}
 
-A service not going to be overridden does not need to be registered in <path>[plugin.xml](plugin_configuration_file.md)</path> (see [Declaring a Service](#declaring-a-service)).
-Instead, annotate service class with [`@Service`](%gh-ic%/platform/core-api/src/com/intellij/openapi/components/Service.java).
-Project-level services must specify `@Service(Service.Level.PROJECT)`.
-The service instance will be created in scope according to the caller (see [Retrieving a Service](#retrieving-a-service)).
+不打算被覆盖的服务不需要在 <path>[plugin.xml](plugin_configuration_file.md)</path> 中注册（请参见 [声明服务](#获取服务)）。
+相反，请使用 [`@Service`](%gh-ic%/platform/core-api/src/com/intellij/openapi/components/Service.java) 注解服务类。
+项目级服务必须指定 `@Service(Service.Level.PROJECT)`。
+服务实例将根据调用方的范围在相应的范围内创建（请参见 [获取服务](#获取服务)）。
 
-### Light Service Restrictions
+### 轻量级服务限制
 
-* None of these attributes is required: `os`, `client`, `overrides`, `id`, `preload`.
-* Service class must be `final`.
-* [Constructor injection](#constructor) of dependency services is not supported.
-* If application-level service is a [PersistentStateComponent](persisting_state_of_components.md), roaming must be disabled (`roamingType = RoamingType.DISABLED`).
+* 没有必需的属性：`os`、`client`、`overrides`、`id`、`preload`。
+* 服务类必须是 `final`。
+* 不支持[依赖服务的构造函数注入](#构造函数)。
+* 如果应用级服务是 [PersistentStateComponent](persisting_state_of_components.md)，必须禁用漫游（`roamingType = RoamingType.DISABLED`）。
 
-Use these inspections to verify these and highlight services that can be converted (2023.3):
+使用以下检查来验证这些限制并突出显示可以转换的服务（2023.3）：
 - <control>Plugin DevKit | Code | Light service must be final</control>
 - <control>Plugin DevKit | Code | Mismatch between light service level and its constructor</control>
-- <control>Plugin DevKit | Code | A service can be converted to a light one</control> and corresponding <control>Plugin DevKit | Plugin descriptor | A service can be converted to a light one</control> for <path>plugin.xml</path>
+- <control>Plugin DevKit | Code | A service can be converted to a light one</control> 和相应的 <control>Plugin DevKit | Plugin descriptor | A service can be converted to a light one</control> 用于 <path>plugin.xml</path>
 
-### Examples
-
+### 示例
 
 <tabs group="languages">
 
 
 <tab title="Java" group-key="java">
 
-Application-level light service:
+应用级轻量级服务：
 
 ```java
 @Service
@@ -74,7 +73,7 @@ public final class MyAppService {
 }
 ```
 
-Project-level light service example:
+项目级轻量级服务示例：
 
 ```java
 @Service(Service.Level.PROJECT)
@@ -96,7 +95,7 @@ public final class MyProjectService {
 
 <tab title="Kotlin" group-key="kotlin">
 
-Application-level light service:
+应用级轻量级服务：
 
 ```kotlin
 @Service
@@ -107,7 +106,7 @@ class MyAppService {
 }
 ```
 
-Project-level light service example:
+项目级轻量级服务示例：
 
 ```kotlin
 @Service(Service.Level.PROJECT)
@@ -123,30 +122,30 @@ class MyProjectService(private val project: Project) {
 
 </tabs>
 
-## Declaring a Service
+## 声明服务
 
-To register a non-[Light Service](#light-services), distinct extension points are provided for each type:
+要注册非 [轻量级服务](#轻量级服务)，为每种类型提供了不同的扩展点：
 
-* `com.intellij.applicationService` - application-level service
-* `com.intellij.projectService` - project-level service
-* `com.intellij.moduleService` - module-level service (not recommended, see Note above)
+* `com.intellij.applicationService` - 应用级服务
+* `com.intellij.projectService` - 项目级服务
+* `com.intellij.moduleService` - 模块级服务（不建议使用，请参见上面的注意）
 
-To expose service API, create separate class for `serviceInterface` and extend it in corresponding class registered in `serviceImplementation`.
-If `serviceInterface` isn't specified, it's supposed to have the same value as `serviceImplementation`.
-Use inspection <control>Plugin DevKit | Plugin descriptor | Plugin.xml extension registration</control> to highlight redundant `serviceInterface` declarations.
+为了公开服务 API，请为 `serviceInterface` 创建一个单独的类，并在相应的已注册的 `serviceImplementation` 类中扩展它。
+如果未指定 `serviceInterface`，则假定其与 `serviceImplementation` 具有相同的值。
+使用检查 <control>Plugin DevKit | Plugin descriptor | Plugin.xml extension registration</control> 来突出显示多余的 `serviceInterface` 声明。
 
-To provide custom implementation for test/headless environment, specify `testServiceImplementation`/`headlessImplementation` additionally.
+为了在测试/无头环境中提供自定义实现，另外指定 `testServiceImplementation`/`headlessImplementation`。
 
-### Example
+### 示例
 
 
 <tabs group="languages">
 
 <tab title="Java" group-key="java">
 
-Application-level service:
+应用级服务：
 
-- Interface:
+- 接口：
 
   ```java
   public interface MyAppService {
@@ -154,7 +153,7 @@ Application-level service:
   }
   ```
 
-- Implementation:
+- 实现：
 
   ```java
   public final class MyAppServiceImpl implements MyAppService {
@@ -165,9 +164,9 @@ Application-level service:
   }
   ```
 
-Project-level service:
+项目级服务：
 
-- Interface:
+- 接口：
 
   ```java
   public interface MyProjectService {
@@ -175,7 +174,7 @@ Project-level service:
   }
   ```
 
-- Implementation:
+- 实现：
 
   ```java
   public final class MyProjectServiceImpl implements MyProjectService {
@@ -195,9 +194,9 @@ Project-level service:
 
 <tab title="Kotlin" group-key="kotlin">
 
-Application-level service:
+应用级服务：
 
-- Interface:
+- 接口：
 
   ```kotlin
   interface MyAppService {
@@ -205,7 +204,7 @@ Application-level service:
   }
   ```
 
-- Implementation:
+- 实现：
 
   ```kotlin
   class MyAppServiceImpl : MyAppService {
@@ -215,9 +214,9 @@ Application-level service:
   }
   ```
 
-Project-level service:
+项目级服务：
 
-- Interface:
+- 接口：
 
   ```kotlin
   interface MyProjectService {
@@ -225,7 +224,7 @@ Project-level service:
   }
   ```
 
-- Implementation:
+- 实现：
 
   ```kotlin
   class MyProjectServiceImpl(private val project: Project)
@@ -241,40 +240,40 @@ Project-level service:
 
 </tabs>
 
-Registration in <path>plugin.xml</path>:
+在 <path>plugin.xml</path> 中注册：
 ```xml
 <extensions defaultExtensionNs="com.intellij">
-  <!-- Declare the application-level service -->
+  <!-- 声明应用级服务 -->
   <applicationService
       serviceInterface="com.example.MyAppService"
       serviceImplementation="com.example.MyAppServiceImpl"/>
 
-  <!-- Declare the project-level service -->
+  <!-- 声明项目级服务 -->
   <projectService
       serviceInterface="com.example.MyProjectService"
       serviceImplementation="com.example.MyProjectServiceImpl"/>
 </extensions>
 ```
 
-> If declared services are intended to be used by other plugins depending on your plugin, consider [bundling their sources](bundling_plugin_openapi_sources.md) in the plugin distribution.
+> 如果声明的服务打算供依赖于您的插件的其他插件使用，请考虑在插件分发中 [捆绑它们的源代码](bundling_plugin_openapi_sources.md)。
 >
 {style="note"}
 
-## Retrieving a Service
+## 获取服务 {id=获取服务}
 
-> **Never** acquire service instances prematurely or store them in fields for later use.
-> Instead, **always** obtain these service instances directly and **only** at the location where they're needed.
-> Failing to do so can lead to unexpected exceptions and severe consequences for your plugin's functionality.
+> **永远不要**过早地获取服务实例或将它们存储在字段中以供以后使用。
+> 相反，**总是**直接在需要它们的位置获取这些服务实例，**只在**需要的地方。
+> 如果未这样做，可能会导致意外的异常并对插件的功能产生严重影响。
 >
-> Such problems are highlighted via inspections (2023.3):
+> 此类问题通过检查（2023.3）突出显示：
 > - <control>Plugin DevKit | Code | Application service assigned to a static final field or immutable property</control>
 > - <control>Plugin DevKit | Code | Incorrect service retrieving</control>
 > - <control>Plugin DevKit | Code | Simplifiable service retrieving</control>
 >
 {style="warning"}
 
-Getting a service doesn't need a read action and can be performed from any thread.
-If a service is requested from several threads, it will be initialized in the first thread, and other threads will be blocked until it is fully initialized.
+获取服务不需要读取动作，可以在任何线程中执行。
+如果从多个线程请求服务，则它将在第一个线程中初始化，并阻塞其他线程，直到它完全初始化。
 
 <tabs group="languages">
 <tab title="Java" group-key="java">
@@ -287,7 +286,7 @@ MyProjectService projectService =
     project.getService(MyProjectService.class);
 ```
 
-Service implementations can wrap these calls with convenient static `getInstance()` or `getInstance(Project)` method:
+服务实现可以使用方便的静态 `getInstance()` 或 `getInstance(Project)` 方法包装这些调用：
 
 ```java
 MyAppService applicationService = MyAppService.getInstance();
@@ -308,17 +307,17 @@ val projectService = project.service<MyProjectService>()
 
 </tabs>
 
-<procedure title="Getting Service Flow" collapsible="true" default-state="collapsed">
+<procedure title="获取服务流程" collapsible="true" default-state="collapsed">
 
-![Getting Service](getting_service.svg){thumbnail="true" thumbnail-same-file="true"}
+![获取服务](getting_service.svg){thumbnail="true" thumbnail-same-file="true"}
 
 </procedure>
 
-## Sample Plugin
+## 示例插件
 
-To clarify how to use services, consider the **maxOpenProjects** sample plugin available in the [code samples](%gh-sdk-samples%/max_opened_projects).
+为了阐明如何使用服务，请考虑[代码示例](%gh-sdk-samples%/max_opened_projects)中提供的 **maxOpenProjects** 示例插件。
 
-This plugin has an application service counting the number of currently opened projects in the IDE.
-If this number exceeds the maximum number of simultaneously opened projects allowed by the plugin (3), it displays an information message.
+该插件有一个应用级服务，用于计算当前在IDE中打开的项目数。
+如果此数字超过插件允许的同时打开的项目的最大数量（3），则显示信息消息。
 
-See [Code Samples](code_samples.md) on how to set up and run the plugin.
+请参阅 [代码示例](code_samples.md) 了解如何设置和运行该插件。

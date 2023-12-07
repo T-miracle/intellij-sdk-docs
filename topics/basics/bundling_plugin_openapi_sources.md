@@ -1,21 +1,21 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Bundling Plugin API Sources
+# 捆绑插件 API 源
 
-<link-summary>Exposing plugin's API sources for other plugins.</link-summary>
+<link-summary>暴露插件的 API 源码供其他插件使用。</link-summary>
 
-If a plugin exposes its own API that is meant to be used by other plugins, it is worth considering bundling the plugin's API sources in the ZIP distribution.
+如果一个插件暴露其自己的 API 供其他插件使用，考虑将插件的 API 源码捆绑在 ZIP 发布中是值得的。
 
-If a third-party plugin uses [](tools_gradle_intellij_plugin.md) and adds a dependency to the plugin which bundles sources in the ZIP distribution, sources will be automatically attached to the plugin library and visible in IDE when developers navigate to the API classes.
-Being able to see API sources drastically improves the development experience, and it is highly recommended to bundle them.
+如果第三方插件使用 [](tools_gradle_intellij_plugin.md) 并向捆绑源码的插件添加依赖，源码将自动附加到插件库中，并在开发者导航到 API 类时在 IDE 中可见。
+能够查看 API 源码极大地提升了开发体验，强烈建议将其捆绑在一起。
 
-> Attaching bundled plugin sources in IDE is available starting with Gradle IntelliJ Plugin 1.7.0.
+> 从 Gradle IntelliJ Plugin 1.7.0 开始，可以在 IDE 中附加捆绑的插件源码。
 >
 {style="note"}
 
-## API Sources Location
+## API 源码位置
 
-The API source JARs must be located in the <path>example-plugin.zip!/plugin/lib/src</path> directory in the plugin ZIP distribution, e.g.:
+API 源码 JAR 文件必须位于插件 ZIP 发布中的 <path>example-plugin.zip!/plugin/lib/src</path> 目录，例如：
 
 ```text
 example-plugin.zip
@@ -26,30 +26,30 @@ example-plugin.zip
             └── example-plugin-api-src.jar
 ```
 
-The plugin ZIP can contain multiple source JARs, and there are no strict rules for the source JAR names.
+插件 ZIP 可包含多个源码 JAR 文件，对于源码 JAR 文件的命名没有严格的规定。
 
-## Defining Plugin API
+## 定义插件 API {id=定义插件API}
 
-Usually, the following classes are considered as plugin API:
+通常，以下类被视为插件 API：
 
-- [Extension Point](plugin_extension_points.md) and related classes
-- [Listener](plugin_listeners.md) and related classes
-- [Services](plugin_services.md) and utilities that provide access to the plugin data/behavior
+- [扩展点](plugin_extension_points.md) 及相关类
+- [监听器](plugin_listeners.md) 及相关类
+- [服务](plugin_services.md) 和提供对插件数据/行为访问的实用程序
 
-Keep in mind that API should be stable and change very rarely as every incompatible change will break the client plugins.
-It is also recommended to organize the plugin code in multiple modules with clear responsibilities, e.g.:
+请记住，API 应该是稳定的，并且很少发生更改，因为每次不兼容的更改都会破坏客户端插件。
+还建议将插件代码组织成具有清晰责任的多个模块，例如：
 
-- `example-plugin-api` - a module containing API
-- `example-plugin-impl` - a module containing plugin features code that are not meant to be extended or used by client plugins
+- `example-plugin-api` - 包含 API 的模块
+- `example-plugin-impl` - 包含插件特性代码的模块，这些代码不适用于客户端插件
 
-General rule to define API is to include classes that are likely to be consumed by the client plugins code.
+定义 API 的一般规则是包括可能被客户端插件代码消耗的类。
 
-Of course, more complex plugins may require more fine-grained structure.
-See [Gradle IntelliJ Plugin - Usage Examples](tools_gradle_intellij_plugin_examples.md).
+当然，更复杂的插件可能需要更细粒度的结构。
+请参见 [Gradle IntelliJ 插件 - 使用示例](tools_gradle_intellij_plugin_examples.md)。
 
-## Bundling API Sources in Gradle Build Script
+## 在 Gradle 构建脚本中捆绑 API 源码
 
-In the simplest case, if a project consists of a single module and plugin API is clearly isolated in a package, e.g. `com.example.plugin.openapi`, including the source JAR can be achieved by adding the following snippet to the `tasks` section of the Gradle build script:
+在最简单的情况下，如果项目只包含一个模块且插件 API 明确定义在一个包中，例如 `com.example.plugin.openapi`，则可以通过在 Gradle 构建脚本的 `tasks` 部分添加以下代码片段来包含源码 JAR 文件：
 
 <tabs>
 <tab title="Kotlin">
@@ -57,11 +57,11 @@ In the simplest case, if a project consists of a single module and plugin API is
 ```kotlin
 tasks {
   val createOpenApiSourceJar by registering(Jar::class) {
-    // Java sources
+    // Java 源代码
     from(sourceSets.main.get().java) {
       include("**/com/example/plugin/openapi/**/*.java")
     }
-    // Kotlin sources
+    // Kotlin 来源
     from(kotlin.sourceSets.main.get().kotlin) {
       include("**/com/example/plugin/openapi/**/*.kt")
     }
@@ -81,11 +81,11 @@ tasks {
 
 ```groovy
 task createOpenApiSourceJar(type: Jar) {
-  // Java sources
+  // Java 源代码
   from(sourceSets.main.java) {
     include '**/com/example/plugin/openapi/**/*.java'
   }
-  // Kotlin sources
+  // Kotlin 源代码
   from(sourceSets.main.kotlin) {
     include '**/com/example/plugin/openapi/**/*.kt'
   }
@@ -103,6 +103,6 @@ buildPlugin {
 </tabs>
 
 
-The above configuration will create a source JAR containing Java and Kotlin source files from the `com.example.plugin.openapi` package and add it to the final plugin ZIP distribution in the required <path>example-plugin.zip!/example-plugin/lib/src</path> directory.
+上述配置将创建一个包含 `com.example.plugin.openapi` 包中的 Java 和 Kotlin 源文件的源码 JAR 文件，并将其添加到最终的插件 ZIP 发布中，位置为所需的 <path>example-plugin.zip!/example-plugin/lib/src</path> 目录。
 
-If your plugin is a Gradle project and there is no clear open API package separation, it is recommended to restructure the plugin project to a Gradle multi-project variant and create a dedicated open API subproject that contains all API sources to be included in the final distribution created by the main plugin Gradle project.
+如果您的插件是一个 Gradle 项目，并且没有明确的开放 API 包分离，建议将插件项目重构为 Gradle 多项目变体，并创建一个专门的开放 API 子项目，其中包含所有要包含在主插件 Gradle 项目创建的最终分发中的 API 源码。

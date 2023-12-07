@@ -1,20 +1,20 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Class Loaders
+# 类加载器
 
-<link-summary>Introduction and tips for using plugin class loaders.</link-summary>
+<link-summary>插件类加载器的介绍和使用技巧。</link-summary>
 
-A separate class loader is used to load the classes of each plugin.
-This allows each plugin to use a different library version, even if the same library is used by the IDE itself or by another plugin.
+为加载每个插件的类使用了独立的类加载器。
+这允许每个插件使用不同的库版本，即使相同的库被 IDE 本身或其他插件使用。
 
-## Bundled Libraries
+## 捆绑的库
 
-[Third-Party Software and Licenses](https://www.jetbrains.com/legal/third-party-software/) lists all bundled libraries and their versions for each product.
+[第三方软件和许可](https://www.jetbrains.com/legal/third-party-software/) 列出了每个产品的所有捆绑库及其版本。
 
-## Overriding IDE Dependencies
+## 覆盖 IDE 依赖项
 
-Gradle 7 introduced `implementation` scope, replacing `compile` scope.
-For this setup, to use project defined dependency instead of the bundled IDE version, add the following snippet to your Gradle build script:
+Gradle 7 引入了 `implementation` 作用域，取代了 `compile` 作用域。
+对于这个设置，要使用项目定义的依赖项而不是捆绑的 IDE 版本，将以下代码片段添加到您的 Gradle 构建脚本中：
 
 <tabs>
 <tab title="Kotlin">
@@ -37,17 +37,17 @@ configurations.all {
 </tab>
 </tabs>
 
-## Classes from Plugin Dependencies
+## 插件依赖项中的类
 
-By default, the main IDE class loader loads classes that are not found in the plugin class loader.
-However, in the <path>[plugin.xml](plugin_configuration_file.md)</path> file, you may use the [`<depends>`](plugin_configuration_file.md#idea-plugin__depends) element to specify that a [plugin depends](plugin_dependencies.md) on one or more other plugins.
-In this case, the class loaders of those plugins will be used for classes not found in the current plugin.
-This allows a plugin to reference classes from other plugins.
+默认情况下，主 IDE 类加载器加载在插件类加载器中找不到的类。
+但是，在 <path>[plugin.xml](plugin_configuration_file.md)</path> 文件中，您可以使用 [`<depends>`](plugin_configuration_file.md#idea-plugin__depends) 元素来指定一个 [插件依赖于](plugin_dependencies.md) 一个或多个其他插件。
+在这种情况下，那些插件的类加载器将用于在当前插件中找不到的类。
+这允许一个插件引用其他插件中的类。
 
-## Using ServiceLoader
+## 使用 ServiceLoader
 
-Some libraries use [`ServiceLoader`](https://docs.oracle.com/javase/8/docs/api/index.html?java/util/ServiceLoader.html) to detect and load implementations.
-For this to work in a plugin, the context class loader must be set to the plugin's classloader and restored afterwards with the original one around initialization code:
+一些库使用 [`ServiceLoader`](https://docs.oracle.com/javase/8/docs/api/index.html?java/util/ServiceLoader.html) 来检测和加载实现。
+为了使插件中正常工作，上下文类加载器必须设置为插件的类加载器，并在初始化代码周围使用原始类加载器进行恢复：
 
 ```java
 Thread currentThread = Thread.currentThread();
@@ -55,7 +55,7 @@ ClassLoader originalClassLoader = currentThread.getContextClassLoader();
 ClassLoader pluginClassLoader = this.getClass().getClassLoader();
 try {
   currentThread.setContextClassLoader(pluginClassLoader);
-  // code working with ServiceLoader here
+  // 在这里使用 ServiceLoader 的代码
 } finally {
   currentThread.setContextClassLoader(originalClassLoader);
 }

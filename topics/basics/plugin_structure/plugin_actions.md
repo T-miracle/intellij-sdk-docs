@@ -1,19 +1,19 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Actions
+# 行为
 
-<link-summary>Introduction to actions allowing to invoke plugin functionalities.</link-summary>
+<link-summary>介绍允许调用插件功能的操作。</link-summary>
 
-The IntelliJ Platform provides the concept of _actions_.
-An action is a class derived from [`AnAction`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnAction.java), whose `actionPerformed()` method is called when its menu item or toolbar button is selected.
+IntelliJ 平台提供了 _操作_ 的概念。
+一个操作是从 [`AnAction`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnAction.java) 派生的类，当选择其菜单项或工具栏按钮时，将调用其 `actionPerformed()` 方法。
 
-Actions are the most common way for a user to invoke the functionality of your plugin.
-An action can be invoked from a menu or a toolbar, using a keyboard shortcut or the <ui-path>Help | Find Action...</ui-path> lookup.
+操作是用户调用插件功能的最常见方式。
+可以通过菜单或工具栏、使用键盘快捷键或 <ui-path>Help | Find Action...</ui-path> 查找来调用操作。
 
-Actions are organized into groups, which, in turn, can contain other groups.
-A group of actions can form a toolbar or a menu.
-Subgroups of the group can form submenus of a menu.
+操作组织成组，而组又可以包含其他组。
+操作组可以形成工具栏或菜单。
+组的子组可以形成菜单的子菜单。
 
-The user can customize all registered actions via [Menus and Toolbars](https://www.jetbrains.com/help/idea/customize-actions-menus-and-toolbars.html) settings.
+用户可以通过 [菜单和工具栏](https://www.jetbrains.com/help/idea/customize-actions-menus-and-toolbars.html) 设置自定义所有已注册的操作。
 
-Please see [Action System](basic_action_system.md) on how to create and register actions in the IDE.
+请参见 [操作系统](basic_action_system.md) 以了解如何在 IDE 中创建和注册操作。
