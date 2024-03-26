@@ -91,14 +91,11 @@ _扩展_ 是插件以不像将操作添加到菜单或工具栏那样直接的�
 
 ### 扩展默认属性
 
-`id`
-: 唯一标识符。考虑在 ID 前添加与插件名称或 ID 相关的前缀，以避免与定义相同 ID 的其他插件发生冲突，例如 `com.example.myplugin.myExtension`。
+`id` : 唯一标识符。考虑在 ID 前添加与插件名称或 ID 相关的前缀，以避免与定义相同 ID 的其他插件发生冲突，例如 `com.example.myplugin.myExtension`。
 
-`order`
-: 允许使用 `first`、`last` 或 `before|after [id]` 来排序所有定义的扩展。
+`order` : 允许使用 `first`、`last` 或 `before|after [id]` 来排序所有定义的扩展。
 
-`os`
-: 允许将扩展限制为给定的操作系统，例如 `os="windows"` 仅在 Windows 上注册扩展。
+`os` : 允许将扩展限制为给定的操作系统，例如 `os="windows"` 仅在 Windows 上注册扩展。
 
 如果扩展实例需要在某些场景下“不适用”，则可以在其构造函数中抛出 [`ExtensionNotApplicableException`](%gh-ic%/platform/extensions/src/com/intellij/openapi/extensions/ExtensionNotApplicableException.java)。
 
