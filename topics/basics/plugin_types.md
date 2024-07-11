@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Plugin Types
 
@@ -15,8 +15,7 @@ The most common types of plugins include:
 * User interface add-ons
 * Themes
 
-> In some cases, implementing an actual IntelliJ Platform plugin might not be necessary, as [alternative solutions](plugin_alternatives.md) exist.
->
+<include from="intellij_platform.md" element-id="pluginAlternatives"/>
 
 ## Custom Language Support
 
@@ -27,7 +26,7 @@ Custom language support provides basic functionality for working with a particul
 * Syntax highlighting
 * Formatting
 * Code insight and code completion
-* Inspections and quick-fixes
+* Inspections and quick fixes
 * Intention actions
 
 Plugins can also augment existing (bundled) custom languages, e.g., by providing additional inspections, intentions, or any other features.

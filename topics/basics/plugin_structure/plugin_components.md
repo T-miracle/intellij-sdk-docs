@@ -1,10 +1,11 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Components
+# Components (Deprecated)
+<primary-label ref="Deprecated"/>
 
 <link-summary>Migrating deprecated plugin components to the current solutions.</link-summary>
 
-> When writing new plugins, creating Components should be avoided.
+> When writing new plugins, creating Components must be avoided.
 > Any existing Components should be migrated to services, extensions, or listeners (see below).
 >
 {style="warning" title="Deprecation Notice"}
@@ -16,7 +17,7 @@ Plugin Components are defined in the `<application-components>`, `<project-compo
 
 ## Migration
 
-To migrate existing code from Components to more modern APIs, please see the following guidelines.
+To migrate existing code from Components to modern APIs, see the following guidelines.
 
 ### Manage State
 
@@ -47,7 +48,9 @@ See also [Running Tasks Once](ide_infrastructure.md#running-tasks-once).
 
 <tab title="2023.1 and later">
 
-Using [Kotlin](using_kotlin.md), implement [`ProjectActivity`](%gh-ic%/platform/core-api/src/com/intellij/openapi/startup/StartupActivity.kt) and register in `com.intellij.postStartupActivity` extension point.
+Using [](kotlin_coroutines.md), implement [`ProjectActivity`](%gh-ic%/platform/core-api/src/com/intellij/openapi/startup/StartupActivity.kt) and register in `com.intellij.postStartupActivity` extension point.
+
+Implementation in [Kotlin](using_kotlin.md) is required because Java doesn't support suspending functions.
 
 </tab>
 
@@ -60,10 +63,10 @@ To execute code when a project is being opened, use one of these two [extensions
 Implement `DumbAware` to indicate activity can run in background thread (in parallel with other such tasks).
 
 `com.intellij.backgroundPostStartupActivity`
-: [`StartupActivity.Background`](%gh-ic%/platform/core-api/src/com/intellij/openapi/startup/StartupActivity.kt) for execution with 5 seconds delay in background thread (2019.3 or later).
+: [`StartupActivity.Background`](%gh-ic%/platform/core-api/src/com/intellij/openapi/startup/StartupActivity.kt) for execution with a 5-second delay in background thread (2019.3 or later).
 
 Any long-running or CPU intensive tasks should be made visible to users by using `ProgressManager.run(Task.Backgroundable)`.
-Access to indices must be wrapped with `DumbService`, see also [General Threading Rules](general_threading_rules.md).
+Access to indexes must be wrapped with [`DumbService`](indexing_and_psi_stubs.md#dumb-mode), see also [General Threading Rules](general_threading_rules.md).
 
 See also [](ide_infrastructure.md#running-tasks-once).
 

@@ -1,17 +1,19 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Incompatible Changes in IntelliJ Platform and Plugins API
 
 <!--
 =============== DO NOT RENAME OR MOVE THIS FILE ===============
 
-Before documenting a breaking API change, please, make sure that the change cannot be avoided in an alternative way.
+Before documenting a breaking API change, please make sure that the change cannot be avoided in an alternative way.
 
-APIs marked with @ApiStatus.Experimental, @ApiStatus.Internal, or @ApiStatus.ScheduledForRemoval don't need to be documented.
+APIs marked with @Deprecated(forRemoval=true), @ApiStatus.Experimental, @ApiStatus.Internal/IntellijInternalApi, or @ApiStatus.ScheduledForRemoval don't need to be documented.
 
-To document a new incompatible change, add a new line with the problem pattern followed by a 2nd line with ": "-prefixed human-readable description and recommended fix/action.
+To document a new incompatible change, add a new line with the problem pattern followed by a 2nd line with ": "-prefixed human-readable description
+and recommended fix/action (REQUIRED, please write full sentence ending with '.', see existing entries as reference).
+Non-platform changes must be grouped under relevant section for plugin.
 
-The following problem patterns are supported:
+The following problem patterns are supported and must be followed EXACTLY (e.g., no '#' instead of '.'):
 
 <package name> package removed
 
@@ -59,7 +61,7 @@ An example of a ticket is https://youtrack.jetbrains.com/issue/MP-1218. Until su
 
 NOTE: You are allowed to prettify the pattern using links: [`org.example.Foo`](https://github.com/JetBrains/intellij-community/tree/master/)
 
-NOTE: Entries not starting with code quotes (`name`) can be added to document non-code changes  and will be skipped in API verification.
+NOTE: Entries not starting with code quotes (`name`) can be added to document non-code changes and will be skipped in API verification.
 -->
 
 <link-summary>List of known Breaking API Changes by version</link-summary>
@@ -81,6 +83,6 @@ The following pages list the breaking changes in IDE and plugin releases with re
 * [Changes in 2020.*](api_changes_list_2020.md)
 * [Changes in 2019.*](api_changes_list_2019.md)
 
-## Library Updates
+## Bundled Library Updates
 
 Information about bundled Third-Party Software/Libraries and their respective versions is available [here](https://www.jetbrains.com/legal/third-party-software/).

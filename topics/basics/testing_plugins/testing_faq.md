@@ -1,6 +1,6 @@
-# Testing FAQ
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+# Testing FAQ
 
 <link-summary>Common questions and issues for testing plugins.</link-summary>
 
@@ -17,6 +17,7 @@ This page lists a number of common questions/issues and techniques useful for te
 - [`PsiTestUtil`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/PsiTestUtil.java)
 - [`VfsTestUtil`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/VfsTestUtil.java)
 - [`IoTestUtil`](%gh-ic%/platform/testFramework/src/com/intellij/openapi/util/io/IoTestUtil.java)
+- [`IndexingTestUtil`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/IndexingTestUtil.kt)
 - [`LeakHunter`](%gh-ic%/platform/testFramework/common/src/LeakHunter.java)
 
 ### UI
@@ -32,6 +33,7 @@ See [](testing_plugins.md#ui-tests) for UI integration tests.
 ## Issues
 
 ### "No Tests Found" targeting 2021.3+
+<primary-label ref="2021.3"/>
 
 Please see [notes](api_changes_list_2021.md#20213).
 
@@ -78,6 +80,8 @@ Use _ordered_ collections or [`UsefulTestCase.assertUnorderedCollection()`](%gh-
 Code deferring execution (e.g., via `Application.invokeLater()`) might not run during test execution (and possibly fails in production, too).
 Use `Application.invokeLater(runnable, myProject.getDisposed())`.
 
+When targeting 2024.2 or later, see also [](#how-to-handle-projectactivity).
+
 ### How to avoid test failure when using resources?
 
 In some situations, added or changed files (e.g. XML DTDs provided by a plugin) are not refreshed in [](virtual_file_system.md).
@@ -114,16 +118,17 @@ test {
 </tabs>
 
 ### How to get separate logs for failing tests?
+<primary-label ref="2021.3"/>
 
-Set system property `idea.split.test.logs` to `true` to generate separate test log files in <path>splitTestLogs</path> subdirectory for failing tests (WARN/ERROR level messages) (2021.3).
+Set system property `idea.split.test.logs` to `true` to generate separate test log files in <path>splitTestLogs</path> subdirectory for failing tests (WARN/ERROR level messages).
 
 ## Techniques
 
 ### How to mark test-only elements in production code?
 
-Annotate with [`org.jetbrains.annotations.TestOnly`](https://github.com/JetBrains/java-annotations/blob/master/common/src/main/java/org/jetbrains/annotations/TestOnly.java), usages will be highlighted via inspection <control>JVM languages | Test-only usage in production code</control>.
+Annotate with [`@TestOnly`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/TestOnly.java), usages will be highlighted via inspection <control>JVM languages | Test-only usage in production code</control>.
 
-To mark members whose visibility is higher than necessary to be used from tests, use [`org.jetbrains.annotations.VisibleForTesting`](https://github.com/JetBrains/java-annotations/blob/master/common/src/main/java/org/jetbrains/annotations/VisibleForTesting.java)
+To mark members whose visibility is higher than necessary to be used from tests, use [`@VisibleForTesting`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/VisibleForTesting.java)
 
 ### How to run tests for all files in a directory?
 
@@ -166,9 +171,10 @@ If possible, use [](#how-to-wait-for-condition-with-timeout) approach. Otherwise
 Use [`WaitFor`](%gh-ic%/platform/util/src/com/intellij/util/WaitFor.java).
 
 ### How to test a JVM language?
+<primary-label ref="IntelliJIDEA"/>
 
 Plugins supporting a JVM language may require JDK and language standard library to be set up in a test project, so that classes like `java.lang.String` can be correctly resolved during tests.
-Tests extending [`LightJavaCodeInsightFixtureTestCase`](%gh-ic%/java/testFramework/src/com/intellij/testFramework/fixtures/LightJavaCodeInsightFixtureTestCase.java) use one of the mock JDKs distributed with the [IntelliJ Community project](https://github.com/JetBrains/intellij-community) sources (notice <path>java/mockJDK-$JAVA_VERSION$</path> directories).
+Tests extending [`LightJavaCodeInsightFixtureTestCase`](%gh-ic%/java/testFramework/src/com/intellij/testFramework/fixtures/LightJavaCodeInsightFixtureTestCase.java) use one of the mock JDKs distributed with the [IntelliJ Community project](https://github.com/JetBrains/intellij-community) sources (notice <path>java/mockJDK-\$JAVA_VERSION\$</path> directories).
 These JAR files are not available in plugin project dependencies, so the IntelliJ Community sources must be checked out to the machine running the tests, and sources' location must be provided to the test framework.
 It's done by setting the `idea.home.path` system property to the absolute path of the checked-out sources in the `test` task configuration:
 
@@ -216,5 +222,19 @@ If a required library is an unpublished JAR file, use [`PsiTestUtil.addLibrary()
 PsiTestUtil.addLibrary(model,
     "internal-library", getTestDataPath(), "internal-library-2.0.jar");
 ```
+
+### How to handle `ProjectActivity`?
+<primary-label ref="2024.2"/>
+
+[`ProjectActivity`](%gh-ic%/platform/core-api/src/com/intellij/openapi/startup/StartupActivity.kt) are no longer awaited on project open in tests.
+If tests depend on some job done in `ProjectActivity` (e.g., automatic project re-import), implement a dedicated [event/listener](messaging_infrastructure.md) and wait for it explicitly.
+As a workaround, use [`StartupActivityTestUtil.waitForProjectActivitiesToComplete()`](%gh-ic-master%/platform/testFramework/src/com/intellij/testFramework/StartupActivityTestUtil.kt).
+
+### How to handle indexing?
+<primary-label ref="2024.2"/>
+
+Indexing is now run asynchronously in a background thread.
+Use [`IndexingTestUtil.waitUntilIndexesAreReady()/suspendUntilIndexesAreReady()`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/IndexingTestUtil.kt)
+to wait for fully populated indexes.
 
 <include from="snippets.md" element-id="missingContent"/>

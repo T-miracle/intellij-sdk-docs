@@ -1,6 +1,6 @@
-# Notable Changes in IntelliJ Platform and Plugins API 2019.*
+<!-- Copyright 2000-2024 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-<!-- Copyright 2000-2023 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+# Notable Changes in IntelliJ Platform and Plugins API 2019.*
 
 <link-summary>List of known Notable API Changes in 2019.*</link-summary>
 
@@ -40,7 +40,7 @@ Quickfixes for file-level notifications
 : Consistent with other quickfixes, the menu now shows names of fixes, not names of problems themselves. [Issue](https://youtrack.jetbrains.com/issue/IDEA-216731)
 
 Create HTML representation of code
-: Use `com.intellij.openapi.editor.richcopy.HtmlSyntaxInfoUtil` to create Lexer-based highlighted code samples, e.g. for usage in documentation.
+: Use `com.intellij.openapi.editor.richcopy.HtmlSyntaxInfoUtil` to create Lexer-based highlighted code samples, e.g., for usage in documentation.
 
 <ui-path>View | Appearance | Details in Tree Views</ui-path>
 : Toggles showing additional details in UI (e.g. modification timestamp in Project View) see `UISettings.getShowInplaceComments()`.
@@ -61,7 +61,7 @@ New API for Editor Inlay Hints
 : Use new dedicated `com.intellij.highlightingPassFactory` extension point.
 
 `com.intellij.openapi.fileTypes.FileTypeFactory` deprecated
-: When registering file type via file extension, pattern or exact file name matching, use `com.intellij.fileType` extension point instead (see [Sample](language_and_filetype.md#register-the-filetype)).
+: When registering a file type via file extension, pattern or exact file name matching, use `com.intellij.fileType` extension point instead (see [Sample](language_and_filetype.md#register-the-file-type)).
 
 `@org.jetbrains.annotations.ApiStatus.NonExtendable`
 : Indicates that the annotated API class, interface, or method must not get extended, implemented, or overridden by external plugins but can only be obtained or instantiated for classes and interfaces, or called for methods.
@@ -97,7 +97,7 @@ Unbundled plugins
 : External annotations for the IntelliJ Platform are generated and attached to plugin projects automatically. This allows highlighting of API, which has been removed in newer platform versions.
 
 `@org.jetbrains.annotations.ApiStatus.Internal`
-: Indicates that the annotated element must not be considered as a public API. Do not use outside of the IntelliJ Platform. [Issue](https://youtrack.jetbrains.com/issue/IDEA-211175)
+: Indicates that the annotated element must not be considered as a public API. Do not use outside of the IntelliJ Platform, see [](api_internal.md).
 
 `PsiReferenceProvider` assert underlying element
 : Assert references are created for the given underlying `PsiElement`. [Issue](https://youtrack.jetbrains.com/issue/IDEA-203954)

@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Notable Changes in IntelliJ Platform and Plugins API 2023.*
 
@@ -6,8 +6,7 @@
 
 _Early Access Program_ (EAP) releases of upcoming versions are available [here](https://eap.jetbrains.com).
 
-
-<include from="tools_gradle_intellij_plugin.md" element-id="gradle_plugin_223_problem"/>
+<include from="snippets.md" element-id="gradlePluginVersion"/>
 
 ## 2023.3
 
@@ -32,7 +31,7 @@ Unbundled plugins
 ### IntelliJ Platform 2023.2
 
 Language Server Protocol (LSP) API
-: Please see this [blogpost](https://jb.gg/lsp).
+: Provide custom language support by using language servers, see [](language_server_protocol.md).
 
 Check presence of JVM library
 : Use [dedicated API](psi_cookbook.md#how-do-i-check-the-presence-of-a-jvm-library) to check presence via class FQN or Maven coordinates.
@@ -74,4 +73,4 @@ Run Annotator During Indexing
 : [Annotators](syntax_highlighting_and_error_highlighting.md#annotator) can implement `DumbAware` to run during indexing (e.g., providing additional syntax highlighting).
 
 Obsolete API Status
-: Newly introduced `ApiStatus.@Obsolete` marks API that should not be used for new code, see [](verifying_plugin_compatibility.md#obsolete-api).
+: Newly introduced `@ApiStatus.Obsolete` marks API that should not be used for new code, see [](verifying_plugin_compatibility.md#obsolete-api).

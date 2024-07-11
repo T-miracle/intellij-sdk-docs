@@ -1,6 +1,6 @@
-# Spell Checking
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<!-- Copyright 2000-2023 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+# Spell Checking
 
 <link-summary>Providing spellchecking for custom language.</link-summary>
 
@@ -21,7 +21,7 @@ and registering it in the `com.intellij.spellchecker.support` extension point.
 - [`JavaSpellcheckingStrategy`](%gh-ic%/java/java-impl/src/com/intellij/spellchecker/JavaSpellcheckingStrategy.java)
 - [`HtmlSpellcheckingStrategy`](%gh-ic%/xml/impl/src/com/intellij/spellchecker/xml/HtmlSpellcheckingStrategy.java)
 
-## SpellcheckingStrategy
+## `SpellcheckingStrategy`
 
 `SpellcheckingStrategy` adjusts the spell checking behavior for PSI elements of a custom language
 by providing methods to define:
@@ -40,7 +40,7 @@ The `getTokenizer()` method returns an instance of
 [Tokenizer](%gh-ic%/spellchecker/src/com/intellij/spellchecker/tokenizer/Tokenizer.java)
 and is explained below.
 
-### Tokenizer
+### `Tokenizer`
 
 The `tokenize()` method of `Tokenizer` defines which portions of a PSI element
 need to be spell-checked by feeding them into the
@@ -63,7 +63,7 @@ and implement `tokenize()` with the logic you need.
 **Example:**
 [`MethodNameTokenizerJava`](%gh-ic%/java/java-impl/src/com/intellij/spellchecker/MethodNameTokenizerJava.java)
 
-#### Splitter
+#### `Splitter`
 
 In `Tokenizer.tokenize()` the `consumeToken()` method can take an instance of
 [`Splitter`](%gh-ic%/spellchecker/src/com/intellij/spellchecker/inspections/Splitter.java) as the second argument.
@@ -91,7 +91,7 @@ overriding `getSuppressActions()` to add quick fix actions that suppress warning
 
 ## Providing Dictionaries
 
-### BundledDictionaryProvider
+### `BundledDictionaryProvider`
 
 Some custom languages may have a distinct fixed set of words or key identifiers.
 These words can be provided in additional dictionaries from
@@ -102,11 +102,35 @@ register it with the `com.intellij.spellchecker.bundledDictionaryProvider` exten
 **Example:**
 [`PythonBundledDictionaryProvider`](%gh-ic%/python/src/com/jetbrains/python/spellchecker/PythonBundledDictionaryProvider.java)
 
-### RuntimeDictionaryProvider
+### `RuntimeDictionaryProvider`
 
 [`RuntimeDictionaryProvider`](%gh-ic%/spellchecker/src/com/intellij/spellchecker/dictionary/RuntimeDictionaryProvider.java)
 allows providing (dynamic) dictionaries generated at runtime, e.g., downloaded from a server, created from project sources on-the-fly, etc.
 Register in `com.intellij.spellchecker.dictionary.runtimeDictionaryProvider` extension point.
 
-**Example**
+**Example:**
 [`PyPackagesDictionary`](%gh-ic%/python/src/com/jetbrains/python/packaging/PyPackagesDictionary.kt)
+
+## Grammar Checks (Grazie plugin)
+{id="grammar-checks"}
+
+[Grazie Lite](https://plugins.jetbrains.com/plugin/12175-grazie-lite) (bundled) and
+[Grazie Pro](https://plugins.jetbrains.com/plugin/16136-grazie-pro/)
+plugins provide intelligent spelling and grammar checks for all texts.
+
+To use the API mentioned below, add a [dependency](plugin_dependencies.md) on plugin ID `tanvd.grazi`.
+
+### `TextExtractor`
+
+To define how to extract natural language text from PSI, implement
+[`TextExtractor`](%gh-ic%/plugins/grazie/src/main/kotlin/com/intellij/grazie/text/TextExtractor.java)
+and register in `com.intellij.grazie.textExtractor` extension point.
+
+**Example:** [`JavaTextExtractor`](%gh-ic%/plugins/grazie/java/src/main/kotlin/com/intellij/grazie/ide/language/java/JavaTextExtractor.java)
+
+### `ProblemFilter`
+
+To ignore specific reported problems, implement [`ProblemFilter`](%gh-ic%/plugins/grazie/src/main/kotlin/com/intellij/grazie/text/ProblemFilter.java)
+registered in `com.intellij.grazie.problemFilter` extension point.
+
+**Example:** [`JavadocProblemFilter`](%gh-ic%/plugins/grazie/java/src/main/kotlin/com/intellij/grazie/ide/language/java/JavadocProblemFilter.java)

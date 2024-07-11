@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Parameter Info
 
@@ -53,7 +53,7 @@ The initial phase describes what happens when no parameter info is currently dis
 2. If the returned function call element is valid, the `showParameterInfo()` method is invoked.
    Implementations of this method usually just call `showHint()` of the `CreateParameterInfoContext` providing the offset at which the popup should appear.
 3. For each item to show from step 1, the `updateUI()` method is called.
-   No heavy work is allowed in this method since it runs on the UI thread and it should only update the UI representation using, e.g.,
+   No heavy work is allowed in this method since it runs on EDT, and it should only update the UI representation using, e.g.,
    `setUIComponentEnabled()` or `setupUIComponentPresentation()` of the provided `ParameterInfoUIContext`.
 4. After that the following methods are called which will be explained in the next phase: `findElementForUpdatingParameterInfo()`,
    `updateParameterInfo()`, `updateUI()`.
@@ -91,9 +91,8 @@ Only `isWhitespaceSensitive()` which is used in the `getCurrentOffset()` method 
 [`ParameterInfoControllerBase`](%gh-ic%/platform/lang-impl/src/com/intellij/codeInsight/hint/ParameterInfoControllerBase.java)
 should be implemented when whitespace matters in a language.
 
-Note that parameter info works during indexing (using incomplete indices) when the implementations also extend
-[`DumbAware`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/DumbAware.java).
-It is recommended to adapt tests for dumb-mode since the results might be surprising,
+Note that parameter info works during indexing (using incomplete data) when the implementations is marked [dumb aware](indexing_and_psi_stubs.md#DumbAwareAPI).
+It is recommended to adapt tests for [dumb mode](indexing_and_psi_stubs.md#dumb-mode) since the results might be surprising,
 and more changes to the handler might be required for better results.
 
 Finally, language authors should be aware of the global

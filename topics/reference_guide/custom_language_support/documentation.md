@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Documentation
 
@@ -26,11 +26,12 @@ Detailed information on implementing these EPs can be found in the [](#documenta
 
 > Plugins targeting versions earlier than 2023.1 must use the [Documentation Provider API](#documentation-provider-api).
 > Note that as long as the transition to the new API is
-> not complete, the [custom language tutorial](documentation_provider.md) will use `DocumentationProvider`.
+> not complete, the [custom language tutorial](documentation_provider.md) will continue using `DocumentationProvider`.
 >
-{style="note"}
+{title="Targeting IDEs before 2023.1" style="note"}
 
 ## Documentation Target API
+<primary-label ref="2023.1"/>
 
 Custom language developers have the flexibility to select from three distinct EPs for providing documentation to their users.
 To ensure clarity and avoid confusion, we provide a high-level summary of the overall approach,
@@ -54,19 +55,19 @@ outlining the primary components and their interactions.
 </procedure>
 
 {style="full"}
-DocumentationTargetProvider
+`DocumentationTargetProvider`
 : Implement
 [`DocumentationTargetProvider`](%gh-ic%/platform/lang-impl/src/com/intellij/platform/backend/documentation/DocumentationTargetProvider.java)
 and register it as `com.intellij.platform.backend.documentation.targetProvider` extension point to build documentation
 for a certain offset in a `PsiFile` by overriding `documentationTargets()`.
 
-PsiDocumentationTargetProvider
+`PsiDocumentationTargetProvider`
 : Implement
 [`PsiDocumentationTargetProvider`](%gh-ic%/platform/lang-impl/src/com/intellij/platform/backend/documentation/PsiDocumentationTargetProvider.java)
 and register it as `com.intellij.platform.backend.documentation.psiTargetProvider` extension point to build documentation
 for PSI elements by overriding `documentationTarget()`.
 
-SymbolDocumentationTargetProvider
+`SymbolDocumentationTargetProvider`
 : Implement
 [`SymbolDocumentationTargetProvider`](%gh-ic%/platform/lang-impl/src/com/intellij/platform/backend/documentation/SymbolDocumentationTargetProvider.java)
 and register it as `com.intellij.platform.backend.documentation.symbolTargetProvider` extension point to build documentation
@@ -85,7 +86,7 @@ before, then `computeDocumentation()` should do the work that was formerly done 
 
 In addition to showing the documentation, the `computeDocumentationHint()` method returns the text to be displayed
 when the user hovers over an element with <shortcut>Ctrl</shortcut>/<shortcut>Cmd</shortcut> pressed or when
-<ui-path>Preferences | Editor | Code Editing | "Show quick documentation on hover"</ui-path> is enabled.
+<ui-path>Settings | Editor | Code Editing | Show quick documentation on hover</ui-path> is enabled.
 In the old framework, this method was called `DocumentationProvider.getQuickNavigateInfo()`.
 
 The `createPointer()` method manages instance restoration and ensures access to the entity across different read actions.
@@ -105,10 +106,10 @@ as a reference.
 
 ## Documentation Provider API
 
-> As of IntelliJ Platform version 2023.1 the Documentation Provider API is deprecated and plugin
-> authors should use the [](#documentation-target-api).
+> As of IntelliJ Platform version 2023.1, the Documentation Provider API is deprecated and plugin
+> authors should use the [](#documentation-target-api) instead.
 >
-{style="note"}
+{title="Deprecation Notice" style="note"}
 
 Custom language developers usually extend from
 [`AbstractDocumentationProvider`](%gh-ic%/platform/analysis-api/src/com/intellij/lang/documentation/AbstractDocumentationProvider.java)

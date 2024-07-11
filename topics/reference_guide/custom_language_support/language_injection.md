@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Language Injection
 
@@ -101,7 +101,7 @@ Both define their injections by providing XML configurations and loading them th
 However, custom language authors need to implement the `org.intellij.intelliLang.languageSupport` EP to make their language and PSI element patterns known to IntelliLang.
 Therefore, plugin authors who want to provide injections for existing languages can skip the first step.
 
-#### Implement org.intellij.intelliLang.languageSupport EP
+#### Implement `org.intellij.intelliLang.languageSupport` EP
 
 Implement the `org.intellij.intelliLang.languageSupport` EP and use
 [`AbstractLanguageInjectionSupport`](%gh-ic%/plugins/IntelliLang/src/org/intellij/plugins/intelliLang/inject/AbstractLanguageInjectionSupport.java) as a base class.
@@ -134,13 +134,13 @@ For instance, injecting SQLite into Python code is specified by the following op
 
 Inside an injection, the following tags can be used:
 
-| XML Tag                   | Description                                                                                                                                                                                                                                                                     |
-|---------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `<display-name>`          | A short name for the injection.                                                                                                                                                                                                                                                 |
-| `<place>`                 | The element pattern that defines where an injection will take place. The content is wrapped in `![CDATA[...]]`.                                                                                                                                                                 |
-| `<prefix>` and `<suffix>` | Static content that is wrapped around the injected code, e.g., to make it a valid expression. For example, to a CSS color specification inside a string, it can be wrapped with the prefix `div { color:` and the suffix `;}` to make it a valid CSS expression.                |
+| XML Tag                   | Description                                                                                                                                                                                                                                                                 |
+|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `<display-name>`          | A short name for the injection.                                                                                                                                                                                                                                             |
+| `<place>`                 | The element pattern that defines where an injection will take place. The content is wrapped in `![CDATA[...]]`.                                                                                                                                                             |
+| `<prefix>` and `<suffix>` | Static content that is wrapped around the injected code, e.g., to make it a valid expression. For example, to a CSS color specification inside a string, it can be wrapped with the prefix `div { color:` and the suffix `;}` to make it a valid CSS expression.            |
 | `<value-pattern>`         | A regex for the content that specifies when this injection should be applied. Regex groups can specify the text range of the injection (e.g. `^javascript:(.+)`, see [`xmlInjections-html.xml`](%gh-ic%/plugins/IntelliLang/xml-support/resources/xmlInjections-html.xml)). |
-| `<ignore-pattern>`        | A regex for the content that specifies when this injection should not be applied.                                                                                                                                                                                               |
+| `<ignore-pattern>`        | A regex for the content that specifies when this injection should not be applied.                                                                                                                                                                                           |
 
 #### Create an XML File to Load the Configuration
 
@@ -166,7 +166,7 @@ Therefore, you load the configuration optionally in your main <path>plugin.xml</
     config-file="myLanguageID-injections.xml">org.intellij.intelliLang</depends>
 ````
 
-## LanguageInjectionContributor and LanguageInjectionPerformer
+## `LanguageInjectionContributor` and `LanguageInjectionPerformer`
 
 The `com.intellij.languageInjectionContributor` EP provides injection information for the given context in terms of _what_ to inject.
 As a plugin author, implement [`LanguageInjectionContributor`](%gh-ic%/platform/core-api/src/com/intellij/lang/injection/general/LanguageInjectionContributor.java) to provide context-specific injections.
@@ -216,7 +216,7 @@ The method `performInjection()` does the actual injection into the context PSI e
 >
 {style="note"}
 
-## MultiHostInjector
+## `MultiHostInjector`
 
 [`MultiHostInjector`](%gh-ic%/platform/core-api/src/com/intellij/lang/injection/MultiHostInjector.java) registered in `com.intellij.multiHostInjector` EP is a very low-level API, but it gives plugin authors the most freedom.
 It performs language injection inside other PSI elements, e.g. inject SQL inside an XML tag text or inject regular expressions into Java string literals.
@@ -307,9 +307,10 @@ final class MyDSLInjector implements MultiHostInjector {
 Now, inside the editor the injected portion will work as expected where foo is the method name and `System.out.println(42);` will look and feel like a method body with highlighting, completion, and goto definition working.
 
 ## Formatting
+<primary-label ref="2022.3"/>
 
-To control delegation of formatting to containing file, implement [`InjectedFormattingOptionsProvider`](%gh-ic%/platform/code-style-api/src/com/intellij/formatting/InjectedFormattingOptionsProvider.java) and register in `com.intellij.formatting.injectedOptions` extension point (_2022.3_).
+To control delegation of formatting to containing file, implement [`InjectedFormattingOptionsProvider`](%gh-ic%/platform/code-style-api/src/com/intellij/formatting/InjectedFormattingOptionsProvider.java) and register in `com.intellij.formatting.injectedOptions` extension point.
 
 ## Injection Highlighting
 
-To suppress highlighting from <control>Code | Injected language fragment</control> setting in <ui-path>Preferences | Editor | Color Scheme | General</ui-path>, injection host must implement [`InjectionBackgroundSuppressor`](%gh-ic%/platform/analysis-impl/src/com/intellij/psi/impl/source/tree/injected/InjectionBackgroundSuppressor.java).
+To suppress highlighting from <control>Code | Injected language fragment</control> setting in <ui-path>Settings | Editor | Color Scheme | General</ui-path>, injection host must implement [`InjectionBackgroundSuppressor`](%gh-ic%/platform/analysis-impl/src/com/intellij/psi/impl/source/tree/injected/InjectionBackgroundSuppressor.java).

@@ -1,6 +1,6 @@
-# Stub Indexes
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+# Stub Indexes
 
 <link-summary>Creating stub indexes containing PSI tree fragments, which allow searching for PSI elements without parsing files.</link-summary>
 
@@ -24,7 +24,7 @@ Usually there is no need to have stubs for things like statements or local varia
 
 ### Implementation
 
-> When using [Grammar-Kit](https://github.com/JetBrains/Grammar-Kit) to generate the language PSI, see the [Stub indices support](https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#35-stub-indices-support) section for instructions on integrating the grammar with stubs.
+> When using [Grammar-Kit](https://github.com/JetBrains/Grammar-Kit) to generate the language PSI, see the [Stub indexes support](https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#35-stub-indices-support) section for instructions on integrating the grammar with stubs.
 >
 {style="note"}
 
@@ -38,9 +38,9 @@ The following steps need to be performed only once for each language that suppor
    Define the common `externalIdPrefix` to be used for all stub element types (see [](#adding-stub-elements)).
    See [`StubElementTypeHolderEP`](%gh-ic%/platform/core-api/src/com/intellij/psi/stubs/StubElementTypeHolderEP.java) docs for important requirements.
 
-**Examples**:
+**Examples:**
 - [`JavaStubElementTypes`](%gh-ic%/java/java-psi-impl/src/com/intellij/psi/impl/java/stubs/JavaStubElementTypes.java) registered in [`JavaPsiPlugin.xml`](%gh-ic%/java/java-psi-impl/src/META-INF/JavaPsiPlugin.xml)
-- see [`Angular2MetadataElementTypes`](%gh-ij-plugins%/AngularJS/src/org/angular2/entities/metadata/Angular2MetadataElementTypes.kt) for Kotlin sample
+- see [`Angular2MetadataElementTypes`](%gh-ij-plugins%/Angular/src/org/angular2/entities/metadata/Angular2MetadataElementTypes.kt) for Kotlin sample
 
 </procedure>
 
@@ -60,7 +60,7 @@ For each element type that needs to be stored in the stub tree, perform the foll
    Override `getExternalId()` according to common used `externalIdPrefix` for the language (see [](#stubs-setup)).
 
    For always-leaf stub nodes return `true` from `isAlwaysLeaf()` (2023.3).
-   "Container" stubs that do not serialize any data of their own may implement [`EmptyStubSerializer`](%gh-ic-master%/platform/core-api/src/com/intellij/psi/stubs/EmptyStubSerializer.java) to optimize storage (2023.3).
+   "Container" stubs that do not serialize any data of their own may implement [`EmptyStubSerializer`](%gh-ic%/platform/core-api/src/com/intellij/psi/stubs/EmptyStubSerializer.java) to optimize storage (2023.3).
 6. Use the class implementing `IStubElementType` as the element type constant when parsing ([example](%gh-ic%/plugins/properties/properties-psi-impl/src/com/intellij/lang/properties/parsing/PropertiesElementTypes.java)).
 7. Make sure all methods in the PSI element interface access the stub data rather than the PSI tree when appropriate ([example: `Property.getKey()` implementation](%gh-ic%/plugins/properties/properties-psi-impl/src/com/intellij/lang/properties/psi/impl/PropertyImpl.java)).
 
@@ -114,7 +114,7 @@ To access the data from an index, the following instance methods are used on the
 
 [`StubIndex.getElements()`](%gh-ic%/platform/indexing-api/src/com/intellij/psi/stubs/StubIndex.java) returns the collection of PSI elements corresponding to a certain key (for example, classes with the specified short name) in the specified scope.
 
-**Example**: [`JavaAnnotationIndex`](%gh-ic%/java/java-indexing-impl/src/com/intellij/psi/impl/java/stubs/index/JavaAnnotationIndex.java)
+**Example:** [`JavaAnnotationIndex`](%gh-ic%/java/java-indexing-impl/src/com/intellij/psi/impl/java/stubs/index/JavaAnnotationIndex.java)
 
 ## Related Forum Discussions
 

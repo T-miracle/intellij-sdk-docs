@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # PSI Performance
 
@@ -43,3 +43,14 @@ To avoid paying this cost several times, the result of such computation can be c
 Usually, [`CachedValue`](%gh-ic%/platform/core-api/src/com/intellij/psi/util/CachedValue.java) created with [`CachedValueManager`](%gh-ic%/platform/core-api/src/com/intellij/psi/util/CachedValuesManager.java) works well for this purpose.
 
 If the information you cache depends only on a subtree of the current PSI element (and nothing else: no resolve results or other files), you can cache it in a field in your `PsiElement` implementation and drop the cache in an override of `ASTDelegatePsiElement.subtreeChanged()`.
+
+### Using `ProjectRootManager` as Dependency
+{id="projectRootManagerDependency"}
+
+<primary-label ref="2024.1"/>
+
+The platform no longer increments root changes modification tracker on finish of [dumb mode](indexing_and_psi_stubs.md#dumb-mode).
+If cached values use [`ProjectRootManager`](%gh-ic%/platform/projectModel-api/src/com/intellij/openapi/roots/ProjectRootManager.java) as dependency
+(without [`PsiModificationTracker`](%gh-ic%/platform/core-api/src/com/intellij/psi/util/PsiModificationTracker.java))
+and at the same time depend on [indexes](indexing_and_psi_stubs.md), a dependency on
+[`DumbService`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/DumbService.kt) must be added.

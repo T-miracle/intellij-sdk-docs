@@ -1,16 +1,14 @@
-# Plugins Targeting IntelliJ Platform-Based IDEs
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<!-- Copyright 2000-2022 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+# Plugins Targeting IntelliJ Platform-Based IDEs
 
 <link-summary>Configuring plugin projects for targeting IntelliJ Platform-based IDEs other than IntelliJ IDEA.</link-summary>
 
-Plugin projects can target IDEs other than IntelliJ IDEA, as long as the products are based on the [IntelliJ Platform](intellij_platform.md).
+Plugin projects can target any (custom) IDEs, as long as the products are based on the [IntelliJ Platform](intellij_platform.md).
 Such plugins are developed much like plugin projects that target IntelliJ IDEA.
-They can be written in Kotlin or Java, or a mix of both.
-Once completed, the plugins can be packaged and distributed at [JetBrains Marketplace](https://plugins.jetbrains.com).
 
 Project configuration attributes common to projects targeting products other than IntelliJ IDEA are described on this page.
-Details particular to an IntelliJ Platform-based product are described on the individual product pages in _Part VIII — Product Specific_.
+Details particular to an IntelliJ Platform-based product are described on the individual product pages in _Product Specific_.
 
 All the Gradle configuration attributes described here are discussed in-depth on the [](configuring_plugin_project.md) and the [](tools_gradle_intellij_plugin.md).
 
@@ -21,9 +19,9 @@ All the Gradle configuration attributes described here are discussed in-depth on
 To create a new Gradle plugin project, follow the tutorial on the [](creating_plugin_project.md) page.
 The tutorial produces a skeleton Gradle project suitable to use as a starting point.
 
-Modifications are needed to the skeleton project's Gradle build script and <path>[plugin.xml](plugin_configuration_file.md)</path> files, as described below, and on the individual product pages in _Part VIII — Product Specific_.
+Modifications are needed to the skeleton project's Gradle build script and <path>[plugin.xml](plugin_configuration_file.md)</path> files, as described below, and on the individual product pages in _Product Specific_.
 The Gradle build script is modified to specify the target product, determining the APIs available during development.
-The <path>plugin.xml</path> file is modified to declare the plugin's dependency on modules or libraries.
+The <path>plugin.xml</path> file is modified to declare the plugin's dependencies on modules or libraries.
 
 ## Configuring Gradle Build Script to Target Products Other Than IntelliJ IDEA
 
@@ -32,7 +30,8 @@ For example, `PY` for PyCharm Professional.
 Configuration using an [`intellij.type`](tools_gradle_intellij_plugin.md#intellij-extension-type) property is explained in the [](#configuring-plugin-projects-using-a-product-specific-attribute) section below.
 
 NOTE: Not all products have an [`intellij.type`](tools_gradle_intellij_plugin.md#intellij-extension-type) property defined by the [](tools_gradle_intellij_plugin.md), for example, [Android Studio](android_studio.md) and [PhpStorm](phpstorm.md).
-The best approach then is to configure the project using the [IntelliJ IDEA Attribute](#configuring-gradle-build-script-using-the-intellij-idea-product-attribute).
+Please see their respective pages for configuration and
+[](#configuring-gradle-build-script-using-the-intellij-idea-product-attribute) below.
 
 > To target multiple products (e.g., IntelliJ IDEA and PyCharm) with the same plugin, see [](plugin_compatibility.md) page.
 >
@@ -42,11 +41,11 @@ The best approach then is to configure the project using the [IntelliJ IDEA Attr
 
 If the [](tools_gradle_intellij_plugin.md) supports a target product directly, there will be an [`intellij.type`](tools_gradle_intellij_plugin.md#intellij-extension-type) property defined.
 Specifying the target as a product-specific [`intellij.type`](tools_gradle_intellij_plugin.md#intellij-extension-type) property has two advantages:
-* The APIs available to the plugin will be limited to only what is defined in the target product.
-  (Unless additional plugin dependencies are specified.)
+* The APIs available to the plugin will be limited to only what is defined in the target product
+  (unless additional plugin dependencies are specified).
 * The default [](ide_development_instance.md) for running the plugin will be the target product.
 
-A Gradle build script snippet setting a plugin project to target PyCharm is shown below.
+A Gradle build script snippet setting a plugin project to target [PyCharm](pycharm.md) is shown below.
 The [](tools_gradle_intellij_plugin.md) will fetch the matching build of PyCharm Professional to define the APIs available, and use that build of PyCharm (and associated JetBrains Runtime) as the Development Instance.
 No additional product-specific configuration needs to be set in the Gradle build script:
 
@@ -92,7 +91,7 @@ For API compatibility, the IntelliJ Platform version used in the _targetIDE_ dic
 #### Matching Versions of the IntelliJ Platform with the Target IDE Version
 
 The _baseIntelliJPlatformVersion_ used in the _targetIDE_ may not be readily apparent, depending on the product.
-See the individual product pages in _Part VIII — Product Specific_ for exceptions.
+See the individual product pages in _Product Specific_ for exceptions.
 
 To find the version of the IntelliJ Platform used to build the _targetIDE_, use the <control>About</control> dialog screen for the _targetIDE_.
 Next to <control>Build #</control> is the *BRANCH.BUILD.FIX* version of the _targetIDE_.
@@ -101,7 +100,7 @@ The version of the IntelliJ Platform used to build this product version is *BRAN
 
 ![Example PhpStorm Splash Screen](phpstorm_build.png){width="500"}
 
-If the product version isn't clear on the <control>About</control> screen, consult the individual product pages in _Part VIII — Product Specific_.
+If the product version isn't clear on the <control>About</control> screen, consult the individual product pages in _Product Specific_.
 
 The [Other IntelliJ IDEA Versions](https://www.jetbrains.com/idea/download/other.html) page is a way to find build numbers for every product version.
 Additional ways include hovering over the version number for a product in [Toolbox App](https://www.jetbrains.com/toolbox-app/) or examining the <control>About</control> screen for IntelliJ IDEA Community.
@@ -124,7 +123,7 @@ The [`intellij.version`](tools_gradle_intellij_plugin.md#intellij-extension-vers
 
 Any [dependencies](configuring_plugin_project.md#plugin-dependencies) on _targetIDE_-specific plugins or modules must be declared in the [`intellij`](tools_gradle_intellij_plugin.md#configuration-intellij-extension) extension.
 Use the Gradle plugin attribute [`intellij.plugins`](tools_gradle_intellij_plugin.md#intellij-extension-plugins) to declare a dependency.
-See the specific product pages in _Part VIII — Product Specific_ for the _targetIDE_ plugin or module name.
+See the specific product pages in _Product Specific_ for the _targetIDE_ plugin or module name.
 
 The best practice is to modify the [`runIde`](tools_gradle_intellij_plugin.md#tasks-runide) task to use a local installation of _targetIDE_ as the [](ide_development_instance.md).
 Set the [`runIde.ideDir`](tools_gradle_intellij_plugin.md#tasks-runide-idedir) attribute to the (user-specific) absolute path of the _targetIDE_ application.

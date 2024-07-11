@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Plugin Configuration File
 
@@ -27,6 +27,13 @@ The _Busy Plugin Developers. Episode 2_ discusses [5 tips for optimizing JetBrai
 See also [](marketing.md) about widgets and badges.
 
 ## Configuration Structure Overview
+
+> If an element or an attribute is not documented on this page, consider them as configuration items intended to be used by JetBrains only.
+> They must not be used by third-party plugins.
+>
+{title="Private Configuration Elements" style="warning"}
+
+Deprecated elements are omitted in the list below.
 
 - [`<idea-plugin>`](#idea-plugin)
   - [`<id>`](#idea-plugin__id)
@@ -75,13 +82,6 @@ See also [](marketing.md) about widgets and badges.
   - [`<projectListeners>`](#idea-plugin__projectListeners)
     - [`<listener>`](#idea-plugin__listeners__listener)
   - [`<resource-bundle>`](#idea-plugin__resource-bundle)
-
-Deprecated elements are omitted in the list above.
-
-> If an element or an attribute is not documented on this page, please consider them as configuration items intended to be used by JetBrains only.
-> They should never be used by 3rd-party plugins.
->
-{style="note"}
 
 ## `idea-plugin`
 {#idea-plugin}
@@ -152,9 +152,13 @@ Example
 ### `name`
 {#idea-plugin__name}
 
-The user-visible plugin display name (Title Case).
+<tldr>
 
 **Reference:** [JetBrains Marketplace: Plugin Name](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name)
+
+</tldr>
+
+The user-visible plugin display name (Title Case).
 
 {style="narrow"}
 Required
@@ -169,10 +173,14 @@ Example
 ### `version`
 {#idea-plugin__version}
 
-The plugin version displayed in the <control>Plugins</control> settings dialog and in the JetBrains Marketplace plugin page.
-Plugins uploaded to the JetBrains Marketplace must follow semantic versioning.
+<tldr>
 
 **Reference:** [JetBrains Marketplace: Semantic Versioning](https://plugins.jetbrains.com/docs/marketplace/semver.html)
+
+</tldr>
+
+The plugin version displayed in the <control>Plugins</control> settings dialog and in the JetBrains Marketplace plugin page.
+Plugins uploaded to the JetBrains Marketplace must follow semantic versioning.
 
 {style="narrow"}
 Required
@@ -188,9 +196,13 @@ Example
 ### `product-descriptor`
 {#idea-plugin__product-descriptor}
 
-[Paid](https://plugins.jetbrains.com/build-and-market) or [Freemium](https://plugins.jetbrains.com/docs/marketplace/freemium.html) plugin descriptor.
+<tldr>
 
 **Reference:** [JetBrains Marketplace: How to add required parameters for paid plugins](https://plugins.jetbrains.com/docs/marketplace/add-required-parameters.html)
+
+</tldr>
+
+[Paid](https://plugins.jetbrains.com/build-and-market) or [Freemium](https://plugins.jetbrains.com/docs/marketplace/freemium.html) plugin descriptor.
 
 {style="narrow"}
 Required
@@ -213,9 +225,13 @@ Attributes
 ### `idea-version`
 {#idea-plugin__idea-version}
 
-The plugin's range of compatible IntelliJ-based IDE versions.
+<tldr>
 
 **Reference:** [](build_number_ranges.md)
+
+</tldr>
+
+The plugin's range of compatible IntelliJ-based IDE versions.
 
 {style="narrow"}
 Required
@@ -245,10 +261,13 @@ Examples
 ### `vendor`
 {#idea-plugin__vendor}
 
-The vendor name or organization ID (if created) in the <control>Plugins</control> settings dialog and in the JetBrains Marketplace plugin page.
+<tldr>
 
-**Reference:** [JetBrains Marketplace: Contacts and Resources
-](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#contacts-and-resources)
+**Reference:** [JetBrains Marketplace: Contacts and Resources](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#contacts-and-resources)
+
+</tldr>
+
+The vendor name or organization ID (if created) in the <control>Plugins</control> settings dialog and in the JetBrains Marketplace plugin page.
 
 {style="narrow"}
 Required
@@ -279,11 +298,15 @@ Examples
 ### `description`
 {#idea-plugin__description}
 
+<tldr>
+
+**Reference:** [JetBrains Marketplace: Plugin Description](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description)
+
+</tldr>
+
 The plugin description displayed on the JetBrains Marketplace plugin page and in the <control>Plugins</control> settings dialog.
 
 Simple HTML elements, like text formatting, paragraphs, lists, etc., are allowed and must be wrapped into `<![CDATA[` ... `]]>` section.
-
-**Reference:** [JetBrains Marketplace: Plugin Description](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description)
 
 {style="narrow"}
 Required
@@ -308,12 +331,16 @@ Example
 ### `change-notes`
 {#idea-plugin__change-notes}
 
+<tldr>
+
+**Reference:** [JetBrains Marketplace: Change Notes](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#change-notes)
+
+</tldr>
+
 A short summary of new features, bugfixes, and changes provided with the latest plugin version.
 Change notes are displayed on the JetBrains Marketplace plugin page and in the <control>Plugins</control> settings dialog.
 
 Simple HTML elements, like text formatting, paragraphs, lists, etc., are allowed and must be wrapped into `<![CDATA[` ... `]]>` section.
-
-**Reference:** [JetBrains Marketplace: Change Notes](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#change-notes)
 
 {style="narrow"}
 Required
@@ -341,12 +368,14 @@ Example
 ### `depends`
 {#idea-plugin__depends}
 
+<tldr>
+
+**Reference:** [](plugin_dependencies.md), [](plugin_compatibility.md#modules-specific-to-functionality)
+
+</tldr>
+
 Specifies a dependency on another plugin or a module of an IntelliJ Platform-based product.
 A single [`<idea-plugin>`](#idea-plugin) element can contain multiple `<depends>` elements.
-
-**References:**
-- [](plugin_dependencies.md)
-- [](plugin_compatibility.md#modules-specific-to-functionality)
 
 {style="narrow"}
 Required
@@ -396,11 +425,16 @@ Examples
 
 ### `incompatible-with`
 {#idea-plugin__incompatible-with}
-_Supported since 2020.2_
 
-Declares incompatibility with a provided module.
+<primary-label ref="2020.2"/>
+
+<tldr>
 
 **Reference:** [](plugin_compatibility.md#declaring-incompatibility-with-module)
+
+</tldr>
+
+Declares incompatibility with a provided module.
 
 {style="narrow"}
 Required
@@ -433,9 +467,13 @@ Example
 ### `applicationListeners`
 {#idea-plugin__applicationListeners}
 
-Defines the application-level listeners.
+<tldr>
 
 **Reference:** [](plugin_listeners.md#defining-application-level-listeners)
+
+</tldr>
+
+Defines the application-level listeners.
 
 {style="narrow"}
 Required
@@ -447,9 +485,13 @@ Children
 ### `projectListeners`
 {#idea-plugin__projectListeners}
 
-Defines the project-level listeners.
+<tldr>
 
-**Reference:** [](plugin_listeners.md#defining-project-level-listeners)
+**Reference:** [](plugin_listeners.md#defining-application-level-listeners)
+
+</tldr>
+
+Defines the project-level listeners.
 
 {style="narrow"}
 Required
@@ -461,10 +503,14 @@ Children
 #### `listener`
 {#idea-plugin__listeners__listener}
 
-Defines a single application or project-level listener.
-A single [`<applicationListeners>`](#idea-plugin__applicationListeners) or [`<projectListeners>`](#idea-plugin__projectListeners) can contain multiple `<listener>` elements.
+<tldr>
 
 **Reference:** [](plugin_listeners.md)
+
+</tldr>
+
+Defines a single application or project-level listener.
+A single [`<applicationListeners>`](#idea-plugin__applicationListeners) or [`<projectListeners>`](#idea-plugin__projectListeners) can contain multiple `<listener>` elements.
 
 {style="narrow"}
 Required
@@ -504,9 +550,13 @@ Example
 ### `actions`
 {#idea-plugin__actions}
 
-Defines the plugin actions.
+<tldr>
 
 **Reference:** [](basic_action_system.md)
+
+</tldr>
+
+Defines the plugin actions.
 
 {style="narrow"}
 Required
@@ -538,10 +588,14 @@ Example
 #### `action`
 {#idea-plugin__actions__action}
 
-A single action entry of the [`<actions>`](#idea-plugin__actions) implemented by the plugin.
-A single [`<actions>`](#idea-plugin__actions) element can contain multiple `<action>` elements.
+<tldr>
 
 **Reference:** [](basic_action_system.md#registering-actions-in-pluginxml)
+
+</tldr>
+
+A single action entry of the [`<actions>`](#idea-plugin__actions) implemented by the plugin.
+A single [`<actions>`](#idea-plugin__actions) element can contain multiple `<action>` elements.
 
 {style="narrow"}
 Required
@@ -561,7 +615,7 @@ Attributes
   The text which is displayed in the status bar when the action is focused.
 - `icon` _(optional)_<br/>
   The icon that is displayed on the toolbar button or next to the action menu item.
-  See [](work_with_icons_and_images.md) for more information about defining and using icons.
+  See [](icons.md) for more information about defining and using icons.
 - `use-shortcut-of` _(optional)_<br/>
   The ID of the action whose keyboard shortcut this action will use.
 
@@ -732,6 +786,8 @@ Examples
 ##### `override-text`
 {#idea-plugin__actions__action__override-text}
 
+<primary-label ref="2020.1"/>
+
 Defines an alternate version of the text for the menu action or group.
 
 {style="narrow"}
@@ -770,13 +826,12 @@ Examples
 ##### `synonym`
 {#idea-plugin__actions__action__synonym}
 
+<primary-label ref="2020.3"/>
+
 Defines an alternative text for searching the action in <ui-path>Help | Find Action...</ui-path> or <ui-path>Navigate | Search Everywhere</ui-path> popups.
 A single action can have multiple synonyms.
 
 {style="narrow"}
-Supported
-: 2020.3+
-
 Required
 : no
 
@@ -819,11 +874,15 @@ Example
 #### `group`
 {#idea-plugin__actions__group}
 
+<tldr>
+
+**Reference:** [](basic_action_system.md#grouping-actions)
+
+</tldr>
+
 Defines an action group.
 The `<action>`, `<group>` and `<separator>` elements defined inside the group are automatically included in it.
 The `<group>` elements can be nested.
-
-**Reference:** [](basic_action_system.md#grouping-actions)
 
 {style="narrow"}
 Required
@@ -844,7 +903,7 @@ Attributes
   The text which is displayed in the status bar when the group is focused.
 - `icon` _(optional)_<br/>
   The icon that is displayed next to the group menu item.
-  See [](work_with_icons_and_images.md) for more information about defining and using icons.
+  See [](icons.md) for more information about defining and using icons.
 - `popup` _(optional)_<br/>
   Boolean flag defining whether the group items are presented in the submenu popup.
     - `true` - group actions are placed in a submenu
@@ -984,9 +1043,13 @@ Examples
 ### `extensions`
 {#idea-plugin__extensions}
 
-Defines the plugin extensions.
+<tldr>
 
 **Reference:** [](plugin_extensions.md)
+
+</tldr>
+
+Defines the plugin extensions.
 
 {style="narrow"}
 Required
@@ -1021,9 +1084,13 @@ Example
 ### `extensionPoints`
 {#idea-plugin__extensionPoints}
 
-Extension points defined by the plugin.
+<tldr>
 
 **Reference:** [](plugin_extension_points.md)
+
+</tldr>
+
+Extension points defined by the plugin.
 
 {style="narrow"}
 Required
@@ -1035,10 +1102,14 @@ Children
 #### `extensionPoint`
 {#idea-plugin__extensionPoints__extensionPoint}
 
-A single extension point entry of the [`<extensionPoints>`](#idea-plugin__extensionPoints) defined by the plugin.
-A single [`<extensionPoints>`](#idea-plugin__extensionPoints) element can contain multiple `<extensionPoint>` elements.
+<tldr>
 
 **Reference:** [](plugin_extension_points.md#declaring-extension-points)
+
+</tldr>
+
+A single extension point entry of the [`<extensionPoints>`](#idea-plugin__extensionPoints) defined by the plugin.
+A single [`<extensionPoints>`](#idea-plugin__extensionPoints) element can contain multiple `<extensionPoint>` elements.
 
 {style="narrow"}
 Required
@@ -1127,10 +1198,13 @@ An extension point which restricts the type provided in a `myClass` attribute to
 ## Deprecated Elements
 {collapsible="true" initial-collapse-state="collapsed"}
 
+<primary-label ref="Deprecated"/>
+
 ### `application-components`
 {#idea-plugin__application-components}
 
 > Element is deprecated. Do not use it in new plugins.
+> See [](plugin_components.md) for migration guide.
 >
 {style="warning"}
 
@@ -1147,6 +1221,7 @@ Children
 {#idea-plugin__project-components}
 
 > Element is deprecated. Do not use it in new plugins.
+> See [](plugin_components.md) for migration guide.
 >
 {style="warning"}
 
@@ -1163,6 +1238,7 @@ Children
 {#idea-plugin__module-components}
 
 > Element is deprecated. Do not use it in new plugins.
+> See [](plugin_components.md) for migration guide.
 >
 {style="warning"}
 
@@ -1179,6 +1255,7 @@ Children
 {#idea-plugin__components__component}
 
 > Element is deprecated. Do not use it in new plugins.
+> See [](plugin_components.md) for migration guide.
 >
 {style="warning"}
 
@@ -1201,6 +1278,7 @@ Children
 {#idea-plugin__components__component__implementation-class}
 
 > Element is deprecated. Do not use it in new plugins.
+> See [](plugin_components.md) for migration guide.
 >
 {style="warning"}
 
@@ -1214,6 +1292,7 @@ Required
 {#idea-plugin__components__component__interface-class}
 
 > Element is deprecated. Do not use it in new plugins.
+> See [](plugin_components.md) for migration guide.
 >
 {style="warning"}
 
@@ -1227,6 +1306,7 @@ Required
 {#idea-plugin__components__component__headless-implementation-class}
 
 > Element is deprecated. Do not use it in new plugins.
+> See [](plugin_components.md) for migration guide.
 >
 {style="warning"}
 
@@ -1240,6 +1320,7 @@ Required
 {#idea-plugin__components__component__option}
 
 > Element is deprecated. Do not use it in new plugins.
+> See [](plugin_components.md) for migration guide.
 >
 {style="warning"}
 
@@ -1261,6 +1342,7 @@ Attributes
 {#idea-plugin__components__component__loadForDefaultProject}
 
 > Element is deprecated. Do not use it in new plugins.
+> See [](plugin_components.md) for migration guide.
 >
 {style="warning"}
 

@@ -1,12 +1,12 @@
-# 12. Folding Builder
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+# 12. Folding Builder
 
 <link-summary>Sample implementation folding builder allowing to see the values of Simple language properties referenced in Java files.</link-summary>
 
 <tldr>
 
-**Code**: [`SimpleFoldingBuilder`](%gh-sdk-samples%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleFoldingBuilder.java)
+**Code**: [`SimpleFoldingBuilder`](%gh-sdk-samples-master%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleFoldingBuilder.java)
 
 **Testing**: [](folding_test.md)
 
@@ -20,10 +20,11 @@ Rather than the usual practice of using a folding builder to collapse a class, m
 
 ## Define a Folding Builder
 
-The [`SimpleFoldingBuilder`](%gh-sdk-samples%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleFoldingBuilder.java) replaces usages of properties with their values by default.
+The [`SimpleFoldingBuilder`](%gh-sdk-samples-master%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleFoldingBuilder.java) replaces usages of properties with their values by default.
 Start by subclassing [`FoldingBuilderEx`](%gh-ic%/platform/core-api/src/com/intellij/lang/folding/FoldingBuilderEx.java)
 
-Note that `SimpleFoldingBuilder` also implements [`DumbAware`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/DumbAware.java), which means the class is allowed to run in dumb mode, when indices are in background update.
+Note that `SimpleFoldingBuilder` is marked [dumb aware](indexing_and_psi_stubs.md#DumbAwareAPI),
+which means the class is allowed to run in [dumb mode](indexing_and_psi_stubs.md#dumb-mode), when indexes are in background update.
 
 > A folding builder must implement [`DumbAware`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/DumbAware.java) to function in this tutorial and pass tests.
 >

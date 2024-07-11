@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Android Studio Plugin Development
 
@@ -141,7 +141,7 @@ Otherwise, if only general IntelliJ Platform features (APIs) are used, then a de
 
 ### Android Specific Extension Points
 
-See [](extension_point_list.md#android-plugin).
+See [](android_plugin_extension_point_list.md).
 
 ## Additional Articles and Resources
 
@@ -152,7 +152,7 @@ See [](extension_point_list.md#android-plugin).
 ## Open Source Plugins for Android Studio
 
 When learning new development configurations, it is helpful to have some representative projects for reference:
-* [ADB Idea](https://github.com/pbreault/adb-idea) plugin for Android Studio and Intellij IDEA that speeds up Android development.
+* [ADB Idea](https://github.com/pbreault/adb-idea) plugin for Android Studio and IntelliJ IDEA that speeds up Android development.
 * [Android postfix plugin](https://github.com/takahirom/android-postfix-plugin) for Android Studio.
 * [Flutter Plugin](https://github.com/flutter/flutter-intellij).
 * Bal Sikandar's [list of Android Studio plugins](https://github.com/balsikandar/Android-Studio-Plugins).

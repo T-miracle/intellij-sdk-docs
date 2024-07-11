@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Creating a Plugin Gradle Project
 
@@ -8,7 +8,11 @@ This documentation page describes a Gradle-based plugin project generated with t
 
 ## Creating a Plugin with New Project Wizard
 
+<include from="snippets.md" element-id="gradlePluginVersion"/>
+
 <procedure title="Create IDE Plugin" id="create-ide-plugin">
+
+<include from="snippets.md" element-id="pluginDevKitAvailability"/>
 
 Launch the <control>New Project</control> wizard via the <ui-path>File | New | Project...</ui-path> action and provide the following information:
 1. Select the <control>IDE Plugin</control> generator type from the list on the left.
@@ -20,9 +24,9 @@ Launch the <control>New Project</control> wizard via the <ui-path>File | New | P
    For this example select the <control>Kotlin</control> option.
    See also [Kotlin for Plugin Developers](using_kotlin.md) for more information.
 
-   > Projects generated with IntelliJ IDEA 2023.1 or newer, support both Kotlin and Java sources out of the box.
-   > Project generator automatically creates <path>$PLUGIN_DIR$/src/main/kotlin</path> sources directory.
-   > To add Java sources, create <path>$PLUGIN_DIR$/src/main/java</path> directory.
+   > Projects generated with IntelliJ IDEA 2023.1 or newer support both Kotlin and Java sources out of the box.
+   > Project generator automatically creates <path>\$PLUGIN_DIR\$/src/main/kotlin</path> sources directory.
+   > To add Java sources, create <path>\$PLUGIN_DIR\$/src/main/java</path> directory.
    >
    {style="note"}
 
@@ -31,7 +35,7 @@ Launch the <control>New Project</control> wizard via the <ui-path>File | New | P
 6. Provide the <control>Artifact</control> which is the default name of the build project artifact (without a version).
    It is also used for the Gradle property `rootProject.name` value in the project's <path>settings.gradle.kts</path> file.
    For this example, enter `my_plugin`.
-7. Select <control>JDK</control> 11.
+7. Select <control>JDK</control> 17.
    This JDK will be the default JRE used to run Gradle, and the JDK version used to compile the plugin sources.
 
 <include from="snippets.md" element-id="apiChangesJavaVersion"/>
@@ -44,27 +48,37 @@ Launch the <control>New Project</control> wizard via the <ui-path>File | New | P
 
 For the example `my_plugin` created with the steps describes above, the _IDE Plugin_ generator creates the following directory content:
 
-```text
-my_plugin
-├── .run
-│   └── Run IDE with Plugin.run.xml
-├── gradle
-│   └── wrapper
-│       ├── gradle-wrapper.jar
-│       └── gradle-wrapper.properties
-├── src
-│   └── main
-│       ├── kotlin
-│       └── resources
-│           └── META-INF
-│               ├── plugin.xml
-│               └── pluginIcon.svg
-├── .gitignore
-├── build.gradle.kts
-├── gradle.properties
-├── gradlew
-├── gradlew.bat
-└── settings.gradle.kts
+```plantuml
+@startuml
+
+skinparam TitleFontName JetBrains Sans
+skinparam TitleFontStyle plain
+skinparam TitleFontSize 16
+skinparam DefaultTextAlignment left
+
+title
+  my_plugin
+  |_ .run
+    |_ Run IDE with Plugin.run.xml
+  |_ gradle
+    |_ wrapper
+      |_ gradle-wrapper.jar
+      |_ gradle-wrapper.properties
+  |_ src
+    |_ main
+      |_ kotlin
+      |_ resources
+        |_ META-INF
+          |_ plugin.xml
+          |_ pluginIcon.svg
+  |_ .gitignore
+  |_ build.gradle.kts
+  |_ gradle.properties
+  |_ gradlew
+  |_ gradlew.bat
+  |_ settings.gradle.kts
+end title
+@enduml
 ```
 
 * The default IntelliJ Platform <path>build.gradle.kts</path> file (see next paragraph).
@@ -72,7 +86,7 @@ my_plugin
 * The <path>settings.gradle.kts</path> file, containing a definition of the `rootProject.name` and required repositories.
 * The Gradle Wrapper files, and in particular the <path>gradle-wrapper.properties</path> file, which specifies the version of Gradle to be used to build the plugin.
   If needed, the IntelliJ IDEA Gradle plugin downloads the version of Gradle specified in this file.
-* The <path>META-INF</path> directory under the default `main` [source set](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java_project_layout) contains the plugin [configuration file](plugin_configuration_file.md) and [plugin icon](plugin_icon_file.md).
+* The <path>META-INF</path> directory under the default `main` [source set](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java_project_layout) contains the plugin [configuration file](plugin_configuration_file.md) and [plugin logo](plugin_icon_file.md).
 * The _Run Plugin_ [run configuration](https://www.jetbrains.com/help/idea/run-debug-configuration.html).
 
 The generated `my_plugin` project <path>build.gradle.kts</path> file:
@@ -81,7 +95,7 @@ The generated `my_plugin` project <path>build.gradle.kts</path> file:
 plugins {
   id("java")
   id("org.jetbrains.kotlin.jvm") version "1.9.21"
-  id("org.jetbrains.intellij") version "1.16.1"
+  id("org.jetbrains.intellij") version "1.17.4"
 }
 
 group = "com.example"

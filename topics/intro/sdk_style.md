@@ -1,19 +1,18 @@
-# SDK Docs Style Guide
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+# SDK Docs Style Guide
 
 <link-summary>Writing and notation styleguide for SDK Docs.</link-summary>
 
 This document describes the writing style used in authoring open-source IntelliJ Platform SDK documentation.
-Before you begin, please read this page thoroughly, as well as the [Code of Conduct](intellij-sdk-docs-original_CODE_OF_CONDUCT.md) and [License](https://github.com/JetBrains/intellij-sdk-docs/blob/main/LICENSE.txt) documents.
-Please see also [](intellij-sdk-docs-original_CONTRIBUTING.md) for some general remarks.
-For information about contributing to the IntelliJ Platform itself, please visit [Contributing to the IntelliJ Platform](platform_contributions.md).
+Before you begin, read this page thoroughly, as well as the [Code of Conduct](intellij-sdk-docs-original_CODE_OF_CONDUCT.md) and [License](https://github.com/JetBrains/intellij-sdk-docs/blob/main/LICENSE.txt) documents.
+See also [](intellij-sdk-docs-original_CONTRIBUTING.md) for some general remarks.
+
+For information about contributing to the IntelliJ Platform itself, visit [Contributing to the IntelliJ Platform](platform_contributions.md).
 
 First and foremost, we should keep in mind our audience and their objectives:
 _Someone reading technical content is usually looking to answer a specific question.
 That question might be broad or narrowly-focused, but either way, our goal is to provide answers without distraction._
-
-The style of the Intellij Platform SDK documentation is captured by using a markup language named [Markdown](https://github.github.com/gfm/).
 
 To verify grammar and correct spelling, it is highly recommended to use [Grazie Professional](https://plugins.jetbrains.com/plugin/16136-grazie-professional) plugin to highlight any issues on-the-fly in the IDE.
 
@@ -27,10 +26,10 @@ The topic files themselves are [Markdown](https://github.github.com/gfm/) files 
 Each Markdown file **must** start with a copyright notice, formatted using HTML comment notation:
 
 ```html
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 ```
 
-It **must** be followed by a header defining its title using the level 1 heading:
+It **must** be followed by a header defining its title using level 1 heading:
 
 ```
 # Contributing to the IntelliJ Platform SDK
@@ -52,7 +51,7 @@ Every page **should** provide a short excerpt (usually one sentence) using dedic
 A page can highlight related topics and other important links before the actual content using `<tldr>` tag.
 Links must be grouped using "**Bold Category Name**: link1, link2, \[...]" ([Example](language_and_filetype.md)).
 
-Use _Reference_ to link to other topics, _Code_ to link to code/files, _Platform UI Guidelines_ for links to [IntelliJ Platform UI Guidelines](https://jetbrains.design/intellij/), and _Product Help_ for links to [IntelliJ IDEA Help](https://www.jetbrains.com/help/idea).
+Use _Reference_ to link to other topics, _Code_ to link to code/files, _UI Guidelines_ for links to [UI Guidelines](ui_guidelines_welcome.topic), and _Product Help_ for links to [IntelliJ IDEA Help](https://www.jetbrains.com/help/idea).
 
 #### Introductory Text
 
@@ -90,10 +89,11 @@ Consistent text styles are used to standardize references and keywords:
 * User interface element names like labels, buttons, checkboxes, etc. are wrapped using `<control>`: `Press <control>Continue</continue>`: Press <control>Continue</control>
 * Non-code keywords and quotations, or the names of non-code files are formatted as italic style: \_Theme\_ (_Theme_), \_README.md\_ (_README.md_.)
   Examples of this file type include _LICENSE.txt_ and _README.md_.
-* Code keywords and classnames are formatted as code style: \`interface\`: `interface`, \`AnAction\`: `AnAction`, \`name\` attribute: `name` attribute.
+* Code keywords and class names are formatted as code style: \`interface\`: `interface`, \`AnAction\`: `AnAction`, \`name\` attribute: `name` attribute.
 * Filenames are wrapped using `<path>`: `<path>build.gradle.kts</path>` <path>build.gradle.kts</path>.
 * File formats are shown as all capital letters: PNG and XML.
 * Filename extensions are not capitalized when part of a full filename, path, or URL: <path>plugin.xml</path>.
+* When using \$PLACEHOLDER\$ in non-code parts, it must be escaped: `<path>\$PLACEHOLDER\$/somePath</path>`.
 * Keyboard shortcuts are wrapped using `<shortcut>`: `press <shortcut>Alt+Insert</shortcut>` becomes "press <shortcut>Alt+Insert</shortcut>".
 * See [Guidelines for Highlighting Syntax](#guidelines-for-highlighting-syntax) for best practices for representing code fragments.
 * See [Links to IntelliJ Platform Source](#links-to-intellij-platform-source) for more details about representing names of source files in links.
@@ -140,9 +140,9 @@ General Markdown links have the default Markdown link style:
 #### Links to IntelliJ Platform Source
 
 Links to files in the IntelliJ Platform (`intellij-community`) repository use `%\gh-ic%` prefix instead of the full URL to the repository.
-Links to files in source code packages in other GitHub repositories follow much the same rules, except the links use a different custom `gh-...` prefix defined in <path>v.list</path>.
+Links to files in source code packages in other GitHub repositories follow the same rules, except the links use a different custom `gh-...` prefix defined in <path>v.list</path>.
 
-* `[README.md](%\gh-ic%/README.md)`{disable-links} links to general, non-code information files. ([README.md](%gh-ic%/README.md))
+* `[README.md](%\gh-ic%/README.md)`{disable-links} links to any general, non-code information files. ([README.md](%gh-ic%/README.md))
   Examples of this file type include _LICENSE.txt_ and _README.md_.
 * `[`IdeaPlugin.xml`](%\gh-ic%/community-resources/resources/META-INF/IdeaPlugin.xml)`{disable-links} links to declarative source code files, use `code` style. ([`IdeaPlugin.xml`](%gh-ic%/community-resources/resources/META-INF/IdeaPlugin.xml))
   Examples of this file type include: `settings.gradle`, `plugin.xml` or `theme_basics.theme.json`.
@@ -164,7 +164,7 @@ In-paragraph code fragments and IntelliJ Platform APIs are formatted according t
   Instead, refer to `Foo`.
 * The FQN is used for the first reference to an interface, class, or package on a page.
   Rather than `AnAction`, introduce it as `com.intellij.openapi.actionSystem.AnAction`.
-  Subsequent references on the page can be `AnAction`.
+  Later references on the page can be `AnAction`.
   Exception: the FQN is not used with a GitHub [link](#links).
 * Method names always use empty parentheses: "call `bar()` to apply."
   Method names are prefixed with the class/interface name when needed for clarity: `Foo.bar()`.
@@ -172,10 +172,10 @@ In-paragraph code fragments and IntelliJ Platform APIs are formatted according t
 #### Extension Points
 
 * Extension point name must be followed by "extension point (EP)" for the first occurrence on a page.
-  All following can use "EP" suffix.
+  All following occurrences can use "EP" suffix.
 * Use the FQN when first introducing an [extension point](plugin_extension_points.md) (EP) on a page.
   Rather than `stubIndex`, introduce `com.intellij.stubIndex`.
-  Subsequent mentions on the page can be `stubIndex`.
+  Later mentions on the page can be `stubIndex`.
 
 #### XML
 
@@ -210,7 +210,7 @@ The disadvantage is the file may contain a large class, too large for the docume
 If possible, use `include-symbol="ClassName"` to show only the class body without any headers and imports.
 To include only a specific method, specify `include-symbol="methodName"` additionally.
 
-In any case, please keep code samples concise and avoid any unnecessary "surrounding" code or import statements.
+In any case, keep code samples concise and avoid any unnecessary "surrounding" code or import statements.
 
 ### Tables
 
@@ -223,6 +223,8 @@ The syntax is to use the pipe (`|`) and minus symbols:
 ```
 
 Use `& #124;` (remove space before `#`!) instead of `|` to prevent escaping problems for `<ui-path>` elements inside cells.
+
+Use `<p>Line 1</p><p>Line 2</p>` for multi-line content in a cell.
 
 ### Notes and Callouts
 
@@ -270,8 +272,8 @@ Complex callouts can also specify `title` attribute:
 Every page typically has a dedicated subdirectory within root <path>/images</path>.
 
 Images in this documentation are generally screenshots.
-For consistency, images should be 296, 460, or 706 pixels wide.
-The preferred image format is PNG at 144 DPI resolution.
+For consistency, images should be 296, 460 or 706 pixels wide.
+The preferred image format is PNG at a resolution of 144 DPI.
 A resolution of 72 DPI is acceptable but may look blurry on high-resolution monitors.
 
 Use [Window Resizer](https://plugins.jetbrains.com/plugin/18045-window-resizer) plugin for exact resizing of the IDE application window.
@@ -293,7 +295,7 @@ If the width of an image needs to be adjusted, it can be specified as follows:
 
 #### Zoom Popup
 
-Images too big to fit into main content can have <control>+</control> overlay control to open a popup with the "zoomed" variant.
+Images too big to fit into the main content can have <control>+</control> overlay control to open a popup with the "zoomed" variant.
 
 <tabs>
 <tab title="PNG">

@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Explore the IntelliJ Platform API
 
@@ -16,7 +16,8 @@ This usually happens in two situations:
 This guide provides a list of proven strategies that can help you overcome these challenges and gather enough information to continue your work.
 Furthermore, the tips below will help build your confidence as you explore the IntelliJ Platform.
 
-> In some cases, implementing an actual IntelliJ Platform plugin might not be necessary, as [alternative solutions](plugin_alternatives.md) exist.
+<include from="intellij_platform.md" element-id="pluginAlternatives"/>
+
 > See also [](plugin_required_experience.md) about necessary technology knowledge.
 
 ## 1 Extension Points (EPs)
@@ -24,11 +25,11 @@ Furthermore, the tips below will help build your confidence as you explore the I
 ### 1.1 Browse Lists of EPs
 
 The most important resource for discovering new EPs is the extensive list provided directly in the
-[IntelliJ Platform SDK Documentation](extension_point_list.md).
+[IntelliJ Platform SDK Documentation](intellij_platform_extension_point_list.md).
 On this page, you will find all the EPs, and each entry includes a link to the online source code and a link to the
 [IntelliJ Platform Explorer](https://jb.gg/ipe),
 which helps you find examples of this EP in other plugins.
-Additionally, dedicated Extension Point Lists specific to IDEs are available under _Part VIII — Product Specific_.
+Additionally, dedicated Extension Point Lists specific to IDEs are available under _Product Specific_.
 
 ### 1.2 Use Autocompletion Information
 
@@ -144,11 +145,11 @@ If you want to implement a functionality that is similar to an existing IDE feat
 
 ### 2.6 Refrain from Using Internal Classes
 
-As a general remark, the use of implementation classes is strongly discouraged (i.e. classes ending with `Impl` in their name,
+As a general remark, the use of implementation classes is strongly discouraged (i.e., classes ending with `Impl` in their name,
 located under `impl` package, or included in <path>*-impl.jar</path>).
 
-Also, API annotated with
-[`org.jetbrains.annotations.ApiStatus.Internal`](https://github.com/JetBrains/java-annotations/blob/master/common/src/main/java/org/jetbrains/annotations/ApiStatus.java)
+API annotated with
+[`@ApiStatus.Internal`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/ApiStatus.java)
 must not be used, see [](api_internal.md) for more details and replacements.
 
 ## 3 Tools and References
@@ -182,7 +183,7 @@ Here is a condensed list you can use for further reference:
 
 - [](useful_links.md)
 - [](learning_resources.md)
-- [](extension_point_list.md)
+- [](intellij_platform_extension_point_list.md)
 - Section on [exploring module and plugin APIs](plugin_compatibility.md#exploring-module-and-plugin-apis).
 - List of [notable](api_notable.md) and [incompatible](api_changes_list.md) API changes.
 

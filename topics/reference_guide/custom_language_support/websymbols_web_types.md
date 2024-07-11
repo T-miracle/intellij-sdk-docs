@@ -1,15 +1,15 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Web Types
+<primary-label ref="2022.3"/>
 
-<link-summary>
-Web Types - contributing statically defined Web Symbols through JSONs.
-</link-summary>
+<link-summary>Web Types - contributing statically defined Web Symbols through JSONs.</link-summary>
 
 Web Types is a JSON metadata format, which provides an easy way to contribute statically defined Web Symbols.
 The JSON Web Types detailed schema can be accessed by
 [following this link](https://github.com/JetBrains/web-types/blob/master/schema/web-types.json).
-The format is open source and IDE-agnostic by itself, however currently it is being actively used mostly by JetBrains IDEs.
+The format is open source and IDE-agnostic by itself.
+However, currently it is being actively used mostly by JetBrains IDEs.
 
 Originally, it was created to facilitate the contribution of statically defined symbols for the
 [Vue](https://vuejs.org/) framework, which may explain the presence of some deprecated properties in the schema.
@@ -44,7 +44,7 @@ A simple Web Types file looks as follows, where this file defines a `my-element`
 
 ## File Structure
 
-The Web Types file should, at minimum, contain `name`, `version` and `contributions` properties.
+The Web Types file should, at least, contain `name`, `version` and `contributions` properties.
 It should also include `$schema` property which can be either
 `https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json`
 or
@@ -52,13 +52,13 @@ or
 The schema contains detailed documentation for all the JSON entities.
 
 Directly under `contributions` property are listed namespaces with their contributions.
-Currently only `html`, `css` or `js` namespaces are allowed, however in the future this limitation
-will be lifted to support Web Types for other technologies.
+Currently only `html`, `css` or `js` namespaces are allowed.
+However, in the future this limitation will be lifted to support Web Types for other technologies.
 
 The `namespace` object contains symbol kind names listed as properties.
 Some symbol kinds are predefined and directly supported by IDE (see [](#direct-support) for reference).
-The kind of symbol should relate to its role.
-For instance a Vue directive should be of the kind `vue-directives`.
+The kind of symbol should be related to its role.
+For instance, a Vue directive should be of the kind `vue-directives`.
 Each framework should define a set of custom symbol kinds if needed.
 Reference for the most important symbol kinds defined by frameworks supported by IDEs is below.
 
@@ -69,7 +69,7 @@ A custom property is a JSON property, whose value is of a simple type (string, n
 or is an array of simple types.
 If a contribution’s JSON property’s value is an object value or an array of objects, it is treated as a list of sub-contributions.
 Such contributions will be assigned to the same namespace as the parent contributions.
-To use a different namespace for sub-contributions, nest symbol kind JSON property name under a `js`, `css` or `html` property. E.g:
+To use a different namespace for sub-contributions, nest symbol kind JSON property name under a `js`, `css` or `html` property, e.g.:
 
 ```JSON
 {
@@ -102,7 +102,7 @@ To use a different namespace for sub-contributions, nest symbol kind JSON proper
 
 In the example below, Web Types contributes information that the `my-element` HTML element supports a custom CSS property `--bg-color`.
 The `attributes` are implicitly under the `html` namespace.
-To contribute `foo` attribute one could also write it in longer form:
+To contribute a `foo` attribute, one could also write it in longer form:
 
 ```JSON
 {
@@ -122,11 +122,11 @@ To contribute `foo` attribute one could also write it in longer form:
 Each Web Types contribution is represented in the Web Symbols framework by a
 [`PsiSourcedWebSymbol`](%gh-ic%/platform/webSymbols/src/com/intellij/webSymbols/PsiSourcedWebSymbol.kt)
 object.
-All the Web Types contributions are mapped 1-1 and custom properties are accessible through `properties` property.
+All the Web Types contributions are mapped one-to-one, and custom properties are accessible through `properties` property.
 
 ## Including Web Types
 
-Web Types can currently be discovered by the IDE in following ways:
+Web Types can currently be discovered by the IDE in the following ways:
 
 {style="full"}
 NPM
@@ -135,35 +135,37 @@ NPM
 The property accepts a string or an array of strings with relative paths to Web Types files shipped with the package.
 
 Local Project
-: In your JavaScript projects in `package.json` files you can specify `web-types` property similarly to the NPM package.
+: In your JavaScript projects in `package.json` files, you can specify `web-types` property similarly to the NPM package.
 The property accepts a string or an array of strings with relative paths to Web Types files within the project.
 
 IDE Plugin
 : You can ship Web Types JSON with your IDE plugin.
-To point an IDE to its location use `com.intellij.webSymbols.webTypes` extension point and pass the file location in `source` attribute value.
-With `enableByDefault` attribute you can choose whether the Web Types file should be contributed to Web Symbols scope by default,
+To point an IDE to its location, use `com.intellij.webSymbols.webTypes` extension point and pass the file location in `source` attribute value.
+With `enableByDefault` attribute, you can choose whether the Web Types file should be contributed to Web Symbols scope by default,
 or only if an NPM package with the same name is present in the project.
 
 ## Special Properties
 
 {style="full"}
-inject-language
+`inject-language`
 : Supported by `html/elements` and `html/attributes`, allows to inject the specified language into HTML element text or HTML attribute value.
 
-doc-hide-pattern
-: If a symbol uses a RegEx pattern, usually it will be displayed in a documentation popup section "pattern". Setting this property to `true` hides that section.
+`doc-hide-pattern`
+: If a symbol uses a RegEx pattern, usually it will be displayed in a documentation popup section "pattern".
+Setting this property to `true` hides that section.
 
-hide-from-completion
-: By default all symbols show up in code completion. Setting this property to `true` prevents a symbol from showing up in the code completion.
+`hide-from-completion`
+: By default, all symbols show up in code completion.
+Setting this property to `true` prevents a symbol from showing up in the code completion.
 
 ## Symbol Kinds
 
-Web Types files are used internally by IDEs and tooling to define rules for frameworks.
+Web Types files are used internally by IDEs and tools to define rules for frameworks.
 Following is the reference for symbol kinds used by framework support.
 
 ### Direct Support
 
-IDEs provide direct support for following symbol kinds:
+IDEs provide direct support for the following symbol kinds:
 - `html/elements`
 - `html/attributes`
 - `css/properties`
@@ -173,12 +175,12 @@ IDEs provide direct support for following symbol kinds:
 - `css/classes`
 - `css/parts` (*since 2023.2*)
 
-Prior to 2023.1 IDEs were required to have JavaScript plugin installed for the support to work.
+Prior to 2023.1, IDEs were required to have JavaScript plugin installed for the support to work.
 
 ### Angular
 
 Angular plugin Web Types are available
-[here](%gh-ij-plugins%/AngularJS/resources/web-types)
+[here](%gh-ij-plugins%/Angular/resources/web-types)
 for reference.
 Any Web Types file targeting only Angular support should have `framework` property set to `angular`.
 Highlights: `js/ng-custom-events` contribute symbols with patterns for any custom events supported by Angular `EventManager`s, e.g.:
@@ -233,10 +235,10 @@ Any Web Types file targeting only Vue support should have `framework` property s
 Highlights:
 
 {style="full"}
-/html/vue-components
+`/html/vue-components`
 : Use `/html/vue-components` to contribute Vue components.
 
-/html/vue-directives
+`/html/vue-directives`
 : Use `/html/vue-directives` to contribute Vue directives.
 Use `attribute-value` property to specify the type of value expression. E.g.:
 ```JSON
@@ -248,13 +250,13 @@ Use `attribute-value` property to specify the type of value expression. E.g.:
 }
 ```
 
-/html/vue-file-top-elements
+`/html/vue-file-top-elements`
 : Use `/html/vue-file-top-elements` to contribute any custom top-level elements available in Vue Single Component File
 
 A Vue `/html/vue-components` contribution supports:
 
 {style="full"}
-/html/props
+`/html/props`
 : Use `/html/props` to contribute Vue component props, e.g:
 ```JSON
 {
@@ -267,9 +269,9 @@ A Vue `/html/vue-components` contribution supports:
 }
 ```
 
-/html/slots
+`/html/slots`
 : Use `/html/slots` to contribute Vue component slots.
-For scoped slots use `vue-properties` to provide list of scoped slot properties.
+For scoped slots, use `vue-properties` to provide a list of scoped slot properties.
 Example:
 ```JSON
 {
@@ -287,7 +289,7 @@ Example:
 }
 ```
 
-/js/events
+`/js/events`
 : Use `/js/events` to contribute Vue component events, e.g.:
 ```JSON
 {
@@ -302,7 +304,7 @@ Example:
 }
 ```
 
-html/vue-model
+`html/vue-model`
 : Use `html/vue-model` to contribute settings for Vue model directive. E.g.:
 ```JSON
 {
@@ -317,7 +319,7 @@ html/vue-model
 A Vue `/html/vue-directives` contribution supports:
 
 {style="full"}
-/html/argument
+`/html/argument`
 : Use `/html/argument` as a Vue directive argument. E.g.:
 ```JSON
 {
@@ -336,8 +338,7 @@ A Vue `/html/vue-directives` contribution supports:
 }
 ```
 
-
-/html/modifiers
+`/html/modifiers`
 : Use `/html/modifiers` as a Vue directive modifier. E.g.:
 ```JSON
 {
@@ -358,7 +359,7 @@ A Vue `/html/vue-directives` contribution supports:
 
 ### Web Components
 
-For Lit support, install into your Node project as a devDependency `@web-types/lit`.
+For Lit support, install it in your Node project as a `devDependency` `@web-types/lit`.
 Web Types are available
 [here](https://github.com/JetBrains/web-types/blob/master/packages/lit/lit%402.0.0/lit.web-types.json)
 for reference.

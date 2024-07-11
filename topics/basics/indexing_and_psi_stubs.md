@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Indexing and PSI Stubs
 
@@ -16,24 +16,42 @@ It supports two main types of indexes:
 
 File-based indexes are built directly over the content of files.
 Stub indexes are built over serialized *stub trees*.
-A stub tree for a source file is a subset of its PSI tree, which contains only externally visible declarations and is serialized in a compact binary format.
+A stub tree for a source file is a subset of its [PSI](psi.md) tree, which contains only externally visible declarations and is serialized in a compact binary format.
 
 Querying a file-based index gets you the set of files matching a specific condition.
 Querying a stub index gets you the set of matching PSI elements.
-Therefore, custom language plugin developers typically use stub indexes in their plugin implementations.
+Therefore, custom language plugin developers typically use [stub indexes](stub_indexes.md) in their plugin implementations.
 
 > [Index Viewer](https://plugins.jetbrains.com/plugin/13029-index-viewer/) plugin can be used to inspect indexes' contents and properties.
 
 ## Dumb Mode
 
 Indexing is a potentially lengthy process.
-It's performed in the background, and during this time, IDE features are restricted to the ones that don't require index: basic text editing, version control, etc.
+It's performed in the background, and during this time, all IDE features are restricted to the ones that don't require indexes: basic text editing, version control, etc.
 This restriction is managed by [`DumbService`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/DumbService.kt).
-Violations are reported via [`IndexNotReadyException`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/IndexNotReadyException.java) - see its Javadoc for the information on how to adapt callers.
+Violations are reported via [`IndexNotReadyException`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/IndexNotReadyException.java), see its documentation for information on how to adapt callers.
 
 `DumbService` provides API to query whether the IDE is currently in "dumb" mode (where index access is not allowed) or "smart" mode (with all index built and ready to use).
 It also provides ways of delaying code execution until indexes are ready.
-See its Javadoc for more details.
+
+### `DumbAware` API
+{id="DumbAwareAPI"}
+
+Implementations of certain [](plugin_extension_points.md) can be marked as available during Dumb Mode by implementing
+[`DumbAware`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/DumbAware.java).
+Such Extension Points are marked with _DumbAware_ tag in [](intellij_platform_extension_point_list.md).
+Commonly used include [`CompletionContributor`](code_completion.md), [`(External)Annotator`](syntax_highlighting_and_error_highlighting.md#annotator) and various
+[run configuration](run_configurations.md) EPs.
+Since 2024.2, also [intentions](code_intentions.md) and [quick-fixes](quick_fix.md).
+
+For [](basic_action_system.md) available during Dumb Mode, extend [`DumbAwareAction`](%gh-ic%/platform/ide-core/src/com/intellij/openapi/project/DumbAwareAction.java).
+
+Other API might indicate its Dumb Mode compatibility by extending [`PossiblyDumbAware`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/PossiblyDumbAware.java).
+
+### Testing
+
+To toggle Dumb Mode for testing purposes, invoke <ui-path>Tools | Internal Actions | Enter/Exit Dumb Mode</ui-path>
+while the IDE is running in [internal mode](enabling_internal.md).
 
 ## Gists
 
@@ -57,8 +75,9 @@ Please see [`VirtualFileGist`](%gh-ic%/platform/indexing-api/src/com/intellij/ut
 ## Improving Indexing Performance
 
 ### Performance Metrics
+<primary-label ref="2020.2"/>
 
-Indexing performance metrics in JSON format are generated in [logs directory](https://intellij-support.jetbrains.com/hc/en-us/articles/206544519-Directories-used-by-the-IDE-to-store-settings-caches-plugins-and-logs) (see [sandbox directory](ide_development_instance.md#the-development-instance-sandbox-directory) for development instance) in 2020.2 and later.
+Indexing performance metrics in JSON format are generated in [logs directory](https://intellij-support.jetbrains.com/hc/en-us/articles/206544519-Directories-used-by-the-IDE-to-store-settings-caches-plugins-and-logs) (see [sandbox directory](ide_development_instance.md#the-development-instance-sandbox-directory) for development instance).
 These are additionally available in HTML format starting with 2021.1.
 
 ### Avoid Using AST

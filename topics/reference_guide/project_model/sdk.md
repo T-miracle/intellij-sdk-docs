@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 <link-summary>Configuring and getting information about a project SDK.</link-summary>
 
@@ -49,7 +49,7 @@ Sdk projectSdk = ProjectRootManager.getInstance(project).getProjectSdk();
   ProjectRootManager.getInstance(project).setProjectSdkName(name, sdk.getSdkType().getName());
   ```
 
-See the [project_model](%gh-sdk-samples%/project_model/src/main/java/org/intellij/sdk/project/model/ProjectSdkAction.java) code sample to get more familiar with SDK manipulation toolset.
+See the [project_model](%gh-sdk-samples-master%/project_model/src/main/java/org/intellij/sdk/project/model/ProjectSdkAction.java) code sample to get more familiar with SDK manipulation toolset.
 
 ## Available SDKs
 
@@ -113,7 +113,7 @@ Within `DemoProjectSdkSetupValidator`:
 * `isApplicableFor()` checks what condition(s) should be met to run the validation.
 * `getErrorMessage()` runs the validation and return an appropriate error message if the validation fails.
 * If the validation is successful, then it should return null.
-* `getFixHandler()` returns an `EditorNotificationPanel.ActionHandler` that enables the user to execute a quick-fix to resolve the validation issue.
+* `getFixHandler()` returns an `EditorNotificationPanel.ActionHandler` that enables the user to execute a quick fix to resolve the validation issue.
 
 
 > `ProjectSdkSetupValidator` will not work in IntelliJ Platform-based IDEs such as PyCharm.

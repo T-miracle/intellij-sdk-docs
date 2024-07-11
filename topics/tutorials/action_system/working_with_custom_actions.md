@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Creating Actions
 
@@ -8,7 +8,7 @@ Plugins can add actions to existing IDE menus and toolbars, as well as add new m
 The IntelliJ Platform calls the actions of plugins in response to user interactions with the IDE.
 However, the actions of a plugin must first be defined and registered with the IntelliJ Platform.
 
-Using the SDK code sample [`action_basics`](%gh-sdk-samples%/action_basics), this tutorial illustrates the steps to create an action for a plugin.
+Using the SDK code sample [`action_basics`](%gh-sdk-samples-master%/action_basics), this tutorial illustrates the steps to create an action for a plugin.
 
 ## Creating a Custom Action
 
@@ -18,7 +18,7 @@ Classes that extend it should override `AnAction.update()`, and must override `A
 * The `actionPerformed()` method implements the code that executes when an action is invoked by the user.
 * When targeting IntelliJ Platform 2022.3 or later, `AnAction.getActionUpdateThread()` must be implemented
 
-As an example, [`PopupDialogAction`](%gh-sdk-samples%/action_basics/src/main/java/org/intellij/sdk/action/PopupDialogAction.java) overrides `AnAction` for the `action_basics` code sample.
+As an example, [`PopupDialogAction`](%gh-sdk-samples-master%/action_basics/src/main/java/org/intellij/sdk/action/PopupDialogAction.java) overrides `AnAction` for the `action_basics` code sample.
 
 ```java
 public class PopupDialogAction extends AnAction {
@@ -111,8 +111,8 @@ An action declaration can be added manually to the <path>plugin.xml</path> file.
 An exhaustive list of declaration elements and attributes is presented in [](basic_action_system.md#registering-actions-in-pluginxml).
 Attributes are added by selecting them from the <control>New Action</control> form, or by editing the registration declaration directly in the <path>plugin.xml</path> file.
 
-The [`<action>`](plugin_configuration_file.md#idea-plugin__actions__action) declaration for `PopupDialogAction` in the `action_basics` [plugin.xml](%gh-sdk-samples%/action_basics/src/main/resources/META-INF/plugin.xml) file.
-It also contains an attribute for an [`Icon`](work_with_icons_and_images.md) and encloses elements declaring text overrides, keyboard and mouse shortcuts, and to which menu group the action should be added.
+The [`<action>`](plugin_configuration_file.md#idea-plugin__actions__action) declaration for `PopupDialogAction` in the `action_basics` [plugin.xml](%gh-sdk-samples-master%/action_basics/src/main/resources/META-INF/plugin.xml) file.
+It also contains an attribute for an [`Icon`](icons.md) and encloses elements declaring text overrides, keyboard and mouse shortcuts, and to which menu group the action should be added.
 
 The full declaration is:
 
@@ -135,9 +135,10 @@ The full declaration is:
 </action>
 ```
 
-#### Using Override-Text for an Action
+#### Using `override-text` for an Action
+<primary-label ref="2020.1"/>
 
-By using the `override-text` element introduced in 2020.1 of the IntelliJ Platform, the action text can be different depending on the context of where the action appears: menu, toolbar, etc.
+By using the `override-text` element, the action text can be different depending on the context of where the action appears: menu, toolbar, etc.
 The example above uses this element to ensure the shorter text "Popup Dialog Action" is shown anywhere the action appears in the main menu structure.
 Otherwise, the default, more explanatory text "Action Basics Plugin: Popup Dialog Action" is shown.
 For more information, see [](basic_action_system.md#setting-the-override-text-element).

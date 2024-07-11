@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Run Configurations Tutorial
 
@@ -13,14 +13,14 @@
 This step-by-step guide shows how to register and implement a simple [run configuration](run_configurations.md).
 Run configurations are used to run internal and external processes from within IntelliJ Platform based products.
 
-The full implementation is available in the [code samples](%gh-sdk-samples%/run_configuration).
+The full implementation is available in the [code samples](%gh-sdk-samples-master%/run_configuration).
 
 ## Pre-Requirements
 
 Create an empty plugin project.
 See the [](creating_plugin_project.md) section for details.
 
-## Implement a ConfigurationType
+## Implement a `ConfigurationType`
 
 Implement [`ConfigurationType`](%gh-ic%/platform/execution/src/com/intellij/execution/configurations/ConfigurationType.java):
 
@@ -28,9 +28,9 @@ Implement [`ConfigurationType`](%gh-ic%/platform/execution/src/com/intellij/exec
 ```
 {src="run_configuration/src/main/java/org/jetbrains/sdk/runConfiguration/DemoRunConfigurationType.java" include-symbol="DemoRunConfigurationType"}
 
-## Register the ConfigurationType
+## Register the `ConfigurationType`
 
-Register implemented configuration type in `com.intellij.configurationType` extension point in the [plugin.xml](%gh-sdk-samples%/run_configuration/src/main/resources/META-INF/plugin.xml):
+Register implemented configuration type in `com.intellij.configurationType` extension point in the [plugin.xml](%gh-sdk-samples-master%/run_configuration/src/main/resources/META-INF/plugin.xml):
 
 ```xml
 <extensions defaultExtensionNs="com.intellij">
@@ -39,7 +39,7 @@ Register implemented configuration type in `com.intellij.configurationType` exte
 </extensions>
 ```
 
-## Implement a ConfigurationFactory
+## Implement a `ConfigurationFactory`
 
 Implement a new [`ConfigurationFactory`](%gh-ic%/platform/execution/src/com/intellij/execution/configurations/ConfigurationFactory.java) through which custom run configurations will be created.
 
@@ -53,7 +53,7 @@ Implement corresponding configuration options class extending [`RunConfiguration
 ```
 {src="run_configuration/src/main/java/org/jetbrains/sdk/runConfiguration/DemoRunConfigurationOptions.java" include-symbol="DemoRunConfigurationOptions"}
 
-## Implement a Run Configuration
+## Implement a `RunConfiguration`
 
 To make your changes visible from the UI, implement a new run configuration.
 
@@ -66,7 +66,7 @@ To make your changes visible from the UI, implement a new run configuration.
 ```
 {src="run_configuration/src/main/java/org/jetbrains/sdk/runConfiguration/DemoRunConfiguration.java" include-symbol="DemoRunConfiguration"}
 
-## Implement the Settings Editor
+## Implement the `SettingsEditor`
 
 ```java
 ```

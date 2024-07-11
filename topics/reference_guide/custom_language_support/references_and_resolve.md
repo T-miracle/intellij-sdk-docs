@@ -1,6 +1,6 @@
-# References and Resolve
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+# References and Resolve
 
 <link-summary>PSI references allow for resolving from a symbol usage to its declaration.</link-summary>
 
@@ -12,7 +12,7 @@ This feature is needed in order to support the <ui-path>Navigate | Declaration o
 The <ui-path>View | Quick Definition</ui-path> action is based on the same mechanism, so it becomes automatically available for all references that can be resolved by the language plugin.
 To customize the exact document range to show in the popup (e.g., include "surrounding" code or comments), provide [`ImplementationTextSelectioner`](%gh-ic%/platform/lang-api/src/com/intellij/codeInsight/hint/ImplementationTextSelectioner.java) registered in `com.intellij.lang.implementationTextSelectioner` extension point.
 
-## PsiReference
+## PSI References
 
 All PSI elements which work as references (for which the <ui-path>Navigate | Declaration or Usages</ui-path> action applies) need to implement the
 [`PsiElement.getReference()`](%gh-ic%/platform/core-api/src/com/intellij/psi/PsiElement.java) method and to return a [`PsiReference`](%gh-ic%/platform/core-api/src/com/intellij/psi/PsiReference.java) implementation from that method.
@@ -33,7 +33,7 @@ A counterpart to the `resolve()` method is `isReferenceTo()`, which checks if th
 The latter method can be implemented by calling `resolve()` and comparing the result with the passed PSI element.
 Still, additional optimizations are possible (for example, performing the tree walk only if the element text is equal to the text of the reference).
 
-**Examples**:
+**Examples:**
 
 - [Reference](%gh-ic%/plugins/properties/src/com/intellij/lang/properties/ResourceBundleReference.java) to a ResourceBundle in the [Properties language plugin](%gh-ic%/plugins/properties)
 - [Custom Language Support Tutorial: Reference Contributor](reference_contributor.md)
@@ -69,6 +69,7 @@ The <ui-path>Navigate | Declaration or Usages</ui-path> action for such referenc
 The implementation of `multiResolve()` can be also based on [`PsiScopeProcessor`](%gh-ic%/platform/core-api/src/com/intellij/psi/scope/PsiScopeProcessor.java), and can collect all valid targets for the reference instead of stopping when the first valid target is found.
 
 ## Additional Highlighting
+<primary-label ref="2022.2"/>
 
 Implement [`HighlightedReference`](%gh-ic%/platform/lang-impl/src/com/intellij/codeInsight/highlighting/HighlightedReference.java) to add additional highlighting for non-obvious places (e.g., inside String literals).
-Such references will automatically be highlighted using <control>String | Highlighted reference</control> text attributes from <ui-path>Settings | Editor | Color Scheme | Language Defaults</ui-path> (_2022.2_).
+Such references will automatically be highlighted using <control>String | Highlighted reference</control> text attributes from <ui-path>Settings | Editor | Color Scheme | Language Defaults</ui-path>.

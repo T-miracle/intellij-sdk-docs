@@ -1,6 +1,6 @@
-# Settings Guide
+<!-- Copyright 2000-2024 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-<!-- Copyright 2000-2023 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+# Settings Guide
 
 <link-summary>Adding entries in Settings.</link-summary>
 
@@ -90,7 +90,7 @@ The attributes supported by `com.intellij.applicationConfigurable` EP and `com.i
 | `provider`          | **yes** [(1)](#attribute-notes) | FQN of implementation. See [](#the-configurableprovider-class) for more information.                                                                                                                                                                                                                                                                                                                | `ConfigurableProvider`                             |
 | `nonDefaultProject` | **yes**                         | <p>Applicable _only_ to the `com.intellij.projectConfigurable` (project Settings) EP.</p><p>`true` = show Settings for all projects _except_ the [default project](https://www.jetbrains.com/help/idea/configure-project-settings.html#new-default-settings).</p><p>`false` = show Settings for all projects.</p>                                                                                   | `Configurable`                                     |
 | `displayName`       | **yes** [(2)](#attribute-notes) | <p>The non-localized Settings name visible to users, which is needed for the Settings dialog left-side menu.</p><p>For a _localized_ visible name omit `displayName` and use the `key` and `bundle` attributes.</p>                                                                                                                                                                                 | <p>`Configurable`</p><p>`ConfigurableProvider`</p> |
-| `key` and `bundle`  | **yes** [(2)](#attribute-notes) | <p>The [localization](localization_guide.md) key and bundle for the Settings name visible to users.</p><p>For non-localized visible names omit `key` and `bundle` and use `displayName`.</p>                                                                                                                                                                                                        | <p>`Configurable`</p><p>`ConfigurableProvider`</p> |
+| `key` and `bundle`  | **yes** [(2)](#attribute-notes) | <p>The [localization](internationalization.md#message-bundles) key and bundle for the Settings name visible to users.</p><p>For non-localized visible names omit `key` and `bundle` and use `displayName`.</p>                                                                                                                                                                                      | <p>`Configurable`</p><p>`ConfigurableProvider`</p> |
 | `id`                | **yes**                         | <p>The unique, FQN identifier for this implementation.</p><p>The FQN should be based on the plugin `id` to ensure uniqueness.</p>                                                                                                                                                                                                                                                                   | <p>`Configurable`</p><p>`ConfigurableProvider`</p> |
 | `parentId`          | **yes**                         | <p>This attribute is used to create a hierarchy of Settings. This component is declared one of the specified `parentId` component's children. Typically used for placing a Settings panel within the Settings Dialog menu. Acceptable values for `parentId` are given in [](#values-for-parent-id-attribute).</p><p>`groupId` is deprecated. [(3)](#attribute-notes)</p>                            | <p>`Configurable`</p><p>`ConfigurableProvider`</p> |
 | `groupWeight`       | no                              | <p>Specifies the weight (stacking order) of this component within the group of a parent configurable component. The default weight is 0, meaning lowest in the order.</p><p>If one child in a group or a parent component has non-zero weight, all children will be sorted descending by their weight. If the weights are equal, the components will be sorted ascending by their display name.</p> | <p>`Configurable`</p><p>`ConfigurableProvider`</p> |
@@ -130,7 +130,7 @@ Implementations for `com.intellij.projectConfigurable` EP and `com.intellij.appl
   Most Settings providers are based on the `Configurable` interface or one of its sub- or supertypes.
 * The [`ConfigurableProvider`](%gh-ic%/platform/ide-core/src/com/intellij/openapi/options/ConfigurableProvider.java) class, which can hide a configurable component from the Settings dialog based on runtime conditions.
 
-### The Configurable Interface
+### The `Configurable` Interface
 
 Many Settings in the `intellij-community` code base implement `Configurable` or one of its subtypes, such as [`SearchableConfigurable`](%gh-ic%/platform/ide-core/src/com/intellij/openapi/options/SearchableConfigurable.java).
 Readers are encouraged to review the Javadoc comments for `Configurable`.
@@ -148,7 +148,7 @@ For a `Configurable` implementation correctly declared using an EP, the implemen
 >
 {style="warning"}
 
-#### IntelliJ Platform Interactions with Configurable
+#### IntelliJ Platform Interactions with `Configurable`
 
 The instantiation of a generic `Configurable` implementation is documented in the interface file.
 A few high-level points are reviewed here:
@@ -161,7 +161,7 @@ A few high-level points are reviewed here:
 
 To open Settings dialog or show specific `Configurable`, see [`ShowSettingsUtil`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/options/ShowSettingsUtil.java).
 
-#### Configurable Marker Interfaces
+#### `Configurable` Marker Interfaces
 
 Implementations based on `Configurable` can implement marker interfaces, which provide additional flexibility in the implementation.
 
@@ -176,7 +176,7 @@ Implementations based on `Configurable` can implement marker interfaces, which p
 `Configurable.Beta`
 : _(2022.3)_ Adds <control>Beta</control> label next to settings page title in <control>Settings</control> tree.
 
-#### Additional Interfaces Based on Configurable
+#### Additional Interfaces Based on `Configurable`
 
 There are classes in the IntelliJ Platform specialized in particular types of Settings.
 These subtypes are based on `com.intellij.openapi.options.ConfigurableEP`.
@@ -188,7 +188,7 @@ Existing implementations of `Configurable` in the IntelliJ Platform that can ser
 * [`ConsoleConfigurable`](%gh-ic%/platform/lang-impl/src/com/intellij/execution/console/ConsoleConfigurable.java) (application configurable)
 * [`AutoImportOptionsConfigurable`](%gh-ic%/platform/lang-impl/src/com/intellij/application/options/editor/AutoImportOptionsConfigurable.kt) (project configurable)
 
-### The ConfigurableProvider Class
+### The `ConfigurableProvider` Class
 
 The [`ConfigurableProvider`](%gh-ic%/platform/ide-core/src/com/intellij/openapi/options/ConfigurableProvider.java) class only provides a `Configurable` implementation if its runtime conditions are met.
 The IntelliJ Platform first calls the `ConfigurableProvider.canCreateConfigurable()`, which evaluates runtime conditions to determine if Settings changes make sense in the current context.
@@ -198,4 +198,6 @@ In that case the IntelliJ Platform calls `ConfigurableProvider.createConfigurabl
 By choosing not to provide a `Configuration` implementation in some circumstances, the `ConfigurableProvider` opts out of the Settings display and modification process.
 The use of `ConfigurableProvider` as a basis for a Settings implementation is declared using [attributes](#table-of-attributes) in the EP declaration.
 
-**Example**: [`RunToolbarSettingsConfigurableProvider`](%gh-ic%/platform/execution-impl/src/com/intellij/execution/runToolbar/RunToolbarSettingsConfigurableProvider.kt)
+**Examples:**
+- [`RunToolbarSettingsConfigurableProvider`](%gh-ic%/platform/execution-impl/src/com/intellij/execution/runToolbar/RunToolbarSettingsConfigurableProvider.kt)
+- [`VcsManagerConfigurableProvider`](%gh-ic%/platform/vcs-impl/src/com/intellij/openapi/vcs/configurable/VcsManagerConfigurableProvider.java)

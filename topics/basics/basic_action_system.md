@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Actions
 
@@ -8,7 +8,7 @@
 
 **Product Help:** [Menus and toolbars](https://www.jetbrains.com/help/idea/customize-actions-menus-and-toolbars.html)
 
-**Platform UI Guidelines:** [Toolbar](https://jetbrains.design/intellij/controls/toolbar/)
+**UI Guidelines:** [](toolbar.md)
 
 </tldr>
 
@@ -26,6 +26,9 @@ The [](grouping_action.md) tutorial demonstrates three types of groups that can 
 ## Action Implementation
 
 An action is a class derived from the abstract class [`AnAction`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnAction.java).
+For actions available during [dumb mode](indexing_and_psi_stubs.md#dumb-mode), extend [`DumbAwareAction`](%gh-ic%/platform/ide-core/src/com/intellij/openapi/project/DumbAwareAction.java).
+See also [](#useful-action-base-classes) below.
+
 The IntelliJ Platform calls methods of actions when a user interacts with a menu item or toolbar button.
 
 > Classes based on `AnAction` must not have class fields of any kind.
@@ -33,48 +36,61 @@ The IntelliJ Platform calls methods of actions when a user interacts with a menu
 > If the `AnAction` class uses a field to store data that has a shorter lifetime and doesn't clear this data promptly, the data leaks.
 > For example, any `AnAction` data that exists only within the context of a `Project` causes the `Project` to be kept in memory after the user has closed it.
 >
-{style="warning"}
+{style="warning" title="No fields allowed"}
 
 ### Principal Implementation Overrides
 
 Every IntelliJ Platform action should override `AnAction.update()` and must override `AnAction.actionPerformed()`.
-* An action's method `AnAction.update()` is called by the IntelliJ Platform framework to update an action state.
-  The state (enabled, visible) of an action determines whether the action is available in the UI.
-  An object of the [`AnActionEvent`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnActionEvent.java) type is passed to this method and contains information about the current context for the action.
-  Actions are made available by changing state in the [`Presentation`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/Presentation.java) object associated with the event context.
-  As explained in [Overriding the `AnAction.update()`  Method](#overriding-the-anactionupdate-method), it is vital `update()` methods _execute quickly_ and return execution to platform.
-* `AnAction.getActionUpdateThread()` (2022.3+) return an [`ActionUpdateThread`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/ActionUpdateThread.java),
-  which specifies if the `update()` method is called on a [background thread (BGT) or the event-dispatching thread (EDT)](general_threading_rules.md).
-  The preferred method is to run the update on the BGT, which has the advantage of guaranteeing application-wide read access to
-  [PSI](psi.md), [the virtual file system](virtual_file_system.md) (VFS), or [project models](project_structure.md).
-  Actions that run the update session on the BGT should not access the Swing component hierarchy directly.
-  Conversely, actions that specify to run their update on the EDT must not access PSI, VFS, or project data but have access to Swing components and other UI models.
-  All accessible data is provided by the `DataContext` as explained in [](#determining-the-action-context).
-  When switching from BGT to EDT is absolutely necessary, actions can use `AnActionEvent.getUpdateSession()` to
-  access the [`UpdateSession`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/UpdateSession.java) and
-  then call `UpdateSession.compute()` to run a function on the EDT.
-  Starting from IntelliJ Platform version 2022.3, the Plugin DevKit will have an inspection in
-  <ui-path>Plugin DevKit | Code | ActionUpdateThread is missing</ui-path> to notify plugin authors about a missing implementation of
-  `AnAction.getActionUpdateThread()`.
-* An action's method `AnAction.actionPerformed()` is called by the IntelliJ Platform if available and selected by the user.
-  This method does the heavy lifting for the action: it contains the code executed when the action gets invoked.
-  The `actionPerformed()` method also receives `AnActionEvent` as a parameter, which is used to access any context data like projects, files, selection, etc.
-  See [Overriding the `AnAction.actionPerformed()` Method](#overriding-the-anactionactionperformed-method) for more information.
 
+#### `AnAction.update()`
+
+An action's method `AnAction.update()` is called by the IntelliJ Platform framework to update an action state.
+The state (enabled, visible) of an action determines whether the action is available in the UI.
+An object of the [`AnActionEvent`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnActionEvent.java) type is passed to this method and contains information about the current context for the action.
+
+Actions are made available by changing state in the [`Presentation`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/Presentation.java) object associated with the event context.
+As explained in [Overriding the `AnAction.update()`  Method](#overriding-the-anactionupdate-method), it is vital `update()` methods _execute quickly_ and return execution to platform.
+
+#### `AnAction.getActionUpdateThread()`
+<primary-label ref="2022.3"/>
+
+`AnAction.getActionUpdateThread()` returns an [`ActionUpdateThread`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/ActionUpdateThread.java),
+which specifies if the `update()` method is called on a [background thread (BGT) or the event-dispatching thread (EDT)](general_threading_rules.md).
+The preferred method is to run the update on the BGT, which has the advantage of guaranteeing application-wide read access to
+[PSI](psi.md), [the virtual file system](virtual_file_system.md) (VFS), or [project models](project_structure.md).
+Actions that run the update session on the BGT should not access the Swing component hierarchy directly.
+Conversely, actions that specify to run their update on EDT must not access PSI, VFS, or project data but have access to Swing components and other UI models.
+
+All accessible data is provided by the `DataContext` as explained in [](#determining-the-action-context).
+When switching from BGT to EDT is absolutely necessary, actions can use `AnActionEvent.getUpdateSession()` to
+access the [`UpdateSession`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/UpdateSession.java) and
+then call `UpdateSession.compute()` to run a function on EDT.
+
+Inspection <ui-path>Plugin DevKit | Code | ActionUpdateThread is missing</ui-path> highlights missing implementation of
+`AnAction.getActionUpdateThread()`.
+
+#### `AnAction.actionPerformed()`
+
+An action's method `AnAction.actionPerformed()` is called by the IntelliJ Platform if available and selected by the user.
+This method does the heavy lifting for the action: it contains the code executed when the action gets invoked.
+The `actionPerformed()` method also receives `AnActionEvent` as a parameter, which is used to access any context data like projects, files, selection, etc.
+See [Overriding the `AnAction.actionPerformed()` Method](#overriding-the-anactionactionperformed-method) for more information.
+
+#### Miscellaneous
 There are other methods to override in the `AnAction` class, such as changing the default `Presentation` object for the action.
 There is also a use case for overriding action constructors when registering them with dynamic action groups, demonstrated in the [Grouping Actions](grouping_action.md#adding-child-actions-to-the-dynamic-group) tutorial.
 
-### Overriding the AnAction.update() Method
+### Overriding the `AnAction.update()` Method
 
 The method `AnAction.update()` is periodically called by the IntelliJ Platform in response to user gestures.
 The `update()` method gives an action to evaluate the current context and enable or disable its functionality.
 Implementors must ensure that changing presentation and availability status handles all variants and state transitions; otherwise, the given Action will get "stuck".
 
-> The `AnAction.update()` method can be called frequently and on a UI thread.
+> The `AnAction.update()` method can be called frequently and on EDT.
 > It must _execute very quickly_; no real work must be performed.
 > For example, checking selection in a tree or a list is considered valid, but working with the file system is not.
 >
-{style="warning"}
+{style="warning" title="Performance"}
 
 > If the new state of an action cannot be determined quickly, then evaluation should be performed in the `AnAction.actionPerformed()` method, and [notify](notifications.md) the user that the action cannot be executed if the context isn't suitable.
 >
@@ -114,9 +130,9 @@ See [Grouping Actions](#grouping-actions) for more information about the `compac
 >
 {style="note"}
 
-An example of enabling a menu action based on whether a project is open is demonstrated in [`PopupDialogAction.update()`](%gh-sdk-samples%/action_basics/src/main/java/org/intellij/sdk/action/PopupDialogAction.java) method.
+An example of enabling a menu action based on whether a project is open is demonstrated in [`PopupDialogAction.update()`](%gh-sdk-samples-master%/action_basics/src/main/java/org/intellij/sdk/action/PopupDialogAction.java) method.
 
-### Overriding the AnAction.actionPerformed() Method
+### Overriding the `AnAction.actionPerformed()` Method
 
 When the user selects an enabled action, be it from a menu or toolbar, the action's `AnAction.actionPerformed()` method is called.
 This method contains the code executed to perform the action, and it is here that the real work gets done.
@@ -126,7 +142,7 @@ For example, the `actionPerformed()` method can modify, remove, or add PSI eleme
 
 The code that executes in the `AnAction.actionPerformed()` method should execute efficiently, but it does not have to meet the same stringent requirements as the `update()` method.
 
-An example of inspecting PSI elements is demonstrated in the SDK code sample `action_basics` [`PopupDialogAction.actionPerformed()`](%gh-sdk-samples%/action_basics/src/main/java/org/intellij/sdk/action/PopupDialogAction.java) method.
+An example of inspecting PSI elements is demonstrated in the SDK code sample `action_basics` [`PopupDialogAction.actionPerformed()`](%gh-sdk-samples-master%/action_basics/src/main/java/org/intellij/sdk/action/PopupDialogAction.java) method.
 
 ### Action IDs
 
@@ -153,7 +169,7 @@ A new [`Presentation`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/a
 Therefore, the same action can have a different text or icon when it appears in different places of the user interface.
 Different presentations for the action are created by copying the Presentation returned by the `AnAction.getTemplatePresentation()` method.
 
-#### Compact Attribute
+#### The `compact` Attribute
 
 A group's `compact` attribute specifies whether an action within that group is visible when disabled.
 See [Registering Actions in plugin.xml](#registering-actions-in-pluginxml) for an explanation of how the `compact` attribute is set for a group.
@@ -180,9 +196,10 @@ There are two main ways to register an action: either by listing it in the [`<ac
 
 Registering actions in <path>plugin.xml</path> is demonstrated in the following reference examples, which document all elements and attributes used in the [`<actions>`](plugin_configuration_file.md#idea-plugin__actions) section and describe each element's meaning.
 
-#### Setting the Override-Text Element
+#### Setting the `override-text` Element
+<primary-label ref="2020.1"/>
 
-Beginning in 2020.1, an alternate version of an action's menu text can be declared for use depending on where an action appears.
+An alternate version of an action's menu text can be declared for use depending on where an action appears.
 Using the [`<override-text>`](plugin_configuration_file.md#idea-plugin__actions__action__override-text) element, the menu text for an action can be different depending on context: menu location, toolbar, etc.
 This is also available for groups in 2020.3 and later.
 
@@ -198,7 +215,7 @@ Additional `<override-text>` elements could be used to specify other places wher
 
 An example of using `<override-text>` is demonstrated in the [Creating Actions](working_with_custom_actions.md#using-override-text-for-an-action) tutorial.
 
-#### Setting the Synonym Element
+#### Setting the `synonym` Element
 
 _2020.3_
 Users can locate actions via their name by invoking <ui-path>Help | Find Action</ui-path>.
@@ -214,8 +231,8 @@ To allow using alternative names in search, add one or more [`<synonym>`](plugin
 To provide a localized synonym, specify `key` instead of `text` attribute.
 
 #### Disabling Search for Group
+<primary-label ref="2020.3"/>
 
-_2020.3_
 To exclude a group from appearing in <ui-path>Help | Find Action</ui-path> results (e.g., <control>New...</control> popup), specify `searchable="false"`.
 
 #### Localizing Actions and Groups
@@ -224,8 +241,8 @@ To exclude a group from appearing in <ui-path>Help | Find Action</ui-path> resul
 > to highlight such problems.
 >
 
-Action and group localization use resource bundles containing property files named <path>$NAME$Bundle.properties</path>, each file consisting of `key=value` pairs.
-The [`action_basics`](%gh-sdk-samples%/action_basics) plugin demonstrates using a resource bundle to localize the group and action entries added to the Editor Popup Menu.
+Action and group localization use resource bundles containing property files named <path>\$NAME\$Bundle.properties</path>, each file consisting of `key=value` pairs.
+The [`action_basics`](%gh-sdk-samples-master%/action_basics) plugin demonstrates using a resource bundle to localize the group and action entries added to the Editor Popup Menu.
 
 When localizing actions and groups, the `text` and `description` attributes are not declared in <path>plugin.xml</path>.
 Instead, those attribute values vary depending on the locale and get declared in a resource bundle.
@@ -406,13 +423,14 @@ To get a Swing component from such an object, call the respective `getComponent(
 If an action toolbar is attached to a specific component (for example, a panel in a tool window), call `ActionToolbar.setTargetComponent()` and pass the related component's instance as a parameter.
 Setting the target ensures that the toolbar buttons' state depends on the state of the related component, not on the current focus location within the IDE frame.
 
-See [Toolbar](https://jetbrains.design/intellij/controls/toolbar/) in IntelliJ Platform UI Guidelines for an overview.
+See [Toolbar](toolbar.md) in UI Guidelines for an overview.
 
 ## Useful Action Base Classes
 
 ### Toggle/Selection
 
 Use [`ToggleAction`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/actionSystem/ToggleAction.java)
+or [`DumbAwareToggleAction`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/project/DumbAwareToggleAction.java)
 for actions with "selected"/"pressed" state (e.g., menu item with checkbox, toolbar action button).
 See also [`ToggleOptionAction`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/actionSystem/ToggleOptionAction.java).
 
@@ -431,7 +449,7 @@ to "reserve" Action ID, so they become visible in <ui-path>Settings | Keymap</ui
 ## Executing Actions Programmatically
 
 Sometimes, it is required to execute actions programmatically, e.g., executing an action implementing logic we need and the implementation is out of our control.
-Executing actions can be achieved with [`ActionUtils.invokeAction()`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/actionSystem/ex/ActionUtil.java).
+Executing actions can be achieved with [`ActionUtils.invokeAction()`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/actionSystem/ex/ActionUtil.kt).
 
 > Executing actions programmatically should be avoided whenever possible.
 > If an action executed programmatically is under your control, extract its logic to a [service](plugin_services.md) or utility class and call it directly.

@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Plugin Logo
 
@@ -7,8 +7,13 @@
 Beginning in version 2019.1, the IntelliJ Platform supports representing a plugin with a logo.
 A _Plugin Logo_ is intended to be a unique representation of a plugin's functionality, technology, or company.
 
+When opening <path>plugin.xml</path> in editor, inspection
+<control>Plugin DevKit | Plugin descriptor | Plugin Logo check</control> (2024.3+,
+for earlier versions <control>Plugin DevKit | Plugin descriptor | Plugin.xml validity</control>)
+will highlight a missing plugin icon.
+
 **Note:** icons and images used within a plugin have different requirements.
-See [Working with Icons and Images](work_with_icons_and_images.md) for more information.
+See [](icons.md) for more information.
 
 ## Plugin Logo Usages
 Plugin Logos are shown in the [JetBrains Marketplace](https://plugins.jetbrains.com).
@@ -50,7 +55,7 @@ Plugin Logo designs should leave at least 2px transparent padding around the per
 
 Make sure Plugin Logos have the same visual weight as the logos in the examples below.
 The more filled a Plugin Logo design is, the less actual space it needs.
-See more examples of [visual weight compensation](https://jetbrains.design/intellij/principles/icons/#08) in the IntelliJ Platform UI Guidelines for Icons.
+See more examples of [visual weight compensation](icons_style.md#basic-shapes) in the UI Guidelines for Icons.
 
 For basic shapes, use the following sizes.
 Note the different areas of transparent padding used for each shape:
@@ -65,7 +70,7 @@ Note the different areas of transparent padding used for each shape:
 ### Plugin Logo Colors
 If the plugin's technology already has a logo, use its colors.
 Check the license terms before using the logo.
-If there is no existing logo, or its use is prohibited, create a custom logo based on the [Action Colors Palette](https://jetbrains.design/intellij/principles/icons/#action-icons) in the IntelliJ Platform UI Guidelines for Icons.
+If there is no existing logo, or its use is prohibited, create a custom logo based on the [Action Colors Palette](icons_style.md#action-icons) in the UI Guidelines for Icons.
 
 | ![The YouTrack Plugin Logo uses the YouTrack product logo ](yt_logo.png){height="200" width="200"} | ![The Keymap Plugin Logo uses a color from the Action Colors Palette](keymap_logo.png){:height="200" width="200"} |
 |:--------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------:|
@@ -77,7 +82,7 @@ If one Plugin Logo design does not work on both light and dark backgrounds, crea
 The examples below illustrate how a Plugin Logo design may work well for a light background but not for a dark background.
 Consequently, a separate Plugin Logo for dark backgrounds is needed.
 
-| ![Plugin Logo on Light Theme](light_version.png){width="225"} |     ![Light Plugin Logo on Dark Theme](dark_bad.png){width="225"}     |     ![Plugin Logo for Dark Theme](dark_good.png){width="225"}     |
+| ![Plugin Logo on Light Theme](light_version.png){width="225"} |     ![Light Plugin Logo on Dark Theme](dark_bad.png){width="225"}     |     ![Plugin Logo for Dark Theme](dark_good.png){width="225"}      |
 |:-------------------------------------------------------------:|:---------------------------------------------------------------------:|:------------------------------------------------------------------:|
 | _The light Plugin Logo design<br/>works well on light theme_  | _The light Plugin Logo design does<br/>not work well on a dark theme_ | _A separate, dark Plugin Logo design<br/>works well on dark theme_ |
 {style="none"}

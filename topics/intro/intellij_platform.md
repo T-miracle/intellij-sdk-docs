@@ -1,6 +1,6 @@
-# The IntelliJ Platform
-
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+
+# The IntelliJ Platform
 
 <link-summary>Introduction to the IntelliJ Platform, plugins, and IDEs based on it.</link-summary>
 
@@ -33,9 +33,13 @@ Plugins can extend the platform in many ways, from adding a simple menu item to 
 Many of the existing IntelliJ Platform features are implemented as plugins that can be included or excluded depending on the needs of the end product.
 See the [](plugins_quick_start.md) for more details.
 
+<snippet id="pluginAlternatives">
+
 > In some cases, implementing an actual IntelliJ Platform plugin might not be necessary, as [alternative solutions](plugin_alternatives.md) exist.
 >
-{style="note"}
+{style="note" title="Plugin Alternatives"}
+
+</snippet>
 
 ## Open Source
 
@@ -46,7 +50,7 @@ Instead, the platform is considered to be an almost complete overlap with the [I
 Please note: starting with the 2021.1 release, some plugins bundled with IntelliJ IDEA Community Edition are not open-source.
 
 The version of the IntelliJ Platform is defined by the version of the corresponding IntelliJ IDEA Community Edition release.
-For example, to build a plugin against IntelliJ IDEA (2019.1.1), build #191.6707.61 means specifying the same build number tag to get the correct Intellij Platform files from the `intellij-community` repository.
+For example, to build a plugin against IntelliJ IDEA (2019.1.1), build #191.6707.61 means specifying the same build number tag to get the correct IntelliJ Platform files from the `intellij-community` repository.
 See the [](build_number_ranges.md) page for more information about build numbers corresponding to version numbering.
 
 Typically, an IDE that is based on the IntelliJ Platform will include the `intellij-community` repository as a Git submodule and provide configuration to describe which plugins from the `intellij-community`, and which custom plugins will make up the product.
@@ -64,8 +68,10 @@ The following IDEs are based on the IntelliJ Platform:
 
 * [JetBrains](https://www.jetbrains.com) IDEs:
     * [AppCode](app_code.md)
+    * [Aqua](https://www.jetbrains.com/aqua/)
     * [CLion](clion.md)
     * [DataGrip](data_grip.md)
+    * [DataSpell](https://www.jetbrains.com/dataspell/)
     * [GoLand](goland.md)
     * [IntelliJ IDEA](idea.md)
     * [MPS](https://www.jetbrains.com/mps/)
@@ -73,7 +79,9 @@ The following IDEs are based on the IntelliJ Platform:
     * [PyCharm](pycharm.md)
     * [Rider](#rider)
     * [RubyMine](rubymine.md)
+    * [RustRover](https://www.jetbrains.com/rust/)
     * [WebStorm](webstorm.md)
+    * [Writerside](https://www.jetbrains.com/writerside/)
 * [Android Studio](android_studio.md) IDE from Google
 * [Comma](https://commaide.com/) IDE for Raku (formerly known as Perl 6)
 * [Jmix Studio](https://www.jmix.io/tools/)

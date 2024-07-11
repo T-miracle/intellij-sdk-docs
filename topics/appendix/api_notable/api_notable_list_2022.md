@@ -8,7 +8,7 @@ _Early Access Program_ (EAP) releases of upcoming versions are available [here](
 
 ## 2022.3
 
-<include from="tools_gradle_intellij_plugin.md" element-id="gradle_plugin_223_problem"/>
+<include from="snippets.md" element-id="gradlePluginVersion"/>
 
 ### IntelliJ Platform 2022.3
 
@@ -31,7 +31,7 @@ Threading assertions in tests
 : All rules for [threading](general_threading_rules.md) are now checked in tests as well.
 
 Mapping New UI icons
-: See [](work_with_icons_and_images.md#new-ui-icons) on how to provide additional icons.
+: See [](icons.md#new-ui-icons) on how to provide additional icons.
 
 ### IntelliJ IDEA 2022.3
 

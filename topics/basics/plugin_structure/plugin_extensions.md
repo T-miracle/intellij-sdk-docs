@@ -16,8 +16,8 @@ There are more than 1500 extension points available in the platform and the bund
 
 ## Exploring Available Extensions
 
-[](extension_point_list.md) lists all available extension points in IntelliJ Platform and from bundled plugins in IntelliJ IDEA.
-Additionally, dedicated Extension Point and Listener Lists specific to IDEs are available under _Part VIII — Product Specific_.
+[](intellij_platform_extension_point_list.md) and [](intellij_community_plugins_extension_point_list.md) list all available extension points in IntelliJ Platform and from bundled plugins in IntelliJ IDEA.
+Additionally, dedicated Extension Point and Listener Lists specific to IDEs are available under _Product Specific_.
 Browse usages inside existing implementations of open-source IntelliJ Platform plugins via [IntelliJ Platform Explorer](https://jb.gg/ipe).
 
 Alternatively (or when using 3rd party extension points), all available extension points for the specified namespace (`defaultExtensionNs`) can be listed using auto-completion inside the [`<extensions>`](plugin_configuration_file.md#idea-plugin__extensions) block in <path>[plugin.xml](plugin_configuration_file.md)</path>.
@@ -131,8 +131,8 @@ Property name `language` (or ending in `*Language`, 2020.2+) resolves to all pre
 
 Similarly, `action` resolves to all registered [`<action>`](plugin_configuration_file.md#idea-plugin__actions__action) IDs.
 
-Specifying `@org.jetbrains.annotations.Nls` validates a UI `String` capitalization according to the text property `Capitalization` enum value (2019.2 and later).
+Annotating with [`@Nls`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/Nls.java) validates a UI `String` capitalization according to the text property `Capitalization` enum value (2019.2 and later).
 
-Properties marked as `@Deprecated` or annotated with any of [`ApiStatus`](https://github.com/JetBrains/java-annotations/blob/master/common/src/main/java/org/jetbrains/annotations/ApiStatus.java) `@Internal`, `@Experimental`, `@ScheduledForRemoval`, or `@Obsolete` will be highlighted accordingly.
+Properties marked as `@Deprecated` or annotated with any of [`ApiStatus`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/ApiStatus.java) `@Internal`, `@Experimental`, `@ScheduledForRemoval`, or `@Obsolete` will be highlighted accordingly.
 
 Attributes with `Enum` type support code insight with _lowerCamelCased_ notation (2020.1 and later). Note: these must not override `toString()`.

@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Configuring Kotlin Support
 
@@ -24,11 +24,14 @@ This page describes developing plugins using the [Kotlin](https://kotlinlang.org
 ## Advantages of Developing a Plugin in Kotlin
 
 Using Kotlin to write plugins for the IntelliJ Platform is very similar to writing plugins in Java.
-Existing plugin developers can get started by converting existing Java sources to their Kotlin equivalents by using the [J2K converter](https://kotlinlang.org/docs/mixing-java-kotlin-intellij.html#converting-an-existing-java-file-to-kotlin-with-j2k) (part of Kotlin plugin).
-Developers can also easily mix and match Kotlin classes with their existing Java code.
+Existing Java classes can be converted to their Kotlin equivalents by using the [J2K converter](https://kotlinlang.org/docs/mixing-java-kotlin-intellij.html#converting-an-existing-java-file-to-kotlin-with-j2k) (part of Kotlin plugin).
 
-In addition to [null safety](https://kotlinlang.org/docs/null-safety.html) and [type-safe builders](https://kotlinlang.org/docs/type-safe-builders.html), the Kotlin language offers many convenient features for plugin development, which make plugins easier to read and simpler to maintain.
-Much like [Kotlin for Android](https://kotlinlang.org/docs/android-overview.html), the IntelliJ Platform makes extensive use of callbacks, which are easy to express as [lambdas](https://kotlinlang.org/docs/lambdas.html) in Kotlin.
+In addition to [null safety](https://kotlinlang.org/docs/null-safety.html), [type-safe builders](https://kotlinlang.org/docs/type-safe-builders.html), and [](kotlin_coroutines.md), the Kotlin language offers many convenient features for plugin development,
+which make plugins easier to read and simpler to maintain.
+Much like [Kotlin for Android](https://kotlinlang.org/docs/android-overview.html), the IntelliJ Platform makes extensive use of callbacks, which are straightforward to express as [lambdas](https://kotlinlang.org/docs/lambdas.html) in Kotlin.
+
+Kotlin classes can be mixed in a project with existing Java code.
+This might come handy when certain APIs require the use of mentioned Kotlin Coroutines.
 
 ### Adding Extensions
 
@@ -68,6 +71,10 @@ The IntelliJ Platform provides a [type safe DSL](kotlin_ui_dsl_version_2.md) to 
 > Using _UI Designer_ plugin with Kotlin is [not supported](https://youtrack.jetbrains.com/issue/KTIJ-791).
 >
 
+### Kotlin Coroutines
+
+[](kotlin_coroutines.md) are a lightweight and easy to implement alternative to threads with many [advantages](kotlin_coroutines.md#coroutines-advantages).
+
 ## Adding Kotlin Support
 
 > The [](plugin_github_template.md) provides a preconfigured project using Kotlin.
@@ -79,7 +86,7 @@ For detailed instructions, please refer to the [Kotlin documentation](https://ko
 
 Adding Kotlin source files compilation support to the Gradle-based project requires adding and configuring the [Kotlin JVM Gradle plugin](https://kotlinlang.org/docs/gradle.html#targeting-the-jvm).
 
-See the <path>build.gradle.kts</path> from [kotlin_demo](%gh-sdk-samples%/kotlin_demo) sample plugin:
+See the <path>build.gradle.kts</path> from [kotlin_demo](%gh-sdk-samples-master%/kotlin_demo) sample plugin:
 
 ```kotlin
 ```
@@ -90,7 +97,7 @@ See the <path>build.gradle.kts</path> from [kotlin_demo](%gh-sdk-samples%/kotlin
 {id="kotlin-standard-library"}
 
 Since Kotlin 1.4, a dependency on the standard library _stdlib_ is added automatically ([API Docs](https://kotlinlang.org/api/latest/jvm/stdlib/)).
-In most cases, it is not necessary to include it in the plugin distribution as the platform already bundles it.
+In nearly all cases, it is not necessary to include it in the plugin distribution as the platform already bundles it.
 
 To opt out, add this line in <path>gradle.properties</path>:
 
@@ -99,28 +106,12 @@ kotlin.stdlib.default.dependency = false
 ```
 
 The presence of this Gradle property is checked by the [](tools_gradle_intellij_plugin.md) with the [](tools_gradle_intellij_plugin.md#tasks-verifypluginconfiguration) task.
-If the property is not present, a warning will be reported during the plugin configuration verification, as it is a common problem when Kotlin _stdlib_ gets bundled within the plugin archive.
+If the property is not present, a warning will be reported during the plugin configuration verification,
+as it is a common problem when Kotlin _stdlib_ gets bundled within the plugin archive.
 To bundle _stdlib_ in the plugin distribution, specify explicitly `kotlin.stdlib.default.dependency = true`.
 
-If a plugin supports [multiple platform versions](build_number_ranges.md), it must either target the lowest bundled _stdlib_ version or provide the specific version in plugin distribution.
-
-| IntelliJ Platform version | Bundled _stdlib_ version |
-|---------------------------|--------------------------|
-| 2023.3                    | 1.9.10                   |
-| 2023.2                    | 1.8.20                   |
-| 2023.1                    | 1.8.0                    |
-| 2022.3                    | 1.7.0                    |
-| 2022.2                    | 1.6.21                   |
-| 2022.1                    | 1.6.20                   |
-| 2021.3                    | 1.5.10                   |
-| 2021.2                    | 1.5.10                   |
-| 2021.1                    | 1.4.32                   |
-| 2020.3                    | 1.4.0                    |
-| 2020.2                    | 1.3.70                   |
-| 2020.1                    | 1.3.70                   |
-| 2019.3                    | 1.3.31                   |
-| 2019.2                    | 1.3.3                    |
-| 2019.1                    | 1.3.11                   |
+If a plugin supports [multiple platform versions](build_number_ranges.md), it must either target the lowest bundled _stdlib_ version
+or the specific version must be [provided in plugin distribution](plugin_content.md#plugin-with-dependencies).
 
 See [Dependency on the standard library](https://kotlinlang.org/docs/gradle.html#dependency-on-the-standard-library) for more details.
 
@@ -128,10 +119,40 @@ See [Dependency on the standard library](https://kotlinlang.org/docs/gradle.html
 >
 {title="Adding stdlib in tests"}
 
+| IntelliJ Platform version (latest update) | Bundled _stdlib_ version |
+|-------------------------------------------|--------------------------|
+| 2024.2                                    | 1.9.24                   |
+| 2024.1                                    | 1.9.22                   |
+| 2023.3                                    | 1.9.21                   |
+| 2023.2                                    | 1.8.20                   |
+| 2023.1                                    | 1.8.0                    |
+
+#### Earlier Versions
+{collapsible="true"}
+
+| IntelliJ Platform version (latest update) | Bundled _stdlib_ version |
+|-------------------------------------------|--------------------------|
+| 2022.3                                    | 1.7.22                   |
+| 2022.2                                    | 1.6.21                   |
+| 2022.1                                    | 1.6.10                   |
+
+See [here](https://www.jetbrains.com/legal/third-party-software/) for earlier versions.
+
 ### Kotlin Coroutines Libraries (kotlinx.coroutines)
+{id="coroutinesLibraries"}
 
 Plugins _must_ always use the bundled library from the target IDE and not bundle their own version.
-Please make sure it is not added via transitive dependencies either.
+Please make sure it is not added via transitive dependencies either
+(see [View and Debug Dependencies](https://docs.gradle.org/current/userguide/viewing_debugging_dependencies.html) in Gradle user guide).
+
+Since 2024.2, a custom [fork](https://github.com/JetBrains/intellij-deps-kotlinx.coroutines) with additional patches is bundled.
+
+See [](kotlin_coroutines.md) on how to use them in plugins.
+
+| IntelliJ Platform version | Bundled _kotlinx-coroutines_ version |
+|---------------------------|--------------------------------------|
+| 2024.2                    | 1.8.0                                |
+| 2024.1                    | 1.7.3                                |
 
 ### Other Bundled Kotlin Libraries
 
@@ -145,7 +166,9 @@ The Kotlin Gradle plugin supports [incremental compilation](https://kotlinlang.o
 
 <tabs>
 
-<tab title="Kotlin 1.9.0">
+<tab title="Kotlin 1.9.0 and later">
+
+No action required.
 
 Remove additional `kotlin.incremental.useClasspathSnapshot=false` property in <path>gradle.properties</path> if present.
 
@@ -153,10 +176,11 @@ Remove additional `kotlin.incremental.useClasspathSnapshot=false` property in <p
 
 <tab title="Kotlin 1.8.20">
 
-> Please consider using Kotlin 1.9.0 where this issue has been resolved.
+> Please consider using Kotlin 1.9.0 or later where this issue has been resolved.
 
 Kotlin `1.8.20` has a [new incremental compilation approach](https://kotlinlang.org/docs/gradle-compilation-and-caches.html#a-new-approach-to-incremental-compilation) which is enabled by default.
-Unfortunately, it is not compatible with the IntelliJ Platform — when reading large JAR files (like <path>app.jar</path> or <path>3rd-party-rt.jar</path>), leading to an `Out of Memory` exception:
+Unfortunately, it is not compatible with the IntelliJ Platform — when reading large JAR files (like <path>app.jar</path> or <path>3rd-party-rt.jar</path>),
+leading to an `Out of Memory` exception:
 
 ```
 Execution failed for task ':compileKotlin'.
@@ -176,7 +200,7 @@ kotlin.incremental.useClasspathSnapshot=false
 
 ## Plugin Implementation Notes
 
-### Do not use "object" but "class"
+### Do not use `object` but `class`
 
 {id="object-vs-class"}
 
@@ -192,7 +216,7 @@ Problems are highlighted via these inspections (2023.2):
 - <control>Plugin DevKit | Code | Kotlin object registered as extension</control> for Kotlin code
 - <control>Plugin DevKit | Plugin descriptor | Extension class is a Kotlin object</control> for <path>plugin.xml</path>
 
-### Do not use "companion object" in extensions
+### Do not use `companion object` in extensions
 
 {id="companion-object-extensions"}
 

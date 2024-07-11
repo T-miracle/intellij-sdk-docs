@@ -1,6 +1,6 @@
-# Code Inspections and Intentions
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+# Code Inspections and Intentions
 
 <link-summary>Introduction to analysing the code and providing quick fixes for the found issues.</link-summary>
 
@@ -8,7 +8,7 @@
 
 **Product Help:** [Code inspections](https://www.jetbrains.com/help/idea/code-inspection.html), [Intention actions](https://www.jetbrains.com/help/idea/intention-actions.html)
 
-**Platform UI Guidelines:** [Inspections](https://jetbrains.design/intellij/text/inspections/)
+**UI Guidelines:** [](inspections.md)
 
 </tldr>
 
@@ -25,15 +25,19 @@ The main differences are:
 
 If none of that is required and the analysis only needs to run in the active editor, [Annotator](syntax_highlighting_and_error_highlighting.md#annotator) provides better performance (because it supports incremental analysis) and more flexibility for highlighting errors.
 
-See [Inspections](https://jetbrains.design/intellij/text/inspections/) topic in the IntelliJ Platform UI Guidelines on naming, writing description, and message texts for inspections.
+See [Inspections](inspections.md) topic in the UI Guidelines on naming, writing description, and message texts for inspections.
 
-**Examples**:
+**Examples:**
 - [Code Inspections Tutorial](code_inspections.md)
 - A [simple inspection](%gh-ic%/plugins/properties/properties-psi-impl/src/com/intellij/lang/properties/codeInspection/TrailingSpacesInPropertyInspection.java) for [Properties language plugin](%gh-ic%/plugins/properties)
 
-#### Inspections Performance
+> Please also note important change in 2024.1, refer to [](syntax_highlighting_and_error_highlighting.md#order-of-running-highlighting).
 
-To optimize processing in local inspections, a custom language plugin should register the default [`PsiElementVisitor`](%gh-ic%/platform/core-api/src/com/intellij/psi/PsiElementVisitor.java) for its language in `com.intellij.inspection.basicVisitor` extension point (2023.3).
+#### Inspections Performance
+<primary-label ref="2023.3"/>
+
+A [custom language plugin](custom_language_support.md) providing many inspections (>100) can register the default [`PsiElementVisitor`](%gh-ic%/platform/core-api/src/com/intellij/psi/PsiElementVisitor.java)
+for its language in `com.intellij.inspection.basicVisitor` extension point to optimize processing.
 
 ### Intentions
 

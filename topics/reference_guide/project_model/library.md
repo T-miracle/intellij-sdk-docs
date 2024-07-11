@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Library
 
@@ -15,11 +15,11 @@ A library is an archive of compiled code (such as JAR files) that modules depend
 The IntelliJ Platform supports three types of libraries:
 * **Module Library**: the library classes are visible only in this module and the library information is recorded in the module <path>.iml</path> file.
 * **Project Library**: the library classes are visible within the project and the library information is recorded under <path>.idea/libraries</path> directory or in the project <path>.ipr</path> file.
-* **Global Library**: the library information is recorded in the <path>applicationLibraries.xml</path> file in <path>$USER_HOME$/.IntelliJIdea/config/options</path> directory. Global libraries are similar to project libraries, but are visible for different projects.
+* **Global Library**: the library information is recorded in the <path>applicationLibraries.xml</path> file in <path>\$USER_HOME\$/.IntelliJIdea/config/options</path> directory. Global libraries are similar to project libraries, but are visible for different projects.
 
 A particular type of programmatically defined libraries is [Predefined Libraries](#predefined-libraries).
 
-## Accessing Libraries and Jars
+## Accessing Libraries and JARs
 Package [`com.intellij.openapi.roots.libraries`](%gh-ic%/platform/projectModel-api/src/com/intellij/openapi/roots/libraries) provides functionality for working with project libraries and JAR files.
 
 ### Getting a List of Libraries a Module Depends On
@@ -76,7 +76,7 @@ To create a library, perform the following steps:
   * For a module-level library, commit the modifiable model returned by `ModuleRootManager.getInstance(module).getModifiableModel()`.
 
 For module-level libraries, you can also use simplified APIs in the [`ModuleRootModificationUtil`](%gh-ic%/platform/projectModel-api/src/com/intellij/openapi/roots/ModuleRootModificationUtil.java) class to add a library with a single API call.
-You can find an example of using these APIs in the [project_model](%gh-sdk-samples%/project_model/src/main/java/org/intellij/sdk/project/model/ModificationAction.java) code sample.
+You can find an example of using these APIs in the [project_model](%gh-sdk-samples-master%/project_model/src/main/java/org/intellij/sdk/project/model/ModificationAction.java) code sample.
 
 ### Adding Contents or Modifying a Library
 To add or change the roots of a library, you need to perform the following steps:
@@ -105,9 +105,9 @@ You can use the following methods:
     ProjectFileIndex.isInLibrarySource(virtualFileorDirectory)
   ```
 
-See the [project_model](%gh-sdk-samples%/project_model/src/main/java/org/intellij/sdk/project/model/ProjectFileIndexSampleAction.java) to see how the method mentioned above can be applied.
+See the [project_model](%gh-sdk-samples-master%/project_model/src/main/java/org/intellij/sdk/project/model/ProjectFileIndexSampleAction.java) to see how the method mentioned above can be applied.
 
-More details on libraries can be found in the [plugin_model](%gh-sdk-samples%/project_model/src/main/java/org/intellij/sdk/project/model/LibrariesAction.java) code sample.
+More details on libraries can be found in the [plugin_model](%gh-sdk-samples-master%/project_model/src/main/java/org/intellij/sdk/project/model/LibrariesAction.java) code sample.
 
 ## Predefined Libraries
 EP: `com.intellij.additionalLibraryRootsProvider`
