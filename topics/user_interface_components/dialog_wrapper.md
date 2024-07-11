@@ -1,82 +1,81 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<link-summary>Creating, showing, and getting the input provided by users in dialogs.</link-summary>
+<link-summary>创建、显示和获取用户在对话框中提供的输入。</link-summary>
 
-# Dialogs
+# 对话框
 
 <tldr>
 
-**Platform UI Guidelines:** [Layout](https://jetbrains.design/intellij/principles/layout), [Validation errors](https://jetbrains.design/intellij/principles/validation_errors/)
+**平台 UI 指南：** [布局](https://jetbrains.design/intellij/principles/layout)，[验证错误](https://jetbrains.design/intellij/principles/validation_errors/)
 
 </tldr>
 
-## DialogWrapper
+## DialogWrapper {id=dialogwrapper}
 
-The [`DialogWrapper`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) is the base class which is supposed to be used for all modal dialogs (and some non-modal dialogs) shown in IntelliJ Platform.
+[`DialogWrapper`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) 是 IntelliJ 平台中用于显示所有模态对话框（以及部分非模态对话框）的基类。
 
-It provides the following features:
+它提供以下功能：
 
-* Button layout (platform-specific order of <control>OK</control>/<control>Cancel</control> buttons, macOS-specific <control>Help</control> button)
-* Context help
-* Remembering the size of the dialog
-* Non-modal validation (displaying an error message text when the data entered into the dialog is not valid)
-* Keyboard shortcuts:
-    * <shortcut>Esc</shortcut> for closing the dialog
-    * <shortcut>Left/Right</shortcut> for switching between buttons
-    * <shortcut>Y</shortcut>/<shortcut>N</shortcut> for <control>Yes</control>/<control>No</control> actions if they exist in the dialog
-* Optional <control>Do not ask again</control> checkbox
+* 按钮布局（平台特定顺序的 <control>OK</control>/<control>Cancel</control> 按钮，macOS 特有的 <control>Help</control> 按钮）
+* 上下文帮助
+* 记住对话框的大小
+* 非模态验证（当输入的数据无效时显示错误消息文本）
+* 快捷键：
+  * <shortcut>Esc</shortcut> 关闭对话框
+  * <shortcut>Left/Right</shortcut> 切换按钮
+  * <shortcut>Y</shortcut>/<shortcut>N</shortcut> 对应 <control>Yes</control>/<control>No</control> 操作（如果对话框中存在）
+* 可选的 <control>不再询问</control> 复选框
 
-### Usage
+### 用法 {id=usage}
 
-When using the [`DialogWrapper`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) class for a dialog, follow these required steps:
+当使用 [`DialogWrapper`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) 类创建对话框时，请按照以下必需步骤进行操作：
 
-* Call the base class constructor and provide either a `Project` in the frame of which the dialog will be displayed, or a parent component for the dialog.
-* Call the `setTitle()` method to set the title for the dialog
-* Call the `init()` method from the constructor of the dialog class
-* Implement the `createCenterPanel()` method to return the component comprising the main contents of the dialog.
+* 在对话框将要显示的项目的框架中，调用基类构造函数并提供一个 `Project`，或者提供对话框的父组件。
+* 调用 `setTitle()` 方法设置对话框的标题。
+* 在对话框类的构造函数中调用 `init()` 方法。
+* 实现 `createCenterPanel()` 方法返回对话框主要内容的组件。
 
-Optionally:
+可选步骤：
 
-* Override the `getPreferredFocusedComponent()` method and return the component that should be focused when the dialog is first displayed.
-* Override the `getDimensionServiceKey()` method to return the identifier which will be used for persisting the dialog dimensions.
-* Override the `getHelpId()` method to return the context help topic associated with the dialog (see [Context Help](ide_infrastructure.md#context-help)).
+* 重写 `getPreferredFocusedComponent()` 方法并返回对话框首次显示时应聚焦的组件。
+* 重写 `getDimensionServiceKey()` 方法返回用于持久化对话框大小的标识符。
+* 重写 `getHelpId()` 方法返回与对话框关联的上下文帮助主题（参见 [上下文帮助](ide_infrastructure.md#context-help)）。
 
-The `DialogWrapper` class is often used together with [GUI Designer forms](https://www.jetbrains.com/help/idea/gui-designer-basics.html).
-In this case, bind a GUI Designer form to the class extending `DialogWrapper`, bind the top-level panel of the form to a field and return that field from the `createCenterPanel()` method.
-When using Kotlin, use [Kotlin UI DSL](kotlin_ui_dsl_version_2.md) to provide the dialog's contents.
+`DialogWrapper` 类通常与 [GUI 设计器表单](https://www.jetbrains.com/help/idea/gui-designer-basics.html) 结合使用。
+在这种情况下，将 GUI 设计器表单绑定到扩展 `DialogWrapper` 的类，将表单的顶层面板绑定到一个字段，并从 `createCenterPanel()` 方法返回该字段。
+在使用 Kotlin 时，可以使用 [Kotlin UI DSL](kotlin_ui_dsl_version_2.md) 提供对话框的内容。
 
-> See [Layout](https://jetbrains.design/intellij/principles/layout) topic in IntelliJ Platform UI Guidelines for recommendations on arranging UI controls in dialogs.
+> 参见 IntelliJ 平台 UI 指南中的 [布局](https://jetbrains.design/intellij/principles/layout) 主题，了解如何在对话框中布置 UI 控件的建议。
 >
-> Existing dialogs can be inspected at runtime using [UI Inspector](internal_ui_inspector.md), e.g., to locate the underlying implementation of UI components.
->
+> 可以使用 [UI 检查器](internal_ui_inspector.md) 在运行时检查现有对话框，例如查找 UI 组件的实际实现。
 
-To display the dialog, call the `show()` method and then use the `getExitCode()` method to check how the dialog was closed (see `DialogWrapper#OK_EXIT_CODE|CANCEL_EXIT_CODE|CLOSE_EXIT_CODE`).
-The `showAndGet()` method can be used to combine these two calls.
+要显示对话框，请调用 `show()` 方法，然后使用 `getExitCode()` 方法检查对话框的关闭方式（参见 `DialogWrapper#OK_EXIT_CODE|CANCEL_EXIT_CODE|CLOSE_EXIT_CODE`）。
+可以使用 `showAndGet()` 方法组合这两个调用。
 
-To customize the buttons displayed in the dialog (replacing the standard <control>OK</control>/<control>Cancel</control>/<control>Help</control> set of buttons), override either the `createActions()` or `createLeftActions()` methods.
-Both of these methods return an array of Swing Action objects.
-If a button closes the dialog, use [`DialogWrapperExitAction`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) as the base class for the action.
-Use `action.putValue(DialogWrapper.DEFAULT_ACTION, true)` to set the default button.
+要自定义对话框中显示的按钮（替换标准的 <control>OK</control>/<control>Cancel</control>/<control>Help</control> 按钮集合），可以重写 `createActions()` 或 `createLeftActions()` 方法。
+这两个方法都返回一组 Swing Action 对象。
+如果按钮用于关闭对话框，请使用 [`DialogWrapperExitAction`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) 作为动作的基类。
+使用 `action.putValue(DialogWrapper.DEFAULT_ACTION, true)` 来设置默认按钮。
 
-### Input Validation
+### 输入验证
 
-Please see also [Validation errors](https://jetbrains.design/intellij/principles/validation_errors/) topic in the IntelliJ Platform UI Guidelines.
+还请参阅 IntelliJ 平台 UI 指南中的 [验证错误](https://jetbrains.design/intellij/principles/validation_errors/) 主题。
 
-To validate the data entered into the dialog, override the `doValidate()` method.
-The method will be called automatically by timer.
-If the currently entered data is valid, return `null`.
-Otherwise, return a [`ValidationInfo`](%gh-ic%/platform/ide-core/src/com/intellij/openapi/ui/ValidationInfo.java) object which encapsulates an error message, and an optional component associated with the invalid data.
-When specifying a component, an error icon will be displayed next to it, and it will be focused when the user tries to invoke the <control>OK</control> action.
+要验证输入到对话框中的数据，请重写 `doValidate()` 方法。
+该方法将由定时器自动调用。
+如果当前输入的数据有效，请返回 `null`。
+否则，返回一个 [`ValidationInfo`](%gh-ic%/platform/ide-core/src/com/intellij/openapi/ui/ValidationInfo.java) 对象，其中封装了错误消息和与无效数据关联的可选组件。
+在指定组件时，将在其旁边显示错误图标，并在用户尝试调用 <control>OK</control> 操作时将其聚焦。
 
-## Example
+## 示例 {id=example}
 
-Simple definition of a [`DialogWrapper`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java):
+简单定义一个 [`DialogWrapper`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java)：
 
 ```java
 public class SampleDialogWrapper extends DialogWrapper {
 
   public SampleDialogWrapper() {
-    super(true); // use current window as parent
+    super(true); // 使用当前窗口作为父窗口
     setTitle("Test DialogWrapper");
     init();
   }
@@ -95,13 +94,13 @@ public class SampleDialogWrapper extends DialogWrapper {
 }
 ```
 
-Show `SampleDialogWrapper` dialog when user clicks on button:
+当用户点击按钮时显示 `SampleDialogWrapper` 对话框：
 
 ```java
 JButton testButton = new JButton();
 testButton.addActionListener(actionEvent -> {
   if (new SampleDialogWrapper().showAndGet()) {
-    // user pressed OK
+    // 用户按下了 OK
   }
 });
 ```
