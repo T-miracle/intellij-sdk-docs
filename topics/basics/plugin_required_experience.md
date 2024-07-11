@@ -1,8 +1,8 @@
-# 所需经验
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<!-- Copyright 2000-2022 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+# Required Experience
 
-<link-summary>所需的技术知识。</link-summary>
+<link-summary>Required technology knowledge.</link-summary>
 
 IntelliJ 平台是一个 JVM 应用程序，主要用 Java 和 [Kotlin](https://kotlinlang.org) 实现。
 目前，无法使用非 JVM 语言为 IntelliJ 平台开发插件。
@@ -20,6 +20,4 @@ IntelliJ 平台是一个 JVM 应用程序，主要用 Java 和 [Kotlin](https://
 
 强烈建议您在开始插件实现之前熟悉 [](explore_api.md) 部分。
 
-> 在某些情况下，可能不需要实现实际的 IntelliJ 平台插件，因为存在[替代解决方案](plugin_alternatives.md)。
->
-{style="note"}
+<include from="intellij_platform.md" element-id="pluginAlternatives"/>

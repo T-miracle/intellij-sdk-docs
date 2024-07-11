@@ -7,7 +7,9 @@
 本节提供了有关 Gradle 插件属性的指导，以实现常见的你所期望的功能。
 要了解更高级的选项，请参阅完整的 [Gradle IntelliJ 插件](tools_gradle_intellij_plugin.md) 参考文档。
 
-## 保持更新
+<include from="snippets.md" element-id="gradlePluginVersion"/>
+
+## Keep Up To Date
 
 Gradle IntelliJ 插件和 [Gradle](https://gradle.org/install/) 构建系统在不断开发，每个新版本都会带来重要的错误修复、新功能和改进，从而提高开发效率。
 强烈建议将 Gradle 和 Gradle IntelliJ 插件都升级到最新版本。

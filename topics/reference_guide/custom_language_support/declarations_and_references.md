@@ -1,10 +1,11 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Declarations and References
+<primary-label ref="2020.3"/>
 
 <link-summary>Overview of symbol declarations and references.</link-summary>
 
-> This API is available starting from 2020.3 and is currently in development and thus in an experimental state.
+> This API is currently in development and thus in an experimental state.
 >
 {style="warning"}
 
@@ -23,13 +24,13 @@ Declarations in PSI elements are implementations of
 To report a declaration in a PSI element, either:
 
 - implement and register
-  [`PsiSymbolDeclarationProvider`](%gh-ic%/platform/core-api/src/com/intellij/model/psi/PsiSymbolDeclarationProvider.java) in `com.intellij.psi.declarationProvider` EP;
-- or implement `PsiSymbolDeclaration` directly in the `PsiElement`.
+  [`PsiSymbolDeclarationProvider`](%gh-ic%/platform/core-api/src/com/intellij/model/psi/PsiSymbolDeclarationProvider.java) in `com.intellij.psi.declarationProvider` extension point
+- implement `PsiSymbolDeclaration` directly in the `PsiElement`.
 
 ## References
 
 References from PSI elements are implementations of
-[`PsiSymbolReference`](%gh-ic%/platform/core-api/src/com/intellij/model/psi/PsiSymbolReference.java) interface.
+[`PsiSymbolReference`](%gh-ic%/platform/core-api/src/com/intellij/model/psi/PsiSymbolReference.java).
 
 The main method of `PsiSymbolReference` is `resolveReference()`, which returns the collection of symbols to which the reference points,
 plus additional data.
@@ -38,7 +39,7 @@ A counterpart to the `resolveReference()` method is `PsiSymbolReference.resolves
 which checks if the reference resolves to the specified symbol.
 This method can be implemented to walk the tree only if the element's text is equal to the reference's text.
 
-For convenience, if the reference can possibly be resolved to a single symbol without additional data, then it might be extended from
+For convenience, if the reference can possibly be resolved to a single symbol without additional data, then it can extend from
 [`SingleTargetReference`](%gh-ic%/platform/core-api/src/com/intellij/model/SingleTargetReference.java).
 
 ### Own References
@@ -51,16 +52,16 @@ because this is a reference from Java language point of view, and Java language 
 
 To provide Own references by the `PsiElement`, implement
 [`PsiElement.getOwnReferences()`](%gh-ic%/platform/core-api/src/com/intellij/psi/PsiElement.java) in the `PsiElement`.
-If the element contains a single reference, `Collections.singletonList()` can be used.
+For a single reference, use `Collections.singletonList()`.
 
 ### External References
 
-External references are the references which are not considered as references by the host language.
+External references are the references that are not considered as references by the host language.
 The language support should not rely on their existence/absence, because they might be contributed by other plugins.
 
 **Example:**
 PSI element representing `"users.txt"` in `new File("users.txt")` Java expression is a string literal from Java language point of view,
-but there is a plugin which _knows_ that this literal references a file name, and provides such reference.
+but there is a plugin which _knows_ that this literal references a file name, and provides such a reference.
 
 External references might be contributed to PSI elements
 that implement [`PsiExternalReferenceHost`](%gh-ic%/platform/core-api/src/com/intellij/model/psi/PsiExternalReferenceHost.java).
@@ -70,7 +71,7 @@ To contribute an External reference to the existing `PsiExternalReferenceHost`, 
 
 ### Implicit References
 
-Implicit references are the references which should be part of the mechanism to obtain a target by a reference,
+Implicit references are the references that should be part of the mechanism to obtain a target by a reference,
 without the inverse ability to search or rename such references by a target.
 
 **Example:**

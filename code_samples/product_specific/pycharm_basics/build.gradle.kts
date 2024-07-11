@@ -2,7 +2,7 @@
 
 plugins {
   id("java")
-  id("org.jetbrains.intellij") version "1.16.1"
+  id("org.jetbrains.intellij") version "1.17.4"
 }
 
 group = "com.intellij.sdk"
@@ -31,7 +31,7 @@ tasks {
 
   patchPluginXml {
     version.set("${project.version}")
-    sinceBuild.set("231")
-    untilBuild.set("233.*")
+    sinceBuild.set("232")
+    untilBuild.set("241.*")
   }
 }

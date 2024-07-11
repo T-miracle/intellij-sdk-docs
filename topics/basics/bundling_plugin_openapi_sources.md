@@ -1,8 +1,8 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+# Bundling Plugin API Sources
 
-# 捆绑插件 API 源
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<link-summary>暴露插件的 API 源码供其他插件使用。</link-summary>
+<link-summary>Exposing plugin's API sources for other plugins.</link-summary>
 
 如果一个插件暴露其自己的 API 供其他插件使用，考虑将插件的 API 源码捆绑在 ZIP 发布中是值得的。
 
@@ -17,16 +17,26 @@
 
 API 源码 JAR 文件必须位于插件 ZIP 发布中的 <path>example-plugin.zip!/plugin/lib/src</path> 目录，例如：
 
-```text
-example-plugin.zip
-└── example-plugin
-    └── lib
-        ├── example-plugin.jar
-        └── src
-            └── example-plugin-api-src.jar
+```plantuml
+@startuml
+
+skinparam TitleFontName JetBrains Sans
+skinparam TitleFontStyle plain
+skinparam TitleFontSize 16
+skinparam DefaultTextAlignment left
+
+title
+  example-plugin.zip // (Plugin distribution file) //
+  |_ example-plugin
+    |_ lib
+      |_ example-plugin.jar // (Plugin) //
+      |_ src
+        |_ example-plugin-api-src.jar // (API sources JAR) //
+end title
+@enduml
 ```
 
-插件 ZIP 可包含多个源码 JAR 文件，对于源码 JAR 文件的命名没有严格的规定。
+The plugin distribution ZIP file can contain multiple source JARs, and there are no strict rules for the source JAR names.
 
 ## 定义插件 API {id=定义插件API}
 

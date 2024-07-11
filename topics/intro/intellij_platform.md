@@ -1,8 +1,8 @@
-# IntelliJ 平台
-
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<link-summary>介绍 IntelliJ 平台、插件以及基于该平台的 IDE。</link-summary>
+# The IntelliJ Platform
+
+<link-summary>Introduction to the IntelliJ Platform, plugins, and IDEs based on it.</link-summary>
 
 IntelliJ 平台本身并不是一个产品，而是提供了一个用于构建 IDE 的平台。
 它用于为 JetBrains 产品提供支持，例如 [IntelliJ IDEA](https://www.jetbrains.com/idea/)。
@@ -36,9 +36,13 @@ IntelliJ 平台完全支持 [plugins](developing_plugins.md)，JetBrains 托管 
 许多现有的 IntelliJ 平台功能都是作为插件实现的，可以根据最终产品的需求包含或排除这些插件。
 请参阅 [](plugins_quick_start.md) 了解更多详细信息。
 
-> 在某些情况下，可能不需要实现实际的 IntelliJ 平台插件，因为存在[替代解决方案](plugin_alternatives.md)。
+<snippet id="pluginAlternatives">
+
+> In some cases, implementing an actual IntelliJ Platform plugin might not be necessary, as [alternative solutions](plugin_alternatives.md) exist.
 >
-{style="note"}
+{style="note" title="Plugin Alternatives"}
+
+</snippet>
 
 ## 开源 { id="开源" }
 
@@ -48,9 +52,9 @@ IntelliJ 平台是开源的，遵循 [Apache 许可证](%gh-ic%/LICENSE.txt)，�
 相反，该平台被认为与[IntelliJ IDEA Community Edition](idea.md)几乎完全重叠，后者是IntelliJ IDEA Ultimate的免费开源版本(上面链接的GitHub存储库是[JetBrains/ IntelliJ - Community](https://github.com/JetBrains/intellij-community)存储库)。
 请注意：从 2021.1 版本开始，IntelliJ IDEA 社区版捆绑的一些插件不是开源的。
 
-IntelliJ 平台的版本由相应的 IntelliJ IDEA 社区版 发行版的版本定义。
-例如，要针对 IntelliJ IDEA (2019.1.1) 构建插件，那么构建 #191.6707.61 意味着需要从指定相同的构建号标签的 “intellij-community” 存储库获取正确的 Intellij 平台文件。
-有关与版本编号对应的内部版本号的更多信息，请参阅 [](build_number_ranges.md) 页面。
+The version of the IntelliJ Platform is defined by the version of the corresponding IntelliJ IDEA Community Edition release.
+For example, to build a plugin against IntelliJ IDEA (2019.1.1), build #191.6707.61 means specifying the same build number tag to get the correct IntelliJ Platform files from the `intellij-community` repository.
+See the [](build_number_ranges.md) page for more information about build numbers corresponding to version numbering.
 
 通常，基于 IntelliJ 平台的 IDE 将包含 “intellij-community” 存储库作为 Git 子模块，并提供配置来描述 “intellij-community” 中的哪些插件以及哪些自定义插件将构成产品。
 
@@ -68,8 +72,10 @@ IntelliJ 平台是许多 JetBrains IDE 的基础。
 
 * [JetBrains](https://www.jetbrains.com) IDEs:
     * [AppCode](app_code.md)
+    * [Aqua](https://www.jetbrains.com/aqua/)
     * [CLion](clion.md)
     * [DataGrip](data_grip.md)
+    * [DataSpell](https://www.jetbrains.com/dataspell/)
     * [GoLand](goland.md)
     * [IntelliJ IDEA](idea.md)
     * [MPS](https://www.jetbrains.com/mps/)
@@ -77,9 +83,11 @@ IntelliJ 平台是许多 JetBrains IDE 的基础。
     * [PyCharm](pycharm.md)
     * [Rider](#rider)
     * [RubyMine](rubymine.md)
+    * [RustRover](https://www.jetbrains.com/rust/)
     * [WebStorm](webstorm.md)
-* [Android Studio](android_studio.md) IDE 出自 Google
-* [Comma](https://commaide.com/) IDE 为 Raku (以前称为 Perl 6) 构建
+    * [Writerside](https://www.jetbrains.com/writerside/)
+* [Android Studio](android_studio.md) IDE from Google
+* [Comma](https://commaide.com/) IDE for Raku (formerly known as Perl 6)
 * [Jmix Studio](https://www.jmix.io/tools/)
 
 ### Rider

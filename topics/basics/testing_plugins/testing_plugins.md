@@ -1,8 +1,8 @@
-# 测试概述
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<!-- Copyright 2000-2022 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+# Testing Overview
 
-<link-summary>测试插件简介。</link-summary>
+<link-summary>Introduction to testing plugins.</link-summary>
 
 Most of the tests in the IntelliJ Platform codebase are *model-level functional tests*.
 What this means is the following:
@@ -38,8 +38,8 @@ Please do not use <path>platform/testGuiFramework</path>, as it is reserved for 
 
 > Check out [this step-by-step tutorial](writing_tests_for_plugins.md) teaching how to write and run automated tests for your custom language plugin.
 > Also, code samples
-> [comparing_string_references_inspection](%gh-sdk-samples%/comparing_string_references_inspection)
-> and [conditional_operator_intention](%gh-sdk-samples%/conditional_operator_intention) demonstrate using tests.
+> [comparing_string_references_inspection](%gh-sdk-samples-master%/comparing_string_references_inspection)
+> and [conditional_operator_intention](%gh-sdk-samples-master%/conditional_operator_intention) demonstrate using tests.
 >
 {style="note"}
 

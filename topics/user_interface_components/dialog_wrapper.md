@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 <link-summary>创建、显示和获取用户在对话框中提供的输入。</link-summary>
 
@@ -6,11 +6,11 @@
 
 <tldr>
 
-**平台 UI 指南：** [布局](https://jetbrains.design/intellij/principles/layout)，[验证错误](https://jetbrains.design/intellij/principles/validation_errors/)
+**UI Guidelines:** [](layout.md), [](validation_errors.md)
 
 </tldr>
 
-## DialogWrapper {id=dialogwrapper}
+## `DialogWrapper`
 
 [`DialogWrapper`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) 是 IntelliJ 平台中用于显示所有模态对话框（以及部分非模态对话框）的基类。
 
@@ -26,7 +26,9 @@
   * <shortcut>Y</shortcut>/<shortcut>N</shortcut> 对应 <control>Yes</control>/<control>No</control> 操作（如果对话框中存在）
 * 可选的 <control>不再询问</control> 复选框
 
-### 用法 {id=usage}
+> There's also a DSL-like API via [`DialogBuilder`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogBuilder.java).
+
+### Usage
 
 当使用 [`DialogWrapper`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) 类创建对话框时，请按照以下必需步骤进行操作：
 
@@ -41,16 +43,16 @@
 * 重写 `getDimensionServiceKey()` 方法返回用于持久化对话框大小的标识符。
 * 重写 `getHelpId()` 方法返回与对话框关联的上下文帮助主题（参见 [上下文帮助](ide_infrastructure.md#context-help)）。
 
-`DialogWrapper` 类通常与 [GUI 设计器表单](https://www.jetbrains.com/help/idea/gui-designer-basics.html) 结合使用。
-在这种情况下，将 GUI 设计器表单绑定到扩展 `DialogWrapper` 的类，将表单的顶层面板绑定到一个字段，并从 `createCenterPanel()` 方法返回该字段。
-在使用 Kotlin 时，可以使用 [Kotlin UI DSL](kotlin_ui_dsl_version_2.md) 提供对话框的内容。
+Use [Kotlin UI DSL](kotlin_ui_dsl_version_2.md) to provide the dialog's contents (see [samples](#kotlin)).
+Alternatively or when using Java, the `DialogWrapper` class can be used together with [GUI Designer forms](https://www.jetbrains.com/help/idea/gui-designer-basics.html).
+In this case, bind a GUI Designer form to the class extending `DialogWrapper`, bind the top-level panel of the form to a field and return that field from the `createCenterPanel()` method.
 
-> 参见 IntelliJ 平台 UI 指南中的 [布局](https://jetbrains.design/intellij/principles/layout) 主题，了解如何在对话框中布置 UI 控件的建议。
+> See [](layout.md) topic in UI Guidelines for recommendations on arranging UI controls in dialogs.
 >
 > 可以使用 [UI 检查器](internal_ui_inspector.md) 在运行时检查现有对话框，例如查找 UI 组件的实际实现。
 
-要显示对话框，请调用 `show()` 方法，然后使用 `getExitCode()` 方法检查对话框的关闭方式（参见 `DialogWrapper#OK_EXIT_CODE|CANCEL_EXIT_CODE|CLOSE_EXIT_CODE`）。
-可以使用 `showAndGet()` 方法组合这两个调用。
+To display the dialog, call the `show()` method and then use the `getExitCode()` method to check how the dialog was closed (see `DialogWrapper#OK_EXIT_CODE, CANCEL_EXIT_CODE, CLOSE_EXIT_CODE`).
+The `showAndGet()` method can be used to combine these two calls.
 
 要自定义对话框中显示的按钮（替换标准的 <control>OK</control>/<control>Cancel</control>/<control>Help</control> 按钮集合），可以重写 `createActions()` 或 `createLeftActions()` 方法。
 这两个方法都返回一组 Swing Action 对象。
@@ -59,7 +61,7 @@
 
 ### 输入验证
 
-还请参阅 IntelliJ 平台 UI 指南中的 [验证错误](https://jetbrains.design/intellij/principles/validation_errors/) 主题。
+Please see also [](validation_errors.md) topic in UI Guidelines.
 
 要验证输入到对话框中的数据，请重写 `doValidate()` 方法。
 该方法将由定时器自动调用。
@@ -67,9 +69,9 @@
 否则，返回一个 [`ValidationInfo`](%gh-ic%/platform/ide-core/src/com/intellij/openapi/ui/ValidationInfo.java) 对象，其中封装了错误消息和与无效数据关联的可选组件。
 在指定组件时，将在其旁边显示错误图标，并在用户尝试调用 <control>OK</control> 操作时将其聚焦。
 
-## 示例 {id=example}
+## Examples
 
-简单定义一个 [`DialogWrapper`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java)：
+Minimum sample of a [`DialogWrapper`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java):
 
 ```java
 public class SampleDialogWrapper extends DialogWrapper {
@@ -104,3 +106,10 @@ testButton.addActionListener(actionEvent -> {
   }
 });
 ```
+
+### Kotlin
+
+Dialogs using [Kotlin UI DSL](kotlin_ui_dsl_version_2.md):
+
+- [`AddActionDialog`](%gh-ic%/platform/platform-impl/src/com/intellij/ide/ui/customization/AddActionDialog.kt)
+- [`InvalidateCachesDialog`](%gh-ic%/platform/platform-impl/src/com/intellij/ide/actions/InvalidateCachesDialog.kt)

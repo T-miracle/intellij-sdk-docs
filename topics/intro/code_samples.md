@@ -1,8 +1,8 @@
-# 代码示例
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+# Code Samples
 
-<link-summary>访问 SDK 文档代码示例。</link-summary>
+<link-summary>Accessing SDK Docs code samples.</link-summary>
 
 本指南附带了许多示例插件，可从专用的 [intellij-sdk-code-samples](https://github.com/JetBrains/intellij-sdk-code-samples) GitHub 存储库中获取。
 
@@ -21,8 +21,10 @@
 
 确保插件 _Git_、_Gradle_ 和 _Plugin DevKit_ 已启用。
 
-通过 <control>Git | Clone</control> [intellij-sdk-code-samples](https://github.com/JetBrains/intellij-sdk-code-samples) GitHub 存储库克隆...。
-成功克隆后，IDE 会建议打开该项目。
+<include from="snippets.md" element-id="pluginDevKitAvailability"/>
+
+Clone the [intellij-sdk-code-samples](https://github.com/JetBrains/intellij-sdk-code-samples) GitHub repository via <control>Git | Clone...</control>.
+After successful cloning, the IDE suggests opening the project.
 
 通过 [Gradle 工具窗口](https://www.jetbrains.com/help/idea/gradle.html#link_gradle_project) 选择要导入的代码示例。
 

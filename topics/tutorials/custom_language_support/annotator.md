@@ -1,6 +1,6 @@
-# 7. Annotator
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+# 7. Annotator
 
 <link-summary>Sample implementation of annotator highlighting resolved and unresolved Simple language properties in Java strings.</link-summary>
 
@@ -8,7 +8,7 @@
 
 **Reference**: [](syntax_highlighting_and_error_highlighting.md#annotator)
 
-**Code**: [`SimpleAnnotator`](%gh-sdk-samples%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleAnnotator.java)
+**Code**: [`SimpleAnnotator`](%gh-sdk-samples-master%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleAnnotator.java)
 
 **Testing**: [](annotator_test.md)
 </tldr>
@@ -55,7 +55,7 @@ Then, declare the dependency in <path>[plugin.xml](plugin_configuration_file.md)
 
 ## Define an Annotator
 
-The [`SimpleAnnotator`](%gh-sdk-samples%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleAnnotator.java) subclasses [`Annotator`](%gh-ic%/platform/analysis-api/src/com/intellij/lang/annotation/Annotator.java).
+The [`SimpleAnnotator`](%gh-sdk-samples-master%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleAnnotator.java) subclasses [`Annotator`](%gh-ic%/platform/analysis-api/src/com/intellij/lang/annotation/Annotator.java).
 Consider a literal string that starts with "simple:" as a prefix of a Simple Language key.
 It isn't part of the Simple Language, but it is a useful convention for detecting Simple Language keys embedded as string literals in other languages, like Java.
 Annotate the `simple:key` literal expression, and differentiate between a well-formed vs. an unresolved property.
@@ -68,7 +68,7 @@ Annotate the `simple:key` literal expression, and differentiate between a well-f
 ```
 {src="simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleAnnotator.java" include-symbol="SimpleAnnotator"}
 
-> If the above code is copied at this stage of the tutorial, then remove the line below the comment "** Tutorial step 18.3 …" The quick fix class in that line is not defined until later in the tutorial.
+> If the above code is copied at this stage of the tutorial, then remove the line below the comment "** Tutorial step 19. …" The quick fix class in that line is not defined until later in the tutorial.
 >
 
 ## Register the Annotator

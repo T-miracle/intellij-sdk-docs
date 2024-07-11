@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # External System Integration
 
@@ -26,14 +26,65 @@ That information is built with the following base classes:
 * [`Key`](%gh-ic%/platform/external-system-api/src/com/intellij/openapi/externalSystem/model/Key.java)
 * [`ExternalEntityData`](%gh-ic%/platform/external-system-api/src/com/intellij/openapi/externalSystem/model/project/ExternalEntityData.java)
 
-![DataNode](data_node.svg)
+```plantuml
+@startuml
+
+skinparam DefaultFontName JetBrains Sans
+skinparam DefaultFontSize 14
+hide empty members
+hide circle
+
+class "parent DataNode" as parent
+class DataNode
+together {
+  class "child n DataNode" as child3
+  class "..." as child2
+  class "child 1 DataNode" as child1
+  class Key
+  class ExternalEntityData
+}
+
+' Define the class relationships
+parent -- DataNode
+
+ExternalEntityData --o DataNode
+Key --o DataNode
+DataNode -- child1
+DataNode -- child2
+DataNode -- child3
+
+@enduml
+```
 
 The `DataNode` class is just a holder for the target data (a data type is defined by the `Key`).
 Multiple `DataNode` objects might be organized in directed graph where every edge identifies parent-child relation.
 
 For example, a simple one-module project might look as below:
 
-![DataNode Example](data_node_example.svg)
+```plantuml
+@startuml
+
+skinparam DefaultFontName JetBrains Sans
+skinparam DefaultFontSize 14
+skinparam DefaultTextAlignment center
+hide empty members
+hide circle
+
+rectangle "DataNode<ProjectData>" as root
+rectangle "DataNode<ModuleData>" as child1
+rectangle "DataNode<LibraryData>\n(JUnit)" as child2
+rectangle "DataNode<ContentRootData>" as child11
+rectangle "DataNode<LibraryDependencyData>\n(JUnit)" as child12
+
+' Define the class relationships
+root -- child1
+root -- child2
+
+child1 -- child11
+child1 -- child12
+
+@enduml
+```
 
 The IDE provides a set of built-in `Key` and `ExternalEntityData` classes but any external system integration or third-party plugin developer might enhance project data by defining custom `Key` and `ExternalEntityData` and store them at a child of appropriate `DataNode`.
 
@@ -74,7 +125,7 @@ It's possible to configure external system integration to automatically refresh 
 > From 2020.1, auto-import cannot be disabled by a user.
 >
 
-### Auto-Import for ExternalSystemManager Implementation
+### Auto-Import for `ExternalSystemManager` Implementation
 
 Describe project's settings files to track by having external system [`ExternalSystemManager`](%gh-ic%/platform/external-system-api/src/com/intellij/openapi/externalSystem/ExternalSystemManager.java) implement [`ExternalSystemAutoImportAware`](%gh-ic%/platform/external-system-api/src/com/intellij/openapi/externalSystem/ExternalSystemAutoImportAware.java).
 
@@ -95,8 +146,9 @@ Then register the instance with `ExternalSystemProjectTracker` to start tracking
 {style="note"}
 
 ### Icon for Reload Notification
+<primary-label ref="2020.1"/>
 
-From 2020.1, the icon for reload notification can be specified per external system.
+The icon for reload notification can be specified per external system.
 Implement [`ExternalSystemIconProvider`](%gh-ic%/platform/external-system-api/src/com/intellij/openapi/externalSystem/ui/ExternalSystemIconProvider.kt) and register via [com.intellij.externalIconProvider](https://jb.gg/ipe?extensions=com.intellij.externalIconProvider) extension point in <path>[plugin.xml](plugin_configuration_file.md)</path>.
 Alternatively, set `reloadIcon` field external system implements `ExternalSystemIconProvider` directly.
 
@@ -112,7 +164,7 @@ A particular external system settings UI contains the following items:
 
 It's recommended to extend from [`AbstractExternalProjectSettingsControl`](%gh-ic%/platform/external-system-impl/src/com/intellij/openapi/externalSystem/service/settings/AbstractExternalProjectSettingsControl.java) for implementing project-level settings control as it already handles some of them.
 
-**Examples**:
+**Examples:**
 * [`GradleSystemSettingsControl`](%gh-ic%/plugins/gradle/src/org/jetbrains/plugins/gradle/service/settings/GradleSystemSettingsControl.java) handling the <control>General settings</control> in <ui-path>Settings | Build, Execution, Deployment | Build Tools | Gradle</ui-path>
 * [`GradleProjectSettingsControl`](%gh-ic%/plugins/gradle/src/org/jetbrains/plugins/gradle/service/settings/GradleProjectSettingsControl.java) handling the selected Gradle project settings in <ui-path>Settings | Build, Execution, Deployment | Build Tools | Gradle</ui-path>
 

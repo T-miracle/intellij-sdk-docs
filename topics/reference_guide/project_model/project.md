@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Project
 
@@ -15,11 +15,11 @@
 The IntelliJ Platform stores the project configuration data in XML files.
 The list of those files depends on the chosen [project format](https://www.jetbrains.com/help/idea/creating-and-managing-projects.html#project-formats).
 
-For file-based format projects (legacy), the information core to the project itself (e.g., location of the component modules, compiler settings, etc.) is stored in the <path>$project_name$.ipr</path> file.
-The information about modules the project includes is stored in <path>$module_name$.iml</path> files.
+For file-based format projects (legacy), the information core to the project itself (e.g., location of the component modules, compiler settings, etc.) is stored in the <path>\$project_name\$.ipr</path> file.
+The information about modules the project includes is stored in <path>\$module_name\$.iml</path> files.
 Module files are created for each module.
 
-For directory-based format projects, the project and workspace settings are stored in a number of XML files under the <path>$project_home_directory$/.idea</path> directory.
+For directory-based format projects, the project and workspace settings are stored in a number of XML files under the <path>\$project_home_directory\$/.idea</path> directory.
 Each XML file is responsible for its own set of settings and can be recognized by its name: <path>projectCodeStyle.xml</path>, <path>encodings.xml</path>, <path>vcs.xml</path> etc.
 As for the file-based format projects, <path>.iml</path> files describe modules.
 
@@ -35,7 +35,7 @@ To work with projects and project files, use the following classes and interface
 Other classes for working with the project model are located in the [`projectModel-api.openapi`](%gh-ic%/platform/projectModel-api/src/com/intellij/openapi) package.
 Basic API classes and interfaces for the concepts of [`Project`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/Project.java), [`Module`](%gh-ic%/platform/core-api/src/com/intellij/openapi/module/Module.java) and [`Application`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/Application.java)  are placed in the [`core-api.openapi`](%gh-ic%/platform/core-api/src/com/intellij/openapi) package.
 
-### How to get a Project instance?
+### How to get a `Project` instance?
 
 A Project instance is available in multiple contexts:
 
@@ -69,7 +69,7 @@ Messages.showInfoMessage("Source roots for the " + projectName +
     " plugin:\n" + sourceRootsList, "Project Properties");
 ```
 
-### Checking if a File Belongs to a Project
+### Checking If a File Belongs to a Project
 
 Use [`ProjectFileIndex`](%gh-ic%/platform/projectModel-api/src/com/intellij/openapi/roots/ProjectFileIndex.java) to get this information:
 
@@ -111,7 +111,7 @@ Utility classes used for modifying the project structure can be found in the pac
 Its [`roots`](%gh-ic%/platform/projectModel-impl/src/com/intellij/openapi/roots) subpackage contains instances and utilities intended for work with project and module source roots, including [`ModuleRootModificationUtil`](%gh-ic%/platform/projectModel-api/src/com/intellij/openapi/roots/ModuleRootModificationUtil.java) and [`ProjectRootUtil`](%gh-ic%/platform/projectModel-impl/src/com/intellij/openapi/projectRoots/impl/ProjectRootUtil.java).
 Project structure changes need to be performed in [write action](general_threading_rules.md#read-write-lock).
 
-Refer to the [project_model](%gh-sdk-samples%/project_model/src/main/java/org/intellij/sdk/project/model/ModificationAction.java) code sample to learn how project structure modification can be implemented.
+Refer to the [project_model](%gh-sdk-samples-master%/project_model/src/main/java/org/intellij/sdk/project/model/ModificationAction.java) code sample to learn how project structure modification can be implemented.
 
 ## Receiving Notifications About Project Structure Changes
 

@@ -1,8 +1,8 @@
-# 实现插件的替代方案
+<!-- Copyright 2000-2024 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-<!-- Copyright 2000-2023 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+# Alternatives to Implementing a Plugin
 
-<link-summary>避免构建“完整”插件的替代策略和工具。</link-summary>
+<link-summary>Alternative strategies and tools to avoid building a "full" plugin.</link-summary>
 
 在某些情况下，实现实际的 IntelliJ 平台插件可能有些过大，使用下面列出的替代方法之一可能会在更短的时间内为您提供所需的值。
 如果您需要特定于您的项目域、约定或实践的功能，您可以避免实现和发布插件所需的所有步骤，并将这些功能作为项目或 IDE 配置文件的一部分提供。
@@ -44,7 +44,9 @@ Flora 扩展可以访问所有可用的 IntelliJ 平台 API，就像常规插件
 通过将 <path>.plugins</path> 目录添加到 VCS，可以轻松地与其他团队成员共享扩展。
 另外，在 <ui-path>Settings | Build, Execution, Deployment | Required Plugins</ui-path> 中添加Flora插件并将此配置作为项目的一部分共享，可以轻松地向您的团队提供额外的 IDE 功能，而无需任何手动设置。
 
-## 实时插件（LivePlugin）
+> Please note that the Flora plugin is in an experimental state.
+
+## LivePlugin
 
 [实时插件](https://plugins.jetbrains.com/plugin/7282-liveplugin) 允许在运行时扩展基于 IntelliJ 的 IDE 功能，而无需重新启动 IDE。
 它添加了一个新的 <control>Plugins</control> 工具窗口，其中列出了所有可用的扩展并允许你管理它们。

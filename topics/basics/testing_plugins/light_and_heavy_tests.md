@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Light and Heavy Tests
 
@@ -25,11 +25,13 @@ The standard way of writing a light test is to extend one of the following class
 <tabs>
 <tab title="Default">
 
-[`BasePlatformTestCase`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/fixtures/BasePlatformTestCase.java) for tests that don't have any dependency on Java functionality.
+Use [`LightPlatformTestCase`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/LightPlatformTestCase.java)
+or [`BasePlatformTestCase`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/fixtures/BasePlatformTestCase.java)
+for tests that don't have any dependency on Java functionality.
 
 For 2019.2 and earlier, use [`LightPlatformCodeInsightFixtureTestCase`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/fixtures/LightPlatformCodeInsightFixtureTestCase.java).
 
-**Examples**:
+**Examples:**
 - [`JavaCopyrightTest`](%gh-ic%/java/java-tests/testSrc/com/intellij/copyright/JavaCopyrightTest.kt)
 - [`HtmlDocumentationTest`](%gh-ic%/xml/tests/src/com/intellij/html/HtmlDocumentationTest.java)
 - [`AcceptWordAsCorrectTest`](%gh-ic%/spellchecker/testSrc/com/intellij/spellchecker/inspector/AcceptWordAsCorrectTest.java)
@@ -45,7 +47,7 @@ For tests that require the [Java PSI](idea.md#java) or related functionality:
 
 For 2019.2 and earlier, use [`LightCodeInsightFixtureTestCase`](%gh-ic%/java/testFramework/src/com/intellij/testFramework/fixtures/LightCodeInsightFixtureTestCase.java).
 
-**Examples**:
+**Examples:**
 - [`PatternValidatorTest`](%gh-ic%/plugins/IntelliLang/IntelliLang-tests/test/org/intellij/plugins/intelliLang/pattern/PatternValidatorTest.java) (JUnit 3)
 - [`JavaCtrlMouseTest`](%gh-ic%/java/java-tests/testSrc/com/intellij/java/codeInsight/javadoc/JavaCtrlMouseTest.kt) (JUnit 4)
 - [`MissingJavadocHighlightingTest`](%gh-ic%/java/java-tests/testSrc/com/intellij/java/codeInsight/daemon/MissingJavadocHighlightingTest.java) (JUnit 5)
@@ -70,7 +72,7 @@ The standard way of writing a heavy test is to extend [`HeavyPlatformTestCase`](
 >
 {style="note"}
 
-**Examples**:
+**Examples:**
 - [`ModuleDeleteProviderTest`](%gh-ic%/java/java-tests/testSrc/com/intellij/openapi/roots/ui/configuration/actions/ModuleDeleteProviderTest.java)
 - [`FacetTypeUnloadingTest`](%gh-ic%/java/idea-ui/testSrc/com/intellij/facet/FacetTypeUnloadingTest.kt)
 - [`SourceFolderManagerTest`](%gh-ic%/platform/external-system-impl/testSrc/com/intellij/openapi/externalSystem/service/project/manage/SourceFolderManagerTest.kt)

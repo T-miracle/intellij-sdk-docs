@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # 插件类型
 
@@ -15,20 +15,19 @@
 * 用户界面附加组件
 * 主题
 
-> 在某些情况下，可能不需要实现实际的 IntelliJ 平台插件，因为存在[替代解决方案](plugin_alternatives.md)。
->
+<include from="intellij_platform.md" element-id="pluginAlternatives"/>
 
 ## 自定义语言支持
 
 自定义语言支持提供了使用特定编程语言的基本功能，其中包括：
 
-* 文件类型识别
-* 词法分析
-* 语法高亮
-* 格式化
-* 代码洞察和代码补全
-* 检查和快速修复
-* 意图行动
+* File type recognition
+* Lexical analysis
+* Syntax highlighting
+* Formatting
+* Code insight and code completion
+* Inspections and quick fixes
+* Intention actions
 
 插件还可以增强现有（捆绑）的自定义语言，例如，通过提供额外的检查、意图或任何其他功能。
 

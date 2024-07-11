@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Gradle Grammar-Kit Plugin
 
@@ -16,6 +16,12 @@ The [Gradle Grammar-Kit Plugin](https://github.com/JetBrains/gradle-grammar-kit-
 
 > The plugin does not support two-pass generation. Therefore, it does not support method mixins.
 >
+>
+{style="note" title="Known Limitations"}
+
+> Please see [CONTRIBUTING](https://github.com/JetBrains/gradle-grammar-kit-plugin/blob/master/CONTRIBUTING.md) on how to submit feedback and contribute to this project.
+>
+> Before visiting the [Issue Tracker](https://github.com/JetBrains/gradle-grammar-kit-plugin/issues), update both plugin and Gradle to the latest versions.
 
 ## Usage
 To enable this plugin in your Gradle-based project, register the plugin in the Gradle build script's `plugins` section:
@@ -41,27 +47,23 @@ plugins {
 </tab>
 </tabs>
 
-> This project requires `Gradle 7.4` or newer, however it is recommended to use the latest Gradle available.
-> Update it with:
-> ```Bash
-> ./gradlew wrapper --gradle-version=VERSION
-> ```
+> This project requires Gradle 7.4 or newer, however, it is recommended to use the latest Gradle available.
+> See [Gradle Installation](https://gradle.org/install/) guide.
 >
-> See also: [Gradle Installation](https://gradle.org/install/) guide.
->
-
-> Please see [CONTRIBUTING](https://github.com/JetBrains/gradle-grammar-kit-plugin/blob/master/CONTRIBUTING.md) on how to submit feedback and contribute to this project.
->
-> Before visiting the [Issue Tracker](https://github.com/JetBrains/gradle-grammar-kit-plugin/issues), update both plugin and Gradle to the latest versions.
->
+{title="Minimum Gradle Version"}
 
 ## Configuration
+
+See also [](#usage-examples) below.
 
 ### Grammar-Kit Extension
 After the Gradle Grammar-Kit Plugin is applied, the `grammarKit` extension can be used to configure the plugin and common settings of the provided tasks.
 
-**Example:**
+> In most cases, explicit configuration can be omitted.
+>
+{style="tip"}
 
+**Example:**
 
 <tabs group="languages">
 <tab title="Kotlin" group-key="kotlin">
@@ -70,7 +72,6 @@ After the Gradle Grammar-Kit Plugin is applied, the `grammarKit` extension can b
 grammarKit {
   jflexRelease.set("1.7.0-1")
   grammarKitRelease.set("2021.1.2")
-  intellijRelease.set("203.7717.81")
 }
 ```
 
@@ -81,7 +82,6 @@ grammarKit {
 grammarKit {
   jflexRelease = "1.7.0-1"
   grammarKitRelease = "2021.1.2"
-  intellijRelease = "203.7717.81"
 }
 ```
 
@@ -99,7 +99,7 @@ Type
 : `String`
 
 Default value
-: `2022.3.1`
+: `2022.3.2`
 
 
 #### jflexRelease
@@ -112,13 +112,13 @@ Type
 : `String`
 
 Default value
-: `1.7.0-1`
+: `1.9.2`
 
 
 #### intellijRelease
 {#grammar-kit-extension-intellijrelease}
 
-An optional IntelliJ version to build the classpath for [`GenerateParser`](#generateparser-task) and [`GenerateLexer`](#generatelexer-task) tasks.
+An optional IntelliJ IDEA version to build the classpath for [`GenerateParser`](#generateparser-task) and [`GenerateLexer`](#generatelexer-task) tasks.
 
 If provided, [`grammarKitRelease`](#grammar-kit-extension-grammarkitrelease) and [`jflexRelease`](#grammar-kit-extension-jflexrelease) properties are ignored as both dependencies will be provided from the given IntelliJ IDEA release.
 
@@ -136,7 +136,7 @@ Default value
 {#generatelexer-task}
 
 The `generateLexer` task generates a lexer for the given grammar.
-The task is configured using common [`grammarKit`](#grammar-kit-extension) extension.
+The task is configured using the common [`grammarKit`](#grammar-kit-extension) extension.
 
 
 #### sourceFile
@@ -152,8 +152,8 @@ Type
 : `String`
 
 
-#### targetDir
-{#tasks-generatelexer-targetdir}
+#### targetOutputDir
+{#tasks-generatelexer-targetOutputDir}
 
 The path to the target directory for the generated lexer.
 
@@ -164,18 +164,6 @@ Required
 Type
 : `String`
 
-
-#### targetClass
-{#tasks-generatelexer-targetclass}
-
-The Java file name where the generated lexer will be written.
-
-{style="narrow"}
-Required
-: `true`
-
-Type
-: `String`
 
 
 #### skeleton
@@ -210,7 +198,7 @@ Default
 {#generateparser-task}
 
 The `generateParser` task generates a parser for the given grammar.
-The task is configured using common [`grammarKit`](#grammar-kit-extension) extension.
+The task is configured using the common [`grammarKit`](#grammar-kit-extension) extension.
 
 
 #### sourceFile
@@ -226,8 +214,8 @@ Type
 : `String`
 
 
-#### targetRoot
-{#tasks-generateparser-targetroot}
+#### targetRootOutputDir
+{#tasks-generateparser-targetrootOutputDir}
 
 The path to the target directory for the generated parser.
 
@@ -242,7 +230,7 @@ Default
 #### pathToParser
 {#tasks-generateparser-pathtoparser}
 
-The location of the generated parser class, relative to the [`targetRoot`](#tasks-generateparser-targetroot).
+The location of the generated parser class, relative to the [`targetRootOutputDir`](#tasks-generateparser-targetrootOutputDir).
 
 {style="narrow"}
 Required
@@ -255,7 +243,7 @@ Type
 #### pathToPsiRoot
 {#tasks-generateparser-pathtopsiroot}
 
-The location of the generated PSI files, relative to the [`targetRoot`](#tasks-generateparser-targetroot).
+The location of the generated PSI files, relative to the [`targetRootOutputDir`](#tasks-generateparser-targetrootOutputDir).
 
 {style="narrow"}
 Required
@@ -278,14 +266,14 @@ Default
 : `false`
 
 
-## Useful Resources
-
-* [Grammar-Kit](https://github.com/JetBrains/Grammar-Kit)
-* [IntelliJ-patched JFlex Sources](https://github.com/JetBrains/intellij-deps-jflex)
-* [IntelliJ-patched JFlex](https://cache-redirector.jetbrains.com/intellij-dependencies/org/jetbrains/intellij/deps/jflex/jflex/)
-
-### Usage Examples
+## Usage Examples
 
 * [Perl5 plugin](https://github.com/Camelcade/Perl5-IDEA/blob/master/build.gradle.kts)
 * [Rust plugin](https://github.com/intellij-rust/intellij-rust/blob/master/build.gradle.kts)
 * [Bamboo Soy plugin](https://github.com/google/bamboo-soy/blob/master/build.gradle)
+
+## Links
+
+* [Grammar-Kit](https://github.com/JetBrains/Grammar-Kit)
+* [IntelliJ-patched JFlex Sources](https://github.com/JetBrains/intellij-deps-jflex)
+* [IntelliJ-patched JFlex](https://cache-redirector.jetbrains.com/intellij-dependencies/org/jetbrains/intellij/deps/jflex/jflex/)

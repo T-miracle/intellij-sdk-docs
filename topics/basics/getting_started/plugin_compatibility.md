@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Plugin Compatibility with IntelliJ Platform Products
 
@@ -21,7 +21,7 @@ Declaring a dependency on a module also expresses a plugin's compatibility with 
 [](plugin_dependencies.md) describes the syntax for declaring plugin dependencies and optional plugin dependencies.
 This document describes the IntelliJ Platform modules' functionality to aid in determining the dependencies of a plugin.
 
-The way dependency declarations are handled by the Intellij Platform is determined by the contents of the <path>[plugin.xml](plugin_configuration_file.md)</path> file:
+The way dependency declarations are handled by the IntelliJ Platform is determined by the contents of the <path>[plugin.xml](plugin_configuration_file.md)</path> file:
 * If a plugin does not declare any dependencies in its <path>plugin.xml</path> file, or if it declares dependencies only on other plugins but not modules, it's assumed to be a legacy plugin and is loaded only in IntelliJ IDEA.
   This configuration of the dependency declaration is deprecated; do not use it for new plugin projects.
 * If a plugin declares at least _one_ module dependency in its <path>plugin.xml</path> file, the plugin is loaded if an IntelliJ Platform-based product contains _all the modules and plugins_ on which the plugin has declared a dependency.
@@ -37,8 +37,9 @@ Some modules are available in all products, and some modules are available only 
 This section identifies and discusses modules of both types.
 
 ### Declaring Incompatibility with Module
+<primary-label ref="2020.2"/>
 
-Starting in 2020.2, a plugin can declare incompatibility with an arbitrary module by specifying [`<incompatible-with>`](plugin_configuration_file.md#idea-plugin__incompatible-with) containing module ID in its <path>plugin.xml</path>.
+A plugin can declare incompatibility with an arbitrary module by specifying [`<incompatible-with>`](plugin_configuration_file.md#idea-plugin__incompatible-with) containing module ID in its <path>plugin.xml</path>.
 
 ### Modules Available in All Products
 
@@ -102,6 +103,7 @@ This refactoring separated the Java implementation from the other, non-language 
 A dependency on the Java plugin (Plugin ID `com.intellij.java`) must be setup using [](plugin_dependencies.md).
 
 #### AppCode/CLion
+<primary-label ref="2020.3"/>
 
 The [AppCode and CLion code was restructured](https://blog.jetbrains.com/clion/2020/12/migration-guide-for-plugins-2020-3/) in version 2020.3.
 This refactoring extracted some functionalities into specific modules for easier maintainability and reuse between AppCode/CLion and other JetBrains IDEs.
@@ -221,14 +223,14 @@ Drill down into the JAR files to expose the packages and (decompiled) classes.
 If a project is dependent on a plugin or module, in some cases, the project can also [extend](plugin_extensions.md) the functionality available from the plugin or module.
 
 > See [Explore the IntelliJ Platform API](explore_api.md) for more information and strategies.
-> Dedicated Extension Point Lists specific to IDEs are available under _Part VIII — Product Specific_.
+> Dedicated Extension Point Lists specific to IDEs are available under _Product Specific_.
 >
 
 To browse the opportunities for an extension, start by placing the cursor on the contents of the [`<depends>`](plugin_configuration_file.md#idea-plugin__depends) elements in the project's <path>plugin.xml</path> file.
 Use the [Go to Declaration](https://www.jetbrains.com/help/idea/navigating-through-the-source-code.html#go_to_declaration) IDE feature to navigate to the <path>plugin.xml</path> file for the plugin on which the project depends.
 
 For example, performing this procedure on the `<depends>com.jetbrains.php</depends>` declaration in a project's <path>plugin.xml</path> file will navigate to the <path>plugin.xml</path> file for the `com.jetbrains.php` (PHP) project.
-A common, but not universal, pattern in the IntelliJ platform is for a plugin (like PHP) to declare [`<extensionPoints>`](plugin_configuration_file.md#idea-plugin__extensionPoints) and then implement each one as [`<extensions>`](plugin_configuration_file.md#idea-plugin__extensions).
+A common, but not universal, pattern in the IntelliJ Platform is for a plugin (like PHP) to declare [`<extensionPoints>`](plugin_configuration_file.md#idea-plugin__extensionPoints) and then implement each one as [`<extensions>`](plugin_configuration_file.md#idea-plugin__extensions).
 Continuing the example, search the PHP plugin's <path>plugin.xml</path> file for:
 * `<extensionPoints>` to find the opportunities for extending the PHP plugin's functionality.
 * `<extensions defaultExtensionNs="com.jetbrains.php">` to find where the PHP plugin extends functionality.
@@ -245,7 +247,7 @@ Before marking a plugin project as _dependent only on modules in a target produc
 For [Gradle-based](developing_plugins.md) projects, [](verifying_plugin_compatibility.md#plugin-verifier) can be used to ensure compatibility with all specified target IDEs.
 
 For DevKit-based projects, [create an SDK](setting_up_theme_environment.md#add-intellij-platform-plugin-sdk) pointing to an installation of the intended target IntelliJ Platform-based product, e.g., PhpStorm, rather than IntelliJ IDEA.
-Use the same development version of the IntelliJ platform as the targeted product.
+Use the same development version of the IntelliJ Platform as the targeted product.
 
 Based on the tables above, the [JetBrains Marketplace](https://plugins.jetbrains.com/) automatically detects the JetBrains products with which a plugin is compatible, and makes the compatibility information available to plugin authors.
 The compatibility information determines if plugins are available for users of a particular JetBrains product.

@@ -2,14 +2,14 @@
 
 [![official JetBrains project](https://jb.gg/badges/official-flat-square.svg)][jb:github]
 [![JetBrains IntelliJ Platform SDK Docs](https://jb.gg/badges/docs.svg?style=flat-square)][jb:docs]
-[![Twitter Follow](https://img.shields.io/badge/follow-%40JBPlatform-1DA1F2?logo=twitter)][jb:twitter]
+[![X Follow](https://img.shields.io/badge/follow-%40JBPlatform-1DA1F2?logo=x)][jb:x]
 [![Build](https://img.shields.io/github/actions/workflow/status/JetBrains/intellij-sdk-docs/code-samples.yml?branch=main&style=flat-square)][gh:workflow-code-samples]
 [![Slack](https://img.shields.io/badge/Slack-%23intellij--platform-blue?style=flat-square&logo=Slack)][jb:slack]
 
 Learn how to build plugins using IntelliJ Platform SDK for the [JetBrains products][jb:products] by experimenting with our code samples.
 These samples show you how features work and help you jumpstart your plugins.
 
-> **Note**
+> [!TIP]
 > To start a new plugin project, consider using [IntelliJ Platform Plugin Template][gh:template] which offers a pure boilerplate template to make it easier to create a new plugin project.
 >
 > The code samples can also be found in the [IntelliJ SDK Code Samples](https://github.com/JetBrains/intellij-sdk-code-samples) mirror repository.
@@ -32,7 +32,7 @@ It describes definitions of the actions, extensions, or listeners provided by th
 
 Please see [Code Samples][docs:code-samples] topic on how to import and run code samples.
 
-In the following table, you may find all available samples provided in the separated directories as stand-alone projects available for running with the Gradle [`runIde`](tools_gradle_intellij_plugin.md#tasks-runide) task.
+In the following table, you may find all available samples provided in the separated directories as stand-alone projects available for running with the Gradle `runIde` task.
 
 | Code Sample                                                                 | Description                                                                                                                                                       |
 |-----------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -64,11 +64,11 @@ In the following table, you may find all available samples provided in the separ
 [jb:docs]: https://plugins.jetbrains.com/docs/intellij/
 [jb:products]: https://www.jetbrains.com/products.html
 [jb:slack]: https://plugins.jetbrains.com/slack
-[jb:twitter]: https://twitter.com/JBPlatform
+[jb:x]: https://x.com/JBPlatform
 
 [docs]: https://plugins.jetbrains.com/docs/intellij/
 [docs:code-samples]: https://plugins.jetbrains.com/docs/intellij/code-samples.html
 [docs:eps]: https://plugins.jetbrains.com/docs/intellij/extension-point-list.html
-[docs:gradle]: https://plugins.jetbrains.com/docs/intellij/gradle-build-system.html
+[docs:gradle]: https://plugins.jetbrains.com/docs/intellij/developing-plugins.html
 [docs:plugin.xml]: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html
 [docs:explore-api]: https://plugins.jetbrains.com/docs/intellij/explore-api.html

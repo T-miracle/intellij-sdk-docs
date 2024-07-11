@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Run Configurations
 
@@ -19,11 +19,34 @@ Run configurations can be started from the <control>Run</control> toolbar, the e
 
 The following diagram shows the key run configurations classes:
 
-![Run Configuration Classes](run_configuration_classes.svg)
+Original:
+
+```plantuml
+@startuml
+
+skinparam DefaultFontName JetBrains Sans
+skinparam DefaultFontSize 14
+hide empty members
+hide circle
+
+interface RunProfile
+interface ConfigurationType
+abstract class ConfigurationFactory
+interface RunConfiguration
+abstract class SettingsEditor
+
+
+ConfigurationType *-- "*" ConfigurationFactory
+ConfigurationFactory --> RunConfiguration: creates
+RunConfiguration o-- "0..*" SettingsEditor
+RunConfiguration -l|> RunProfile
+
+@enduml
+```
 
 Run Configuration API (except `SettingsEditor` class, which is a class shared by many IntelliJ Platform APIs) is a part of the [Execution API](execution.md).
 
-### ConfigurationType
+### `ConfigurationType`
 
 The entry point of a run configuration implementation is [`ConfigurationType`](%gh-ic%/platform/execution/src/com/intellij/execution/configurations/ConfigurationType.java).
 It is responsible for the run configuration type and instances presentation and contains [configuration factories](#configurationfactory).
@@ -42,10 +65,13 @@ Standard base classes for configuration type implementations are:
 * [`ConfigurationTypeBase`](%gh-ic%/platform/execution/src/com/intellij/execution/configurations/runConfigurationType.kt) - used for configuration types that have multiple configuration factories.
   Factories should be added in the constructor by calling the `addFactory()` method.
 
-Sometimes, it is required to provide run configurations programmatically from contexts external to run configuration UI.
-Implementing [`VirtualConfigurationType`](%gh-ic%/platform/execution/src/com/intellij/execution/configurations/VirtualConfigurationType.java) blocks the possibility of adding and removing run configurations of this type in the <control>Run/Debug Configurations</control> panel. Editing its template is also not available.
+Marking a configuration type as [dumb aware](indexing_and_psi_stubs.md#DumbAwareAPI) makes all its configurations available during indexing.
 
-### ConfigurationFactory
+Sometimes, it is required to provide run configurations programmatically from contexts external to run configuration UI.
+Implementing [`VirtualConfigurationType`](%gh-ic%/platform/execution/src/com/intellij/execution/configurations/VirtualConfigurationType.java) blocks the possibility of adding and removing run configurations of this type in the <control>Run/Debug Configurations</control> panel.
+Editing its template is also not available.
+
+### `ConfigurationFactory`
 
 [`ConfigurationFactory`](%gh-ic%/platform/execution/src/com/intellij/execution/configurations/ConfigurationFactory.java) classes are responsible for creating [run configuration](#runconfiguration) instances.
 The only method required to be implemented is `createTemplateConfiguration()`, which is called once for each project to create the run configuration template.
@@ -54,10 +80,10 @@ The actual run configurations are created in the `createConfiguration()` method 
 Configuration factory presentation is inherited from the containing configuration type.
 If customization is needed, override the presentation methods in the factory class.
 
-By default, configurations created by a given factory are not editable in [Dumb Mode](indexing_and_psi_stubs.md#dumb-mode).
+By default, configurations created by a given factory are not editable in [dumb mode](indexing_and_psi_stubs.md#dumb-mode).
 To enable editing them in Dumb Mode, return `true` from `isEditableInDumbMode()`.
 
-### RunConfiguration
+### `RunConfiguration`
 
 [`RunConfiguration`](%gh-ic%/platform/execution/src/com/intellij/execution/configurations/RunConfiguration.java) extends [`RunProfile`](%gh-ic%/platform/execution/src/com/intellij/execution/configurations/RunProfile.java) and represents a named profile that can be run by the [Execution API](execution.md).
 
@@ -66,7 +92,7 @@ When implementing a run configuration class, consider using one of the standard 
 * [`LocatableConfigurationBase`](%gh-ic%/platform/execution/src/com/intellij/execution/configurations/LocatableConfigurationBase.java) - a base class for [configurations that can be created from context](#creating-a-run-configuration-from-context).
 * [`ModuleBasedConfiguration`](%gh-ic%/platform/execution/src/com/intellij/execution/configurations/ModuleBasedConfiguration.java) - a base class for a configuration that is associated with a specific [](module.md) (e.g., Java run configurations use the selected module to determine the run classpath).
 
-### SettingsEditor
+### `SettingsEditor`
 
 A run configuration may allow editing its general settings and settings specific to a [program runner](execution.md#execution-classes).
 If it is required, a `RunConfiguration` implementation should return a [`SettingsEditor`](%gh-ic%/platform/ide-core/src/com/intellij/openapi/options/SettingsEditor.java) instance from:
@@ -85,7 +111,7 @@ If the settings editor requires validation, implement [`CheckableRunConfiguratio
 
 If the settings editor is complex, see [](#simplifying-settings-editors) for solutions.
 
-**Example**: [DemoSettingsEditor](%gh-sdk-samples%/run_configuration/src/main/java/org/jetbrains/sdk/runConfiguration/DemoSettingsEditor.java) from the `run_configuration` code sample.
+**Example:** [DemoSettingsEditor](%gh-sdk-samples-master%/run_configuration/src/main/java/org/jetbrains/sdk/runConfiguration/DemoSettingsEditor.java) from the `run_configuration` code sample.
 
 ## Persistence
 
@@ -115,6 +141,7 @@ The extension requires implementing the following methods:
 * `isConfigurationFromContext()` - checks if a configuration was created from the specified context.
   This method allows reusing an existing run configuration, which applies to the current context, instead of creating a new one and possibly ignoring the user's customizations in the existing one.
 
+If access to indexes is not required, it can be marked [dumb aware](indexing_and_psi_stubs.md#DumbAwareAPI).
 If the run configuration requires additional data before it is executed for the first time, override [`RunConfigurationProducer.onFirstRun()`](%gh-ic%/platform/lang-api/src/com/intellij/execution/actions/RunConfigurationProducer.java) to provide it or display UI to get the data from the user.
 
 To support the automatic naming of configurations created from context, the configuration should extend [`LocatableConfigurationBase`](%gh-ic%/platform/execution/src/com/intellij/execution/configurations/LocatableConfigurationBase.java).
@@ -127,6 +154,7 @@ It is achieved by implementing [`RunLineMarkerContributor`](%gh-ic%/platform/exe
 
 The standard method for providing the information is `getInfo()`.
 If computing the information is slow, implement `getSlowInfo()`, which is used by the editor highlighting mechanism to gather information in batch, and apply all the information at once to avoid icons blinking.
+If access to indexes is not required, it can be marked [dumb aware](indexing_and_psi_stubs.md#DumbAwareAPI).
 
 To provide the standard executor actions like _Run_, _Debug_, etc., use [`ExecutorAction.getActions()`](%gh-ic%/platform/execution-impl/src/com/intellij/execution/ExecutorRegistryImpl.java).
 
@@ -167,7 +195,7 @@ It makes the editor smaller, freeing it from the clutter of unused settings fiel
 To implement a fragmented settings editor in a run configuration, extend [`RunConfigurationFragmentedEditor`](%gh-ic%/platform/execution-impl/src/com/intellij/execution/ui/RunConfigurationFragmentedEditor.java) and implement `createRunFragments()`.
 The method must return a list of [`SettingsEditorFragment`](%gh-ic%/platform/platform-api/src/com/intellij/execution/ui/SettingsEditorFragment.java) instances, which represent particular settings fragments that users can enable and configure.
 
-**Examples**:
+**Examples:**
 - [`JavaApplicationSettingsEditor`](%gh-ic%/java/execution/impl/src/com/intellij/execution/application/JavaApplicationSettingsEditor.java)
 - [`MavenRunConfigurationSettingsEditor`](%gh-ic%/plugins/maven/src/main/java/org/jetbrains/idea/maven/execution/run/configuration/MavenRunConfigurationSettingsEditor.kt)
 
@@ -182,7 +210,7 @@ A complex settings editor can be split into smaller editors focused on a specifi
 These editors should be added to the [`SettingsEditorGroup`](%gh-ic%/platform/ide-core/src/com/intellij/openapi/options/SettingsEditorGroup.java) object, which is a `SettingsEditor`'s implementation itself and must be returned from `getConfigurationEditor()` or `getRunnerSettingsEditor()`.
 Each editor added to the group is displayed in a separate tab.
 
-**Example**: [`ApplicationConfiguration.getConfigurationEditor()`](%gh-ic%/java/execution/impl/src/com/intellij/execution/application/ApplicationConfiguration.java)
+**Example:** [`ApplicationConfiguration.getConfigurationEditor()`](%gh-ic%/java/execution/impl/src/com/intellij/execution/application/ApplicationConfiguration.java)
 
 
 ## Refactoring Support
@@ -217,6 +245,8 @@ Plugins can provide custom tasks that can be added by users to a created run con
 
 To provide a custom task, implement [`BeforeRunTaskProvider`](%gh-ic%/platform/execution/src/com/intellij/execution/BeforeRunTaskProvider.java) and register it in `com.intellij.stepsBeforeRunProvider` EP.
 The provider implementation is responsible for creating a task instance for a given run configuration and executing the task.
+
+If access to indexes is not required, it can be marked [dumb aware](indexing_and_psi_stubs.md#DumbAwareAPI).
 
 ## Macros
 

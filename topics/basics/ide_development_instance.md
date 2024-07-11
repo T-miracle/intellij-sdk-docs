@@ -1,8 +1,8 @@
-# IDE 开发实例
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+# IDE Development Instance
 
-<link-summary>在开发过程中用于运行和调试插件的 IDE 实例概览。</link-summary>
+<link-summary>Overview of IDE instance used for running and debugging a plugin during development.</link-summary>
 
 JetBrains 为插件开发提供的一个特性是可以从 IntelliJ IDEA 内部运行或调试插件项目。
 对于基于 Gradle 的项目（或基于 DevKit 的项目），选择 [`runIde`](creating_plugin_project.md#使用runIde-Gradle任务运行插件) 任务（或 [Run（运行）](running_and_debugging_a_theme.md)菜单）将启动带插件启用的 IDE 的 _开发实例_。
@@ -122,9 +122,9 @@ _沙盒主目录_ 包含 IDE 开发实例的 [设置、缓存、日志和插件]
 <tabs group="project-type">
 <tab title="Gradle" group-key="gradle">
 
-在插件 Gradle 项目中，默认的沙盒主目录位置如下：
-* Windows: `<path>$PROJECT_DIRECTORY$\\build\\idea-sandbox</path>`
-* Linux/macOS: `<path>$PROJECT_DIRECTORY$/build/idea-sandbox</path>`
+The default Sandbox Home location in a plugin Gradle project is:
+* Windows: <path>\$PROJECT_DIRECTORY\$\\build\\idea-sandbox</path>
+* Linux/macOS: <path>\$PROJECT_DIRECTORY\$/build/idea-sandbox</path>
 
 沙盒主目录位置可以通过 [`intellij.sandboxDir`](tools_gradle_intellij_plugin.md#intellij-extension-sandboxdir) 属性进行配置。
 
@@ -135,13 +135,10 @@ _沙盒主目录_ 包含 IDE 开发实例的 [设置、缓存、日志和插件]
 对于基于DevKit的插件，<control>沙盒主目录</control>的默认位置是在 IntelliJ 平台插件 SDK 中定义的。
 请查看[设置主题开发环境](setting_up_theme_environment.md#add-intellij-platform-plugin-sdk)以获取有关如何在 IntelliJ 平台 SDK 中设置沙盒主目录的信息。
 
-默认的沙盒主目录位置如下：
-* Windows: `<path>$USER_HOME$\\.$PRODUCT_SYSTEM_NAME$$PRODUCT_VERSION$\\system\\plugins-sandbox\\</path>`
-* Linux: `<path>~/.$PRODUCT_SYSTEM_NAME$$PRODUCT_VERSION$/system/plugins-sandbox/</path>`
-* macOS: `<path>~/Library/Caches/$PRODUCT_SYSTEM_NAME$$PRODUCT_VERSION$/plugins-sandbox/</path>`
-
-> **译者注：**
-> // todo
+The default Sandbox Home directory location is:
+* Windows: <path>\$USER_HOME\$\\.\$PRODUCT_SYSTEM_NAME\$\$PRODUCT_VERSION\$\\system\\plugins-sandbox\\</path>
+* Linux: <path>~/.\$PRODUCT_SYSTEM_NAME\$\$PRODUCT_VERSION\$/system/plugins-sandbox/</path>
+* macOS: <path>~/Library/Caches/\$PRODUCT_SYSTEM_NAME\$\$PRODUCT_VERSION\$/plugins-sandbox/</path>
 
 </tab>
 </tabs>

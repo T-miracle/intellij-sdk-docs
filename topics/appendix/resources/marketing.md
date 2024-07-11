@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2022 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Marketing
 
@@ -59,13 +59,12 @@ Below are listed a few badges related to the IntelliJ SDK and plugins developmen
 ![Rating](https://img.shields.io/jetbrains/plugin/r/rating/:pluginId)
 ```
 
-[//]: # (FIXME: uncomment when https://youtrack.jetbrains.com/issue/WRS-2932 issue is fixed)
-[//]: # (**IntelliJ Plugin Stars Rating**)
-[//]: # ()
-[//]: # (![Rating]&#40;https://img.shields.io/badge/rating-%E2%98%85%E2%98%85%E2%98%85%E2%98%85%C2%BD-brightgreen&#41;{interpolate-variables="false"})
-[//]: # (```)
-[//]: # (![Rating]&#40;https://img.shields.io/jetbrains/plugin/r/stars/:pluginId&#41;)
-[//]: # (```)
+**IntelliJ Plugin Stars Rating**
+
+![Rating](https://img.shields.io/badge/rating-%E2%98%85%E2%98%85%E2%98%85%E2%98%85%C2%BD-brightgreen){ignore-vars="true"}
+```
+![Rating](https://img.shields.io/jetbrains/plugin/r/stars/:pluginId)
+```
 
 ### Version
 
@@ -114,9 +113,9 @@ Below are listed a few badges related to the IntelliJ SDK and plugins developmen
 [![Slack](https://img.shields.io/badge/Slack-#intellij--platform-blue?style=flat-square&logo=Slack)](https://plugins.jetbrains.com/slack)
 ```
 
-**@JBPlatform Twitter**
+**@JBPlatform on X (formerly Twitter)**
 
-[![Twitter Follow](https://img.shields.io/badge/follow-@JBPlatform-1DA1F2?logo=twitter)](https://twitter.com/JBPlatform)
+[![X Follow](https://img.shields.io/badge/follow-@JBPlatform-1DA1F2?logo=x)](https://x.com/JBPlatform)
 ```
-[![Twitter Follow](https://img.shields.io/badge/follow-@JBPlatform-1DA1F2?logo=twitter)](https://twitter.com/JBPlatform)
+[![X Follow](https://img.shields.io/badge/follow-@JBPlatform-1DA1F2?logo=x)](https://x.com/JBPlatform)
 ```

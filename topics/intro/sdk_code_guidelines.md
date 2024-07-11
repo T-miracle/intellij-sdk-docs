@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # SDK 代码示例指南
 
@@ -177,8 +177,8 @@ SDK代码示例的插件配置文件（plugin.xml）文件中元素的顺序如�
 
 ## README 文件
 
-在IntelliJ平台SDK中提供的每个代码示例都应包含一个README文件，描述示例的目的和内容。
-[`SAMPLE_README.md`](%gh-sdk-samples%/SAMPLE_README.md)文件包含一个模板，应作为进一步编写的初始草稿。
+Each code sample provided within the IntelliJ Platform SDK should contain a README file describing the sample purpose and its content.
+The [`SAMPLE_README.md`](%gh-sdk-samples-master%/SAMPLE_README.md) file contains a template that should be used as an initial draft for further writing.
 
 每个<路径>README.md</路径>文件应具有相同的结构，以实现更好的导航和可读性：
 - 带有指向主要的IntelliJ SDK文档和示例引用的页面的链接的标题。

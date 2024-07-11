@@ -16,9 +16,9 @@ _扩展_ 是插件以不像将操作添加到菜单或工具栏那样直接的�
 
 ## 探索可用的扩展点
 
-[](extension_point_list.md) 列出了 IntelliJ Platform 和 IntelliJ IDEA 中捆绑插件中所有可用的扩展点。
-此外，专用于IDE的扩展点和监听器列表可在 _Part VIII — Product Specific_ 下找到。
-通过 [IntelliJ Platform Explorer](https://jb.gg/ipe) 浏览开源 IntelliJ Platform 插件的现有实现中的用法。
+[](intellij_platform_extension_point_list.md) and [](intellij_community_plugins_extension_point_list.md) list all available extension points in IntelliJ Platform and from bundled plugins in IntelliJ IDEA.
+Additionally, dedicated Extension Point and Listener Lists specific to IDEs are available under _Product Specific_.
+Browse usages inside existing implementations of open-source IntelliJ Platform plugins via [IntelliJ Platform Explorer](https://jb.gg/ipe).
 
 或者（或者在使用第三方扩展点时），可以在 <path>[plugin.xml](plugin_configuration_file.md)</path> 中的 [`<extensions>`](plugin_configuration_file.md#idea-plugin__extensions) 块中使用自动完成列出指定命名空间 (`defaultExtensionNs`) 的所有可用扩展点。
 在查找列表中使用 <ui-path>View | Quick Documentation</ui-path> 可以访问有关扩展点和实现的更多信息（如果适用）。
@@ -127,8 +127,8 @@ _扩展_ 是插件以不像将操作添加到菜单或工具栏那样直接的�
 
 类似地，`action` 解析为所有已注册的 [`<action>`](plugin_configuration_file.md#idea-plugin__actions__action) ID。
 
-指定 `@org.jetbrains.annotations.Nls` 将根据文本属性 `Capitalization` 枚举值验证 UI `String` 的大小写（2019.2 及更高版本）。
+Annotating with [`@Nls`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/Nls.java) validates a UI `String` capitalization according to the text property `Capitalization` enum value (2019.2 and later).
 
-标记为 `@Deprecated` 或带有任何 [`ApiStatus`](https://github.com/JetBrains/java-annotations/blob/master/common/src/main/java/org/jetbrains/annotations/ApiStatus.java) 的注解，如 `@Internal`、`@Experimental`、`@ScheduledForRemoval` 或 `@Obsolete` 的属性将相应地突出显示。
+Properties marked as `@Deprecated` or annotated with any of [`ApiStatus`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/ApiStatus.java) `@Internal`, `@Experimental`, `@ScheduledForRemoval`, or `@Obsolete` will be highlighted accordingly.
 
 具有 `Enum` 类型的属性支持 _lowerCamelCased_ 标记的代码洞察（2020.1 及更高版本）。注意：这些属性不能覆盖 `toString()`。

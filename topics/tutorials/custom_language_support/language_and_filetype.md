@@ -1,6 +1,6 @@
-# 2. 语言和文件类型
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+# 2. Language and File Type
 
 <link-summary>Sample implementation of Simple language and file type definitions.</link-summary>
 
@@ -8,9 +8,9 @@
 
 **Reference**: [](registering_file_type.md)
 
-**Code**: [`SimpleLanguage`](%gh-sdk-samples%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleLanguage.java),
-[`SimpleIcons`](%gh-sdk-samples%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleIcons.java),
-[`SimpleFileType`](%gh-sdk-samples%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleFileType.java)
+**Code**: [`SimpleLanguage`](%gh-sdk-samples-master%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleLanguage.java),
+[`SimpleIcons`](%gh-sdk-samples-master%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleIcons.java),
+[`SimpleFileType`](%gh-sdk-samples-master%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleFileType.java)
 
 </tldr>
 
@@ -28,7 +28,7 @@ Register the `LanguageFileType` with the IntelliJ Platform in the plugin configu
 ## Define the Language
 
 The language implemented in this tutorial is named "Simple" - note the case of the name.
-The [`SimpleLanguage`](%gh-sdk-samples%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleLanguage.java) class is defined in the `org.intellij.sdk.language` package of the `simple_language_plugin` code sample:
+The [`SimpleLanguage`](%gh-sdk-samples-master%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleLanguage.java) class is defined in the `org.intellij.sdk.language` package of the `simple_language_plugin` code sample:
 
 ```java
 ```
@@ -36,23 +36,23 @@ The [`SimpleLanguage`](%gh-sdk-samples%/simple_language_plugin/src/main/java/org
 
 ## Define an Icon
 
-The [icon](%gh-sdk-samples%/simple_language_plugin/src/main/resources/icons/jar-gray.png) for the Simple Language is defined by the
-[`SimpleIcons`](%gh-sdk-samples%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleIcons.java) class.
-Please see [](work_with_icons_and_images.md) for details on how to define and use icons.
+The [icon](%gh-sdk-samples-master%/simple_language_plugin/src/main/resources/icons/jar-gray.png) for the Simple Language is defined by the
+[`SimpleIcons`](%gh-sdk-samples-master%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleIcons.java) class.
+Please see [](icons.md) for details on how to define and use icons.
 
 ```java
 ```
 {src="simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleIcons.java" include-symbol="SimpleIcons"}
 
-## Define a FileType
+## Define a File Type
 
-The [`SimpleFileType`](%gh-sdk-samples%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleFileType.java) is defined by subclassing [`LanguageFileType`](%gh-ic%/platform/core-api/src/com/intellij/openapi/fileTypes/LanguageFileType.java):
+The [`SimpleFileType`](%gh-sdk-samples-master%/simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleFileType.java) is defined by subclassing [`LanguageFileType`](%gh-ic%/platform/core-api/src/com/intellij/openapi/fileTypes/LanguageFileType.java):
 
 ```java
 ```
 {src="simple_language_plugin/src/main/java/org/intellij/sdk/language/SimpleFileType.java" include-symbol="SimpleFileType"}
 
-## Register the FileType
+## Register the File Type
 
 The Simple Language file type is registered via the `com.intellij.fileType` extension point in <path>[plugin.xml](plugin_configuration_file.md)</path> and registered with <path>*.simple</path> extension:
 

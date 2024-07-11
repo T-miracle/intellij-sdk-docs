@@ -1,13 +1,13 @@
-# Theme Structure
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+# Theme Structure
 
 <link-summary>Overview of a theme plugin project structure and the most important elements.</link-summary>
 
 Themes are components within [IntelliJ Platform plugins](plugin_structure.topic).
 The theme plugins should be stand-alone and not combined with other plugin functionality.
 
-> To see a full example theme project, see the [Theme Basics](%gh-sdk-samples%/theme_basics) in IntelliJ SDK Code Samples.
+> To see a full example theme project, see the [Theme Basics](%gh-sdk-samples-master%/theme_basics) in IntelliJ SDK Code Samples.
 >
 {style="note"}
 
@@ -37,7 +37,7 @@ The content of the default file generated with the [Theme wizard](creating_theme
 }
 ```
 
-* `name` key matches the first portion of the Theme description <path>$THEME_NAME$.theme.json</path> file name. The value of `name` is displayed in the [Theme](https://www.jetbrains.com/help/idea/settings-appearance.html) <control>Settings</control> dropdown when the theme's plugin is installed in the IDE.
+* `name` key matches the first portion of the Theme description <path>\$THEME_NAME\$.theme.json</path> file name. The value of `name` is displayed in the [Theme](https://www.jetbrains.com/help/idea/settings-appearance.html) <control>Settings</control> dropdown when the theme's plugin is installed in the IDE.
 * `author` - specifies the theme author (empty by default).
 * `dark` - determines the base theme (_Light_ or _Darcula_) that is customized.
 * `editorScheme` - specifies the editor scheme file that describes fonts and colors used in editors (see [](themes_extras.md#adding-a-custom-editor-scheme) for more details).

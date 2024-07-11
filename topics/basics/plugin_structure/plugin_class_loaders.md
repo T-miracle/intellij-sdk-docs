@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # 类加载器
 
@@ -44,7 +44,7 @@ configurations.all {
 在这种情况下，那些插件的类加载器将用于在当前插件中找不到的类。
 这允许一个插件引用其他插件中的类。
 
-## 使用 ServiceLoader
+## Using `ServiceLoader`
 
 一些库使用 [`ServiceLoader`](https://docs.oracle.com/javase/8/docs/api/index.html?java/util/ServiceLoader.html) 来检测和加载实现。
 为了使插件中正常工作，上下文类加载器必须设置为插件的类加载器，并在初始化代码周围使用原始类加载器进行恢复：

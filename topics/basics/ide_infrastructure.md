@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 # IDE Infrastructure
 
@@ -10,7 +10,7 @@
 >
 {style="note"}
 
-The IntelliJ platform uses [`Logger`](%gh-ic%/platform/util/src/com/intellij/openapi/diagnostic/Logger.java) abstraction class to shield from underlying logging implementation and configuration.
+The IntelliJ Platform uses [`Logger`](%gh-ic%/platform/util/src/com/intellij/openapi/diagnostic/Logger.java) abstraction class to shield from underlying logging implementation and configuration.
 
 Plugins should obtain a dedicated instance:
 
@@ -69,7 +69,7 @@ See [Development Instance Sandbox Directory](ide_development_instance.md#开发�
 
 See [Testing FAQ](testing_faq.md) on how to enable `DEBUG`/`TRACE` level logging during tests, and obtain separate logs for failing tests.
 
-To provide additional context for [reporting fatal errors](#error-reporting), use `Logger.error()` methods taking additional `Attachment` (see [`AttachmentFactory`](%gh-ic%/platform/core-impl/src/com/intellij/diagnostic/AttachmentFactory.java)).
+To provide additional context for [reporting fatal errors](#error-reporting), use `Logger.error()` methods taking additional `Attachment` (see [`CoreAttachmentFactory`](%gh-ic%/platform/core-impl/src/com/intellij/diagnostic/CoreAttachmentFactory.java) and [`AttachmentFactory`](%gh-ic%/platform/util/src/com/intellij/openapi/diagnostic/AttachmentFactory.java)).
 
 ## Error Reporting
 
@@ -145,3 +145,9 @@ To suggest other relevant plugins, use [`PluginsAdvertiser.installAndEnable()`](
 ### Deprecating a Plugin
 
 To suggest replacing the currently installed deprecated plugin with the new one, implement [`PluginReplacement`](%gh-ic%/platform/platform-api/src/com/intellij/ide/plugins/PluginReplacement.java) registered in `com.intellij.pluginReplacement` extension point.
+
+## Network
+
+Use [`HttpConnectionUtils`](%gh-ic-master%/platform/platform-api/src/com/intellij/util/net/HttpConnectionUtils.kt)
+to use platform network settings (e.g., proxy) (2024.3).
+For earlier versions, see [`HttpConfigurable`](%gh-ic%/platform/platform-api/src/com/intellij/util/net/HttpConfigurable.java)).

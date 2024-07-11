@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Content Updates
 
@@ -10,6 +10,52 @@ See [GitHub Changelog](https://github.com/JetBrains/intellij-sdk-docs/commits/ma
 
 <include from="snippets.md" element-id="subscribeNews"/>
 
+## 2024
+
+### June
+{june-24}
+
+Code Formatter
+: Rework [](code_formatting.md) page, extending explanations and updating content.
+
+
+### May
+{may-24}
+
+Minor Changes and Additions
+:
+- How to support [grammar checks](spell_checking.md#grammar-checks) provided by Grazie plugin in custom languages.
+- How to provide [code vision provider](inlay_hints.md#code-vision-provider) name and description in the settings.
+- How to manage [Web Symbols context](websymbols_context.md) detection.
+
+### April
+{april-24}
+
+Plugin Internationalization
+: Add [](internationalization.md) and [](providing_translations.md) pages describing IDE and plugin translation possibilities and best practices.
+
+Minor Changes and Additions
+:
+- How to mark functionality available during indexing via [](indexing_and_psi_stubs.md#DumbAwareAPI).
+- Move Extension Point and Listener Lists to the _Resources_ section and split the main _Extension Point and Listener List_ into: _IntelliJ Platform_, _IntelliJ Community Plugins_, and _Android Plugin_.
+
+### March
+{#march-24}
+
+Kotlin Coroutines
+: Add [](kotlin_coroutines.md) describing how to write asynchronous code in an imperative style.
+
+Minor Changes and Additions
+:
+- Add [documentation](plugin_extension_points.md#error-handling) on how to handle errors and deprecations in extensions.
+- Note changes in how highlighting is now [performed more efficiently](syntax_highlighting_and_error_highlighting.md#order-of-running-highlighting) in 2024.1.
+
+### February
+{#february-24}
+
+IntelliJ Platform Gradle Plugin 2.x (Early Access Preview)
+: Add [documentation](tools_intellij_platform_gradle_plugin.md) for the next generation of Gradle tooling for plugin development.
+
 ## 2023
 
 ### December
@@ -17,6 +63,12 @@ See [GitHub Changelog](https://github.com/JetBrains/intellij-sdk-docs/commits/ma
 
 JCEF
 : Revamp [JCEF (Java Chromium Embedded Framework)](jcef.md) page.
+
+User Interface FAQ
+: Added [](ui_faq.md).
+
+Language Server Protocol (LSP)
+: Added [](language_server_protocol.md).
 
 ### November
 {#november-23}
@@ -68,7 +120,7 @@ Execution
 Minor Changes and Additions
 :
 - Clarify [the syntax highlighting](testing_highlighting.md#syntax-highlighting) test file format and test implementation initial approach.
-- Clarify referencing icons by paths and icon holder class constants in [](work_with_icons_and_images.md).
+- Clarify referencing icons by paths and icon holder class constants in [](icons.md).
 - Add information about requirements for persistent state components to be included in [the _Settings Sync_ plugin synchronization mechanism](persisting_state_of_components.md#settings-sync-plugin).
 
 ### April
@@ -97,7 +149,7 @@ Inspection Options
 
 Minor Changes and Additions
 :
-- Add section on [](work_with_icons_and_images.md#new-ui-icons).
+- Add section on [](icons.md#new-ui-icons).
 - Document [](spell_checking.md#runtimedictionaryprovider) EP for spellchecking.
 
 ### January
@@ -140,7 +192,7 @@ Minor Changes and Additions
 ### September
 {#september-22}
 
-Extract Part X — Themes
+Extract "Themes" part
 :
 All the content related to [themes customization](theme_structure.md) and creating a project using the [DevKit approach](developing_themes.md) has been moved to a new [_Themes_](themes_getting_started.md) part.
 Content has been refreshed to match the current state of the project and SDK wizards.
@@ -184,7 +236,7 @@ Postfix Completion
 : Add [](postfix_completion.md) section explaining how to implement generating or wrapping the existing code into additional constructs without navigating the caret back.
 
 Gradle IntelliJ Plugin
-: Add [](tools_gradle_intellij_plugin.md) documentation to _Appendix III — Tooling_.
+: Add [](tools_gradle_intellij_plugin.md) documentation to _Tooling_.
 
 Bundling Plugin API Sources
 : Add the [](bundling_plugin_openapi_sources.md) section explaining how to expose plugin API sources to dependent plugin developers.
@@ -193,8 +245,8 @@ Minor Changes and Additions
 :
 - Add a small section to [](php_open_api.md#utility-classes) describing `PhpFilePathUtils` utility class.
 - Add mention of the way to programmatically open an autocomplete popup to [](code_completion.md).
-- Add a small section to [](work_with_icons_and_images.md#animated-icons) describing animated icons.
-- Moved [](tools_gradle_grammar_kit_plugin.md) documentation to _Appendix III — Tooling_
+- Add a small section to [](icons.md#animated-icons) describing animated icons.
+- Moved [](tools_gradle_grammar_kit_plugin.md) documentation to _Tooling_.
 
 ### May
 {#may-22}
@@ -224,7 +276,7 @@ Minor Changes and Additions
 {#april-22}
 
 Internal API Migration
-: As API annotated with `ApiStatus.@Internal` must not be used in plugins, refer to [](api_internal.md) for a list corresponding API replacements and additional information.
+: As API annotated with `@ApiStatus.Internal` must not be used in plugins, refer to [](api_internal.md) for a list corresponding API replacements and additional information.
 
 ### March
 {#march-22}
@@ -278,7 +330,7 @@ IDE Infrastructure
 : [](ide_infrastructure.md) handles Logging, Error Reporting, Runtime Information, and how to provide Context Help.
 
 Extension Point Lists: Listeners, Deprecation status
-: [](extension_point_list.md) now contains sections listing all provided [Listener](plugin_listeners.md) Topics. See also corresponding Extension Point Lists under _Part VIII — Product Specific_. Also, all deprecated API now has a dedicated tag.
+: [](intellij_platform_extension_point_list.md) now contains sections listing all provided [Listener](plugin_listeners.md) Topics. See also corresponding Extension Point Lists under _Product Specific_. Also, all deprecated API now has a dedicated tag.
 
 ### July
 {#july-21}
@@ -299,7 +351,7 @@ Documentation Provider
 {#may-21}
 
 IDE specific Extension Point Lists
-: See _Part VIII — Product Specific_.
+: See _Product Specific_.
 
 New Guide - Explore the IntelliJ Platform API
 : Add a new section [](explore_api.md) that describes how plugin authors work with the IntelliJ Platform API and what tools they use.
@@ -325,13 +377,13 @@ Unified AST
 {#december-20}
 
 IntelliJ Platform Explorer
-: Explore usages of [Extension Points](extension_point_list.md) in open-source plugins using [IntelliJ Platform Explorer](https://jb.gg/ipe).
+: Explore usages of [Extension Points](intellij_platform_extension_point_list.md) in open-source plugins using [IntelliJ Platform Explorer](https://jb.gg/ipe).
 
 ### November
 {#november-20}
 
 Extension Point List
-: All EPs [available in IJ Platform and Android](extension_point_list.md) can now be browsed conveniently.
+: All EPs [available in IJ Platform and Android](intellij_platform_extension_point_list.md) can now be browsed conveniently.
 
 ### August
 {#august-20}
@@ -339,7 +391,7 @@ Extension Point List
 README added to Code Samples
 : All code samples used in this guide now come with <path>README</path>, making it easier to browse them. They can be conveniently accessed via a [separate GitHub repository](https://github.com/JetBrains/intellij-sdk-code-samples).
 
-### June-20
+### June
 {#june-20}
 
 Dynamic Plugins update
@@ -379,7 +431,7 @@ Custom Language Support Tutorial converted to Gradle
 : The [corresponding tutorial](custom_language_support_tutorial.md) and [Testing a Custom Language Plugin](writing_tests_for_plugins.md) have been updated and enhanced as well.
 
 Targeting specific IDEs
-: [Part VIII — Product Specific](plugin_compatibility.md) has been expanded massively, now also covering each IDE with its dedicated page.
+: [Product Specific](plugin_compatibility.md) has been expanded massively, now also covering each IDE with its dedicated page.
 
 ## 2019
 
@@ -395,7 +447,7 @@ Plugin Components migration
 ### October
 {#october-19}
 
-Part X — Plugin Repository moved
+Plugin Repository moved
 : All contents have been moved to [JetBrains Marketplace Documentation](https://plugins.jetbrains.com/docs/marketplace/).
 
 ### July

@@ -1,10 +1,11 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Spring API
+<primary-label ref="IntelliJIDEA_Ultimate"/>
 
 <link-summary rel="excerpt"/>
 <p id="excerpt">
-Spring API allows 3rd party plugins to re-use, integrate with or extend existing Spring Framework support in IntelliJ IDEA Ultimate.
+Spring API allows 3rd party plugins to re-use, integrate with, or extend existing Spring Framework support in IntelliJ IDEA Ultimate.
 </p>
 
 Please see [Spring Framework Support](https://www.jetbrains.com/lp/intellij-frameworks/) for general feature overview.
@@ -17,7 +18,7 @@ To develop plugins, you will need to use _IntelliJ IDEA Ultimate Edition_ versio
 
 Setup [Gradle build script](configuring_plugin_project.md#intellij平台配置) to target IntelliJ IDEA Ultimate, then [add dependency](plugin_dependencies.md) to bundled Spring plugin with ID `com.intellij.spring`.
 
-Please use only Spring-related functionality exposed in <path>spring-api.jar</path> (sources are provided in <path>$IDEA_HOME$/lib/src/src_spring-boot-openapi.zip</path>) in your plugin.
+Please use only Spring-related functionality exposed in <path>spring-api.jar</path> (sources are provided in <path>\$IDEA_HOME\$/lib/src/src_spring-boot-openapi.zip</path>) in your plugin.
 Using any other "internal" (implementation) classes from Spring plugin itself (<path>spring.jar</path>) is _not_ supported.
 
 ### plugin.xml
@@ -62,7 +63,7 @@ _2016.2_ See `com.intellij.spring.SpringLibraryUtil` to obtain information about
 
 ### Spring Model
 
-#### Obtain Spring Model by File, PsiElement, ...
+#### Obtain Spring Model by a File, PSI Element, ...
 See `SpringManager#getSpringModel(s)...` and `com.intellij.spring.model.utils.SpringModelUtils`.
 
 #### Contribute Implicit Model
@@ -118,7 +119,7 @@ Register available elements via standard `DomExtender<Beans>` EP or `com.intelli
 
 Please pay attention to `getModelVersion` and `getStubVersion` (see Javadoc).
 
-#### Add Reference to Spring Bean in DomElement
+#### Add Reference to Spring Bean in DOM Element
 Use the following template:
 
 ```java
@@ -129,7 +130,7 @@ GenericAttributeValue<SpringBeanPointer> getMyAttributeName();
 
 ### Code Configuration
 
-#### Add Reference to Spring Bean in JamElement
+#### Add Reference to Spring Bean in JAM Element
 _Version 14_
 
 ```java
@@ -173,7 +174,7 @@ Spring Boot API allows extending/accessing Spring Boot specific support in the I
 
 ### Setting Up
 [Add dependency](plugin_dependencies.md) to bundled Spring Boot plugin with ID `com.intellij.spring.boot`.
-Sources for Spring Boot API are available in <path>$IDEA_HOME$/lib/src/src_spring-boot-openapi.zip</path>.
+Sources for Spring Boot API are available in <path>\$IDEA_HOME\$/lib/src/src_spring-boot-openapi.zip</path>.
 
 ### Update plugin.xml
 Add `<depends>com.intellij.spring.boot</depends>` to your <path>[plugin.xml](plugin_configuration_file.md)</path> to require "Spring Boot" plugin to be activated.

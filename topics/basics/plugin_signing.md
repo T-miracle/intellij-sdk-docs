@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # 插件签名
 
@@ -39,9 +39,9 @@ JetBrains Marketplace 使用 AWS KMS 作为签名提供程序来签署插件文�
 
 ## 签名方式
 
-为提供适用的插件签名方法，我们引入了 [Marketplace ZIP Signer](https://github.com/JetBrains/marketplace-zip-signer) 库。
-如果您的项目基于 Gradle，可以使用由 [](tools_gradle_intellij_plugin.md) 提供的 [`signPlugin`](tools_gradle_intellij_plugin.md#tasks-signplugin) 任务来执行它。
-或者，您也可以使用独立的 [CLI工具](#CLI-命令行工具)。
+To provide a suitable method for plugin signing, we have introduced the [Marketplace ZIP Signer](https://github.com/JetBrains/marketplace-zip-signer) library.
+It can be executed using the [`signPlugin`](tools_gradle_intellij_plugin.md#tasks-signplugin) task provided by the [](tools_gradle_intellij_plugin.md) if your project is Gradle-based.
+Alternatively, a standalone [CLI Tool](#cli-tool) can be used.
 
 这两种方法都需要已存在私有证书密钥。
 
@@ -81,7 +81,9 @@ openssl req\
 
 `<path>chain.crt</path>` 文件的内容将被用于[`signPlugin.certificateChain`](tools_gradle_intellij_plugin.md#tasks-signplugin-certificatechain)属性。
 
-### Gradle IntelliJ 插件
+> Information about generating a public key based on the private key will be added later, when uploading public keys to JetBrains Marketplace is available.
+
+### Gradle IntelliJ Plugin
 
 在版本`1.x`中，Gradle IntelliJ 插件提供了[`signPlugin`](tools_gradle_intellij_plugin.md#tasks-signplugin)任务，当指定了[`signPlugin.certificateChain`](tools_gradle_intellij_plugin.md#tasks-signplugin-certificatechain)和[`signPlugin.privateKey`](tools_gradle_intellij_plugin.md#tasks-signplugin-privatekey)签名属性时，该任务将在[`publishPlugin`](tools_gradle_intellij_plugin.md#tasks-publishplugin)任务之前自动执行。
 否则，它将被跳过。
@@ -157,8 +159,8 @@ publishPlugin {
 >
 {style="warning"}
 
-您可以选择使用[`signPlugin.privateKeyFile`](tools_gradle_intellij_plugin.md#tasks-signplugin-privatekeyfile)和[`signPlugin.certificateChainFile`](tools_gradle_intellij_plugin.md#tasks-signplugin-certificatechainfile)属性，
-而不是直接提供密钥和证书链内容，这样指定了包含密钥和证书链内容的文件的路径。
+Instead of using the [`signPlugin.privateKey`](tools_gradle_intellij_plugin.md#tasks-signplugin-privatekey) and [`signPlugin.certificateChain`](tools_gradle_intellij_plugin.md#tasks-signplugin-certificatechain) properties which expect the key and certificate chain content to be provided directly, it's also possible to specify the paths to the files containing the key and certificate chain content.
+To do that, use the [`signPlugin.privateKeyFile`](tools_gradle_intellij_plugin.md#tasks-signplugin-privatekeyfile) and [`signPlugin.certificateChainFile`](tools_gradle_intellij_plugin.md#tasks-signplugin-certificatechainfile) properties instead.
 
 <tabs group="languages">
 <tab title="Kotlin" group-key="kotlin">
@@ -235,8 +237,8 @@ publishPlugin {
 
 ![运行/调试 配置环境变量](plugin_singing_env_variables.png)
 
-> 请注意，私钥和证书链都是多行值。
-> 在提供给<control>Environment Variables（环境变量）</control>面板中的单行字段之前，需要先使用 Base64 编码对其进行转换。
+> Note that both the private key and certificate chain are multi-line values.
+> It is necessary to transform them first using Base64 encoding before providing the single-line field in the <control>Environment Variables</control> panel.
 >
 > [`signPlugin.privateKey`](tools_gradle_intellij_plugin.md#tasks-signplugin-privatekey)和[`signPlugin.certificateChain`](tools_gradle_intellij_plugin.md#tasks-signplugin-certificatechain)属性将自动检测并解码 Base64 编码的值。
 >
@@ -244,7 +246,7 @@ publishPlugin {
 
 ### CLI 命令行工具 {id="CLI-命令行工具"}
 
-如果您不依赖 Gradle IntelliJ 插件（即使用主题时），则需要 CLI 工具。
+CLI tool is required if you don't rely on the Gradle IntelliJ Plugin – i.e., when working with [Themes](developing_themes.md).
 
 要获取最新的 Marketplace ZIP Signer CLI 工具，请访问[JetBrains/marketplace-zip-signer](https://github.com/JetBrains/marketplace-zip-signer/releases) GitHub 发布页面。
 在下载了`<path>marketplace-zip-signer-cli.jar</path>`后，执行如下：
@@ -281,7 +283,7 @@ java -jar marketplace-zip-signer-cli.jar sign\
 在选择 TrustStore 时，请确保 CA 受限于您信任的内部 CA。
 使用带有公共 CA 的 TrustStore 可能会使用户面临攻击风险。
 
-如果向用户的环境中添加一个 TrustStore 不可行，用户也可以将根 CA 的公钥添加到 <ui-path>Settings | Plugins | Manage Plugin Certificates（设置 | 插件 | 管理插件证书）</ui-path> 中。
+If adding a TrustStore to a user's environment is not possible, the user may also add the root CAs public key to <ui-path>Settings | Plugins | Manage Plugin Certificates</ui-path>.
 
 ### 使用自签名证书
 
@@ -297,7 +299,9 @@ keytool -import -alias IdeaPlugin -file chain.crt -keystore pluginKeystore.jks -
 
 否则，用户可以手动将公钥添加到 <ui-path>Settings | Plugins | Manage Plugin Certificates（设置 | 插件 | 管理插件证书）</ui-path>。
 
-## 插件签名验证
+## Plugin Signature Verification
+
+To verify the signature of a plugin, you can use the [`verifyPluginSignature`](tools_gradle_intellij_plugin.md#tasks-verifypluginsignature) task.
 
 要验证插件的签名，您可以使用 [`verifyPluginSignature`](tools_gradle_intellij_plugin.md#tasks-verifypluginsignature) 任务。
 

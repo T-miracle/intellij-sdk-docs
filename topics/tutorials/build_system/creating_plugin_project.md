@@ -1,4 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # 创建一个插件 Gradle 项目 {id=creating-a-plugin-gradle-project}
 
@@ -8,26 +8,34 @@
 
 ## 使用新建项目向导创建插件 {id=creating-a-plugin-with-new-project-wizard}
 
-<procedure title="创建 IDE 插件" id="create-ide-plugin">
+<include from="snippets.md" element-id="gradlePluginVersion"/>
 
-通过<ui-path>File | New | Project...</ui-path>操作启动<control>New Project</control>向导，并提供以下信息：
-1. 从左侧列表中选择<control>IDE Plugin</control>生成器类型。
-2. 指定项目<control>Name</control>和<control>Location</control>。
-3. 在项目<control>Type</control>中选择<control>Plugin</control>选项。
-4. _仅适用于 IntelliJ IDEA 2023.1 之前的版本：_
+<procedure title="Create IDE Plugin" id="create-ide-plugin">
+
+<include from="snippets.md" element-id="pluginDevKitAvailability"/>
+
+Launch the <control>New Project</control> wizard via the <ui-path>File | New | Project...</ui-path> action and provide the following information:
+1. Select the <control>IDE Plugin</control> generator type from the list on the left.
+2. Specify the project <control>Name</control> and <control>Location</control>.
+3. Choose the <control>Plugin</control> option in the project <control>Type</control>.
+4. _Only in IntelliJ IDEA older than 2023.1:_
 
    选择插件将用于实现的<control>Language</control>。在本例中，选择<control>Kotlin</control>选项。
    有关更多信息，请参见[插件开发者的 Kotlin](using_kotlin.md)。
 
-   > 使用 IntelliJ IDEA 2023.1 或更新版本生成的项目，开箱即支持 Kotlin 和 Java 源代码。
-   > 项目生成器自动创建<path>$PLUGIN_DIR$/src/main/kotlin</path>源代码目录。
-   > 要添加 Java 源代码，请创建<path>$PLUGIN_DIR$/src/main/java</path>目录。
+   > Projects generated with IntelliJ IDEA 2023.1 or newer support both Kotlin and Java sources out of the box.
+   > Project generator automatically creates <path>\$PLUGIN_DIR\$/src/main/kotlin</path> sources directory.
+   > To add Java sources, create <path>\$PLUGIN_DIR\$/src/main/java</path> directory.
    >
    {style="note"}
 
-5. 提供<control>Group</control>，通常是反转的公司域名（例如 `com.example.mycompany`）。它用于项目 Gradle 构建脚本中的 Gradle 属性 `project.group` 值。
-6. 提供<control>Artifact</control>，这是构建项目工件的默认名称（不包含版本）。它也用于项目<path>settings.gradle.kts</path>文件中的 Gradle 属性 `rootProject.name` 值。在本例中，输入 `my_plugin`。
-7. 选择<control>JDK</control> 11。此 JDK 将是用于运行 Gradle 的默认 JRE，以及用于编译插件源代码的 JDK 版本。
+5. Provide the <control>Group</control> which is typically an inverted company domain (e.g. `com.example.mycompany`).
+   It is used for the Gradle property `project.group` value in the project's Gradle build script.
+6. Provide the <control>Artifact</control> which is the default name of the build project artifact (without a version).
+   It is also used for the Gradle property `rootProject.name` value in the project's <path>settings.gradle.kts</path> file.
+   For this example, enter `my_plugin`.
+7. Select <control>JDK</control> 17.
+   This JDK will be the default JRE used to run Gradle, and the JDK version used to compile the plugin sources.
 
 <include from="snippets.md" element-id="apiChangesJavaVersion"/>
 
@@ -39,35 +47,46 @@
 
 对于通过上述步骤创建的示例 `my_plugin`，_IDE Plugin_ 生成器创建了以下目录内容：
 
-```text
-my_plugin
-├── .run
-│   └── Run IDE with Plugin.run.xml
-├── gradle
-│   └── wrapper
-│       ├── gradle-wrapper.jar
-│       └── gradle-wrapper.properties
-├── src
-│   └── main
-│       ├── kotlin
-│       └── resources
-│           └── META-INF
-│               ├── plugin.xml
-│               └── pluginIcon.svg
-├── .gitignore
-├── build.gradle.kts
-├── gradle.properties
-├── gradlew
-├── gradlew.bat
-└── settings.gradle.kts
+```plantuml
+@startuml
+
+skinparam TitleFontName JetBrains Sans
+skinparam TitleFontStyle plain
+skinparam TitleFontSize 16
+skinparam DefaultTextAlignment left
+
+title
+  my_plugin
+  |_ .run
+    |_ Run IDE with Plugin.run.xml
+  |_ gradle
+    |_ wrapper
+      |_ gradle-wrapper.jar
+      |_ gradle-wrapper.properties
+  |_ src
+    |_ main
+      |_ kotlin
+      |_ resources
+        |_ META-INF
+          |_ plugin.xml
+          |_ pluginIcon.svg
+  |_ .gitignore
+  |_ build.gradle.kts
+  |_ gradle.properties
+  |_ gradlew
+  |_ gradlew.bat
+  |_ settings.gradle.kts
+end title
+@enduml
 ```
 
-* 默认的 IntelliJ 平台 <path>build.gradle.kts</path> 文件（见下文）。
-* <path>gradle.properties</path> 文件，包含 Gradle 构建脚本使用的属性。
-* <path>settings.gradle.kts</path> 文件，包含 `rootProject.name` 的定义和所需的仓库。
-* Gradle Wrapper 文件，特别是 <path>gradle-wrapper.properties</path> 文件，它指定了用于构建插件的 Gradle 版本。如果需要，IntelliJ IDEA Gradle 插件会下载此文件中指定的 Gradle 版本。
-* 默认 `main` [源代码集](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java_project_layout)下的 <path>META-INF</path> 目录包含插件[配置文件](plugin_configuration_file.md)和[插件图标](plugin_icon_file.md)。
-* _Run Plugin_ [运行配置](https://www.jetbrains.com/help/idea/run-debug-configuration.html)。
+* The default IntelliJ Platform <path>build.gradle.kts</path> file (see next paragraph).
+* The <path>gradle.properties</path> file, containing properties used by Gradle build script.
+* The <path>settings.gradle.kts</path> file, containing a definition of the `rootProject.name` and required repositories.
+* The Gradle Wrapper files, and in particular the <path>gradle-wrapper.properties</path> file, which specifies the version of Gradle to be used to build the plugin.
+  If needed, the IntelliJ IDEA Gradle plugin downloads the version of Gradle specified in this file.
+* The <path>META-INF</path> directory under the default `main` [source set](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java_project_layout) contains the plugin [configuration file](plugin_configuration_file.md) and [plugin logo](plugin_icon_file.md).
+* The _Run Plugin_ [run configuration](https://www.jetbrains.com/help/idea/run-debug-configuration.html).
 
 生成的 `my_plugin` 项目的 <path>build.gradle.kts</path> 文件：
 
@@ -75,7 +94,7 @@ my_plugin
 plugins {
   id("java")
   id("org.jetbrains.kotlin.jvm") version "1.9.21"
-  id("org.jetbrains.intellij") version "1.16.1"
+  id("org.jetbrains.intellij") version "1.17.4"
 }
 
 group = "com.example"
