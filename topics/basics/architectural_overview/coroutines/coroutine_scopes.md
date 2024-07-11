@@ -1,9 +1,9 @@
 <!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Coroutine Scopes
+# 协程作用域
 <primary-label ref="2024.1"/>
 
-<link-summary>Explanation of coroutine scopes in the IntelliJ Platform.</link-summary>
+<link-summary>IntelliJ 平台中协程作用域的说明。</link-summary>
 
 <include from="coroutines_snippets.md" element-id="learnCoroutines"/>
 
@@ -66,19 +66,17 @@ application/project [services](plugin_services.md) provided by a plugin.
 
 <snippet id="serviceScopes">
 
-The **Application Service** and **Project Service** scopes are bound to an application and project [service](plugin_services.md#types) lifetimes accordingly.
-They are children of the [](coroutine_scopes.md#intersection-scopes), which means that they are canceled when the application/project is closed or a plugin is unloaded.
+**应用服务** 和 **项目服务** 范围分别绑定到应用和项目 [服务](plugin_services.md#types) 生命周期。
+它们是 [](coroutine_scopes.md#intersection-scopes) 的子级，这意味着当应用/项目关闭或插件卸载时，它们会被取消。
 
-The service scope is provided to services via constructor injection.
-The following constructor signatures are supported:
+服务范围通过构造函数注入提供给服务。支持以下构造函数签名：
 
-- `MyService(CoroutineScope)` for application and project services
-- `MyProjectService(Project, CoroutineScope)` for project services
+- `MyService(CoroutineScope)` 用于应用和项目服务
+- `MyProjectService(Project, CoroutineScope)` 用于项目服务
 
-Each service instance receives its own scope instance.
-The injected scopes' contexts contain [`Dispatchers.Default`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-default.html) and [`CoroutineName(serviceClass)`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-name/).
+每个服务实例都会收到自己的范围实例。注入的范围上下文包含 [`Dispatchers.Default`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-default.html) 和 [`CoroutineName(serviceClass)`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-name/)。
 
-See [](launching_coroutines.md#launching-coroutine-from-service-scope) for full samples.
+完整示例请参见 [](launching_coroutines.md#launching-coroutine-from-service-scope)。
 
 </snippet>
 

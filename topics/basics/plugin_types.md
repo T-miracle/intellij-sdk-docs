@@ -21,13 +21,13 @@
 
 自定义语言支持提供了使用特定编程语言的基本功能，其中包括：
 
-* File type recognition
-* Lexical analysis
-* Syntax highlighting
-* Formatting
-* Code insight and code completion
-* Inspections and quick fixes
-* Intention actions
+* 文件类型识别
+* 词法分析
+* 语法高亮
+* 格式化
+* 代码洞察和代码补全
+* 检查和快速修复
+* 意图动作
 
 插件还可以增强现有（捆绑）的自定义语言，例如，通过提供额外的检查、意图或任何其他功能。
 

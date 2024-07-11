@@ -1,6 +1,6 @@
 <!-- Copyright 2000-2024 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
-# Useful Links
+# 实用的链接
 
 <link-summary>Useful tooling, plugins, and repositories.</link-summary>
 

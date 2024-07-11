@@ -1,14 +1,14 @@
 <!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Dynamic Plugins
+# 动态插件
 <primary-label ref="2020.1"/>
 
 <link-summary>Making a plugin dynamic allows installing, updating, and uninstalling it without an IDE restart, as well as hot reloading plugin changes during the development.</link-summary>
 
 Installing, updating, and uninstalling plugins without restarting the IDE is available in the IntelliJ Platform.
 
-During plugin development, [Auto-Reload](ide_development_instance.md#启用自动重载) also allows code changes to take effect immediately in the sandbox IDE instance.
-To test whether dynamic installation works correctly, verify installing [local build distribution](publishing_plugin.md#构建分发) succeeds (see [Troubleshooting](#troubleshooting)).
+During plugin development, [Auto-Reload](ide_development_instance.md#enabling-auto-reload) also allows code changes to take effect immediately in the sandbox IDE instance.
+To test whether dynamic installation works correctly, verify installing [local build distribution](publishing_plugin.md#building-distribution) succeeds (see [Troubleshooting](#troubleshooting)).
 
 Note that any unloading problems in a production environment will ask the user to restart the IDE.
 

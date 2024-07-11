@@ -1,20 +1,20 @@
 <!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# SDK Docs Style Guide
+# SDK 文档风格指南
 
-<link-summary>Writing and notation styleguide for SDK Docs.</link-summary>
+<link-summary>SDK 文档的写作和标注风格指南。</link-summary>
 
-This document describes the writing style used in authoring open-source IntelliJ Platform SDK documentation.
-Before you begin, read this page thoroughly, as well as the [Code of Conduct](intellij-sdk-docs-original_CODE_OF_CONDUCT.md) and [License](https://github.com/JetBrains/intellij-sdk-docs/blob/main/LICENSE.txt) documents.
-See also [](intellij-sdk-docs-original_CONTRIBUTING.md) for some general remarks.
+本文档描述了编写开源 IntelliJ 平台 SDK 文档时所使用的写作风格。
+在开始之前，请彻底阅读此页面，以及[行为准则](intellij-sdk-docs-original_CODE_OF_CONDUCT.md)和[许可证](https://github.com/JetBrains/intellij-sdk-docs/blob/main/LICENSE.txt)文档。
+另请参见 [](intellij-sdk-docs-original_CONTRIBUTING.md) 以了解一些一般性说明。
 
-For information about contributing to the IntelliJ Platform itself, visit [Contributing to the IntelliJ Platform](platform_contributions.md).
+有关为 IntelliJ 平台本身做贡献的信息，请访问[为 IntelliJ 平台做贡献](platform_contributions.md)。
 
 首先，我们应该牢记我们的受众及其目标：
 _阅读技术内容的人通常是为了解答特定问题。
 这个问题可能是广泛的或者是具体的，但无论如何，我们的目标是在不分散注意力的情况下提供答案。_
 
-To verify grammar and correct spelling, it is highly recommended to use [Grazie Professional](https://plugins.jetbrains.com/plugin/16136-grazie-professional) plugin to highlight any issues on-the-fly in the IDE.
+强烈推荐使用 [Grazie Professional](https://plugins.jetbrains.com/plugin/16136-grazie-professional) 插件来验证语法和拼写正确性，该插件可以在 IDE 中实时突出显示任何问题。
 
 ## 文档标记 {id=documentation-markup}
 
@@ -29,7 +29,7 @@ To verify grammar and correct spelling, it is highly recommended to use [Grazie 
 <!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 ```
 
-It **must** be followed by a header defining its title using level 1 heading:
+它 **必须** 后接一个一级标题来定义其标题：
 
 ```
 # 贡献到IntelliJ平台SDK
@@ -50,7 +50,7 @@ It **must** be followed by a header defining its title using level 1 heading:
 页面可以在实际内容之前使用`<tldr>`标签突出显示相关主题和其他重要链接。
 链接必须使用“**粗体类别名称**：link1, link2, [...]”进行分组（[示例](language_and_filetype.md)）。
 
-Use _Reference_ to link to other topics, _Code_ to link to code/files, _UI Guidelines_ for links to [UI Guidelines](ui_guidelines_welcome.topic), and _Product Help_ for links to [IntelliJ IDEA Help](https://www.jetbrains.com/help/idea).
+使用 **Reference** 链接到其他主题，使用 **Code** 链接到代码/文件，使用 **UI Guidelines** 链接到 [UI Guidelines](ui_guidelines_welcome.topic)，使用 **Product Help** 链接到 [IntelliJ IDEA Help](https://www.jetbrains.com/help/idea)。
 
 #### 介绍性文本
 
@@ -80,19 +80,19 @@ Use _Reference_ to link to other topics, _Code_ to link to code/files, _UI Guide
 
 一致的文本样式用于标准化引用和关键词：
 
-* Menu paths are wrapped using `<ui-path>` with pipe characters separating each level: `<ui-path>Settings | Editor</ui-path>`: <ui-path>Settings | Editor</ui-path>
-  Inside tables, use `&#124;` instead of `|` to prevent escaping problems.
-* User interface element names like labels, buttons, checkboxes, etc. are wrapped using `<control>`: `Press <control>Continue</continue>`: Press <control>Continue</control>
-* Non-code keywords and quotations, or the names of non-code files are formatted as italic style: \_Theme\_ (_Theme_), \_README.md\_ (_README.md_.)
-  Examples of this file type include _LICENSE.txt_ and _README.md_.
-* Code keywords and class names are formatted as code style: \`interface\`: `interface`, \`AnAction\`: `AnAction`, \`name\` attribute: `name` attribute.
-* Filenames are wrapped using `<path>`: `<path>build.gradle.kts</path>` <path>build.gradle.kts</path>.
-* File formats are shown as all capital letters: PNG and XML.
-* Filename extensions are not capitalized when part of a full filename, path, or URL: <path>plugin.xml</path>.
-* When using \$PLACEHOLDER\$ in non-code parts, it must be escaped: `<path>\$PLACEHOLDER\$/somePath</path>`.
-* Keyboard shortcuts are wrapped using `<shortcut>`: `press <shortcut>Alt+Insert</shortcut>` becomes "press <shortcut>Alt+Insert</shortcut>".
-* See [Guidelines for Highlighting Syntax](#guidelines-for-highlighting-syntax) for best practices for representing code fragments.
-* See [Links to IntelliJ Platform Source](#links-to-intellij-platform-source) for more details about representing names of source files in links.
+* 菜单路径使用 `<ui-path>` 包裹，各级之间用管道字符分隔：`<ui-path>Settings | Editor</ui-path>`: <ui-path>Settings | Editor</ui-path>
+  在表格中使用 `&#124;` 代替 `|` 以避免转义问题。
+* 用户界面元素名称（如标签、按钮、复选框等）使用 `<control>` 包裹：`Press <control>Continue</control>`: Press <control>Continue</control>
+* 非代码关键词和引号，或非代码文件的名称使用斜体样式：_Theme_ (_Theme_), _README.md_ (_README.md_)。
+  此类文件的示例包括 _LICENSE.txt_ 和 _README.md_。
+* 代码关键词和类名使用代码样式：`interface`: `interface`, `AnAction`: `AnAction`, `name` 属性: `name` 属性。
+* 文件名使用 `<path>` 包裹：`<path>build.gradle.kts</path>` <path>build.gradle.kts</path>。
+* 文件格式使用全大写字母表示：PNG 和 XML。
+* 文件名扩展名在作为完整文件名、路径或 URL 的一部分时不大写：<path>plugin.xml</path>。
+* 在非代码部分使用 `$PLACEHOLDER$` 时，必须进行转义：`<path>\$PLACEHOLDER\$/somePath</path>`。
+* 键盘快捷键使用 `<shortcut>` 包裹：`press <shortcut>Alt+Insert</shortcut>` 变为 "press <shortcut>Alt+Insert</shortcut>"。
+* 请参阅 [突出显示语法指南](#guidelines-for-highlighting-syntax) 了解表示代码片段的最佳实践。
+* 有关在链接中表示源文件名称的更多详细信息，请参阅 [IntelliJ 平台源代码链接](#links-to-intellij-platform-source)。
 
 ### 链接 {id=links}
 
@@ -135,20 +135,20 @@ Use _Reference_ to link to other topics, _Code_ to link to code/files, _UI Guide
 
 #### 链接到IntelliJ平台源代码 {id=links-to-intellij-platform-source}
 
-Links to files in the IntelliJ Platform (`intellij-community`) repository use `%\gh-ic%` prefix instead of the full URL to the repository.
-Links to files in source code packages in other GitHub repositories follow the same rules, except the links use a different custom `gh-...` prefix defined in <path>v.list</path>.
+链接到 IntelliJ 平台（`intellij-community`）存储库中的文件使用 `%\gh-ic%` 前缀，而不是存储库的完整 URL。
+链接到其他 GitHub 存储库中的源代码包中的文件遵循相同的规则，不同的是这些链接使用在 <path>v.list</path> 中定义的不同自定义 `gh-...` 前缀。
 
-* `[README.md](%\gh-ic%/README.md)`{disable-links} links to any general, non-code information files. ([README.md](%gh-ic%/README.md))
-  Examples of this file type include _LICENSE.txt_ and _README.md_.
-* `[`IdeaPlugin.xml`](%\gh-ic%/community-resources/resources/META-INF/IdeaPlugin.xml)`{disable-links} links to declarative source code files, use `code` style. ([`IdeaPlugin.xml`](%gh-ic%/community-resources/resources/META-INF/IdeaPlugin.xml))
-  Examples of this file type include: `settings.gradle`, `plugin.xml` or `theme_basics.theme.json`.
-* `[`\`AnAction\``](%\gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnAction.java)`{disable-links} links to source files for code objects like interfaces and classes, use `code` style but without the file extension. ([`AnAction`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnAction.java))
-  Examples of this file type include Java and Kotlin sources.
-    * Note the use of \`\` characters surrounding the class name in the link.
-    * When linking to an API in this manner, the FQN isn't necessary in the link.
-    * No file extension (*.java, *.kt, *.py, etc.) is used by convention.
-    * Be judicious when using such links.
-      Generally, only one link is needed for a given file on a documentation page.
+* `[README.md](%\gh-ic%/README.md)`{disable-links} 链接到任何一般的、非代码信息文件。([README.md](%gh-ic%/README.md))
+  此类文件的示例包括 _LICENSE.txt_ 和 _README.md_。
+* `[IdeaPlugin.xml](%\gh-ic%/community-resources/resources/META-INF/IdeaPlugin.xml)`{disable-links} 链接到声明性源代码文件，使用 `code` 样式。([`IdeaPlugin.xml`](%gh-ic%/community-resources/resources/META-INF/IdeaPlugin.xml))
+  此类文件的示例包括：`settings.gradle`、`plugin.xml` 或 `theme_basics.theme.json`。
+* [`\`AnAction\``](%\gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnAction.java)`{disable-links} 链接到接口和类等代码对象的源文件，使用 `code` 样式但不带文件扩展名。([`AnAction`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnAction.java))
+  此类文件的示例包括 Java 和 Kotlin 源文件。
+  * 注意链接中类名周围使用的 \`\` 字符。
+  * 以这种方式链接到 API 时，链接中不需要 FQN（完全限定名）。
+  * 按惯例，不使用文件扩展名（*.java、*.kt、*.py 等）。
+  * 使用此类链接时要谨慎。
+    通常，文档页面中一个文件只需要一个链接。
 
 ### 高亮语法指南 {id=guidelines-for-highlighting-syntax}
 
@@ -156,22 +156,22 @@ Links to files in source code packages in other GitHub repositories follow the s
 
 #### 代码 {id=code}
 
-* Avoid using qualifiers like "`Foo` interface" or "`Foo` abstract class".
-  Instead, refer to `Foo`.
-* The FQN is used for the first reference to an interface, class, or package on a page.
-  Rather than `AnAction`, introduce it as `com.intellij.openapi.actionSystem.AnAction`.
-  Later references on the page can be `AnAction`.
-  Exception: the FQN is not used with a GitHub [link](#links).
-* Method names always use empty parentheses: "call `bar()` to apply."
-  Method names are prefixed with the class/interface name when needed for clarity: `Foo.bar()`.
+* 避免使用诸如 "`Foo` 接口" 或 "`Foo` 抽象类" 等限定词。
+  相反，应用 `Foo`。
+* 首次引用页面上的接口、类或包时使用完全限定名（FQN）。
+  例如，引入 `AnAction` 时应写作 `com.intellij.openapi.actionSystem.AnAction`。
+  页面上后续的引用可以简写为 `AnAction`。
+  例外情况：在 GitHub [链接](#links) 中不使用完全限定名。
+* 方法名总是使用空括号表示："调用 `bar()` 来应用。"
+  当需要明确时，方法名前加上类或接口名：`Foo.bar()`。
 
 #### 扩展点 {id=extension-points}
 
-* Extension point name must be followed by "extension point (EP)" for the first occurrence on a page.
-  All following occurrences can use "EP" suffix.
-* Use the FQN when first introducing an [extension point](plugin_extension_points.md) (EP) on a page.
-  Rather than `stubIndex`, introduce `com.intellij.stubIndex`.
-  Later mentions on the page can be `stubIndex`.
+* 扩展点名称在页面上首次出现时，必须跟随 "extension point (EP)"。
+  所有后续出现可以使用 "EP" 后缀。
+* 在页面上首次介绍一个 [extension point](plugin_extension_points.md)（EP）时使用完全限定名（FQN）。
+  例如，引入 `stubIndex` 时应写作 `com.intellij.stubIndex`。
+  页面上后续的提及可以简写为 `stubIndex`。
 
 #### XML {id=xml}
 
@@ -204,7 +204,7 @@ Links to files in source code packages in other GitHub repositories follow the s
 如果可能，可以使用 `include-symbol="ClassName"` 来仅显示类体而不包括任何头部和导入语句。
 要仅包含特定方法，请额外指定 `include-symbol="methodName"`。
 
-In any case, keep code samples concise and avoid any unnecessary "surrounding" code or import statements.
+无论如何，保持代码示例简洁，避免任何不必要的 "周围" 代码或导入语句。
 
 ### 表格 {id=tables}
 
@@ -220,7 +220,7 @@ In any case, keep code samples concise and avoid any unnecessary "surrounding" c
 
 Use `<p>Line 1</p><p>Line 2</p>` for multi-line content in a cell.
 
-### Notes and Callouts
+### 注释和标注 {id=notes-and-callouts}
 
 注释和标注可以使用块引用语法指定。
 转换器会查看文本块后指定的 `type` 属性。
@@ -264,10 +264,10 @@ Use `<p>Line 1</p><p>Line 2</p>` for multi-line content in a cell.
 
 每个页面通常在根目录下有一个专用的子目录 <path>/images</path>。
 
-Images in this documentation are generally screenshots.
-For consistency, images should be 296, 460 or 706 pixels wide.
-The preferred image format is PNG at a resolution of 144 DPI.
-A resolution of 72 DPI is acceptable but may look blurry on high-resolution monitors.
+本文档中的图像通常为截图。
+为保持一致性，图像的宽度应为 296、460 或 706 像素。
+首选的图像格式为分辨率为 144 DPI 的 PNG。
+72 DPI 的分辨率是可以接受的，但在高分辨率显示器上可能看起来模糊。
 
 使用 [Window Resizer](https://plugins.jetbrains.com/plugin/18045-window-resizer) 插件确保精确调整 IDE 应用窗口大小。
 
@@ -288,7 +288,7 @@ A resolution of 72 DPI is acceptable but may look blurry on high-resolution moni
 
 #### 缩放弹出框 {id=zoom-popup}
 
-Images too big to fit into the main content can have <control>+</control> overlay control to open a popup with the "zoomed" variant.
+过大的图像可以使用 `<control>+</control>` 叠加控件，在点击后弹出包含“放大”变体的弹出窗口。
 
 <tabs>
 <tab title="PNG">

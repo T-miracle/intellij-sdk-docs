@@ -16,15 +16,15 @@ _扩展_ 是插件以不像将操作添加到菜单或工具栏那样直接的�
 
 ## 探索可用的扩展点
 
-[](intellij_platform_extension_point_list.md) and [](intellij_community_plugins_extension_point_list.md) list all available extension points in IntelliJ Platform and from bundled plugins in IntelliJ IDEA.
-Additionally, dedicated Extension Point and Listener Lists specific to IDEs are available under _Product Specific_.
-Browse usages inside existing implementations of open-source IntelliJ Platform plugins via [IntelliJ Platform Explorer](https://jb.gg/ipe).
+[](intellij_platform_extension_point_list.md) 和 [](intellij_community_plugins_extension_point_list.md) 列出了 IntelliJ 平台及 IntelliJ IDEA 中捆绑插件的所有可用扩展点。
+此外，特定于 IDE 的专用扩展点和监听器列表可在 _Product Specific_ 下找到。
+通过 [IntelliJ Platform Explorer](https://jb.gg/ipe) 浏览开源 IntelliJ 平台插件的现有实现中的用法。
 
 或者（或者在使用第三方扩展点时），可以在 <path>[plugin.xml](plugin_configuration_file.md)</path> 中的 [`<extensions>`](plugin_configuration_file.md#idea-plugin__extensions) 块中使用自动完成列出指定命名空间 (`defaultExtensionNs`) 的所有可用扩展点。
 在查找列表中使用 <ui-path>View | Quick Documentation</ui-path> 可以访问有关扩展点和实现的更多信息（如果适用）。
 有关更多信息和策略，请参见 [](explore_api.md)。
 
-## 声明扩展 {id=声明扩展}
+## 声明扩展 {id=declaring-extensions}
 
 > 在 <path>plugin.xml</path> 文件的扩展点标签和属性上提供自动完成、快速文档和其他代码洞察功能。
 
@@ -77,7 +77,7 @@ Browse usages inside existing implementations of open-source IntelliJ Platform p
 请注意以下重要点：
 
 - 扩展实现必须是无状态的。使用显式的 [](plugin_services.md) 来管理（运行时）数据。
-- 避免在构造函数中进行任何初始化，另请参阅 [服务](plugin_services.md#构造函数) 的注意事项。
+- 避免在构造函数中进行任何初始化，另请参阅 [服务](plugin_services.md#constructor) 的注意事项。
 - 不要执行任何静态初始化。使用检查 <control>Plugin DevKit | Code | Static initialization in extension point implementations</control>（2023.3）。
 - 扩展实现不能额外注册为 [服务](plugin_services.md)。使用检查 <control>Plugin DevKit | Code | Extension registered as service/component</control>（2023.3）。
 
@@ -127,8 +127,7 @@ Browse usages inside existing implementations of open-source IntelliJ Platform p
 
 类似地，`action` 解析为所有已注册的 [`<action>`](plugin_configuration_file.md#idea-plugin__actions__action) ID。
 
-Annotating with [`@Nls`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/Nls.java) validates a UI `String` capitalization according to the text property `Capitalization` enum value (2019.2 and later).
+使用 [`@Nls`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/Nls.java) 注解会根据文本属性 `Capitalization` 枚举值（2019.2 及更高版本）验证 UI 中字符串的大写格式。
 
-Properties marked as `@Deprecated` or annotated with any of [`ApiStatus`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/ApiStatus.java) `@Internal`, `@Experimental`, `@ScheduledForRemoval`, or `@Obsolete` will be highlighted accordingly.
-
+标记为 `@Deprecated` 或带有 [`ApiStatus`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/ApiStatus.java) 中的 `@Internal`, `@Experimental`, `@ScheduledForRemoval`, 或 `@Obsolete` 注解的属性会相应地显示高亮。
 具有 `Enum` 类型的属性支持 _lowerCamelCased_ 标记的代码洞察（2020.1 及更高版本）。注意：这些属性不能覆盖 `toString()`。

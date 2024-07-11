@@ -1,8 +1,8 @@
 <!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Content Updates
+# 内容更新
 
-<link-summary>Notable updates and additions to this documentation.</link-summary>
+<link-summary>本文档的显着更新和补充。</link-summary>
 
 This page lists notable additions and updates to the SDK documentation and [](code_samples.md).
 

@@ -145,7 +145,7 @@ For more information, see [](basic_action_system.md#setting-the-override-text-el
 
 ## Testing the Minimal Custom Action Implementation
 
-After performing the steps described above, [compile and run](creating_plugin_project.md#执行插件) the plugin to see the newly created action available as a <ui-path>Tools</ui-path> menu item, which is within the context of the main menu:
+After performing the steps described above, [compile and run](creating_plugin_project.md#executing-the-plugin) the plugin to see the newly created action available as a <ui-path>Tools</ui-path> menu item, which is within the context of the main menu:
 
 ![Register action](tools_menu_item_action.png){width="350"}
 

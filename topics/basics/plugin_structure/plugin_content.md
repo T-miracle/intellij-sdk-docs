@@ -1,18 +1,18 @@
 <!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Plugin Content
+# 插件内容
 
-<link-summary>Layout and contents of a plugin distribution file.</link-summary>
+<link-summary>插件分发文件的布局和内容。</link-summary>
 
 插件分发将使用[Gradle](tools_gradle_intellij_plugin.md#tasks-buildplugin)或[Plugin DevKit](deploying_theme.md)进行构建。
 
-The plugin distribution <path>.jar</path> file contains:
+插件分发的 `<path>.jar</path>` 文件包含以下内容：
 
-- configuration file (<path>META-INF/plugin.xml</path>) ([Plugin Configuration File](plugin_configuration_file.md))
-- classes implementing the plugin functionality
-- recommended: plugin logo file(s) (<path>META-INF/pluginIcon*.svg</path>) ([Plugin Logo](plugin_icon_file.md))
+- 配置文件 `<path>META-INF/plugin.xml</path>` ([Plugin Configuration File](plugin_configuration_file.md))
+- 实现插件功能的类文件
+- 推荐的插件图标文件 `<path>META-INF/pluginIcon*.svg</path>` ([Plugin Logo](plugin_icon_file.md))
 
-> See [](plugin_user_experience.md#distribution-size) for important steps to optimize the plugin distribution file.
+> 参见[](plugin_user_experience.md#distribution-size)获取优化插件分发文件的重要步骤。
 
 
 无法将插件分发目标指定为特定的操作系统（[问题](https://youtrack.jetbrains.com/issue/MP-1896)）。
@@ -45,7 +45,7 @@ end title
 @enduml
 ```
 
-### 有依赖插件 {id=有依赖插件}
+### 有依赖插件 {id=plugin-with-dependencies}
 
 插件 `<path>.jar</path>` 文件与所有必需的捆绑库一起放置在插件的 "root" 文件夹下的 `<path>/lib</path>` 文件夹中。
 
@@ -54,7 +54,7 @@ end title
 > 不要将库重新打包到主插件存档中（在下面示例中的 `<path>sample.jar</path>`）。
 > 否则，[插件验证器](verifying_plugin_compatibility.md) 将对未解析的类和方法产生错误的检测结果。
 >
-{title="Do Not Repackage Libraries" style="warning"}
+{title="不要重新打包库" style="warning"}
 
 ```plantuml
 @startuml

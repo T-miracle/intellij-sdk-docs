@@ -17,6 +17,6 @@
 * [](ide_development_instance.md)
 * [](faq.md)
 
-> If you are interested in the UI theme development, please see [Themes](themes_getting_started.md).
+> 如果您对 UI 主题开发感兴趣，请查看 [主题开发](themes_getting_started.md)。
 >
 {style="note"}

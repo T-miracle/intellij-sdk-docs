@@ -66,7 +66,7 @@ runIde {
 
 ### How to disable automatic reload of dynamic plugins?
 
-See [](ide_development_instance.md#启用自动重载) for important caveats.
+See [](ide_development_instance.md#enabling-auto-reload) for important caveats.
 
 Configure [`runIde`](tools_gradle_intellij_plugin.md#tasks-runide) task as follows:
 
@@ -124,7 +124,7 @@ Disabling of the task is suggested for plugins that are not intended to provide 
 ### How to show log file of sandbox instance?
 
 The most convenient way to see the logs of running IDE is to add a tab to the <control>Run</control> tool window displaying the contents of <path>idea.log</path> file.
-In the Gradle `runIde` run configuration, add the log file path according to [sandbox location](ide_development_instance.md#开发实例沙盒目录) as described in [View logs](https://www.jetbrains.com/help/idea/setting-log-options.html).
+In the Gradle `runIde` run configuration, add the log file path according to [sandbox location](ide_development_instance.md#the-development-instance-sandbox-directory) as described in [View logs](https://www.jetbrains.com/help/idea/setting-log-options.html).
 
 ### How to add a custom file inside plugin distribution?
 
@@ -309,6 +309,6 @@ It is also possible to refer to the sandbox directory of another Gradle project 
 
 ### Kotlin compiler throws `Out of memory. Java heap space` error
 
-Please upgrade to Kotlin 1.9.0. See the [](using_kotlin.md#增量编译) section if using Kotlin 1.8.20.
+Please upgrade to Kotlin 1.9.0. See the [](using_kotlin.md#incremental-compilation) section if using Kotlin 1.8.20.
 
 <include from="snippets.md" element-id="missingContent"/>

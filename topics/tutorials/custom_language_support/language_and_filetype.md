@@ -69,7 +69,7 @@ The Simple Language file type is registered via the `com.intellij.fileType` exte
 
 ## Run the Project
 
-Run the plugin by using the Gradle [`runIde`](creating_plugin_project.md#使用runIde-Gradle任务运行插件) task.
+Run the plugin by using the Gradle [`runIde`](creating_plugin_project.md#running-a-plugin-with-the-runide-gradle-task) task.
 
 Create an empty file with the extension <path>.simple</path>, and IntelliJ IDEA automatically associates it with our language.
 Note the appearance of the Simple Language file icon next to the <path>test.simple</path> file in the <control>Project</control> Tool Window, and the editor tab for the file.

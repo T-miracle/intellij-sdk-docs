@@ -39,9 +39,9 @@ JetBrains Marketplace 使用 AWS KMS 作为签名提供程序来签署插件文�
 
 ## 签名方式
 
-To provide a suitable method for plugin signing, we have introduced the [Marketplace ZIP Signer](https://github.com/JetBrains/marketplace-zip-signer) library.
-It can be executed using the [`signPlugin`](tools_gradle_intellij_plugin.md#tasks-signplugin) task provided by the [](tools_gradle_intellij_plugin.md) if your project is Gradle-based.
-Alternatively, a standalone [CLI Tool](#cli-tool) can be used.
+为了提供适合插件签名的方法，我们引入了 [Marketplace ZIP Signer](https://github.com/JetBrains/marketplace-zip-signer) 库。
+如果您的项目基于Gradle，可以使用 [](tools_gradle_intellij_plugin.md#tasks-signplugin) 提供的 `signPlugin` 任务来执行它。
+此外，也可以使用独立的 [CLI工具](#cli-tool)。
 
 这两种方法都需要已存在私有证书密钥。
 
@@ -81,9 +81,9 @@ openssl req\
 
 `<path>chain.crt</path>` 文件的内容将被用于[`signPlugin.certificateChain`](tools_gradle_intellij_plugin.md#tasks-signplugin-certificatechain)属性。
 
-> Information about generating a public key based on the private key will be added later, when uploading public keys to JetBrains Marketplace is available.
+> 当上传公钥到JetBrains Marketplace可用时，将会添加关于基于私钥生成公钥的信息。
 
-### Gradle IntelliJ Plugin
+### Gradle IntelliJ 插件 {id=gradle-intellij-plugin}
 
 在版本`1.x`中，Gradle IntelliJ 插件提供了[`signPlugin`](tools_gradle_intellij_plugin.md#tasks-signplugin)任务，当指定了[`signPlugin.certificateChain`](tools_gradle_intellij_plugin.md#tasks-signplugin-certificatechain)和[`signPlugin.privateKey`](tools_gradle_intellij_plugin.md#tasks-signplugin-privatekey)签名属性时，该任务将在[`publishPlugin`](tools_gradle_intellij_plugin.md#tasks-publishplugin)任务之前自动执行。
 否则，它将被跳过。
@@ -237,16 +237,16 @@ publishPlugin {
 
 ![运行/调试 配置环境变量](plugin_singing_env_variables.png)
 
-> Note that both the private key and certificate chain are multi-line values.
-> It is necessary to transform them first using Base64 encoding before providing the single-line field in the <control>Environment Variables</control> panel.
+> 注意，私钥和证书链都是多行值。
+> 在提供单行字段到 <control>Environment Variables</control> 面板之前，需要先使用 Base64 编码进行转换。
 >
-> [`signPlugin.privateKey`](tools_gradle_intellij_plugin.md#tasks-signplugin-privatekey)和[`signPlugin.certificateChain`](tools_gradle_intellij_plugin.md#tasks-signplugin-certificatechain)属性将自动检测并解码 Base64 编码的值。
+> [`signPlugin.privateKey`](tools_gradle_intellij_plugin.md#tasks-signplugin-privatekey) 和 [`signPlugin.certificateChain`](tools_gradle_intellij_plugin.md#tasks-signplugin-certificatechain) 属性会自动检测并解码 Base64 编码的值。
 >
 > {style="warning"}
 
-### CLI 命令行工具 {id="CLI-命令行工具"}
+### CLI 命令行工具 {id=cli-tool}
 
-CLI tool is required if you don't rely on the Gradle IntelliJ Plugin – i.e., when working with [Themes](developing_themes.md).
+如果您不依赖于Gradle IntelliJ插件，例如在处理[主题](developing_themes.md)时，需要使用CLI工具。
 
 要获取最新的 Marketplace ZIP Signer CLI 工具，请访问[JetBrains/marketplace-zip-signer](https://github.com/JetBrains/marketplace-zip-signer/releases) GitHub 发布页面。
 在下载了`<path>marketplace-zip-signer-cli.jar</path>`后，执行如下：
@@ -299,15 +299,15 @@ keytool -import -alias IdeaPlugin -file chain.crt -keystore pluginKeystore.jks -
 
 否则，用户可以手动将公钥添加到 <ui-path>Settings | Plugins | Manage Plugin Certificates（设置 | 插件 | 管理插件证书）</ui-path>。
 
-## Plugin Signature Verification
+## 插件签名验证 {id=plugin-signature-verification}
 
-To verify the signature of a plugin, you can use the [`verifyPluginSignature`](tools_gradle_intellij_plugin.md#tasks-verifypluginsignature) task.
+要验证插件的签名，您可以使用 [](tools_gradle_intellij_plugin.md#tasks-verifypluginsignature) 提供的 `verifyPluginSignature` 任务。
 
 要验证插件的签名，您可以使用 [`verifyPluginSignature`](tools_gradle_intellij_plugin.md#tasks-verifypluginsignature) 任务。
 
 默认情况下，此任务将使用与前一部分中提供给 [`signPlugin`](tools_gradle_intellij_plugin.md#tasks-signplugin) 任务的相同证书链。
 
-要使用[CLI 工具](#CLI-命令行工具)验证签名，请执行以下 `verify` 命令：
+要使用[CLI 工具](#cli-tool)验证签名，请执行以下 `verify` 命令：
 
 ```bash
 java -jar marketplace-zip-signer-cli.jar verify\

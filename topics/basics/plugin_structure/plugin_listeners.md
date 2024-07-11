@@ -4,23 +4,22 @@
 
 <link-summary>侦听器允许订阅应用程序和项目事件。</link-summary>
 
-_Listeners_ allow plugins to subscribe to events delivered through the message bus (see [Messaging infrastructure](messaging_infrastructure.md) for details).
+**监听器** 允许插件通过消息总线订阅事件（详见 [消息基础设施](messaging_infrastructure.md)）。
 
-Listeners are defined at application (global) or [project](project.md) level.
+监听器可以在应用程序（全局）或 [项目](project.md) 级别定义。
 
-> All available listeners/topics are listed on [](intellij_platform_extension_point_list.md) and [](intellij_platform_extension_point_list.md) under _Listeners_ sections.
-> Browse usages inside existing implementations of open-source IntelliJ Platform plugins via [IntelliJ Platform Explorer](https://jb.gg/ipe).
->
+> 所有可用的监听器/主题列在 [](intellij_platform_extension_point_list.md) 和 [](intellij_platform_extension_point_list.md) 的 **监听器** 部分。
+> 通过 [IntelliJ 平台浏览器](https://jb.gg/ipe) 浏览开源 IntelliJ 平台插件现有实现中的用法。
 
-Listener implementations must be stateless and may not implement life-cycle (e.g., `Disposable`).
-Use inspection <control>Plugin DevKit | Code | Listener implementation implements 'Disposable'</control> to verify (2023.3).
+监听器实现必须是无状态的，并且不能实现生命周期（例如，`Disposable`）。
+使用检查 <control>Plugin DevKit | Code | Listener implementation implements 'Disposable'</control> 进行验证（2023.3）。
 
-Declarative registration of listeners (2019.3 and later) allows achieving better performance than registering listeners from code.
-The advantage is because listener instances get created lazily — the first time an event is sent to the topic — and not during application startup or project opening.
+监听器的声明式注册（2019.3 及以后）可以比从代码中注册监听器实现更好的性能。
+优势在于监听器实例在第一次发送事件到主题时才会被延迟创建，而不是在应用程序启动或项目打开时创建。
 
-## Defining Application-Level Listeners
+## 定义应用程序级别的监听器 {id=defining-application-level-listeners}
 
-To define an application-level listener, add the [`<applicationListeners>`](plugin_configuration_file.md#idea-plugin__applicationListeners) section to <path>[plugin.xml](plugin_configuration_file.md)</path>:
+要定义应用程序级别的监听器，请在 <path>[plugin.xml](plugin_configuration_file.md)</path> 中添加 [`<applicationListeners>`](plugin_configuration_file.md#idea-plugin__applicationListeners) 部分：
 
 ```xml
 <idea-plugin>
@@ -32,25 +31,25 @@ To define an application-level listener, add the [`<applicationListeners>`](plug
 </idea-plugin>
 ```
 
-The `topic` attribute specifies the listener interface corresponding to the type of events to receive.
-Usually, this is the interface used as the type parameter of the [`Topic`](%gh-ic%/platform/extensions/src/com/intellij/util/messages/Topic.java) instance for the type of events.
-The `class` attribute specifies the class in the plugin that implements the listener interface and receives the events.
+`topic` 属性指定了接收事件类型对应的监听器接口。
+通常，这是用作事件类型的 [`Topic`](%gh-ic%/platform/extensions/src/com/intellij/util/messages/Topic.java) 实例的类型形参的接口。
+`class` 属性指定了插件中实现该监听器接口并接收事件的类。
 
-As a specific example, to receive events about all [Virtual File System](virtual_file_system.md) changes, implement the `BulkFileListener` interface, corresponding to the topic `VirtualFileManager.VFS_CHANGES`.
-To subscribe to this topic from code, use something like the following snippet:
+作为一个具体示例，要接收所有 [虚拟文件系统](virtual_file_system.md) 更改的事件，实现 `BulkFileListener` 接口，该接口对应 `VirtualFileManager.VFS_CHANGES` 主题。
+要从代码中订阅此主题，请使用类似以下的代码片段：
 
 ```java
 messageBus.connect().subscribe(VirtualFileManager.VFS_CHANGES,
     new BulkFileListener() {
       @Override
       public void after(@NotNull List<? extends VFileEvent> events) {
-        // handle the events
+        // 处理事件
       }
 });
 ```
 
-To use declarative registration, it's no longer required to reference the `Topic` instance.
-Instead, refer directly to the listener interface class:
+使用声明式注册时，不再需要引用 `Topic` 实例。
+相反，直接引用监听器接口类：
 
 ```xml
 <applicationListeners>
@@ -60,7 +59,7 @@ Instead, refer directly to the listener interface class:
 </applicationListeners>
 ```
 
-Then provide the listener implementation:
+然后提供监听器实现：
 
 ```java
 package myPlugin;
@@ -68,15 +67,15 @@ package myPlugin;
 final class MyVfsListener implements BulkFileListener {
   @Override
   public void after(@NotNull List<? extends VFileEvent> events) {
-    // handle the events
+    // 处理事件
   }
 }
 ```
 
-## Defining Project-Level Listeners
+## 定义项目级 listeners {id=defining-project-level-listeners}
 
-[Project](project.md)-level listeners are registered in the same way, except that the top-level tag is [`<projectListeners>`](plugin_configuration_file.md#idea-plugin__projectListeners).
-They can be used to listen to project-level events, for example, [tool window](tool_windows.md) operations:
+[项目](project.md)-级 listeners 的注册方式与其他类似，唯一的区别在于顶层标签是 [`<projectListeners>`](plugin_configuration_file.md#idea-plugin__projectListeners)。
+它们用于监听项目级事件，例如 [工具窗口](tool_windows.md) 操作：
 
 ```xml
 <idea-plugin>
@@ -88,7 +87,7 @@ They can be used to listen to project-level events, for example, [tool window](t
 </idea-plugin>
 ```
 
-The class implementing the listener interface can define a one-argument constructor accepting a [`Project`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/Project.java), and it will receive the instance of the project for which the listener is created:
+实现 listener 接口的类可以定义一个接受 [`Project`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/Project.java) 的单参数构造函数，它将接收创建 listener 的项目实例：
 
 ```java
 package myPlugin;
@@ -102,25 +101,25 @@ final class MyToolWindowListener implements ToolWindowManagerListener {
 
   @Override
   public void stateChanged(@NotNull ToolWindowManager toolWindowManager) {
-    // handle the state change
+    // 处理状态变化
   }
 }
 ```
 
-## Additional Attributes
+## 附加属性 {id=additional-attributes}
 
-Registration of listeners can be restricted using the following attributes.
+可以使用以下属性限制 listeners 的注册。
 
 `os`
-: Allows restricting listener to given OS, e.g., `os="windows"` for Windows only (2020.1 and later)
+: 允许将 listener 限制在特定操作系统上，例如 `os="windows"` 仅适用于 Windows（2020.1 及以后版本）
 
 `activeInTestMode`
-: Set to `false` to disable listener if [`Application.isUnitTestMode()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/Application.java) returns `true`
+: 如果 [`Application.isUnitTestMode()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/Application.java) 返回 `true`，将其设置为 `false` 可禁用 listener。
 
 `activeInHeadlessMode`
-: Set to `false` to disable listener if [`Application.isHeadlessEnvironment()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/Application.java) returns `true`.
-  Also covers `activeInTestMode` as test mode implies headless mode.
+: 如果 [`Application.isHeadlessEnvironment()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/Application.java) 返回 `true`，将其设置为 `false` 可禁用 listener。
+也覆盖了测试模式，因为测试模式意味着无头模式。
 
-> If declared listener topics are intended to be used by other plugins depending on your plugin, consider [bundling their sources](bundling_plugin_openapi_sources.md) in the plugin distribution.
+> 如果声明的 listener 话题意图被依赖于您的插件的其他插件使用，请考虑在插件分发中 [捆绑它们的源代码](bundling_plugin_openapi_sources.md)。
 >
 {style="note"}

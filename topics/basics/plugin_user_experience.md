@@ -19,7 +19,7 @@ Great IntelliJ Platform plugins, like any other products, should bring significa
 When planning your work, talk and try to understand what your users need the most and prioritize crucial functionalities.
 
 If you are unsure about an implemented solution, consider sharing the work in progress with a limited group of users (e.g., your colleagues or active community members) and gathering the feedback that will help you improve the final result.
-See the [Custom Release Channels](publishing_plugin.md#指定发布渠道) section for information on how to automate sharing the pre-release plugin versions.
+See the [Custom Release Channels](publishing_plugin.md#specifying-a-release-channel) section for information on how to automate sharing the pre-release plugin versions.
 
 Gathering feedback on the existing features can help identify what works well and what should be improved, which also increases the overall plugin quality.
 

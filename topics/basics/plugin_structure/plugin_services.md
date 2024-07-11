@@ -4,21 +4,21 @@
 
 <link-summary>注册和使用按需服务，以封装插件功能。</link-summary>
 
-A _service_ is a plugin component loaded on demand when your plugin calls the `getService()` method of corresponding [`ComponentManager`](%gh-ic%/platform/extensions/src/com/intellij/openapi/components/ComponentManager.java) instance (see [Types](#types)).
-The IntelliJ Platform ensures that only one instance of a service is loaded even though it is called several times.
-Services are used to encapsulate logic operating on a set of related classes or to provide some reusable functionality that can be used across the plugin project.
-Conceptually, they don't differ from the service classes in other languages or frameworks.
+一个 **service** 是插件的一个组件，在你的插件调用相应 [`ComponentManager`](%gh-ic%/platform/extensions/src/com/intellij/openapi/components/ComponentManager.java) 实例的 `getService()` 方法时按需加载（参见 [Types](#types)）。
+IntelliJ 平台确保即使多次调用，也只加载一个服务实例。
+Services 用于封装操作一组相关类或提供可在插件项目中重复使用的功能逻辑。
+从概念上讲，它们与其他语言或框架中的服务类别无异。
 
-A service must have an implementation class used for service instantiation.
-A service may also have an interface class used to obtain the service instance and provide the service's API.
+一个 service 必须有一个用于实例化服务的实现类。
+一个 service 还可以有一个接口类，用于获取服务实例并提供服务的 API。
 
-A service needing a shutdown hook/cleanup routine can implement [`Disposable`](%gh-ic%/platform/util/src/com/intellij/openapi/Disposable.java) and perform necessary work in `dispose()` (see [](disposers.md#automatically-disposed-objects)).
+如果一个 service 需要关机钩子或清理例程，可以实现 [`Disposable`](%gh-ic%/platform/util/src/com/intellij/openapi/Disposable.java)，并在 `dispose()` 方法中执行必要的工作（参见 [](disposers.md#automatically-disposed-objects)）。
 
-> If declared services are intended to be used by other plugins depending on your plugin, consider [bundling their sources](bundling_plugin_openapi_sources.md) in the plugin distribution.
+> 如果声明的服务打算被依赖你的插件的其他插件使用，请考虑在插件分发中 [捆绑它们的源代码](bundling_plugin_openapi_sources.md)。
 >
-{style="note" title="Services as API"}
+{style="note" title="作为 API 的 Services"}
 
-#### 类型 {id=类型}
+#### 类型 {id=types}
 
 IntelliJ 平台提供三种类型的服务：_应用级_ 服务（全局单例）、_项目级_ 服务和 _模块级_ 服务。
 对于后两者，将为其相应范围的每个实例创建一个单独的服务实例，参见 [项目模型介绍](project_structure.md)。
@@ -28,38 +28,38 @@ IntelliJ 平台提供三种类型的服务：_应用级_ 服务（全局单例�
 {style="note"}
 {id="moduleServiceNote"}
 
-#### 构造函数 {id=构造函数}
+#### 构造函数 {id=constructor}
 
-To improve startup performance, avoid any heavy initializations in the constructor.
+为了提高启动性能，请避免在构造函数中进行任何繁重的初始化。
 
-Project/Module-level service constructors can have a [`Project`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/Project.java)/[`Module`](%gh-ic%/platform/core-api/src/com/intellij/openapi/module/Module.java) argument.
+项目/模块级服务构造函数可以有一个 [`Project`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/Project.java)/[`Module`](%gh-ic%/platform/core-api/src/com/intellij/openapi/module/Module.java) 参数。
 
-> 出于性能原因，已弃用（并且在 [](#轻量级服务) 中不支持）使用构造函数注入依赖服务。
+> 出于性能原因，不推荐使用依赖服务的构造函数注入（并且在 [](#light-services) 中不支持）。
 >
-> 所有其他服务依赖项必须在所有相应方法中 [仅在需要时获取](#获取服务)，例如，如果需要服务来获取一些数据或执行任务，请在调用其方法之前检索服务。
-> 不要在构造函数中检索服务以将它们存储在类字段中。
+> 其他服务依赖项必须在所有相应的方法中[仅在需要时获取](#retrieving-a-service)，例如，如果您需要一个服务来获取一些数据或执行一个任务，请在调用其方法之前检索该服务。
+> 不要在构造函数中检索服务以将其存储在类字段中。
 >
 > 使用检查 <control>Plugin DevKit | Code | Non-default constructors for service and extension class</control> 来验证代码。
 >
-{style="warning" title="Do not use Constructor Injection"}
+{style="warning" title="不要使用构造函数注入"}
 
-##### Kotlin Coroutines
+##### Kotlin 协程 {id=kotlin-coroutines}
 
-When using [](kotlin_coroutines.md), a distinct service [scope](coroutine_scopes.md) can be injected as parameter.
+使用 [](kotlin_coroutines.md) 时，可以将不同的服务 [范围](coroutine_scopes.md) 注入为参数。
 
 <include from="coroutine_scopes.md" element-id="serviceScopes"/>
 
-## 轻量级服务 {id=轻量级服务}
+## 轻量级服务 {id=light-services}
 
-A service not going to be overridden/exposed as API to other plugins does not need to be registered in <path>[plugin.xml](plugin_configuration_file.md)</path> (see [](#declaring-a-service)).
-Instead, annotate service class with [`@Service`](%gh-ic%/platform/core-api/src/com/intellij/openapi/components/Service.java) (see [](#examples)).
-The service instance will be created in scope according to the caller (see [](#retrieving-a-service)).
+不需要覆盖/暴露为其他插件的 **API** 的服务不需要在 <path>[plugin.xml](plugin_configuration_file.md)</path> 中注册（见 [](#declaring-a-service)）。
+相反，请使用 [`@Service`](%gh-ic%/platform/core-api/src/com/intellij/openapi/components/Service.java) 注释服务类（见 [](#examples)）。
+服务实例将根据调用者的范围创建（见 [](#retrieving-a-service)）。
 
 ### 轻量级服务限制
 
 * 没有必需的属性：`os`、`client`、`overrides`、`id`、`preload`。
 * 服务类必须是 `final`。
-* 不支持[依赖服务的构造函数注入](#构造函数)。
+* 不支持[依赖服务的构造函数注入](#constructor)。
 * 如果应用级服务是 [PersistentStateComponent](persisting_state_of_components.md)，必须禁用漫游（`roamingType = RoamingType.DISABLED`）。
 
 使用以下检查来验证这些限制并突出显示可以转换的服务（2023.3）：
@@ -67,7 +67,7 @@ The service instance will be created in scope according to the caller (see [](#r
 - <control>Plugin DevKit | Code | Mismatch between light service level and its constructor</control>
 - <control>Plugin DevKit | Code | A service can be converted to a light one</control> 和相应的 <control>Plugin DevKit | Plugin descriptor | A service can be converted to a light one</control> 用于 <path>plugin.xml</path>
 
-### 示例
+### 示例 {id=examples}
 
 <tabs group="languages">
 
@@ -134,19 +134,19 @@ class MyProjectService(private val project: Project) {
 
 </tabs>
 
-## 声明服务
+## 声明服务 {id=declaring-a-service}
 
-要注册非 [轻量级服务](#轻量级服务)，为每种类型提供了不同的扩展点：
+要注册非 [轻量级服务](#light-services)，为每种类型提供了不同的扩展点：
 
-* `com.intellij.applicationService` - application-level service
-* `com.intellij.projectService` - project-level service
-* `com.intellij.moduleService` - module-level service (not recommended, see [Note](#types))
+* `com.intellij.applicationService` - 应用级服务
+* `com.intellij.projectService` - 项目级服务
+* `com.intellij.moduleService` - 模块级服务（不推荐，见 [注](#types)）
 
-To expose service API, create a separate class for `serviceInterface` and extend it in corresponding class registered in `serviceImplementation`.
-If `serviceInterface` isn't specified, it's supposed to have the same value as `serviceImplementation`.
-Use inspection <control>Plugin DevKit | Plugin descriptor | Plugin.xml extension registration</control> to highlight redundant `serviceInterface` declarations.
+要暴露服务 **API**，为 `serviceInterface` 创建一个单独的类，并在相应的注册在 `serviceImplementation` 中的类中扩展它。
+如果没有指定 `serviceInterface`，则假定它与 `serviceImplementation` 具有相同的值。
+使用检查 <control>Plugin DevKit | Plugin descriptor | Plugin.xml extension registration</control> 来突出显示多余的 `serviceInterface` 声明。
 
-To provide a custom implementation for test/headless environment, specify `testServiceImplementation`/`headlessImplementation` additionally.
+要为测试/无头环境提供自定义实现，请另外指定 `testServiceImplementation`/`headlessImplementation`。
 
 ### 示例
 
@@ -267,18 +267,18 @@ To provide a custom implementation for test/headless environment, specify `testS
 </extensions>
 ```
 
-## Retrieving a Service
+## 获取服务 {id=retrieving-a-service}
 
-> **Never** acquire service instances prematurely or store them in fields for later use.
-> Instead, **always** obtain service instances directly and **only** at the location where they're needed.
-> Failing to do so will lead to unexpected exceptions and severe consequences for the plugin's functionality.
+> **永远不要** 提前获取服务实例或将它们存储在字段中以供以后使用。
+> 相反，**始终** 在需要的地方直接获取服务实例。
+> 否则，会导致意外异常和插件功能的严重后果。
 >
 > 此类问题通过检查（2023.3）突出显示：
 > - <control>Plugin DevKit | Code | Application service assigned to a static final field or immutable property</control>
 > - <control>Plugin DevKit | Code | Incorrect service retrieving</control>
 > - <control>Plugin DevKit | Code | Simplifiable service retrieving</control>
 >
-{style="warning" title="Correct Service Retrieval"}
+{style="warning" title="正确的服务获取"}
 
 获取服务不需要读取动作，可以在任何线程中执行。
 如果从多个线程请求服务，则它将在第一个线程中初始化，并阻塞其他线程，直到它完全初始化。
@@ -399,7 +399,7 @@ endif
 
 ## 示例插件
 
-To clarify how to use services, consider the **maxOpenProjects** sample plugin available in the [code samples](%gh-sdk-samples-master%/max_opened_projects).
+为了说明如何使用服务，请参考 [代码示例](%gh-sdk-samples-master%/max_opened_projects) 中提供的 **maxOpenProjects** 示例插件。
 
 该插件有一个应用级服务，用于计算当前在IDE中打开的项目数。
 如果此数字超过插件允许的同时打开的项目的最大数量（3），则显示信息消息。

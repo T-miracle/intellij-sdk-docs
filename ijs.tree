@@ -24,7 +24,7 @@
     <toc-element topic="getting_help.topic"/>
     <toc-element topic="content_updates.md" accepts-web-file-names="recently_updated.html"/>
   </toc-element>
-  <toc-element toc-title="Plugins">
+  <toc-element toc-title="插件">
     <toc-element topic="plugins_quick_start.md" accepts-web-file-names="basics.html">
       <toc-element topic="plugin_alternatives.md" toc-title="插件替代品"/>
       <toc-element topic="plugin_required_experience.md"/>
@@ -62,12 +62,12 @@
     <toc-element topic="plugin_user_experience.md"/>
     <toc-element topic="faq.md"/>
   </toc-element>
-  <toc-element toc-title="Base Platform">
+  <toc-element toc-title="基础平台">
     <toc-element topic="fundamentals.md" accepts-web-file-names="reference_guide.html,architectural_overview.html">
       <toc-element toc-title="组件模型"/>
       <toc-element topic="disposers.md"/>
       <toc-element topic="general_threading_rules.md" toc-title="Threading">
-        <toc-element toc-title="Background Tasks"/>
+        <toc-element toc-title="后台任务"/>
       </toc-element>
       <toc-element topic="kotlin_coroutines.md">
         <toc-element topic="coroutine_scopes.md"/>
@@ -95,7 +95,7 @@
       <toc-element topic="lists_and_trees.md"/>
       <toc-element topic="status_bar_widgets.md"/>
       <toc-element topic="misc_swing_components.md"/>
-      <toc-element topic="icons.md" toc-title="Icons" accepts-web-file-names="work-with-icons-and-images.html"/>
+      <toc-element topic="icons.md" toc-title="图标" accepts-web-file-names="work-with-icons-and-images.html"/>
       <toc-element topic="ui_faq.md"/>
       <toc-element topic="jcef.md"/>
       <toc-element topic="color_scheme_management.md"/>
@@ -138,13 +138,13 @@
       <toc-element toc-title="差异"/>
       <toc-element toc-title="本地历史"/>
     </toc-element>
-    <toc-element toc-title="Tasks and Contexts"/>
+    <toc-element toc-title="任务和上下文"/>
     <toc-element topic="internationalization.md">
       <toc-element topic="providing_translations.md" accepts-web-file-names="localization-guide.html"/>
     </toc-element>
-    <toc-element toc-title="Diagrams"/>
+    <toc-element toc-title="图表"/>
   </toc-element>
-  <toc-element toc-title="Project Model">
+  <toc-element toc-title="项目模型">
     <toc-element topic="project_structure.md"/>
     <toc-element topic="project.md">
       <toc-element topic="trusted_projects.md"/>
@@ -162,7 +162,7 @@
     <toc-element topic="external_system_integration.md"/>
   </toc-element>
   <toc-element toc-title="PSI">
-    <toc-element topic="psi.md" toc-title="What Is the PSI?"/>
+    <toc-element topic="psi.md" toc-title="什么是 PSI？"/>
     <toc-element topic="psi_files.md"/>
     <toc-element topic="file_view_providers.md"/>
     <toc-element topic="psi_elements.md"/>
@@ -180,9 +180,9 @@
     <toc-element topic="xml_dom_api.md"/>
   </toc-element>
   <toc-element toc-title="Features">
-    <toc-element toc-title="Navigation"/>
+    <toc-element toc-title="导航"/>
     <toc-element topic="editing.md">
-      <toc-element toc-title="Code Completion"/>
+      <toc-element toc-title="代码补全"/>
       <toc-element topic="postfix_completion.md">
         <toc-element topic="postfix_templates.md"/>
         <toc-element topic="advanced_postfix_templates.md"/>
@@ -208,7 +208,7 @@
         <toc-element toc-title="Profiles"/>
         <toc-element toc-title="作用域"/>
         <toc-element toc-title="Suppressing Highlights"/>
-        <toc-element toc-title="Structural Search"/>
+        <toc-element toc-title="结构搜索"/>
       </toc-element>
       <toc-element topic="controlling_highlighting.md"/>
     </toc-element>
@@ -221,7 +221,7 @@
       <toc-element topic="external_builder_api.md"/>
     </toc-element>
   </toc-element>
-  <toc-element toc-title="Testing">
+  <toc-element toc-title="测试">
     <toc-element topic="testing_plugins.md" accepts-web-file-names="testing_plugins.html"/>
     <toc-element topic="tests_and_fixtures.md"/>
     <toc-element topic="light_and_heavy_tests.md"/>
@@ -230,7 +230,7 @@
     <toc-element topic="testing_highlighting.md"/>
     <toc-element topic="testing_faq.md"/>
   </toc-element>
-  <toc-element toc-title="Custom Languages">
+  <toc-element toc-title="自定义语言">
     <toc-element topic="custom_language_support.md">
       <toc-element topic="registering_file_type.md"/>
       <toc-element topic="implementing_lexer.md"/>
@@ -306,9 +306,9 @@
     <toc-element toc-title="编译器"/>
     <toc-element toc-title="调试器"/>
   </toc-element>
-  <toc-element toc-title="Product Specific">
-    <toc-element topic="dev_alternate_products.md" toc-title="Developing for Multiple Products"/>
-    <toc-element topic="plugin_compatibility.md" toc-title="Compatibility with Multiple Products"/>
+  <toc-element toc-title="产品特定">
+    <toc-element topic="dev_alternate_products.md" toc-title="开发多种产品"/>
+    <toc-element topic="plugin_compatibility.md" toc-title="与多种产品的兼容性"/>
     <toc-element topic="android_studio.md" toc-title="Android Studio">
       <toc-element topic="android_studio_releases_list.md"/>
     </toc-element>
@@ -340,11 +340,11 @@
     <toc-element topic="rubymine.md" toc-title="RubyMine"/>
     <toc-element topic="webstorm.md" toc-title="WebStorm"/>
   </toc-element>
-  <toc-element toc-title="Custom IDEs">
-    <toc-element toc-title="Build Your Own IDE"/>
-    <toc-element toc-title="Licensing"/>
+  <toc-element toc-title="自定义 IDEs">
+    <toc-element toc-title="构建您自己的 IDE"/>
+    <toc-element toc-title="许可"/>
   </toc-element>
-  <toc-element toc-title="Themes">
+  <toc-element toc-title="主题">
     <toc-element topic="themes_getting_started.md" accepts-web-file-names="themes-intro.html"/>
     <toc-element topic="developing_themes.md" accepts-web-file-names="using-dev-kit.html">
       <toc-element topic="setting_up_theme_environment.md" accepts-web-file-names="setting-up-environment.html"/>
@@ -358,21 +358,21 @@
       <toc-element topic="themes_extras.md" toc-title="添加主题方案和图像"/>
     </toc-element>
   </toc-element>
-  <toc-element toc-title="Resources">
+  <toc-element toc-title="资源">
     <toc-element topic="glossary.md"/>
     <toc-element topic="explore_api.md" toc-title="探索 API"/>
     <toc-element topic="build_number_ranges.md"/>
     <toc-element topic="intellij_artifacts.md"/>
-    <toc-element toc-title="Extension Points and Listeners">
-      <toc-element toc-title="IntelliJ Platform" topic="intellij_platform_extension_point_list.md"
+    <toc-element toc-title="扩展点和监听器">
+      <toc-element toc-title="IntelliJ 平台" topic="intellij_platform_extension_point_list.md"
                    accepts-web-file-names="extension-point-list.html"/>
-      <toc-element toc-title="IntelliJ Community Plugins" topic="intellij_community_plugins_extension_point_list.md"/>
-      <toc-element toc-title="Android Plugin" topic="android_plugin_extension_point_list.md"/>
+      <toc-element toc-title="IntelliJ 社区插件" topic="intellij_community_plugins_extension_point_list.md"/>
+      <toc-element toc-title="Android 插件" topic="android_plugin_extension_point_list.md"/>
       <toc-element toc-title="AppCode" topic="appcode_extension_point_list.md"/>
       <toc-element toc-title="CLion" topic="clion_extension_point_list.md"/>
       <toc-element toc-title="DataGrip" topic="data_grip_extension_point_list.md"/>
       <toc-element toc-title="GoLand" topic="goland_extension_point_list.md"/>
-      <toc-element toc-title="Open Source Plugins" topic="oss_plugins_extension_point_list.md"/>
+      <toc-element toc-title="开源插件" topic="oss_plugins_extension_point_list.md"/>
       <toc-element toc-title="PhpStorm" topic="php_extension_point_list.md"/>
       <toc-element toc-title="Rider" topic="rider_extension_point_list.md"/>
       <toc-element toc-title="RubyMine" topic="rubymine_extension_point_list.md"/>
@@ -387,14 +387,14 @@
     <toc-element topic="plugin_repository_obsolete.md"
                  accepts-web-file-names="api_reference.html,feature_extractor.html,plugin_details.html,custom_channels.html,plugins_list.html,maven_interface.html,plugin_upload.html,plugin_developers.html"/>
   </toc-element>
-  <toc-element toc-title="API and Compatibility">
+  <toc-element toc-title="API 和兼容性">
     <toc-element topic="verifying_plugin_compatibility.md"/>
     <toc-element topic="api_changes_list.md" toc-title="不兼容的 API 更改"
                  accepts-web-file-names="api-changes-list-2016.html,api-changes-list-2017.html,api-changes-list-2018.html">
       <toc-element topic="api_changes_list_2024.md" toc-title="2024.*"/>
       <toc-element topic="api_changes_list_2023.md" toc-title="2023.*"/>
       <toc-element topic="api_changes_list_2022.md" toc-title="2022.*"/>
-      <toc-element toc-title="Older Versions">
+      <toc-element toc-title="旧版本">
         <toc-element topic="api_changes_list_2021.md" toc-title="2021.*"/>
         <toc-element topic="api_changes_list_2020.md" toc-title="2020.*"/>
         <toc-element topic="api_changes_list_2019.md" toc-title="2019.*"/>
@@ -405,7 +405,7 @@
       <toc-element topic="api_notable_list_2024.md" toc-title="2024.*"/>
       <toc-element topic="api_notable_list_2023.md" toc-title="2023.*"/>
       <toc-element topic="api_notable_list_2022.md" toc-title="2022.*"/>
-      <toc-element toc-title="Older Versions">
+      <toc-element toc-title="旧版本">
         <toc-element topic="api_notable_list_2021.md" toc-title="2021.*"/>
         <toc-element topic="api_notable_list_2020.md" toc-title="2020.*"/>
         <toc-element topic="api_notable_list_2019.md" toc-title="2019.*"/>
@@ -433,7 +433,7 @@
       <toc-element topic="tools_intellij_platform_gradle_plugin_gradle_properties.md"/>
       <toc-element topic="tools_intellij_platform_gradle_plugin_jetbrains_runtime.md"/>
       <toc-element topic="tools_intellij_platform_gradle_plugin_migration.md"/>
-      <toc-element topic="tools_intellij_platform_gradle_plugin_faq.md" toc-title="Frequently Asked Questions"/>
+      <toc-element topic="tools_intellij_platform_gradle_plugin_faq.md" toc-title="常问问题"/>
     </toc-element>
     <toc-element topic="tools_gradle_grammar_kit_plugin.md"/>
     <toc-element toc-title="IDE 工具">
@@ -462,7 +462,7 @@
         <toc-element topic="empty_state.md"/>
       </toc-element>
       <toc-element topic="description_text.md"/>
-      <toc-element toc-title="Dialog Window"/> <!--TODO-->
+      <toc-element toc-title="对话框窗口"/> <!--TODO-->
       <toc-element topic="drop_down.md"/>
       <toc-element topic="got_it_tooltip.md"/>
       <toc-element topic="group_header.md"/>

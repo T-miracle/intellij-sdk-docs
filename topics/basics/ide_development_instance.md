@@ -1,17 +1,17 @@
 <!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# IDE Development Instance
+# IDE 开发实例
 
-<link-summary>Overview of IDE instance used for running and debugging a plugin during development.</link-summary>
+<link-summary>概述在开发过程中用于运行和调试插件的IDE实例。</link-summary>
 
 JetBrains 为插件开发提供的一个特性是可以从 IntelliJ IDEA 内部运行或调试插件项目。
-对于基于 Gradle 的项目（或基于 DevKit 的项目），选择 [`runIde`](creating_plugin_project.md#使用runIde-Gradle任务运行插件) 任务（或 [Run（运行）](running_and_debugging_a_theme.md)菜单）将启动带插件启用的 IDE 的 _开发实例_。
+对于基于 Gradle 的项目（或基于 DevKit 的项目），选择 [`runIde`](creating_plugin_project.md#running-a-plugin-with-the-runide-gradle-task) 任务（或 [Run（运行）](running_and_debugging_a_theme.md)菜单）将启动带插件启用的 IDE 的 _开发实例_。
 本页面描述了如何控制开发实例的一些设置。
 
 > 另请参阅 [`runIde`任务](tools_gradle_intellij_plugin.md#tasks-runide) 属性和[高级配置](https://www.jetbrains.com/help/idea/tuning-the-ide.html) 以获取一般VM选项和属性的信息。
 >
 
-## 在开发实例中使用 JetBrains Runtime {id="在开发实例中使用JetBrains-Runtime"}
+## 在开发实例中使用 JetBrains Runtime {id=using-a-jetbrains-runtime-for-the-development-instance}
 
 一个常见的用例是针对JDK（例如Java 17）开发（构建）插件项目，然后在IDE的开发实例中运行或调试插件。
 在这种情况下，开发实例必须使用 [JetBrains Runtime (JBR)](https://www.jetbrains.com/jetbrains-runtime) 而不是用于构建插件项目的 JDK。
@@ -77,7 +77,7 @@ JetBrains Runtime 以不同的版本发布，用于不同的目的，如调试�
 >
 {style="note"}
 
-## 启用自动重载 {id="启用自动重载"}
+## 启用自动重载 {id=enabling-auto-reload}
 
 从2020.1版本开始，这对于兼容的 [动态插件](dynamic_plugins.md) 可用。
 这可以通过在检测到代码更改后（当JAR文件被修改时）避免完全重新启动开发实例，从而实现更快的开发周期。
@@ -114,17 +114,17 @@ JetBrains Runtime 以不同的版本发布，用于不同的目的，如调试�
 
 </tabs>
 
-## 开发实例沙盒目录 { id="开发实例沙盒目录" }
+## 开发实例沙箱目录 { id=the-development-instance-sandbox-directory }
 
-_沙盒主目录_ 包含 IDE 开发实例的 [设置、缓存、日志和插件](#开发实例的设置、缓存、日志和插件)。
+_沙盒主目录_ 包含 IDE 开发实例的 [设置、缓存、日志和插件](#development-instance-settings-caches-logs-and-plugins)。
 这些信息存储在与[已安装的IDE本身](https://intellij-support.jetbrains.com/hc/en-us/articles/206544519-Directories-used-by-the-IDE-to-store-settings-caches-plugins-and-logs)不同的位置。
 
 <tabs group="project-type">
 <tab title="Gradle" group-key="gradle">
 
-The default Sandbox Home location in a plugin Gradle project is:
-* Windows: <path>\$PROJECT_DIRECTORY\$\\build\\idea-sandbox</path>
-* Linux/macOS: <path>\$PROJECT_DIRECTORY\$/build/idea-sandbox</path>
+默认的插件 Gradle 项目中的沙盒主目录位置是：
+* Windows：<path>\$PROJECT_DIRECTORY\$\\build\\idea-sandbox</path>
+* Linux/macOS：<path>\$PROJECT_DIRECTORY\$/build/idea-sandbox</path>
 
 沙盒主目录位置可以通过 [`intellij.sandboxDir`](tools_gradle_intellij_plugin.md#intellij-extension-sandboxdir) 属性进行配置。
 
@@ -135,15 +135,15 @@ The default Sandbox Home location in a plugin Gradle project is:
 对于基于DevKit的插件，<control>沙盒主目录</control>的默认位置是在 IntelliJ 平台插件 SDK 中定义的。
 请查看[设置主题开发环境](setting_up_theme_environment.md#add-intellij-platform-plugin-sdk)以获取有关如何在 IntelliJ 平台 SDK 中设置沙盒主目录的信息。
 
-The default Sandbox Home directory location is:
-* Windows: <path>\$USER_HOME\$\\.\$PRODUCT_SYSTEM_NAME\$\$PRODUCT_VERSION\$\\system\\plugins-sandbox\\</path>
-* Linux: <path>~/.\$PRODUCT_SYSTEM_NAME\$\$PRODUCT_VERSION\$/system/plugins-sandbox/</path>
-* macOS: <path>~/Library/Caches/\$PRODUCT_SYSTEM_NAME\$\$PRODUCT_VERSION\$/plugins-sandbox/</path>
+默认的沙盒主目录位置是：
+* Windows: `<path>\$USER_HOME\$\\.\$PRODUCT_SYSTEM_NAME\$\$PRODUCT_VERSION\$\\system\\plugins-sandbox\\</path>
+* Linux: `<path>~/.\$PRODUCT_SYSTEM_NAME\$\$PRODUCT_VERSION\$/system/plugins-sandbox/</path>
+* macOS: `<path>~/Library/Caches/\$PRODUCT_SYSTEM_NAME\$\$PRODUCT_VERSION\$/plugins-sandbox/</path>
 
 </tab>
 </tabs>
 
-### 开发实例的设置、缓存、日志和插件 {id="开发实例的设置、缓存、日志和插件"}
+### 开发实例的设置、缓存、日志和插件 {id=development-instance-settings-caches-logs-and-plugins}
 
 在沙盒主目录中，包含有开发实例的子目录：
 * `<path>config</path>` 包含 IDE 实例的设置。

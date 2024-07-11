@@ -1,8 +1,8 @@
-# Bundling Plugin API Sources
+# 捆绑插件 API 源
 
 <!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<link-summary>Exposing plugin's API sources for other plugins.</link-summary>
+<link-summary>为其他插件公开插件的 API 源。</link-summary>
 
 如果一个插件暴露其自己的 API 供其他插件使用，考虑将插件的 API 源码捆绑在 ZIP 发布中是值得的。
 
@@ -36,7 +36,7 @@ end title
 @enduml
 ```
 
-The plugin distribution ZIP file can contain multiple source JARs, and there are no strict rules for the source JAR names.
+插件分发的 ZIP 文件可以包含多个源码 JAR 文件，对于这些源码 JAR 的命名没有严格的规定。
 
 ## 定义插件 API {id=定义插件API}
 

@@ -69,11 +69,11 @@ Gradle 插件将获取由 [`intellij.plugins`](tools_gradle_intellij_plugin.md#i
 
 ### 运行在不同版本的 JetBrains Runtime 上
 
-每个 IntelliJ 平台版本都有对应的 [JetBrains Runtime](ide_development_instance.md#在开发实例中使用JetBrains-Runtime) 版本。
+每个 IntelliJ 平台版本都有对应的 [JetBrains Runtime](ide_development_instance.md#using-a-jetbrains-runtime-for-the-development-instance) 版本。
 可以通过指定 [`runIde.jbrVersion`](tools_gradle_intellij_plugin.md#tasks-runide-jbrversion) 属性来使用不同版本的 Runtime，该属性描述了 IDE 开发实例应该使用的 JetBrains Runtime 版本。
 Gradle 插件将根据需要获取指定的 JetBrains Runtime 版本。
 
-## 修改插件配置文件 {id="修改插件配置文件"}
+## 修改插件配置文件 {id=patching-the-plugin-configuration-file}
 
 插件项目的 `<path>plugin.xml</path>` 文件的元素值在构建时会从 [`patchPluginXml`](tools_gradle_intellij_plugin.md#tasks-patchpluginxml) 任务的属性中进行"patch"（修补）操作。
 Patching DSL 中尽可能多的属性将被替换到插件项目的 `<path>plugin.xml</path>` 文件内相应的元素值中：
@@ -93,7 +93,7 @@ Gradle 插件会在修补过程中添加必要的元素。
 > 为了维护并生成最新的变更日志，您可以尝试使用 [Gradle Changelog Plugin](https://github.com/JetBrains/gradle-changelog-plugin)。这个插件可以帮助您有效地管理和生成变更日志，以便跟踪项目的演化和版本历史。
 >
 
-如在 [](creating_plugin_project.md#使用向导生成的Gradle-IntelliJ平台插件的组件) 中所讨论的，Gradle 属性 `project.version`、`project.group` 和 `rootProject.name` 都是基于向导输入生成的。
+如在 [](creating_plugin_project.md#creating-a-plugin-with-new-project-wizard) 中所讨论的，Gradle 属性 `project.version`、`project.group` 和 `rootProject.name` 都是基于向导输入生成的。
 然而，在 [Gradle IntelliJ 插件文档](tools_gradle_intellij_plugin.md) 中，并没有在 `<path>plugin.xml</path>` 文件中将这些 Gradle 属性合并并替代成默认的 [`<id>`](plugin_configuration_file.md#idea-plugin__id) 和 [`<name>`](plugin_configuration_file.md#idea-plugin__name) 元素。
 
 最佳实践是保持 `project.version` 始终保持最新。

@@ -93,7 +93,7 @@ Register the Simple Language color settings page with the IntelliJ Platform in t
 
 ### Run the Project
 
-Run the project by using the Gradle [`runIde`](creating_plugin_project.md#使用runIde-Gradle任务运行插件) task.
+Run the project by using the Gradle [`runIde`](creating_plugin_project.md#running-a-plugin-with-the-runide-gradle-task) task.
 
 In the IDE Development Instance, open the Simple Language highlight settings page: <ui-path>Settings | Editor | Color Scheme | Simple</ui-path>.
 Each color initially inherits from a <control>Language Defaults</control> value.

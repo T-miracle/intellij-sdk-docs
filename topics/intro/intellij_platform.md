@@ -1,8 +1,8 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# The IntelliJ Platform
+# IntelliJ 平台
 
-<link-summary>Introduction to the IntelliJ Platform, plugins, and IDEs based on it.</link-summary>
+<link-summary>介绍 IntelliJ 平台、插件以及基于该平台的 IDE。</link-summary>
 
 IntelliJ 平台本身并不是一个产品，而是提供了一个用于构建 IDE 的平台。
 它用于为 JetBrains 产品提供支持，例如 [IntelliJ IDEA](https://www.jetbrains.com/idea/)。
@@ -38,8 +38,8 @@ IntelliJ 平台完全支持 [plugins](developing_plugins.md)，JetBrains 托管 
 
 <snippet id="pluginAlternatives">
 
-> In some cases, implementing an actual IntelliJ Platform plugin might not be necessary, as [alternative solutions](plugin_alternatives.md) exist.
->
+> 在某些情况下，并非必须实现一个实际的 IntelliJ 平台插件，因为存在[替代解决方案](plugin_alternatives.md)。
+> 
 {style="note" title="Plugin Alternatives"}
 
 </snippet>
@@ -52,9 +52,9 @@ IntelliJ 平台是开源的，遵循 [Apache 许可证](%gh-ic%/LICENSE.txt)，�
 相反，该平台被认为与[IntelliJ IDEA Community Edition](idea.md)几乎完全重叠，后者是IntelliJ IDEA Ultimate的免费开源版本(上面链接的GitHub存储库是[JetBrains/ IntelliJ - Community](https://github.com/JetBrains/intellij-community)存储库)。
 请注意：从 2021.1 版本开始，IntelliJ IDEA 社区版捆绑的一些插件不是开源的。
 
-The version of the IntelliJ Platform is defined by the version of the corresponding IntelliJ IDEA Community Edition release.
-For example, to build a plugin against IntelliJ IDEA (2019.1.1), build #191.6707.61 means specifying the same build number tag to get the correct IntelliJ Platform files from the `intellij-community` repository.
-See the [](build_number_ranges.md) page for more information about build numbers corresponding to version numbering.
+IntelliJ 平台的版本由对应的 IntelliJ IDEA Community Edition 发行版本的版本号确定。
+例如，要针对 IntelliJ IDEA（2019.1.1），构建号为 #191.6707.61，需要在 `intellij-community` 仓库中指定相同的构建号标签，以获取正确的 IntelliJ 平台文件。
+有关构建号与版本编号对应关系的更多信息，请参阅[](build_number_ranges.md)页面。
 
 通常，基于 IntelliJ 平台的 IDE 将包含 “intellij-community” 存储库作为 Git 子模块，并提供配置来描述 “intellij-community” 中的哪些插件以及哪些自定义插件将构成产品。
 

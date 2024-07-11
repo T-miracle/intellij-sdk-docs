@@ -26,9 +26,9 @@
   * <shortcut>Y</shortcut>/<shortcut>N</shortcut> 对应 <control>Yes</control>/<control>No</control> 操作（如果对话框中存在）
 * 可选的 <control>不再询问</control> 复选框
 
-> There's also a DSL-like API via [`DialogBuilder`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogBuilder.java).
+> 还有一种类似DSL的API，通过 [`DialogBuilder`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogBuilder.java) 实现。
 
-### Usage
+### 用法 {id=usage}
 
 当使用 [`DialogWrapper`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) 类创建对话框时，请按照以下必需步骤进行操作：
 
@@ -43,25 +43,25 @@
 * 重写 `getDimensionServiceKey()` 方法返回用于持久化对话框大小的标识符。
 * 重写 `getHelpId()` 方法返回与对话框关联的上下文帮助主题（参见 [上下文帮助](ide_infrastructure.md#context-help)）。
 
-Use [Kotlin UI DSL](kotlin_ui_dsl_version_2.md) to provide the dialog's contents (see [samples](#kotlin)).
-Alternatively or when using Java, the `DialogWrapper` class can be used together with [GUI Designer forms](https://www.jetbrains.com/help/idea/gui-designer-basics.html).
-In this case, bind a GUI Designer form to the class extending `DialogWrapper`, bind the top-level panel of the form to a field and return that field from the `createCenterPanel()` method.
+使用 [Kotlin UI DSL](kotlin_ui_dsl_version_2.md) 提供对话框的内容（参见 [samples](#kotlin)）。
+或者在使用Java时，可以使用 `DialogWrapper` 类与 [GUI Designer forms](https://www.jetbrains.com/help/idea/gui-designer-basics.html) 结合使用。
+在这种情况下，将一个 GUI Designer 表单绑定到扩展 `DialogWrapper` 类的类中，将表单的顶层面板绑定到一个字段，并从 `createCenterPanel()` 方法中返回该字段。
 
-> See [](layout.md) topic in UI Guidelines for recommendations on arranging UI controls in dialogs.
+> 请查看 [UI Guidelines](layout.md) 主题，获取关于如何在对话框中布置 UI 控件的建议。
 >
 > 可以使用 [UI 检查器](internal_ui_inspector.md) 在运行时检查现有对话框，例如查找 UI 组件的实际实现。
 
-To display the dialog, call the `show()` method and then use the `getExitCode()` method to check how the dialog was closed (see `DialogWrapper#OK_EXIT_CODE, CANCEL_EXIT_CODE, CLOSE_EXIT_CODE`).
-The `showAndGet()` method can be used to combine these two calls.
+要显示对话框，请调用 `show()` 方法，然后使用 `getExitCode()` 方法来检查对话框如何关闭（参见 `DialogWrapper#OK_EXIT_CODE, CANCEL_EXIT_CODE, CLOSE_EXIT_CODE`）。
+可以使用 `showAndGet()` 方法来结合这两个调用。
 
 要自定义对话框中显示的按钮（替换标准的 <control>OK</control>/<control>Cancel</control>/<control>Help</control> 按钮集合），可以重写 `createActions()` 或 `createLeftActions()` 方法。
 这两个方法都返回一组 Swing Action 对象。
 如果按钮用于关闭对话框，请使用 [`DialogWrapperExitAction`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) 作为动作的基类。
 使用 `action.putValue(DialogWrapper.DEFAULT_ACTION, true)` 来设置默认按钮。
 
-### 输入验证
+### 输入验证 {id=input-validation}
 
-Please see also [](validation_errors.md) topic in UI Guidelines.
+请参阅 [UI Guidelines](validation_errors.md) 中的主题，了解有关验证错误的信息。
 
 要验证输入到对话框中的数据，请重写 `doValidate()` 方法。
 该方法将由定时器自动调用。
@@ -69,9 +69,9 @@ Please see also [](validation_errors.md) topic in UI Guidelines.
 否则，返回一个 [`ValidationInfo`](%gh-ic%/platform/ide-core/src/com/intellij/openapi/ui/ValidationInfo.java) 对象，其中封装了错误消息和与无效数据关联的可选组件。
 在指定组件时，将在其旁边显示错误图标，并在用户尝试调用 <control>OK</control> 操作时将其聚焦。
 
-## Examples
+## 示例 {id=examples}
 
-Minimum sample of a [`DialogWrapper`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java):
+最简单的 [`DialogWrapper`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) 示例：
 
 ```java
 public class SampleDialogWrapper extends DialogWrapper {
@@ -109,7 +109,7 @@ testButton.addActionListener(actionEvent -> {
 
 ### Kotlin
 
-Dialogs using [Kotlin UI DSL](kotlin_ui_dsl_version_2.md):
+使用 [Kotlin UI DSL](kotlin_ui_dsl_version_2.md) 创建对话框：
 
 - [`AddActionDialog`](%gh-ic%/platform/platform-impl/src/com/intellij/ide/ui/customization/AddActionDialog.kt)
 - [`InvalidateCachesDialog`](%gh-ic%/platform/platform-impl/src/com/intellij/ide/actions/InvalidateCachesDialog.kt)

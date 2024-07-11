@@ -1,8 +1,8 @@
 <!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Code Samples
+# 代码示例
 
-<link-summary>Accessing SDK Docs code samples.</link-summary>
+<link-summary>访问 SDK 文档代码示例。</link-summary>
 
 本指南附带了许多示例插件，可从专用的 [intellij-sdk-code-samples](https://github.com/JetBrains/intellij-sdk-code-samples) GitHub 存储库中获取。
 
@@ -23,8 +23,9 @@
 
 <include from="snippets.md" element-id="pluginDevKitAvailability"/>
 
-Clone the [intellij-sdk-code-samples](https://github.com/JetBrains/intellij-sdk-code-samples) GitHub repository via <control>Git | Clone...</control>.
-After successful cloning, the IDE suggests opening the project.
+通过 <control>Git | Clone...</control> 克隆
+[intellij-sdk-code-samples](https://github.com/JetBrains/intellij-sdk-code-samples) GitHub 仓库。
+克隆成功后，IDE 将建议打开该项目。
 
 通过 [Gradle 工具窗口](https://www.jetbrains.com/help/idea/gradle.html#link_gradle_project) 选择要导入的代码示例。
 
@@ -38,4 +39,4 @@ After successful cloning, the IDE suggests opening the project.
 
 ## 运行代码示例
 
-使用 <control>Gradle</control> 工具窗口中相应项目的 <control>Tasks（任务）</control> 节点下显示的 Gradle [`runIde`](creating_plugin_project.md#执行插件) 任务运行插件。
+使用 <control>Gradle</control> 工具窗口中相应项目的 <control>Tasks（任务）</control> 节点下显示的 Gradle [`runIde`](creating_plugin_project.md#executing-the-plugin) 任务运行插件。

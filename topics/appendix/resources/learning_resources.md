@@ -1,6 +1,6 @@
 <!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Learning Resources
+# 学习资源
 
 <link-summary>Links to articles and webinars about plugin development.</link-summary>
 

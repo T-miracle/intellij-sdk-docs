@@ -32,42 +32,25 @@
     </chapter>
 
 
-    <chapter title="Problems with the Guide" id="problems-with-the-guide" switcher-key="English">
+    <chapter title="指南的问题" id="problems-with-the-guide" switcher-key="English">
         <p>
-            If you're having problems with the guide itself, such as missing, incorrect, or confusing content, please
-            <a href="https://youtrack.jetbrains.com/newIssue?project=IJSDK&amp;clearDraft=true&amp;c=">
-                raise an issue on YouTrack
-            </a>.
-            If the problem is easily solved, you can also submit a
-            <a href="intellij-sdk-docs-original_CONTRIBUTING.md">Pull Request</a>.
+            如果您在使用本指南时遇到问题，比如缺失、错误或令人困惑的内容，请通过<a href="https://youtrack.jetbrains.com/newIssue?project=IJSDK&amp;clearDraft=true&amp;c=">在 YouTrack 上提出问题</a>。
+            如果问题很容易解决，您也可以提交<a href="intellij-sdk-docs-original_CONTRIBUTING.md">Pull Request</a>。
         </p>
         <p>
-            If you want to report (smaller) issues for a
-            <emphasis>specific</emphasis>
-            page, you can also use the
-            <control>Was this page helpful?</control>
-            feedback form on the bottom of each page by providing more details after clicking the
-            <control>No</control>
-            button.
-            Please try to be as specific as possible and provide your e-mail address for further questions and getting
-            notified of updates.
+            如果您要报告（较小的）特定页面问题，还可以使用每个页面底部的<control>本页面是否有帮助？</control>反馈表单，在点击<control>否</control>按钮后提供更多详细信息。
+            请尽量具体描述，并提供您的电子邮件地址以便进一步沟通和获取更新通知。
         </p>
         <p>
-            If you just want to share feedback on the guide, again,
-            <a href="https://youtrack.jetbrains.com/newIssue?project=IJSDK&amp;clearDraft=true&amp;c=">
-                raise an issue
-            </a>, even if it's for a discussion, ideas on improvements or suggestions.
+            如果您只是想分享对指南的反馈，同样，请通过<a href="https://youtrack.jetbrains.com/newIssue?project=IJSDK&amp;clearDraft=true&amp;c=">提出问题</a>，即使这是用于讨论、改进意见或建议。
         </p>
         <note>
             <p>
-                Please don't use the
-                <control>IJSDK</control>
-                YouTrack project for plugin or <a anchor="problems-with-products">product support</a> requests - it's
-                intended for the SDK and the documentation, and you'll get a better response using one of the methods
-                below.
+                请不要在<control>IJSDK</control> YouTrack 项目中提交插件或<a anchor="problems-with-products">产品支持</a>请求 - 它专注于 SDK 和文档，使用以下方法可以获得更好的响应。
             </p>
         </note>
     </chapter>
+
 
     <chapter title="本指南的问题" id="problems-with-the-guide-CN" switcher-key="Chinese">
         <p>如果你在使用本指南的时候遇到问题，例如内容缺失，错误或者内容混乱，请在 <a
@@ -91,25 +74,16 @@
     </chapter>
 
 
-    <chapter title="Problems with Code - Support Issues" id="problems-with-code-support-issues" switcher-key="English">
+    <chapter title="代码问题 - 支持问题" id="problems-with-code-support-issues" switcher-key="English">
         <tip>
-            <p>Please see <a href="faq.md">Plugin Development FAQ</a> and <a href="explore_api.md">Explore the IntelliJ
-                Platform API</a> for tips &amp; tricks.</p>
+            <p>请查看 <a href="faq.md">插件开发常见问题解答</a> 和 <a href="explore_api.md">探索 IntelliJ 平台 API</a> 获取技巧和窍门。</p>
         </tip>
-        <p>For questions and problems related to plugin development itself (rather than the content of this guide), you
-            have several options:</p>
+        <p>如果您有与插件开发本身相关的问题和困难（而不是本指南的内容），您有几个选择：</p>
         <list>
-            <li><a href="https://plugins.jetbrains.com/slack/">#intellij-platform on JetBrains Platform Slack</a> - this
-                chat room is a great place to ask questions about extending JetBrains products, with answers coming from
-                both JetBrains team members and members of the community
-            </li>
-            <li>
-                <a href="https://intellij-support.jetbrains.com/hc/en-us/community/topics/200366979-IntelliJ-IDEA-Open-API-and-Plugin-Development">Plugin
-                    Development Forum</a> - post a message to the support forum.
-                It is regularly updated with answers by JetBrains team members.
-            </li>
+            <li><a href="https://plugins.jetbrains.com/slack/">JetBrains 平台 Slack 上的 #intellij-platform</a> - 这个聊天室是询问有关扩展 JetBrains 产品的问题的好地方，答案来自 JetBrains 团队成员和社区成员。</li>
+            <li><a href="https://intellij-support.jetbrains.com/hc/en-us/community/topics/200366979-IntelliJ-IDEA-Open-API-and-Plugin-Development">插件开发论坛</a> - 在支持论坛上发布消息。JetBrains 团队成员定期更新答案。</li>
         </list>
-        <p>Of course, all raised questions will be used to try and improve this guide.</p>
+        <p>当然，所有提出的问题都将被用来尝试改进本指南。</p>
     </chapter>
 
     <chapter title="代码方面的问题-支持问题" id="problems-with-code-support-issues-CN" switcher-key="Chinese">

@@ -140,7 +140,7 @@ SDK 代码示例的 Gradle 构建脚本中的注释应仅引起对插件特有�
 
 对于SDK代码示例，需要对插件向导生成的默认<path>build.gradle.kts</path>文件进行一些修改：
 * 保留Gradle属性`version`（`project.version`）和`group`（`project.group`）。
-  请参阅[插件Gradle属性](creating_plugin_project.md#插件Gradle属性和插件配置文件元素)部分，了解这些Gradle属性与<path>plugin.xml</path>中的元素之间的关系。
+  请参阅[插件Gradle属性](creating_plugin_project.md#plugin-gradle-properties-and-plugin-configuration-file-elements)部分，了解这些Gradle属性与<path>plugin.xml</path>中的元素之间的关系。
 * 在[Patching DSL](tools_gradle_intellij_plugin.md#tasks-patchpluginxml)（`patchPluginXml {...}`）部分添加以下语句：
 
   ```kotlin
@@ -177,8 +177,8 @@ SDK代码示例的插件配置文件（plugin.xml）文件中元素的顺序如�
 
 ## README 文件
 
-Each code sample provided within the IntelliJ Platform SDK should contain a README file describing the sample purpose and its content.
-The [`SAMPLE_README.md`](%gh-sdk-samples-master%/SAMPLE_README.md) file contains a template that should be used as an initial draft for further writing.
+每个 IntelliJ 平台 SDK 中提供的代码示例都应包含一个 README 文件，描述示例的目的和内容。
+[`SAMPLE_README.md`](%gh-sdk-samples-master%/SAMPLE_README.md) 文件包含一个模板，应作为进一步撰写的初始草稿使用。
 
 每个<路径>README.md</路径>文件应具有相同的结构，以实现更好的导航和可读性：
 - 带有指向主要的IntelliJ SDK文档和示例引用的页面的链接的标题。

@@ -23,15 +23,13 @@
 
 ## 使用 Kotlin 开发插件的优势 {id=advantages-of-developing-a-plugin-in-kotlin}
 
-Using Kotlin to write plugins for the IntelliJ Platform is very similar to writing plugins in Java.
-Existing Java classes can be converted to their Kotlin equivalents by using the [J2K converter](https://kotlinlang.org/docs/mixing-java-kotlin-intellij.html#converting-an-existing-java-file-to-kotlin-with-j2k) (part of Kotlin plugin).
+使用 Kotlin 编写 IntelliJ 平台插件与使用 Java 编写插件非常相似。
+可以使用 [J2K 转换器](https://kotlinlang.org/docs/mixing-java-kotlin-intellij.html#converting-an-existing-java-file-to-kotlin-with-j2k)（Kotlin 插件的一部分）将现有的 Java 类转换为 Kotlin 等价类。
 
-In addition to [null safety](https://kotlinlang.org/docs/null-safety.html), [type-safe builders](https://kotlinlang.org/docs/type-safe-builders.html), and [](kotlin_coroutines.md), the Kotlin language offers many convenient features for plugin development,
-which make plugins easier to read and simpler to maintain.
-Much like [Kotlin for Android](https://kotlinlang.org/docs/android-overview.html), the IntelliJ Platform makes extensive use of callbacks, which are straightforward to express as [lambdas](https://kotlinlang.org/docs/lambdas.html) in Kotlin.
+除了 [空安全](https://kotlinlang.org/docs/null-safety.html)、[类型安全构建器](https://kotlinlang.org/docs/type-safe-builders.html) 和 [](kotlin_coroutines.md)，Kotlin 语言为插件开发提供了许多便利功能，使插件更易于阅读和维护。
+类似于 [Kotlin for Android](https://kotlinlang.org/docs/android-overview.html)，IntelliJ 平台广泛使用回调，这些回调在 Kotlin 中可以简洁地表示为 [lambda 表达式](https://kotlinlang.org/docs/lambdas.html)。
 
-Kotlin classes can be mixed in a project with existing Java code.
-This might come handy when certain APIs require the use of mentioned Kotlin Coroutines.
+Kotlin 类可以与项目中的现有 Java 代码混合使用。当某些 API 需要使用上述的 Kotlin 协程时，这可能会非常方便。
 
 ### 添加扩展 {id=adding-extensions}
 
@@ -94,8 +92,8 @@ See the <path>build.gradle.kts</path> from [kotlin_demo](%gh-sdk-samples-master%
 
 ### Kotlin标准库（stdlib） {id=kotlin-standard-library}
 
-Since Kotlin 1.4, a dependency on the standard library _stdlib_ is added automatically ([API Docs](https://kotlinlang.org/api/latest/jvm/stdlib/)).
-In nearly all cases, it is not necessary to include it in the plugin distribution as the platform already bundles it.
+自 Kotlin 1.4 起，标准库 **stdlib** 的依赖会自动添加（[API 文档](https://kotlinlang.org/api/latest/jvm/stdlib/)）。
+在几乎所有情况下，不必将其包含在插件分发中，因为平台已经捆绑了它。
 
 要选择退出，请在 <path>gradle.properties</path> 中添加以下行：
 
@@ -103,13 +101,11 @@ In nearly all cases, it is not necessary to include it in the plugin distributio
 kotlin.stdlib.default.dependency = false
 ```
 
-The presence of this Gradle property is checked by the [](tools_gradle_intellij_plugin.md) with the [](tools_gradle_intellij_plugin.md#tasks-verifypluginconfiguration) task.
-If the property is not present, a warning will be reported during the plugin configuration verification,
-as it is a common problem when Kotlin _stdlib_ gets bundled within the plugin archive.
-To bundle _stdlib_ in the plugin distribution, specify explicitly `kotlin.stdlib.default.dependency = true`.
+该 Gradle 属性的存在由 [](tools_gradle_intellij_plugin.md) 的 [](tools_gradle_intellij_plugin.md#tasks-verifypluginconfiguration) 任务检查。
+如果该属性不存在，在插件配置验证期间将报告警告，因为这通常是 Kotlin **stdlib** 被捆绑在插件归档文件中的常见问题。
+要在插件分发中捆绑 **stdlib**，请显式指定 `kotlin.stdlib.default.dependency = true`。
 
-If a plugin supports [multiple platform versions](build_number_ranges.md), it must either target the lowest bundled _stdlib_ version
-or the specific version must be [provided in plugin distribution](plugin_content.md#plugin-with-dependencies).
+如果插件支持 [多个平台版本](build_number_ranges.md)，则必须针对最低捆绑的 **stdlib** 版本，或者必须 [在插件分发中提供特定版本](plugin_content.md#plugin-with-dependencies)。
 
 有关更多详细信息，请参阅 [依赖于标准库](https://kotlinlang.org/docs/gradle.html#dependency-on-the-standard-library)。
 
@@ -117,40 +113,40 @@ or the specific version must be [provided in plugin distribution](plugin_content
 >
 {title="在测试中添加stdlib"}
 
-| IntelliJ Platform version (latest update) | Bundled _stdlib_ version |
-|-------------------------------------------|--------------------------|
-| 2024.2                                    | 1.9.24                   |
-| 2024.1                                    | 1.9.22                   |
-| 2023.3                                    | 1.9.21                   |
-| 2023.2                                    | 1.8.20                   |
-| 2023.1                                    | 1.8.0                    |
+| IntelliJ 平台版本（最新更新） | 捆绑的 **stdlib** 版本 |
+|---------------------|-------------------|
+| 2024.2              | 1.9.24            |
+| 2024.1              | 1.9.22            |
+| 2023.3              | 1.9.21            |
+| 2023.2              | 1.8.20            |
+| 2023.1              | 1.8.0             |
 
-#### Earlier Versions
+#### 更早版本
 {collapsible="true"}
 
-| IntelliJ Platform version (latest update) | Bundled _stdlib_ version |
-|-------------------------------------------|--------------------------|
-| 2022.3                                    | 1.7.22                   |
-| 2022.2                                    | 1.6.21                   |
-| 2022.1                                    | 1.6.10                   |
+| IntelliJ 平台版本（最新更新） | 捆绑的 **stdlib** 版本 |
+|------------------------------|-------------------------|
+| 2022.3                       | 1.7.22                  |
+| 2022.2                       | 1.6.21                  |
+| 2022.1                       | 1.6.10                  |
 
-See [here](https://www.jetbrains.com/legal/third-party-software/) for earlier versions.
+有关更早版本，请参见 [这里](https://www.jetbrains.com/legal/third-party-software/)。
 
-### Kotlin Coroutines Libraries (kotlinx.coroutines)
+### Kotlin协程库（kotlinx.coroutines）
 {id="coroutinesLibraries"}
 
-Plugins _must_ always use the bundled library from the target IDE and not bundle their own version.
-Please make sure it is not added via transitive dependencies either
-(see [View and Debug Dependencies](https://docs.gradle.org/current/userguide/viewing_debugging_dependencies.html) in Gradle user guide).
+插件 **必须** 总是使用目标IDE提供的捆绑库，而不是捆绑自己的版本。
+请确保它也不是通过传递依赖添加的
+（参见 [查看和调试依赖](https://docs.gradle.org/current/userguide/viewing_debugging_dependencies.html) Gradle 用户指南）。
 
-Since 2024.2, a custom [fork](https://github.com/JetBrains/intellij-deps-kotlinx.coroutines) with additional patches is bundled.
+自2024.2起，捆绑了一个带有额外补丁的自定义 [分支](https://github.com/JetBrains/intellij-deps-kotlinx.coroutines)。
 
-See [](kotlin_coroutines.md) on how to use them in plugins.
+查看 [](kotlin_coroutines.md) 关于如何在插件中使用它们。
 
-| IntelliJ Platform version | Bundled _kotlinx-coroutines_ version |
-|---------------------------|--------------------------------------|
-| 2024.2                    | 1.8.0                                |
-| 2024.1                    | 1.7.3                                |
+| IntelliJ平台版本 | 捆绑的 _kotlinx-coroutines_ 版本 |
+|--------------|-----------------------------|
+| 2024.2       | 1.8.0                       |
+| 2024.1       | 1.7.3                       |
 
 ### 其他捆绑的Kotlin库 {id=other-bundled-kotlin-libraries}
 
@@ -164,9 +160,9 @@ Kotlin Gradle插件支持 [增量编译](https://kotlinlang.org/docs/gradle-comp
 
 <tabs>
 
-<tab title="Kotlin 1.9.0 and later">
+<tab title="Kotlin 1.9.0及更高版本">
 
-No action required.
+无需采取任何操作。
 
 如果存在额外的 `kotlin.incremental.useClasspathSnapshot=false` 属性，请从 <path>gradle.properties</path> 中移除。
 
@@ -174,11 +170,11 @@ No action required.
 
 <tab title="Kotlin 1.8.20">
 
-> Please consider using Kotlin 1.9.0 or later where this issue has been resolved.
+> 请考虑使用 Kotlin 1.9.0 或更高版本，此问题已得到解决。
 
-Kotlin `1.8.20` has a [new incremental compilation approach](https://kotlinlang.org/docs/gradle-compilation-and-caches.html#a-new-approach-to-incremental-compilation) which is enabled by default.
-Unfortunately, it is not compatible with the IntelliJ Platform — when reading large JAR files (like <path>app.jar</path> or <path>3rd-party-rt.jar</path>),
-leading to an `Out of Memory` exception:
+Kotlin `1.8.20` 使用了一种 [新的增量编译方法](https://kotlinlang.org/docs/gradle-compilation-and-caches.html#a-new-approach-to-incremental-compilation)，默认已启用。
+然而，它与 IntelliJ 平台不兼容 — 当读取大型 JAR 文件（例如 <path>app.jar</path> 或 <path>3rd-party-rt.jar</path>）时，
+可能会导致 `Out of Memory` 异常：
 
 ```
 Execution failed for task ':compileKotlin'.
@@ -196,13 +192,11 @@ kotlin.incremental.useClasspathSnapshot=false
 </tab>
 </tabs>
 
-## Plugin Implementation Notes
-
-### Do not use `object` but `class`
+## 插件实施说明 {id=plugin-implementation-notes}
 
 ### 不要使用 "object" 而是 "class" 
 
-{id=do-not-use-object-but-class}
+{id="object-vs-class"}
 
 插件可以使用 [Kotlin 类](https://kotlinlang.org/docs/classes.html) (`class` 关键字) 在 [插件配置文件](plugin_configuration_file.md) 中实现声明。
 在注册扩展时，平台使用依赖注入框架在运行时实例化这些类。
@@ -216,6 +210,8 @@ kotlin.incremental.useClasspathSnapshot=false
 - <control>Plugin DevKit | Plugin descriptor | Extension class is a Kotlin object</control> 适用于 <path>plugin.xml</path>
 
 ### Do not use `companion object` in extensions
+
+{id="companion-object-extensions"}
 
 Kotlin 中的 `companion object` 会在加载其包含的类时创建，而 [扩展点的实现](plugin_extensions.md) 应该是廉价的创建。
 为了避免不必要的类加载（从而减慢 IDE 的启动速度），在扩展中的 `companion object` 只应包含简单的常量或者 [logger](ide_infrastructure.md#logging)。

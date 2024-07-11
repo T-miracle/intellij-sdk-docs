@@ -85,7 +85,7 @@ When targeting 2024.2 or later, see also [](#how-to-handle-projectactivity).
 ### How to avoid test failure when using resources?
 
 In some situations, added or changed files (e.g. XML DTDs provided by a plugin) are not refreshed in [](virtual_file_system.md).
-In such cases, simply delete <path>test-system/caches</path> in your [sandbox directory](ide_development_instance.md#开发实例沙盒目录) and try again.
+In such cases, simply delete <path>test-system/caches</path> in your [sandbox directory](ide_development_instance.md#the-development-instance-sandbox-directory) and try again.
 
 ### How to enable DEBUG/TRACE logging?
 
@@ -156,7 +156,7 @@ Use [`ExternalResourceManagerExImpl.registerResourceTemporarily()`](%gh-ic%/xml/
 
 ### How to replace component/service in tests?
 
-Provide dedicated test implementation via `testServiceImplementation` in [service declaration](plugin_services.md#获取服务), or use [`ServiceContainerUtil`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/ServiceContainerUtil.kt).
+Provide dedicated test implementation via `testServiceImplementation` in [service declaration](plugin_services.md#retrieving-a-service), or use [`ServiceContainerUtil`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/ServiceContainerUtil.kt).
 
 ### How to replace extension points in tests?
 
