@@ -49,16 +49,16 @@ See also [](marketing.md) about widgets and badges.
       - [`<keyboard-shortcut>`](#idea-plugin__actions__action__keyboard-shortcut)
       - [`<mouse-shortcut>`](#idea-plugin__actions__action__mouse-shortcut)
       - [`<override-text>`](#idea-plugin__actions__action__override-text)
-      - [`<abbreviation>`](#idea-plugin__actions__action__abbreviation)
       - [`<synonym>`](#idea-plugin__actions__action__synonym)
+      - [`<abbreviation>`](#idea-plugin__actions__action__abbreviation)
     - [`<group>`](#idea-plugin__actions__group)
       - [`<action>`](#idea-plugin__actions__action)
         - [`<add-to-group>`](#idea-plugin__actions__action__add-to-group)
         - [`<keyboard-shortcut>`](#idea-plugin__actions__action__keyboard-shortcut)
         - [`<mouse-shortcut>`](#idea-plugin__actions__action__mouse-shortcut)
         - [`<override-text>`](#idea-plugin__actions__action__override-text)
-        - [`<abbreviation>`](#idea-plugin__actions__action__abbreviation)
         - [`<synonym>`](#idea-plugin__actions__action__synonym)
+        - [`<abbreviation>`](#idea-plugin__actions__action__abbreviation)
       - [`<group>`](#idea-plugin__actions__group)
       - [`<add-to-group>`](#idea-plugin__actions__action__add-to-group)
       - [`<override-text>`](#idea-plugin__actions__action__override-text)
@@ -771,10 +771,38 @@ Examples
         use-text-of-place="MainMenu"/>
     ```
 
+##### `synonym`
+{#idea-plugin__actions__action__synonym}
+
+Defines an alternative text for searching the action in <ui-path>Help | Find Action...</ui-path> or <ui-path>Navigate | Search Everywhere</ui-path> popups.
+A single action can have multiple synonyms.
+
+{style="narrow"}
+Supported
+: 2020.3+
+
+Required
+: no
+
+Attributes
+:
+- `key`  _(`key` or `text` is **required**)_<br/>
+  The key of synonym text provided in a message bundle.
+- `text` _(`key` or `text` is **required**)_<br/>
+  The synonym text.
+
+Example
+:
+```xml
+<!-- Default action text: Delete Element -->
+<synonym key="my.action.text.remove.element"/>
+<synonym text="Remove Element"/>
+```
+
 ##### `abbreviation`
 {#idea-plugin__actions__action__abbreviation}
 
-Defines an alias for the action name which the user can use in <ui-path>Help | Find Action...</ui-path> or <ui-path>Navigate | Search Everywhere</ui-path> popups.
+Defines an abbreviation for searching the action in <ui-path>Help | Find Action...</ui-path> or <ui-path>Navigate | Search Everywhere</ui-path> popups.
 A single action can have multiple abbreviations.
 
 {style="narrow"}
@@ -788,30 +816,8 @@ The abbreviation value.
 Example
 :
 ```xml
-<abbreviation value="abc"/>
-```
-
-##### `synonym`
-{#idea-plugin__actions__action__synonym}
-
-Defines an alternative name for searching the action by name.
-A single action can have multiple synonyms.
-
-{style="narrow"}
-Supported
-: 2020.3+
-
-Required
-: no
-
-Attributes
-: - `text` _(**required**)_<br/>
-  The synonym text.
-
-Example
-:
-```xml
-<synonym text="GC"/>
+<!-- Default action text: UI Inspector -->
+<abbreviation value="uii"/>
 ```
 
 #### `group`

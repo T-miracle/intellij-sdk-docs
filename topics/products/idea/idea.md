@@ -17,10 +17,10 @@ See [Choose your edition](https://www.jetbrains.com/idea/features/#choose-your-e
 
 The configuration of IntelliJ IDEA plugin projects follows the methods described in [Configuring Plugin Projects using the IntelliJ IDEA Product Attribute](dev_alternate_products.md#configuring-plugin-projects-using-the-intellij-idea-product-attribute).
 
-| `gradle-intellij-plugin` Attribute                                               | Attribute Value                                                                                 |
-|----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
-| [`intellij.type`](tools_gradle_intellij_plugin.md#intellij-extension-type)       | <p>`IC` for IntelliJ IDEA Community Edition (default)</p><p>`IU` for IntelliJ IDEA Ultimate</p> |
-| [`intellij.version`](tools_gradle_intellij_plugin.md#intellij-extension-version) | IDE version, e.g. `2022.2`                                                                      |
+| `gradle-intellij-plugin` Attribute                                               | Attribute Value                                                                               |
+|----------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| [`intellij.type`](tools_gradle_intellij_plugin.md#intellij-extension-type)       | <p>`IC` for IntelliJ IDEA Community Edition (default)</p><p>`IU` for [](idea_ultimate.md)</p> |
+| [`intellij.version`](tools_gradle_intellij_plugin.md#intellij-extension-version) | IDE version, e.g. `2022.2`                                                                    |
 
 ## Available API
 
@@ -30,11 +30,11 @@ See [](extension_point_list.md#intellij-community-plugins) for API from bundled 
 
 ## Java
 
-See "Java" entry in table [Modules Specific to Functionality](plugin_compatibility.md#modules-specific-to-functionality) on how to use Java specific functionality.
+See [](plugin_compatibility.md#java) on how to use Java-specific functionality.
 
 [PSI Cookbook](psi_cookbook.md#java-specific) lists a number of common operations for working with Java PSI.
 
-Depending on exact functionality, a plugin can also target [UAST (Unified Abstract Syntax Tree)](uast.md) to support multiple JVM languages, including Java and Kotlin.
+Depending on exact functionality, a plugin can also target [](uast.md) to support multiple JVM languages, including Java and Kotlin.
 
 Relevant Extension Points:
 

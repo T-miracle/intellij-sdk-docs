@@ -9,7 +9,7 @@ APIs marked with @Deprecated(forRemoval=true), @ApiStatus.Experimental, @ApiStat
 
 To document a new incompatible change, add a new line with the problem pattern followed by a 2nd line with ": "-prefixed human-readable description and recommended fix/action.
 
-The following problem patterns are supported:
+The following problem patterns are supported and must be followed EXACTLY:
 
 <package name> package removed
 
@@ -90,16 +90,25 @@ JsonPath library unbundled
 : This may break source-compatibility with inheritors written in Kotlin if they declare it as nullable.
 
 `com.intellij.openapi.actionSystem.ex.ActionUtil.showDumbModeWarning(Project, AnActionEvent[])` method removed
-: Use `showDumbModeWarning(@Nullable Project project, @NotNull AnAction action, AnActionEvent @NotNull ... events)` instead
+: Use `showDumbModeWarning(@Nullable Project project, @NotNull AnAction action, AnActionEvent @NotNull ... events)` instead.
 
 `com.intellij.profiler.eventtrace` package removed
 : Update code usages.
 
 `org.jetbrains.plugins.gradle.service.project.GradleProjectResolverUtil.buildDependencies(ProjectResolverContext, Map, Map, DataNode, Collection, DataNode)` method parameter type changed from `Map<String, String>` to `ArtifactMappingService`
-: Update usages of this method. Change parameter `artifactsMap` value to an `ArtifactMappingService` instance. It can be obtained from `ProjectResolverContext`, or created in-place using the `MapBasedArtifactMappingService`
+: Update usages of this method. Change parameter `artifactsMap` value to an `ArtifactMappingService` instance. It can be obtained from `ProjectResolverContext`, or created in-place using the `MapBasedArtifactMappingService`.
 
 `org.jetbrains.plugins.gradle.service.project.GradleProjectResolver.CONFIGURATION_ARTIFACTS` field removed
 : Related mapping information is no longer accessible using this key. Artifacts mapping data is now stored in the instance of the `ArtifactMappingService` and can be obtained via `org.jetbrains.plugins.gradle.service.project.ProjectResolverContext#getArtifactsMap()`.
+
+`com.intellij.ide.plugins.enums.PluginsGroupType.FEATURED` enum renamed to `com.intellij.ide.plugins.enums.PluginsGroupType.STAFF_PICKS`
+: Use `com.intellij.ide.plugins.enums.PluginsGroupType.STAFF_PICKS` instead.
+
+`com.intellij.ide.plugins.newui.SearchWords.ORGANIZATION` enum renamed to `com.intellij.ide.plugins.newui.SearchWords.VENDOR`
+: Use `com.intellij.ide.plugins.newui.SearchWords.VENDOR` instead.
+
+`com.intellij.execution.console.ConsoleHistoryCopyHandler.PROMPT_LENGTH_MARKER` field removed
+: Use `com.intellij.execution.console.ConsoleHistoryCopyHandlerKt#PROMPT_LENGTH_MARKER` instead.
 
 ### Collaboration Tools Module 2023.3
 
@@ -142,6 +151,9 @@ JsonPath library unbundled
 `com.intellij.collaboration.ui.codereview.details.model.CodeReviewChangesViewModelBase` class removed
 : Incorrect EDT-reliant implementation removed.
 
+`com.intellij.collaboration.async.CoroutineUtilKt.DisposingScope(Disposable, CoroutineContext)` method removed
+: Use `com.intellij.collaboration.async.CoroutineUtilKt.disposingScope(CoroutineContext)` instead.
+
 ### Java Plugin 2023.3
 
 `com.siyeh.ipp.base.Intention` class removed
@@ -182,6 +194,13 @@ Fragment builder functions from `ExternalSystemRunConfigurationUtil` file moved 
 
 `org.jetbrains.kotlin.idea.actions.JavaToKotlinAction.Companion` class renamed to `org.jetbrains.kotlin.idea.actions.JavaToKotlinAction.Handler`
 : In order to not load additional code eagerly on action instantiation.
+
+`org.jetbrains.kotlin.idea.compiler.configuration.KotlinIdePluginVersion.Companion` class removed
+: Now, the Kotlin plugin version does not include a compiler version, so the class is unnecessary. Use `com.intellij.openapi.application.ApplicationInfo` to get the IntelliJ version.
+
+`org.jetbrains.kotlin.idea.compiler.configuration.KotlinIdePluginVersion` class removed
+: Now, the Kotlin plugin version does not include a compiler version, so the class is unnecessary. Use `com.intellij.openapi.application.ApplicationInfo` to get the IntelliJ version.
+
 
 ### Markdown Plugin 2023.3
 
@@ -232,9 +251,21 @@ Fragment builder functions from `ExternalSystemRunConfigurationUtil` file moved 
 `org.jetbrains.plugins.notebooks.jupyter.variables` package removed
 : It is now part of separate _Jupyter_ plugin.
 
+`com.jetbrains.python.psi.PyClass.getPropertiesInherited(TypeEvalContext)` abstract method added
+: Should implement this method.
+
 ### Database Plugin 2023.3
 
 `com.intellij.database.datagrid.DataGrid.getName(ModelIndex<GridColumn>)` method removed
+: Only recompilation is needed for classes that implement `DataGrid` and delegate calls to an actual `DataGrid` implementation.
+
+`com.intellij.database.datagrid.DataGrid.setDisplayType(ModelIndex<GridColumn>, DisplayType)` abstract method added
+: Only recompilation is needed for classes that implement `DataGrid` and delegate calls to an actual `DataGrid` implementation.
+
+`com.intellij.database.datagrid.DataGrid.getDisplayType(ModelIndex<GridColumn>)` abstract method added
+: Only recompilation is needed for classes that implement `DataGrid` and delegate calls to an actual `DataGrid` implementation.
+
+`com.intellij.database.datagrid.DataGrid.getPureDisplayType(ModelIndex<GridColumn>)` abstract method added
 : Only recompilation is needed for classes that implement `DataGrid` and delegate calls to an actual `DataGrid` implementation.
 
 `com.intellij.database.datagrid.DataGrid.setBinaryDisplayType(ModelIndex<GridColumn>, BinaryDisplayType)` method removed
@@ -270,7 +301,7 @@ Specify `displayName`/`key` for `Configurable`
 `com.intellij.database.dataSource.DataSourceStorageCore$Listener` class renamed to `com.intellij.database.dataSource.DataSourceStorage$Listener`
 : `Core` class removed from hierarchy.
 
-`com.intellij.database.datagrid.CoreGrid(ModelIndex<Row>, ModelIndex<Column>)` method parameter type changed from `ModelIndex<Row>` to `int`
+`com.intellij.database.datagrid.CoreGrid.showCell(ModelIndex<Row>, ModelIndex<Column>)` method parameter type changed from `ModelIndex<Row>` to `int`
 : `ModelIndex` class is used to reference data in the table model. Row indexes in the table model start with 0, even when the table is scrolled to page _N>1_. Parameter type was changed to `int` to indicate that it is an absolute index in the DB table.
 
 `com.intellij.database.datagrid.DataGrid.getName(ModelIndex<GridColumn>)` abstract method added
