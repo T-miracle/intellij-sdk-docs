@@ -5,11 +5,11 @@
 
 <snippet id="missingContent">
 
-> 如果您对上述部分未涵盖的主题感兴趣，请通过下方的**此页面是否有帮助？**反馈表格或[其他渠道](getting_help.topic#problems-with-the-guide)让我们知道。
+> 如果您对上述部分未涵盖的主题感兴趣，请通过下方的 **此页面是否有帮助？** 反馈表格或[其他渠道](getting_help.topic#problems-with-the-guide)让我们知道。
 >
 > 请在添加主题时具体说明主题和添加原因，并在需要更多详细信息时留下您的电子邮件地址。感谢您的反馈！
 >
-{title="Something missing?" style="note"}
+{title="缺少什么吗？" style="note"}
 
 </snippet>
 
