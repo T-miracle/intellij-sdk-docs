@@ -54,8 +54,7 @@ Where the placeholders must be enclosed in code quotes (`name`):
 <property name> is a full name of a property from .properties file, like `some.action.description`
 <bundle name> is a fully qualified name of the property bundle, which includes its package, like `message.IdeBundle`
 
-NOTE: If a code change you're trying to document doesn't match any of the above patterns, fill in a ticket in the YouTrack.
-An example of a ticket is https://youtrack.jetbrains.com/issue/MP-1218. Until supported, you may document the change as you prefer, and I will correct it later.
+NOTE: If a code change you're trying to document doesn't match any of the above patterns, please ask in #plugins-verifier
 
 NOTE: You are allowed to prettify the pattern using links: [`org.example.Foo`](https://github.com/JetBrains/intellij-community/tree/master/)
 
@@ -80,6 +79,9 @@ NOTE: Entries not starting with code quotes (`name`) can be added to document no
 ## 2024.2
 
 ### IntelliJ Platform 2024.2
+
+`com.intellij.execution.lineMarker.ExecutorAction.Companion.wrap(RunContextAction, Int)` method removed
+: Use `com.intellij.execution.lineMarker.ExecutorAction.Companion.wrap(AnAction, Executor, Int)` instead.
 
 `org.apache.sanselan.util` package removed
 : `org.apache.sanselan.util.IOUtils` compatibility shim is obsolete; instead, please use JRE methods or `org.apache.commons.io.IOUtils`.
@@ -119,6 +121,11 @@ NOTE: Entries not starting with code quotes (`name`) can be added to document no
 
 `com.intellij.database.datagrid.DataGrid.adaptForNewQuery()` abstract method added
 : Only recompilation is needed for classes that implement `DataGrid` and delegate calls to an actual `DataGrid` implementation.
+
+### HTTP Client Plugin 2024.2
+
+`com.intellij.httpClient.http.request.HttpRequestPsiConverter.toRequestConfig(HttpRequest)` method visibility changed from `public` to `private`
+: This method is an implementation detail.
 
 ## 2024.1
 

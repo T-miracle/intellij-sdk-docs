@@ -4,8 +4,6 @@
 
 <link-summary>IntelliJ Platform Gradle Plugin 2.x migration guide from Gradle IntelliJ Plugin 1.x</link-summary>
 
-<include from="tools_intellij_platform_gradle_plugin.md" element-id="Beta_Status"/>
-
 ## Plugin Name Change
 
 As the **2.x** branch brings significant breaking changes to the plugin, the name was changed from _Gradle IntelliJ Plugin_ to
@@ -163,11 +161,33 @@ Access the [`ProductInfo`](tools_intellij_platform_gradle_plugin_types.md#Produc
 
 ### `downloadRobotServerPlugin`
 
-The Robot Server Plugin integration is not yet available. See [`testIdeUi`](tools_intellij_platform_gradle_plugin_tasks.md#testIdeUi).
+The Robot Server Plugin can now be downloaded using `plugins { robotServerPlugin() }` dependency helper when declaring a custom task.
+
 
 ### `runIdeForUiTests`
 
-Use [`testIdeUi`](tools_intellij_platform_gradle_plugin_tasks.md#testIdeUi).
+The `runIdeForUiTests` task is obsolete and should be replaced with an explicit declaration.
+
+The task running IDE with the Robot Server Plugin should be declared now as a custom `runIde` task with plugin loaded:
+
+```kotlin
+val runIdeForUiTests by intellijPlatformTesting.runIde.registering {
+  task {
+    jvmArgumentProviders += CommandLineArgumentProvider {
+      listOf(
+        "-Drobot-server.port=8082",
+        "-Dide.mac.message.dialogs.as.sheets=false",
+        "-Djb.privacy.policy.text=<!--999.999-->",
+        "-Djb.consents.confirmation.enabled=false",
+      )
+    }
+  }
+
+  plugins {
+    robotServerPlugin()
+  }
+}
+```
 
 ### `runPluginVerifier`
 

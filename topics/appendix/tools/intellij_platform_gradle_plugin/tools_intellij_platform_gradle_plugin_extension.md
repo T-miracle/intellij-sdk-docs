@@ -4,7 +4,6 @@
 
 <link-summary>IntelliJ Platform Gradle Plugin extension.</link-summary>
 
-<include from="tools_intellij_platform_gradle_plugin.md" element-id="Beta_Status"/>
 <include from="tools_intellij_platform_gradle_plugin.md" element-id="faq"/>
 
 The _IntelliJ Platform Gradle Plugin_ introduces a top-level `intellijPlatform` extension.
@@ -226,7 +225,7 @@ See also:
 Configures the plugin definition and stores values in the `plugin.xml` file.
 Data provided to the `intellijPlatform.pluginConfiguration {}` extension is passed to the [`patchPluginXml`](tools_intellij_platform_gradle_plugin_tasks.md#patchPluginXml) task, which augments the <path>plugin.xml</path> file with new values.
 
-Requires the [](tools_intellij_platform_gradle_plugin_plugins.md#build) plugin to be applied.
+Requires the [](tools_intellij_platform_gradle_plugin_plugins.md#platform) plugin to be applied.
 
 **Example:**
 
@@ -371,6 +370,7 @@ intellijPlatform {
       releaseDate = "20240217"
       releaseVersion = "20241"
       optional = false
+      eap = false
     }
   }
 }
@@ -435,6 +435,25 @@ See also:
 The boolean value that indicates if the plugin is a [Freemium](https://plugins.jetbrains.com/docs/marketplace/freemium.html) plugin.
 
 The provided value is used for the `<product-descriptor optional="">` element attribute.
+
+{style="narrow"}
+Type
+: `Property<Boolean>`
+
+Default value
+: `false`
+
+See also:
+- [Tasks: `patchPluginXml.productDescriptorOptional`](tools_intellij_platform_gradle_plugin_tasks.md#patchPluginXml-productDescriptorOptional)
+- [Plugin Configuration File: `product-descriptor`](plugin_configuration_file.md#idea-plugin__product-descriptor)
+
+
+### `eap`
+{#intellijPlatform-pluginConfiguration-productDescriptor-eap}
+
+Specifies the boolean value determining whether the plugin is an EAP release.
+
+The provided value is used for the `<product-descriptor eap="">` element attribute.
 
 {style="narrow"}
 Type
@@ -593,7 +612,7 @@ See also:
 Configures the publishing process of the plugin.
 All values are passed to the [](tools_intellij_platform_gradle_plugin_tasks.md#publishPlugin) task.
 
-Requires the [](tools_intellij_platform_gradle_plugin_plugins.md#publish) plugin to be applied.
+Requires the [](tools_intellij_platform_gradle_plugin_plugins.md#platform) plugin to be applied.
 
 **Example:**
 
@@ -698,7 +717,7 @@ See also:
 
 Plugin signing configuration.
 
-Requires the [](tools_intellij_platform_gradle_plugin_plugins.md#publish) plugin to be applied.
+Requires the [](tools_intellij_platform_gradle_plugin_plugins.md#platform) plugin to be applied.
 
 **Example:**
 
@@ -893,7 +912,7 @@ See also:
 
 IntelliJ Plugin Verifier CLI tool configuration.
 
-Requires the [](tools_intellij_platform_gradle_plugin_plugins.md#verify) plugin to be applied.
+Requires the [](tools_intellij_platform_gradle_plugin_plugins.md#platform) plugin to be applied.
 
 **Example:**
 

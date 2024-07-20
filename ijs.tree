@@ -73,7 +73,7 @@
         <toc-element topic="coroutine_dispatchers.md"/>
         <toc-element topic="launching_coroutines.md"/>
         <toc-element topic="coroutine_execution_contexts.md"/>
-        <toc-element topic="coroutine_read_actions.md"/>
+        <toc-element topic="coroutine_read_actions.topic"/>
         <toc-element topic="coroutine_tips_and_tricks.md"/>
         <toc-element topic="coroutine_dumps.md"/>
       </toc-element>
@@ -423,15 +423,16 @@
     <toc-element topic="tools_intellij_platform_gradle_plugin.md">
       <toc-element topic="tools_intellij_platform_gradle_plugin_plugins.md"/>
       <toc-element topic="tools_intellij_platform_gradle_plugin_extension.md"/>
+      <toc-element topic="tools_intellij_platform_gradle_plugin_testing_extension.md"/>
       <toc-element topic="tools_intellij_platform_gradle_plugin_repositories_extension.md"/>
       <toc-element topic="tools_intellij_platform_gradle_plugin_dependencies_extension.md"/>
       <toc-element topic="tools_intellij_platform_gradle_plugin_tasks.md"/>
-      <toc-element topic="tools_intellij_platform_gradle_plugin_custom_tasks.md"/>
       <toc-element topic="tools_intellij_platform_gradle_plugin_task_awares.md"/>
       <toc-element topic="tools_intellij_platform_gradle_plugin_types.md"/>
       <toc-element topic="tools_intellij_platform_gradle_plugin_gradle_properties.md"/>
       <toc-element topic="tools_intellij_platform_gradle_plugin_jetbrains_runtime.md"/>
       <toc-element topic="tools_intellij_platform_gradle_plugin_migration.md"/>
+      <toc-element topic="tools_intellij_platform_gradle_plugin_recipies.md"/>
       <toc-element topic="tools_intellij_platform_gradle_plugin_faq.md" toc-title="Frequently Asked Questions"/>
     </toc-element>
     <toc-element topic="tools_gradle_grammar_kit_plugin.md"/>
