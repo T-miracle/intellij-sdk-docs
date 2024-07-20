@@ -1,134 +1,120 @@
 <!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Inlay Hints
+# 内联提示
 
-<link-summary>Providing additional code information directly in the editor without changing the document content.</link-summary>
+<link-summary>在不更改文档内容的情况下，直接在编辑器中提供额外的代码信息。</link-summary>
 
 <tldr>
 
-**Product Help:** [Inlay Hints](https://www.jetbrains.com/help/idea/inlay-hints.html)
+**产品帮助：** [内联提示](https://www.jetbrains.com/help/idea/inlay-hints.html)
 
 </tldr>
 
-Inlay hints render small pieces of information directly into the editor and give developers additional code insight without disturbing the workflow.
-A well-known example is parameter hints that usually display the name of the function parameters as given in its declaration.
-They are closely related to [](parameter_info.md) which shows parameter types for all possible overloads of a function but opens as a popup overlaying the code.
+内联提示将小块信息直接渲染到编辑器中，为开发者提供额外的代码洞察而不会打断工作流程。
+一个常见的示例是参数提示，通常显示函数参数的名称，如其声明中所示。
+它们与 [参数信息](parameter_info.md) 紧密相关，后者显示函数所有可能重载的参数类型，但以弹出窗口的形式覆盖在代码上。
 
-Inlay hints are flexible and have a wide range of applications in the IntelliJ Platform.
-For instance, the following are well-known examples where inlay hints are used:
+内联提示具有灵活性，并在 IntelliJ Platform 中有广泛的应用。
+例如，以下是使用内联提示的知名示例：
 
-- Java uses inlays to display type annotations in Java chained method calls.
-- Kotlin uses inlays in range expressions to show, e.g. less-than, or less-than-or-equal signs to let developers know if intervals are inclusive or exclusive.
-- In version-controlled projects, the author of the code is shown using inlay hints.
+- Java 使用内联提示在 Java 链式方法调用中显示类型注解。
+- Kotlin 在区间表达式中使用内联提示显示小于或小于等于符号，以便开发者了解区间是包含还是不包含。
+- 在版本控制的项目中，代码的作者使用内联提示显示。
 
-## Implementation
+## 实现 {id=implementation}
 
-The main characteristic of the inlay is the way it is displayed in the editor:
-- **inline** - inlays displayed in the code between code tokens
-- **block** - inlays displayed above a code block
+内联提示的主要特征是其在编辑器中的显示方式：
+- **内联** - 内联提示显示在代码令牌之间
+- **块状** - 内联提示显示在代码块上方
 
-Depending on the requirements and target IntelliJ Platform version, there are several extension points to choose from, when implementing inlay hints.
+根据需求和目标 IntelliJ Platform 版本，实施内联提示时可以选择多个扩展点。
 
-This section describes the available APIs and their use cases.
+本节描述了可用的 API 及其使用案例。
 
-> To inspect existing Inlays in the IDE, use [UI Inspector](internal_ui_inspector.md#editor).
-> Corresponding entries from <ui-path>Settings | Editor | Inlay Hints</ui-path> are also available from [](internal_ui_inspector.md#inspecting-settings).
+> 要检查 IDE 中现有的内联提示，请使用 [UI 检查器](internal_ui_inspector.md#editor)。
+> 对应的设置项可从 <ui-path>Settings | Editor | Inlay Hints</ui-path> 获得，也可以从 [](internal_ui_inspector.md#inspecting-settings) 中查看。
 
-### Inlay Parameter Hints Provider
+### 内联参数提示提供者 {id=inlay-parameter-hints-provider}
 
-Inlay parameter hints are simple string **inline** inlays placed before parameter names in method and function calls.
-It is not possible to provide advanced presentation and behavior of inlay parameter hints.
+内联参数提示是简单的字符串 **内联** 提示，放置在方法和函数调用的参数名称之前。
+无法提供高级的展示和行为自定义。
 
-To provide inlay parameter hints, implement
+要提供内联参数提示，需实现
 [`InlayParameterHintsProvider`](%gh-ic%/platform/lang-api/src/com/intellij/codeInsight/hints/InlayParameterHintsProvider.java)
-and register it in `com.intellij.codeInsight.parameterNameHints` extension point (EP).
-The API documentation of `InlayParameterHintsProvider` explains in detail the rationale behind all methods.
+并在 `com.intellij.codeInsight.parameterNameHints` 扩展点 (EP) 中注册。
+`InlayParameterHintsProvider` 的 API 文档详细解释了所有方法的设计 rationale。
 
-**Examples:**
-- [`GroovyInlayParameterHintsProvider`](%gh-ic%/plugins/groovy/src/org/jetbrains/plugins/groovy/codeInsight/hint/GroovyInlayParameterHintsProvider.kt) - shows parameter hints in Groovy code
-- [`KotlinInlayParameterHintsProvider`](%gh-ic%/plugins/kotlin/idea/src/org/jetbrains/kotlin/idea/codeInsight/hints/KotlinInlayParameterHintsProvider.kt) - shows parameter hints in Kotlin code
+**示例：**
+- [`GroovyInlayParameterHintsProvider`](%gh-ic%/plugins/groovy/src/org/jetbrains/plugins/groovy/codeInsight/hint/GroovyInlayParameterHintsProvider.kt) - 在 Groovy 代码中显示参数提示
+- [`KotlinInlayParameterHintsProvider`](%gh-ic%/plugins/kotlin/idea/src/org/jetbrains/kotlin/idea/codeInsight/hints/KotlinInlayParameterHintsProvider.kt) - 在 Kotlin 代码中显示参数提示
 
-To suppress inlay parameter hints in specific places, implement
+要在特定位置抑制内联参数提示，实现
 [`ParameterNameHintsSuppressor`](%gh-ic%/platform/lang-api/src/com/intellij/codeInsight/hints/ParameterNameHintsSuppressor.kt)
-and register it in `com.intellij.codeInsight.parameterNameHintsSuppressor` EP.
+并在 `com.intellij.codeInsight.parameterNameHintsSuppressor` EP 中注册。
 
-### Declarative Inlay Hints Provider
-<primary-label ref="2023.1"/>
+### 声明式内联提示提供者 {id=declarative-inlay-hints-provider}
 
-Declarative inlay hints are **inline** textual inlays that can hold expandable list of clickable items.
-Please note this API has limited presentation customization possibilities due to its UI-independent design, which allows utilizing it by different frontend technologies (not only in Swing).
+声明式内联提示是 **内联** 文本提示，可以包含可展开的可点击项列表。
+请注意，由于其与 UI 无关的设计，该 API 的展示定制可能性有限，这允许其由不同的前端技术（不仅仅是 Swing）使用。
 
-To provide declarative inlay hints implement declarative
+要提供声明式内联提示，实现声明式
 [`InlayHintsProvider`](%gh-ic%/platform/lang-api/src/com/intellij/codeInsight/hints/declarative/InlayHintsProvider.kt)
-and register it in `com.intellij.codeInsight.declarativeInlayProvider` EP.
-See the API documentation for the details.
+并在 `com.intellij.codeInsight.declarativeInlayProvider` 扩展点 (EP) 中注册。
+有关详细信息，请参见 API 文档。
 
-**Examples:**
-- [`JavaImplicitTypeDeclarativeInlayHintsProvider`](%gh-ic%/java/java-impl/src/com/intellij/codeInsight/hints/JavaImplicitTypeDeclarativeInlayHintsProvider.kt) - shows inferred type for variables declared with the `var` keyword in Java code when the inferred type may not be clear
-- [`JavaMethodChainsDeclarativeInlayProvider`](%gh-ic%/java/java-impl/src/com/intellij/codeInsight/hints/JavaMethodChainsDeclarativeInlayProvider.kt) - shows method return types in call chains in Java code
+**示例：**
+- [`JavaImplicitTypeDeclarativeInlayHintsProvider`](%gh-ic%/java/java-impl/src/com/intellij/codeInsight/hints/JavaImplicitTypeDeclarativeInlayHintsProvider.kt) - 在 Java 代码中显示用 `var` 关键字声明的变量的推断类型，当推断类型可能不清晰时
+- [`JavaMethodChainsDeclarativeInlayProvider`](%gh-ic%/java/java-impl/src/com/intellij/codeInsight/hints/JavaMethodChainsDeclarativeInlayProvider.kt) - 在 Java 代码中的方法调用链中显示方法返回类型
 
-### Code Vision Provider
-<primary-label ref="2022.1"/>
+### 代码视图提供者 {id=code-vision-provider}
 
-> This API is still in experimental state and may be changed without preserving backward compatibility.
+> 此 API 仍处于实验状态，可能会在不保持向后兼容的情况下进行更改。
 >
 {style="note"}
 
-Code vision provider allows for providing **block** inlay hints for elements like class, method, field, etc.
-If there are multiple hints provided for a single element, all will be displayed in the same line to save vertical space.
+代码视图提供者允许为类、方法、字段等元素提供 **块状** 内联提示。
+如果为单个元素提供了多个提示，则所有提示将显示在同一行上以节省垂直空间。
 
-Code vision hints can be displayed over the element, or on the right, at the end of line.
-It is configurable by users in <ui-path>Settings | Editor | Inlay Hints | Code vision</ui-path> by choosing a value in <control>Default position for metrics</control> combo box, or by selecting <control>Position</control> in specific provider entries.
+代码视图提示可以显示在元素上方或右侧行末。
+用户可以在 <ui-path>Settings | Editor | Inlay Hints | Code vision</ui-path> 中通过选择 <control>Default position for metrics</control> 组合框中的值，或通过在特定提供者条目中选择 <control>Position</control> 来配置位置。
 
-There are three extension points for implementing a code vision provider:
-- [`DaemonBoundCodeVisionProvider`](%gh-ic%/platform/lang-impl/src/com/intellij/codeInsight/hints/codeVision/DaemonBoundCodeVisionProvider.kt) registered in `com.intellij.codeInsight.daemonBoundCodeVisionProvider` EP
-- [`CodeVisionProvider`](%gh-ic%/platform/lang-impl/src/com/intellij/codeInsight/codeVision/CodeVisionProvider.kt) registered in `com.intellij.codeInsight.codeVisionProvider` EP
-- [`CodeVisionGroupSettingProvider`](%gh-ic%/platform/lang-impl/src/com/intellij/codeInsight/codeVision/settings/CodeVisionGroupSettingProvider.kt) registered in `com.intellij.config.codeVisionGroupSettingProvider` EP
+实现代码视图提供者有三个扩展点：
+- [`DaemonBoundCodeVisionProvider`](%gh-ic%/platform/lang-impl/src/com/intellij/codeInsight/hints/codeVision/DaemonBoundCodeVisionProvider.kt) 注册在 `com.intellij.codeInsight.daemonBoundCodeVisionProvider` 扩展点 (EP)
+- [`CodeVisionProvider`](%gh-ic%/platform/lang-impl/src/com/intellij/codeInsight/codeVision/CodeVisionProvider.kt) 注册在 `com.intellij.codeInsight.codeVisionProvider` 扩展点 (EP)
+- [`CodeVisionGroupSettingProvider`](%gh-ic%/platform/lang-impl/src/com/intellij/codeInsight/codeVision/settings/CodeVisionGroupSettingProvider.kt) 注册在 `com.intellij.config.codeVisionGroupSettingProvider` 扩展点 (EP)
 
-`DaemonBoundCodeVisionProvider` API should be used in cases when code vision entries are related to PSI, so that calculated values are invalidated and recalculated on PSI changes.
+`DaemonBoundCodeVisionProvider` API 应在代码视图条目与 PSI 相关的情况下使用，以便在 PSI 更改时使计算值无效并重新计算。
 
-`CodeVisionProvider` API should be used for cases when presented information doesn't depend on the PSI.
+`CodeVisionProvider` API 应在呈现的信息不依赖于 PSI 的情况下使用。
 
-The `CodeVisionGroupSettingProvider` is necessary for displaying the name and description of the code vision provider in the settings.
-The `groupId` must match the value specified in the implementation of the `CodeVisionProvider`; if not specified, it defaults to the `id`.
-The `groupName` is the name shown in the code vision group, and the `description` will be visible in the right details panel.
+`CodeVisionGroupSettingProvider` 是在设置中显示代码视图提供者的名称和描述所必需的。
+`groupId` 必须与 `CodeVisionProvider` 实现中指定的值匹配；如果未指定，则默认为 `id`。
+`groupName` 是在代码视图组中显示的名称，`description` 将在右侧详细信息面板中可见。
 
-**Examples:**
-- [`JavaInheritorsCodeVisionProvider`](%gh-ic%/java/java-impl/src/com/intellij/codeInsight/daemon/impl/JavaInheritorsCodeVisionProvider.kt) - shows number of Java class or method inheritors. Clicking the inlay hint opens the list of inheritors. This provider is `DaemonBoundCodeVisionProvider`.
-- [`JavaReferencesCodeVisionProvider`](%gh-ic%/java/java-impl/src/com/intellij/codeInsight/daemon/impl/JavaReferencesCodeVisionProvider.kt) - shows number of usages of Java class or member. Clicking the inlay opens the list of usages or navigates to the usage if only one exists. This provider is `DaemonBoundCodeVisionProvider`.
-- [`VcsCodeVisionProvider`](%gh-ic%/platform/vcs-impl/src/com/intellij/codeInsight/hints/VcsCodeVisionProvider.kt) - shows the author of a given element, e.g., class or method, based on VCS information. This provider is `CodeVisionProvider`.
+**示例：**
+- [`JavaInheritorsCodeVisionProvider`](%gh-ic%/java/java-impl/src/com/intellij/codeInsight/daemon/impl/JavaInheritorsCodeVisionProvider.kt) - 显示 Java 类或方法的继承者数量。点击内联提示将打开继承者列表。该提供者是 `DaemonBoundCodeVisionProvider`。
+- [`JavaReferencesCodeVisionProvider`](%gh-ic%/java/java-impl/src/com/intellij/codeInsight/daemon/impl/JavaReferencesCodeVisionProvider.kt) - 显示 Java 类或成员的使用次数。点击内联提示将打开使用列表，或如果只有一个使用实例，则导航到该使用实例。该提供者是 `DaemonBoundCodeVisionProvider`。
+- [`VcsCodeVisionProvider`](%gh-ic%/platform/vcs-impl/src/com/intellij/codeInsight/hints/VcsCodeVisionProvider.kt) - 基于 VCS 信息显示给定元素（例如类或方法）的作者。该提供者是 `CodeVisionProvider`。
 
-### Inlay Hints Provider
+### 内联提示提供者 {id=inlay-hints-provider}
 
-Inlay hints provider allows for implementing both **inline** and **block** inlay hints with custom presentation and behavior.
-See the API documentation for the details.
+内联提示提供者允许实现自定义展示和行为的 **内联** 和 **块状** 内联提示。有关详细信息，请参见 API 文档。
 
-> For implementing **inline** inlay hints in versions 2023.1 and newer, [](#declarative-inlay-hints-provider) is recommended.
+> 对于在 2023.1 及更高版本中实现 **内联** 内联提示，建议使用 [](#declarative-inlay-hints-provider)。
 >
-> For implementing **block** inlay hints in versions 2022.1 and newer, [](#code-vision-provider) is recommended.
+> 对于在 2022.1 及更高版本中实现 **块状** 内联提示，建议使用 [](#code-vision-provider)。
 >
-{title="Deprecation Notice" style="warning"}
+{title="弃用通知" style="warning"}
 
-To provide inlay hints, implement
-[`InlayHintsProvider`](%gh-ic%/platform/lang-api/src/com/intellij/codeInsight/hints/InlayHintsProvider.kt)
-and register it in `com.intellij.codeInsight.inlayProvider` EP.
-See the API documentation for the details.
+要提供内联提示，实现 [`InlayHintsProvider`](%gh-ic%/platform/lang-api/src/com/intellij/codeInsight/hints/InlayHintsProvider.kt) 并在 `com.intellij.codeInsight.inlayProvider` 扩展点 (EP) 中注册。有关详细信息，请参见 API 文档。
 
-**Examples:**
-- [`GroovyLocalVariableTypeHintsInlayProvider`](%gh-ic%/plugins/groovy/src/org/jetbrains/plugins/groovy/codeInsight/hint/types/GroovyLocalVariableTypeHintsInlayProvider.kt) - shows local variable types in Groovy code
-- [`MarkdownTableInlayProvider`](%gh-ic%/plugins/markdown/core/src/org/intellij/plugins/markdown/editor/tables/ui/MarkdownTableInlayProvider.kt) - _decorates_ tables in Markdown files.
-- For a more complex example, see
-  [`KotlinLambdasHintsProvider`](%gh-ic%/plugins/kotlin/idea/src/org/jetbrains/kotlin/idea/codeInsight/hints/KotlinLambdasHintsProvider.kt),
-  its parent class and all implementations.
+**示例：**
+- [`GroovyLocalVariableTypeHintsInlayProvider`](%gh-ic%/plugins/groovy/src/org/jetbrains/plugins/groovy/codeInsight/hint/types/GroovyLocalVariableTypeHintsInlayProvider.kt) - 显示 Groovy 代码中的局部变量类型
+- [`MarkdownTableInlayProvider`](%gh-ic%/plugins/markdown/core/src/org/intellij/plugins/markdown/editor/tables/ui/MarkdownTableInlayProvider.kt) - _装饰_ Markdown 文件中的表格。
+- 复杂示例请参见 [`KotlinLambdasHintsProvider`](%gh-ic%/plugins/kotlin/idea/src/org/jetbrains/kotlin/idea/codeInsight/hints/KotlinLambdasHintsProvider.kt)，以及其父类和所有实现。
 
-### Further Tips
+### 进一步提示
 
-1. Go to
-   <ui-path>Settings | Editor | Inlay Hints</ui-path> ([Product Help](https://www.jetbrains.com/help/idea/inlay-hints.html)) and check out inlays that have already been implemented.
-2. To support multiple languages with a single type of inlay hints, see declarative
-   [`InlayHintsProviderFactory`](%gh-ic%/platform/lang-api/src/com/intellij/codeInsight/hints/declarative/InlayHintsProviderFactory.kt) (2023.1+)
-   or
-   [`InlayHintsProviderFactory`](%gh-ic%/platform/lang-api/src/com/intellij/codeInsight/hints/InlayHintsProviderFactory.kt) (pre-2023.1).
-3. For testing inlay hints, see
-   [`InlayHintsProviderTestCase`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/utils/inlays/InlayHintsProviderTestCase.kt)
-   and [`InlayParameterHintsTest`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/utils/inlays/InlayParameterHintsTest.kt).
+1. 前往 <ui-path>Settings | Editor | Inlay Hints</ui-path> ([产品帮助](https://www.jetbrains.com/help/idea/inlay-hints.html))，查看已实现的内联提示。
+2. 要支持多种语言的单一类型的内联提示，请参见声明式 [`InlayHintsProviderFactory`](%gh-ic%/platform/lang-api/src/com/intellij/codeInsight/hints/declarative/InlayHintsProviderFactory.kt)（2023.1+）或 [`InlayHintsProviderFactory`](%gh-ic%/platform/lang-api/src/com/intellij/codeInsight/hints/InlayHintsProviderFactory.kt)（2023.1 之前）。
+3. 要测试内联提示，请参见 [`InlayHintsProviderTestCase`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/utils/inlays/InlayHintsProviderTestCase.kt) 和 [`InlayParameterHintsTest`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/utils/inlays/InlayParameterHintsTest.kt)。
