@@ -12,6 +12,27 @@ See [GitHub Changelog](https://github.com/JetBrains/intellij-sdk-docs/commits/ma
 
 ## 2024
 
+### August
+{august-24}
+
+Workspace Model
+: [](workspace_model.md) represents the project's structure and all its elements and replaces the existing [](project_model.md).
+
+Minor Changes and Additions
+:
+- Updated list of [supported features](language_server_protocol.md#supported-features) for Language Server Protocol (LSP).
+
+### July
+{july-24}
+
+Threading Model
+:
+Revamp the [Threading Model](threading_model.md) page (formerly _General Threading Rules_) and add a new page describing [background processes](background_processes.md), including cancellation and progress tracking.
+
+Coroutines Read Actions
+:
+Added FAQ section and explanation of [why suspending inside the block is not allowed](coroutine_read_actions.topic#why-can-t-i-suspend-inside-the-block).
+
 ### June
 {june-24}
 
@@ -98,7 +119,7 @@ Inlay Hints
 : Update [](inlay_hints.md) page with the information about new APIs.
 
 Threading Model
-: Update [](general_threading_rules.md) to reflect changes in 2023.3 platform.
+: Update [](threading_model.md) to reflect changes in 2023.3 platform.
 
 Minor Changes and Additions
 :
@@ -454,7 +475,7 @@ Plugin Repository moved
 {#july-19}
 
 New page: Optimizing Performance
-: Optimizing performance when [working with PSI](psi_performance.md), [during indexing](indexing_and_psi_stubs.md#improving-indexing-performance), and [](general_threading_rules.md#avoiding-ui-freezes).
+: Optimizing performance when [working with PSI](psi_performance.md), [during indexing](indexing_and_psi_stubs.md#improving-indexing-performance), and [](threading_model.md#avoiding-ui-freezes).
 
 ### May
 {#may-19}

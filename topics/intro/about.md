@@ -81,7 +81,7 @@ Links to [useful resources](useful_links.md), a [](glossary.md), [](intellij_pla
 
 #### Tooling
 
-常用工具的参考和使用指南，例如 [](tools_gradle_intellij_plugin.md)。
+Reference and usage guides for commonly used tools like the [](tools_intellij_platform_gradle_plugin.md).
 
 #### 用户界面指南
 

@@ -1,6 +1,6 @@
 # 扩展
 
-<!-- Copyright 2000-2023 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 <link-summary>扩展是 IDE 中自定义功能的最常见方式。</link-summary>
 
@@ -67,8 +67,8 @@ _扩展_ 是插件以不像将操作添加到菜单或工具栏那样直接的�
         -->
 <extensions defaultExtensionNs="another.plugin">
 <myExtensionPoint
-        key="keyValue"
-        implementationClass="com.example.MyExtensionPointImpl"/>
+    key="keyValue"
+    implementationClass="com.example.MyExtensionPointImpl"/>
 </extensions>
 ```
 
@@ -76,10 +76,10 @@ _扩展_ 是插件以不像将操作添加到菜单或工具栏那样直接的�
 
 请注意以下重要点：
 
-- 扩展实现必须是无状态的。使用显式的 [](plugin_services.md) 来管理（运行时）数据。
-- 避免在构造函数中进行任何初始化，另请参阅 [服务](plugin_services.md#constructor) 的注意事项。
-- 不要执行任何静态初始化。使用检查 <control>Plugin DevKit | Code | Static initialization in extension point implementations</control>（2023.3）。
-- 扩展实现不能额外注册为 [服务](plugin_services.md)。使用检查 <control>Plugin DevKit | Code | Extension registered as service/component</control>（2023.3）。
+- Extension implementation must be stateless. Use explicit [](plugin_services.md) for managing (runtime) data.
+- Avoid any initialization in the constructor, see also notes for [Services](plugin_services.md#ctor).
+- Do not perform any static initialization. Use inspection <control>Plugin DevKit | Code | Static initialization in extension point implementations</control> (2023.3).
+- An extension implementation must not be registered as [Service](plugin_services.md) additionally. Use inspection <control>Plugin DevKit | Code | Extension registered as service/component</control> (2023.3).
 
 在使用 [Kotlin](using_kotlin.md) 时：
 
@@ -103,17 +103,23 @@ _扩展_ 是插件以不像将操作添加到菜单或工具栏那样直接的�
 
 有几个工具功能可帮助在 <path>plugin.xml</path> 中配置 bean 类扩展点。
 
-带有 [`RequiredElement`](%gh-ic%/platform/core-api/src/com/intellij/openapi/extensions/RequiredElement.java) 注解的属性会自动插入并进行验证（2019.3 及更高版本）。
-如果给定的属性允许具有显式的空值，则将 `allowEmpty` 设置为 `true`（2020.3 及更高版本）。
+#### Required Properties
+<primary-label ref="2019.3"/>
 
-与以下列表匹配的属性名称将解析为完全限定的类名：
+Properties annotated with [`RequiredElement`](%gh-ic%/platform/core-api/src/com/intellij/openapi/extensions/RequiredElement.java) are inserted automatically and validated.
+
+If the given property is allowed to have an explicit empty value, set `allowEmpty` to `true` (2020.3+).
+
+#### Class names
+
+Property names matching the following list will resolve to a fully qualified class name:
 
 - `implementation`
 - `className`
-- `serviceInterface` / `serviceImplementation`
-- 以 `Class` 结尾的属性名称（区分大小写）
+- ending with `Class` (case-sensitive)
+- `serviceInterface`/`serviceImplementation`
 
-可以通过嵌套的 [`<with>`](plugin_configuration_file.md#idea-plugin__extensionPoints__extensionPoint__with) 在扩展点声明中指定所需的父类型：
+A required parent type can be specified in the [extension point declaration](plugin_extension_points.md) via [`<with>`](plugin_configuration_file.md#idea-plugin__extensionPoints__extensionPoint__with):
 
 ```xml
 <extensionPoint name="myExtension" beanClass="MyExtensionBean">
@@ -123,11 +129,22 @@ _扩展_ 是插件以不像将操作添加到菜单或工具栏那样直接的�
 </extensionPoint>
 ```
 
-属性名称 `language`（或以 `*Language` 结尾，2020.2 及更高版本）将解析为所有存在的 `Language` ID。
+#### Custom resolve
 
-类似地，`action` 解析为所有已注册的 [`<action>`](plugin_configuration_file.md#idea-plugin__actions__action) ID。
+Property name `language` (or ending in `*Language`, 2020.2+) resolves to all present [`Language`](%gh-ic%/platform/core-api/src/com/intellij/lang/Language.java) IDs.
 
-使用 [`@Nls`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/Nls.java) 注解会根据文本属性 `Capitalization` 枚举值（2019.2 及更高版本）验证 UI 中字符串的大写格式。
+Similarly, `action` and `actionId` (2024.3+) resolve to all registered [`<action>`](plugin_configuration_file.md#idea-plugin__actions__action) IDs.
 
-标记为 `@Deprecated` 或带有 [`ApiStatus`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/ApiStatus.java) 中的 `@Internal`, `@Experimental`, `@ScheduledForRemoval`, 或 `@Obsolete` 注解的属性会相应地显示高亮。
-具有 `Enum` 类型的属性支持 _lowerCamelCased_ 标记的代码洞察（2020.1 及更高版本）。注意：这些属性不能覆盖 `toString()`。
+#### Deprecation/ApiStatus
+
+Properties marked as `@Deprecated` or annotated with any of [`ApiStatus`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/ApiStatus.java) `@Internal`, `@Experimental`, `@ScheduledForRemoval`, or `@Obsolete` will be highlighted accordingly.
+
+#### Enum properties
+<primary-label ref="2020.1"/>
+
+Attributes with `Enum` type support code insight with _lowerCamelCased_ notation. Note: Enum implementation must not override `toString()`.
+
+#### I18n
+<primary-label ref="2019.2"/>
+
+Annotating with [`@Nls`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/Nls.java) validates a UI `String` capitalization according to the text property `Capitalization` enum value.

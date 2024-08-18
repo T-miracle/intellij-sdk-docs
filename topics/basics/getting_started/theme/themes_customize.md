@@ -17,6 +17,8 @@
 > [颜色高亮插件](https://plugins.jetbrains.com/plugin/13309-color-highlighter) 在编辑器内部添加了额外的颜色预览。
 >
 
+<include from="developing_themes.md" element-id="themeSamplePlugin"/>
+
 ## 主题描述文件语法简介 {id=introduction-to-theme-description-file-syntax}
 
 主题描述文件的语法遵循 JSON 开放标准的键值对文件格式。

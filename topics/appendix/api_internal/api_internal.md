@@ -12,7 +12,7 @@ which indicates it is _private API_ and must not be used outside of IntelliJ Pla
 > usages in other packages of the declaring library, but it **must not be used outside of that library**. Such elements
 > may be renamed, changed, or removed in future versions.
 >
-{title="`ApiStatus.Internal Javadoc"}
+{title="ApiStatus.Internal Javadoc"}
 
 Such violations are reported from [](verifying_plugin_compatibility.md#plugin-verifier) and are highlighted in the IDE using [dedicated inspection](verifying_plugin_compatibility.md#ide-support).
 
@@ -79,6 +79,7 @@ Therefore, any reported violations can be disregarded.
 | [`AnimatedIcon.ANIMATION_IN_RENDERER_ALLOWED`](%gh-ic%/platform/ide-core/src/com/intellij/ui/AnimatedIcon.java)                                      | Made public in 2021.3                           |
 | [`BaseExpirableExecutor.expireWith()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/BaseExpirableExecutor.java)                    | Made public in 2023.2                           |
 | [`BundleBase`](%gh-ic%/platform/util/src/com/intellij/BundleBase.kt)                                                                                 | Made public in 2022.1                           |
+| [`CodeVisionPlaceholderCollector`](%gh-ic%/platform/lang-impl/src/com/intellij/codeInsight/codeVision/CodeVisionPlaceholderCollector.kt)             | Made public in 2024.2                           |
 | [`IdFilter`](%gh-ic%/platform/indexing-api/src/com/intellij/util/indexing/IdFilter.java)                                                             | Made public in 2021.2/3                         |
 | [`HashingStrategy`](%gh-ic%/platform/util/base/src/com/intellij/util/containers/HashingStrategy.java)                                                | Made public in 2023.1                           |
 | [`JsonCustomStructureViewFactory`](%gh-ic%/json/src/com/intellij/json/structureView/JsonCustomStructureViewFactory.java)                             | Made public in 2023.2                           |

@@ -4,7 +4,6 @@
 
 <link-summary>The IntelliJ Platform Gradle Plugin requires JetBrains Runtime (JBR), which can be provided in multiple ways.</link-summary>
 
-<include from="tools_intellij_platform_gradle_plugin.md" element-id="Beta_Status"/>
 <include from="tools_intellij_platform_gradle_plugin.md" element-id="faq"/>
 
 JetBrains Runtime (JBR) is a custom version of OpenJDK, specifically optimized for IntelliJ-based IDEs. It supports enhanced class redefinition (DCEVM), includes the Java Chromium Embedded Framework (JCEF), and improves aspects such as font rendering and keyboard support, thereby enhancing overall performance.
@@ -28,6 +27,9 @@ In such a case, it is necessary to provide it in the suitable version with the v
 
 This can be easily achieved by using the `jetbrainsRuntime()` repository helper pointing to [JetBrains Runtime GitHub Releases](https://github.com/JetBrains/JetBrainsRuntime/releases/) and dependency helper with no arguments provided:
 
+<tabs group="languages">
+<tab title="Kotlin" group-key="kotlin">
+
 ```kotlin
 repositories {
   mavenCentral()
@@ -49,9 +51,40 @@ dependencies {
 }
 ```
 
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+repositories {
+  mavenCentral()
+  intellijPlatform {
+    defaultRepositories()
+    jetbrainsRuntime()
+    // ...
+  }
+}
+
+dependencies {
+  intellijPlatform {
+    intellijIdeaCommunity '%ijPlatform%'
+
+    jetbrainsRuntime()
+
+    // ...
+  }
+}
+```
+
+</tab>
+</tabs>
+
+
 ## Declared Explicitly
 
 It is possible to explicitly specify JetBrains Runtime version, variant, or exact build with:
+
+<tabs group="languages">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 repositories {
@@ -75,6 +108,36 @@ dependencies {
   }
 }
 ```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+repositories {
+  mavenCentral()
+  intellijPlatform {
+    defaultRepositories()
+    jetbrainsRuntime()
+    // ...
+  }
+}
+
+dependencies {
+  intellijPlatform {
+    intellijIdeaCommunity '%ijPlatform%'
+
+    jetbrainsRuntime(version, variant, architecture)
+    // or
+    jetbrainsRuntimeExplicit(explicitVersion)
+
+    // ...
+  }
+}
+```
+
+</tab>
+</tabs>
+
 
 Provided `version`, `variant`, and `architecture` parameters along with the `explicitVersion` are used to resolve the JetBrains Runtime archives published on [GitHub Releases](https://github.com/JetBrains/JetBrainsRuntime/releases/) page.
 
@@ -109,6 +172,9 @@ Since Gradle `8.4`, it is possible to specify JetBrains as a known JVM vendor an
 
 Along with the [Foojay Toolchains Plugin](https://github.com/gradle/foojay-toolchains), Gradle can resolve JetBrains Runtime from the remote repository if the suitable JVM is not present:
 
+<tabs group="languages">
+<tab title="Kotlin" group-key="kotlin">
+
 <path>build.gradle.kts</path>
 ```kotlin
 kotlin {
@@ -122,9 +188,33 @@ kotlin {
 <path>settings.gradle.kts</path>
 ```kotlin
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "..."
+  id("org.gradle.toolchains.foojay-resolver-convention") version "..."
 }
 ```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+<path>build.gradle</path>
+```groovy
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(17)
+    vendor = JvmVendorSpec.JETBRAINS
+  }
+}
+```
+
+<path>settings.gradle</path>
+```groovy
+plugins {
+  id 'org.gradle.toolchains.foojay-resolver-convention' version '...'
+}
+```
+
+</tab>
+</tabs>
+
 
 Please note that the latest available JetBrains Runtime release is always resolved, which may lead to unexpected behaviors.
 

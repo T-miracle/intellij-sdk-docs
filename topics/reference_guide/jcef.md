@@ -105,10 +105,9 @@ myPanel.add(browser.getComponent());
 加载文档的方法可以从 EDT 和后台线程调用。
 可以设置一个初始 URL（传递给构造函数或构建器），在浏览器创建和初始化时加载。
 
-```java
-JBCefBrowser browser = new JBCefBrowser();
-browser.loadURL("https://example.com");
-```
+To load a document in the browser, use one of [`JBCefBrowserBase.load*()`](%gh-ic%/platform/platform-api/src/com/intellij/ui/jcef/JBCefBrowserBase.java) methods.
+Methods loading documents can be called from both [EDT and background threads](threading_model.md).
+It is possible to set an initial URL (passed to constructor or builder) that will be loaded when browser is created and initialized.
 
 ### 浏览器客户端 {id=browser-client}
 

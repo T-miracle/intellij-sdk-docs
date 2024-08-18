@@ -83,17 +83,17 @@ IntelliJ IDEA 包含必要的 Kotlin 插件，无需进一步配置。
 
 向基于 Gradle 的项目添加 Kotlin 源文件编译支持需要添加并配置 [Kotlin JVM Gradle 插件](https://kotlinlang.org/docs/gradle.html#targeting-the-jvm)。
 
-See the <path>build.gradle.kts</path> from [kotlin_demo](%gh-sdk-samples-master%/kotlin_demo) sample plugin:
+See the <path>build.gradle.kts</path> from [kotlin_demo](%gh-sdk-samples-master%/kotlin_demo) sample plugin using [](tools_gradle_intellij_plugin.md):
 
 ```kotlin
 ```
 
-{src="kotlin_demo/build.gradle.kts" include-lines="2-"}
+{src="kotlin_demo/build.gradle.kts" include-lines="2-" default-state="collapsed" collapsible="true" collapsed-title="build.gradle.kts"}
 
 ### Kotlin标准库（stdlib） {id=kotlin-standard-library}
 
-自 Kotlin 1.4 起，标准库 **stdlib** 的依赖会自动添加（[API 文档](https://kotlinlang.org/api/latest/jvm/stdlib/)）。
-在几乎所有情况下，不必将其包含在插件分发中，因为平台已经捆绑了它。
+Since Kotlin 1.4, a dependency on the standard library _stdlib_ is added automatically ([API Docs](https://kotlinlang.org/api/latest/jvm/stdlib/)).
+In nearly all cases, it is _not necessary_ to include it in the plugin distribution as the platform already bundles it.
 
 要选择退出，请在 <path>gradle.properties</path> 中添加以下行：
 
@@ -101,11 +101,30 @@ See the <path>build.gradle.kts</path> from [kotlin_demo](%gh-sdk-samples-master%
 kotlin.stdlib.default.dependency = false
 ```
 
-该 Gradle 属性的存在由 [](tools_gradle_intellij_plugin.md) 的 [](tools_gradle_intellij_plugin.md#tasks-verifypluginconfiguration) 任务检查。
-如果该属性不存在，在插件配置验证期间将报告警告，因为这通常是 Kotlin **stdlib** 被捆绑在插件归档文件中的常见问题。
-要在插件分发中捆绑 **stdlib**，请显式指定 `kotlin.stdlib.default.dependency = true`。
+#### Gradle check
 
-如果插件支持 [多个平台版本](build_number_ranges.md)，则必须针对最低捆绑的 **stdlib** 版本，或者必须 [在插件分发中提供特定版本](plugin_content.md#plugin-with-dependencies)。
+The presence of this Gradle property is checked with the corresponding Gradle task:
+
+<tabs>
+<tab title="IntelliJ Platform Gradle Plugin (2.x)">
+
+[`verifyPlugin`](tools_intellij_platform_gradle_plugin_tasks.md#verifyPluginProjectConfiguration) task
+
+</tab>
+<tab title="Gradle IntelliJ Plugin (1.x)">
+
+[`verifyPluginConfiguration`](tools_gradle_intellij_plugin.md#tasks-verifypluginconfiguration) task
+
+</tab>
+</tabs>
+
+If the property is not present, a warning will be reported during the plugin configuration verification.
+To bundle _stdlib_ in the plugin distribution, specify explicitly `kotlin.stdlib.default.dependency = true`.
+
+#### stdlib – Miscellaneous
+
+If a plugin supports [multiple platform versions](build_number_ranges.md), it must either target the lowest bundled _stdlib_ version (see table below)
+or the specific version must be [provided in plugin distribution](plugin_content.md#plugin-with-dependencies).
 
 有关更多详细信息，请参阅 [依赖于标准库](https://kotlinlang.org/docs/gradle.html#dependency-on-the-standard-library)。
 
@@ -194,7 +213,7 @@ kotlin.incremental.useClasspathSnapshot=false
 
 ## 插件实施说明 {id=plugin-implementation-notes}
 
-### 不要使用 "object" 而是 "class" 
+### 不要使用 "object" 而是 "class"
 
 {id="object-vs-class"}
 

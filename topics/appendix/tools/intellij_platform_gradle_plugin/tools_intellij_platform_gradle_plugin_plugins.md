@@ -4,77 +4,59 @@
 
 <link-summary>IntelliJ Platform Gradle Plugin plugins.</link-summary>
 
-<include from="tools_intellij_platform_gradle_plugin.md" element-id="Beta_Status"/>
 <include from="tools_intellij_platform_gradle_plugin.md" element-id="faq"/>
 
-The IntelliJ Platform Gradle Plugin consists of multiple subplugins which can be applied in bundles ([](#platform) or [](#module)) or separately.
+The IntelliJ Platform Gradle Plugin consists of subplugins which should be applied depending on the project structure.
 
-Subplugins architecture allows applying a subset of features, e.g., to provide the IntelliJ Platform dependency to a project submodule without creating unnecessary tasks.
+Subplugins architecture allows applying a subset of features, for example, to provide the IntelliJ Platform dependency to a project submodule without creating unnecessary tasks.
 
-> Plugins depend on each other.
->
-> When applying the [](#module) plugin, there is no need for manual applying the [](#build) plugin.
+The following diagram describes dependencies between plugins provided with the IntelliJ Platform Gradle Plugin.
 
-The following chart describes dependencies between plugins provided with the IntelliJ Platform Gradle Plugin.
-
-The plugins highlighted in bold are recommended for most of the cases when creating a plugin for IntelliJ-based IDEs.
 
 ```mermaid
-flowchart LR
-    Platform("<b>Platform</b>")
-    Module("<b>Module</b>")
-    Settings("<b>Settings</b>")
-    Migration
+flowchart TB
 
-    Base
-    Build
-    Test
-    Verify
-    Run
-    Publish
-
-    Build --> Base
-    Publish --> Build
-    Run --> Build
-    Test --> Build
-    Verify --> Build
-    Module --> Test & Verify
-    Platform --> Publish & Run & Module
-
-    subgraph ALL ["` `"]
-            Settings
-            Platform
-            Module
-            Migration
+    subgraph SETTINGS_LEVEL ["<div style='margin: 5px auto; font-size: 0.8rem'>settings.gradle.kts</div>"]
+        Settings("<b>Settings</b>")
     end
 
+    subgraph PROJECT_LEVEL ["<div style='margin: 5px auto; font-size: 0.8rem'>build.gradle.kts</div>"]
+        Platform("<b>Platform</b>")
+        Module("<b>Module</b>")
+        Migration
+        Base
+    end
+
+    Module --> Base
+    Platform --> Module & Base
     Migration --> Platform
-    Migration ~~~ Build
 
     click Platform "#platform"
     click Module "#module"
     click Settings "#settings"
     click Migration "#migration"
     click Base "#base"
-    click Build "#build"
-    click Test "#test"
-    click Verify "#verify"
-    click Run "#run"
-    click Publish "#publish"
 
     style Platform stroke-width: 3px
     style Module stroke-width: 3px
     style Settings stroke-width: 3px
-    style ALL fill:transparent,stroke:transparent
+    style SETTINGS_LEVEL fill:transparent,stroke:#666,stroke-dasharray: 10 10
+    style PROJECT_LEVEL fill:transparent,stroke:#666,stroke-dasharray: 10 10
 ```
 
+
 ## Platform
+{#platform}
+
+<link-summary>Top-level plugin that applies all the tooling for plugin development for IntelliJ-based IDEs.</link-summary>
 
 **Plugin ID: `org.jetbrains.intellij.platform`**
 
-This is a top-level plugin that applies all project-level subplugins that bring the fully flagged tooling for plugin development for IntelliJ-based IDEs.
+This is a top-level plugin that applies all the tooling for plugin development for IntelliJ-based IDEs.
+It should be used only with the root module (for submodules, see [](#module)).
 
-This plugin should be used in most cases when working with a single-module project:
+<tabs group="languages">
+<tab title="Kotlin" group-key="kotlin">
 
 <path>build.gradle.kts</path>
 ```kotlin
@@ -83,21 +65,62 @@ plugins {
 }
 ```
 
-Included plugins:
-- [](#base)
-- [](#build)
-- [](#test)
-- [](#verify)
-- [](#run)
-- [](#publish)
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+<path>build.gradle.kts</path>
+```kotlin
+plugins {
+  id("org.jetbrains.intellij.platform") version "%intellij-platform-gradle-plugin-version%"
+}
+```
+
+</tab>
+</tabs>
+
+### Available tasks
+{#platform-available-tasks}
+
+[`buildPlugin`](tools_intellij_platform_gradle_plugin_tasks.md#buildPlugin),
+[`buildSearchableOptions`](tools_intellij_platform_gradle_plugin_tasks.md#buildSearchableOptions),
+[`composedJar`](tools_intellij_platform_gradle_plugin_tasks.md#composedJar),
+[`generateManifest`](tools_intellij_platform_gradle_plugin_tasks.md#generateManifest),
+[`initializeIntelliJPlatformPlugin`](tools_intellij_platform_gradle_plugin_tasks.md#initializeIntelliJPlatformPlugin),
+[`instrumentCode`](tools_intellij_platform_gradle_plugin_tasks.md#instrumentCode),
+[`instrumentedJar`](tools_intellij_platform_gradle_plugin_tasks.md#instrumentedJar),
+[`jarSearchableOptions`](tools_intellij_platform_gradle_plugin_tasks.md#jarSearchableOptions),
+[`patchPluginXml`](tools_intellij_platform_gradle_plugin_tasks.md#patchPluginXml),
+[`prepareSandbox`](tools_intellij_platform_gradle_plugin_tasks.md#prepareSandbox),
+[`prepareTest`](tools_intellij_platform_gradle_plugin_tasks.md#prepareTest),
+[`printBundledPlugins`](tools_intellij_platform_gradle_plugin_tasks.md#printBundledPlugins),
+[`printProductsReleases`](tools_intellij_platform_gradle_plugin_tasks.md#printProductsReleases),
+[`publishPlugin`](tools_intellij_platform_gradle_plugin_tasks.md#publishPlugin),
+[`runIde`](tools_intellij_platform_gradle_plugin_tasks.md#runIde),
+[`setupDependencies`](tools_intellij_platform_gradle_plugin_tasks.md#setupDependencies),
+[`signPlugin`](tools_intellij_platform_gradle_plugin_tasks.md#signPlugin),
+[`testIdePerformance`](tools_intellij_platform_gradle_plugin_tasks.md#testIdePerformance),
+[`testIde`](tools_intellij_platform_gradle_plugin_tasks.md#testIde),
+[`testIdeUi`](tools_intellij_platform_gradle_plugin_tasks.md#testIdeUi),
+[`verifyPluginProjectConfiguration`](tools_intellij_platform_gradle_plugin_tasks.md#verifyPluginProjectConfiguration),
+[`verifyPluginSignature`](tools_intellij_platform_gradle_plugin_tasks.md#verifyPluginSignature),
+[`verifyPluginStructure`](tools_intellij_platform_gradle_plugin_tasks.md#verifyPluginStructure),
+[`verifyPlugin`](tools_intellij_platform_gradle_plugin_tasks.md#verifyPlugin)
+
 
 ## Module
+{#module}
+
+<link-summary>Applies a smaller set of functionalities for compiling and testing submodules when working in a multi-module architecture.</link-summary>
 
 **Plugin ID: `org.jetbrains.intellij.platform.module`**
 
-This top-level plugin applies a smaller set of subplugins required for providing required dependencies and build/test tasks for a submodule when working on a plugin for IntelliJ-based IDEs in a multi-module architecture.
+This plugin applies a smaller set of functionalities for compiling and testing submodules when working in a multi-module architecture.
 
-Comparing to the main plugin, it doesn't contain tasks related to publishing or running the IDE for testing purposes.
+Compared to the main plugin, it doesn't contain tasks related to publishing or running the IDE for testing purposes.
+
+
+<tabs group="languages">
+<tab title="Kotlin" group-key="kotlin">
 
 <path>settings.gradle.kts</path>
 
@@ -105,30 +128,6 @@ Comparing to the main plugin, it doesn't contain tasks related to publishing or 
 rootProject.name = "..."
 
 include(":submodule")
-```
-
-<path>build.gradle.kts</path>
-
-```kotlin
-plugins {
-  id("org.jetbrains.intellij.platform") version "%intellij-platform-gradle-plugin-version%"
-}
-
-repositories {
-  mavenCentral()
-
-  intellijPlatform {
-    defaultRepositories()
-  }
-}
-
-dependencies {
-  implementation(project(":submodule"))
-
-  intellijPlatform {
-    intellijIdeaCommunity("%ijPlatform%")
-  }
-}
 ```
 
 <path>submodule/build.gradle.kts</path>
@@ -153,19 +152,122 @@ dependencies {
 }
 ```
 
-Included plugins:
-- [](#base)
-- [](#build)
-- [](#test)
-- [](#verify)
+<path>build.gradle.kts</path>
+
+```kotlin
+plugins {
+  id("org.jetbrains.intellij.platform") version "%intellij-platform-gradle-plugin-version%"
+}
+
+repositories {
+  mavenCentral()
+
+  intellijPlatform {
+    defaultRepositories()
+  }
+}
+
+dependencies {
+  intellijPlatform {
+    intellijIdeaCommunity("%ijPlatform%")
+    pluginModule(implementation(project(":submodule")))
+  }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+<path>settings.gradle</path>
+
+```groovy
+rootProject.name = '...'
+
+include ':submodule'
+```
+
+<path>submodule/build.gradle</path>
+
+```groovy
+plugins {
+  id 'org.jetbrains.intellij.platform.module'
+}
+
+repositories {
+  mavenCentral()
+
+  intellijPlatform {
+    defaultRepositories()
+  }
+}
+
+dependencies {
+  intellijPlatform {
+    intellijIdeaCommunity '%ijPlatform%'
+  }
+}
+```
+
+<path>build.gradle</path>
+
+```groovy
+plugins {
+  id 'org.jetbrains.intellij.platform' version '%intellij-platform-gradle-plugin-version%'
+}
+
+repositories {
+  mavenCentral()
+
+  intellijPlatform {
+    defaultRepositories()
+  }
+}
+
+dependencies {
+  intellijPlatform {
+    intellijIdeaCommunity '%ijPlatform%'
+    pluginModule(implementation(project(':submodule')))
+  }
+}
+```
+
+</tab>
+</tabs>
+
+
+Note that the `:submodule` is added both to the `implementation` configuration and `intellijPlatformPluginModule` using the [](tools_intellij_platform_gradle_plugin_dependencies_extension.md#plugins) helper method.
+This guarantees that the submodule content will be merged into the main plugin JAR file.
+
+### Available tasks
+{#module-available-tasks}
+
+[`composedJar`](tools_intellij_platform_gradle_plugin_tasks.md#composedJar),
+[`generateManifest`](tools_intellij_platform_gradle_plugin_tasks.md#generateManifest),
+[`initializeIntelliJPlatformPlugin`](tools_intellij_platform_gradle_plugin_tasks.md#initializeIntelliJPlatformPlugin),
+[`instrumentCode`](tools_intellij_platform_gradle_plugin_tasks.md#instrumentCode),
+[`instrumentedJar`](tools_intellij_platform_gradle_plugin_tasks.md#instrumentedJar),
+[`prepareSandbox`](tools_intellij_platform_gradle_plugin_tasks.md#prepareSandbox),
+[`prepareTest`](tools_intellij_platform_gradle_plugin_tasks.md#prepareTest),
+[`printBundledPlugins`](tools_intellij_platform_gradle_plugin_tasks.md#printBundledPlugins),
+[`printProductsReleases`](tools_intellij_platform_gradle_plugin_tasks.md#printProductsReleases),
+[`setupDependencies`](tools_intellij_platform_gradle_plugin_tasks.md#setupDependencies),
+[`testIde`](tools_intellij_platform_gradle_plugin_tasks.md#testIde),
+[`verifyPluginProjectConfiguration`](tools_intellij_platform_gradle_plugin_tasks.md#verifyPluginProjectConfiguration)
+
 
 ## Settings
+{#settings}
+
+<link-summary>Plugin available for use in Gradle settings file.</link-summary>
 
 **Plugin ID: `org.jetbrains.intellij.platform.settings`**
 
-If repositories are defined within the <path>settings.gradle.kts</path> using the `dependencyResolutionManagement` Gradle, make sure to include the Settings plugin in <path>settings.gradle.kts</path>.
+If you define project repositories within the <path>settings.gradle.kts</path> using the `dependencyResolutionManagement`, make sure to include the Settings plugin in <path>settings.gradle.kts</path>.
 
-See [](tools_intellij_platform_gradle_plugin.md#configuration.dependencyResolutionManagement) for more details.
+This approach allows for omitting the `repositories {}` definition in the <path>build.gradle.kts</path> files. See [](tools_intellij_platform_gradle_plugin.md#configuration.dependencyResolutionManagement) for more details.
+
+<tabs group="languages">
+<tab title="Kotlin" group-key="kotlin">
 
 <path>settings.gradle.kts</path>
 
@@ -197,17 +299,22 @@ include(":submodule")
 
 ```kotlin
 plugins {
-  id("org.jetbrains.intellij.platform") version "%intellij-platform-gradle-plugin-version%"
+  id("org.jetbrains.intellij.platform")
 }
 
 dependencies {
-  implementation(project(":submodule"))
-
   intellijPlatform {
     intellijIdeaCommunity("%ijPlatform%")
+    pluginModule(implementation(project(":submodule")))
   }
 }
 ```
+
+> Note that <path>build.gradle.kts</path> doesn't define the IntelliJ Platform Gradle Plugin version anymore as it was earlier declared in the <path>settings.gradle.kts</path> file.
+> Specifying the version in two places may result in the following Gradle exception:
+>
+> `The request for this plugin could not be satisfied because the plugin is already on the classpath with an unknown version, so compatibility cannot be checked.`
+
 
 <path>submodule/build.gradle.kts</path>
 
@@ -223,109 +330,155 @@ dependencies {
 }
 ```
 
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+<path>settings.gradle</path>
+
+```groovy
+import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
+
+plugins {
+  id 'org.jetbrains.intellij.platform.settings' version '%intellij-platform-gradle-plugin-version%'
+}
+
+rootProject.name = '...'
+
+dependencyResolutionManagement {
+  repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
+
+  repositories {
+    mavenCentral()
+
+    intellijPlatform {
+      defaultRepositories()
+    }
+  }
+}
+
+include ':submodule'
+```
+
+<path>build.gradle</path>
+
+```groovy
+plugins {
+  id 'org.jetbrains.intellij.platform'
+}
+
+dependencies {
+  intellijPlatform {
+    intellijIdeaCommunity '%ijPlatform%'
+    pluginModule(implementation(project(':submodule')))
+  }
+}
+```
+
+> Note that <path>build.gradle</path> doesn't define the IntelliJ Platform Gradle Plugin version anymore as it was earlier declared in the <path>settings.gradle</path> file.
+> Specifying the version in two places may result in the following Gradle exception:
+>
+> `The request for this plugin could not be satisfied because the plugin is already on the classpath with an unknown version, so compatibility cannot be checked.`
+
+
+<path>submodule/build.gradle</path>
+
+```groovy
+plugins {
+  id 'org.jetbrains.intellij.platform.module'
+}
+
+dependencies {
+  intellijPlatform {
+    intellijIdeaCommunity '%ijPlatform%'
+  }
+}
+```
+
+</tab>
+</tabs>
+
+
 ## Migration
+{#migration}
+
+<link-summary>Plugin is designed to assist in upgrading projects that use Gradle IntelliJ Plugin **1.x** to the **2.x** version.</link-summary>
 
 **Plugin ID: `org.jetbrains.intellij.platform.migration`**
 
-The Migration plugin is designed to assist in upgrading projects using Gradle IntelliJ Plugin **1.x**.
+The Migration plugin is designed to assist in upgrading projects that use Gradle IntelliJ Plugin **1.x** to the **2.x** version.
 To prevent Gradle failing due to breaking changes, the `org.jetbrains.intellij.platform.migration` plugin was introduced to fill missing gaps and provide migration hints.
 
-It loads the [](#platform) plugin with additional mocks and checks applied — after the successful migration, it is recommended to replace the `org.jetbrains.intellij.platform.migration` identifier with `org.jetbrains.intellij.platform`.
+It loads the [](#platform) plugin with additional mocks and checks applied — after the successful migration, the `org.jetbrains.intellij.platform.migration` identifier shoud be replaced with `org.jetbrains.intellij.platform`.
 
 See [](tools_intellij_platform_gradle_plugin_migration.md) for more details.
 
+
 ## Base
+{#base}
+
+<link-summary>Prepares all the custom configurations, transformers, and base tasks needed to manage the IntelliJ Platform dependency, JetBrains Runtime, CLI tools, and others.</link-summary>
 
 **Plugin ID: `org.jetbrains.intellij.platform.base`**
 
-Sets up all the custom configurations and transformers needed to manage the IntelliJ Platform dependency, JetBrains Runtime, CLI tools, and other plugins when they're added as dependencies.
+Prepares all the custom configurations, transformers, and base tasks needed to manage the IntelliJ Platform dependency, JetBrains Runtime, CLI tools, and others.
 
-It also introduces the [](tools_intellij_platform_gradle_plugin_extension.md) to the <path>build.gradle.kts</path> file along with [](tools_intellij_platform_gradle_plugin_dependencies_extension.md) and [](tools_intellij_platform_gradle_plugin_repositories_extension.md) to help preconfiguring project dependencies:
+It also introduces the [](tools_intellij_platform_gradle_plugin_extension.md) to the <path>build.gradle.kts</path> file along with [](tools_intellij_platform_gradle_plugin_dependencies_extension.md) and [](tools_intellij_platform_gradle_plugin_repositories_extension.md) to help preconfigure project dependencies:
+
+<tabs group="languages">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 repositories {
   ...
 
-  intellijPlatform {
-    // Repositories Extension
-  }
+  // Repositories Extension
+  intellijPlatform { ... }
 }
 
 dependencies {
   ...
 
-  intellijPlatform {
-    // Dependencies Extension
-  }
+  // Dependencies Extension
+  intellijPlatform { ... }
 }
 
-intellijPlatform {
-  // IntelliJ Platform Extension
-}
+// IntelliJ Platform Extension
+intellijPlatform { ... }
 ```
 
-Plugin also introduces a task listener which allows for creating custom tasks decorated with [](tools_intellij_platform_gradle_plugin_task_awares.md).
+</tab>
+<tab title="Groovy" group-key="groovy">
 
-Included tasks:
-- [](tools_intellij_platform_gradle_plugin_tasks.md#initializeIntelliJPlatformPlugin)
-- [](tools_intellij_platform_gradle_plugin_tasks.md#printBundledPlugins)
-- [](tools_intellij_platform_gradle_plugin_tasks.md#printProductsReleases)
+```groovy
+repositories {
+  ...
 
-## Build
+  // Repositories Extension
+  intellijPlatform { ... }
+}
 
-**Plugin ID: `org.jetbrains.intellij.platform.build`**
+dependencies {
+  ...
 
-Registers and preconfigures tasks responsible for patching, instrumenting, and building the plugin.
+  // Dependencies Extension
+  intellijPlatform { ... }
+}
 
-Included tasks:
-- [](tools_intellij_platform_gradle_plugin_tasks.md#buildPlugin)
-- [](tools_intellij_platform_gradle_plugin_tasks.md#buildSearchableOptions)
-- [](tools_intellij_platform_gradle_plugin_tasks.md#instrumentCode)
-- [](tools_intellij_platform_gradle_plugin_tasks.md#jarSearchableOptions)
-- [](tools_intellij_platform_gradle_plugin_tasks.md#patchPluginXml)
-- [](tools_intellij_platform_gradle_plugin_tasks.md#prepareSandbox)
+// IntelliJ Platform Extension
+intellijPlatform { ... }
+```
 
-## Publish
+</tab>
+</tabs>
 
-**Plugin ID: `org.jetbrains.intellij.platform.publish`**
 
-Adds tasks responsible for signing and publishing the final plugin archive to JetBrains Marketplace.
+The plugin also introduces a task listener which allows for creating custom tasks decorated with [](tools_intellij_platform_gradle_plugin_task_awares.md).
+See [](tools_intellij_platform_gradle_plugin_recipes.md) for more details.
 
-Included tasks:
-- [](tools_intellij_platform_gradle_plugin_tasks.md#signPlugin)
-- [](tools_intellij_platform_gradle_plugin_tasks.md#publishPlugin)
+### Available tasks
+{#base-available-tasks}
 
-## Run
-
-**Plugin ID: `org.jetbrains.intellij.platform.run`**
-
-Registers the task used for running the local instance of the IntelliJ Platform used for development.
-
-It allows introducing custom tasks, so it is possible to run a plugin against various IDEs during the development process.
-
-Included tasks:
-- [](tools_intellij_platform_gradle_plugin_tasks.md#runIde)
-
-## Test
-
-**Plugin ID: `org.jetbrains.intellij.platform.test`**
-
-Preconfigures the existing `test` task to make the plugin testing possible (unit tests, UI tests, performance tests).
-In addition, it preconfigures the customizable `TestIdeTask` class, so it is possible to register multiple `test*` tasks for running tests against different IDEs.
-
-Included tasks:
-- [](tools_intellij_platform_gradle_plugin_tasks.md#prepareTest)
-- [](tools_intellij_platform_gradle_plugin_tasks.md#testIdePerformance)
-- [](tools_intellij_platform_gradle_plugin_tasks.md#testIdeUi)
-
-## Verify
-
-**Plugin ID: `org.jetbrains.intellij.platform.verify`**
-
-Introduces various verification tasks that run checks against project configuration, <path>plugin.xml</path> file, signature check, or execute the IntelliJ Plugin Verifier tool.
-
-Included tasks:
-- [](tools_intellij_platform_gradle_plugin_tasks.md#verifyPluginProjectConfiguration)
-- [](tools_intellij_platform_gradle_plugin_tasks.md#verifyPlugin)
-- [](tools_intellij_platform_gradle_plugin_tasks.md#verifyPluginSignature)
-- [](tools_intellij_platform_gradle_plugin_tasks.md#verifyPluginStructure)
+[`initializeIntelliJPlatformPlugin`](tools_intellij_platform_gradle_plugin_tasks.md#initializeIntelliJPlatformPlugin),
+[`printBundledPlugins`](tools_intellij_platform_gradle_plugin_tasks.md#printBundledPlugins),
+[`printProductsReleases`](tools_intellij_platform_gradle_plugin_tasks.md#printProductsReleases),
+[`setupDependencies`](tools_intellij_platform_gradle_plugin_tasks.md#setupDependencies),

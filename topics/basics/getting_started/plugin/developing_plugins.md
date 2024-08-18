@@ -11,9 +11,12 @@ IntelliJ 平台插件可以使用 [IntelliJ IDEA Community Edition](https://www.
 
 <include from="intellij_platform.md" element-id="pluginAlternatives"/>
 
-## Gradle IntelliJ 插件 {id=gradle-intellij-plugin}
+## Gradle Plugin
 
-构建 IntelliJ 平台插件的推荐解决方案可在 [](tools_gradle_intellij_plugin.md) 中找到。
+The recommended solution for building IntelliJ Platform plugins is using [Gradle](https://www.gradle.org) with
+a dedicated Gradle plugin:
+[](tools_intellij_platform_gradle_plugin.md) or
+[](tools_gradle_intellij_plugin.md).
 
 <include from="snippets.md" element-id="gradlePluginVersion"/>
 
@@ -22,16 +25,16 @@ The IntelliJ IDEA Ultimate 和 Community 版本提供必要的插件来支持 **
 
 <include from="snippets.md" element-id="pluginDevKitAvailability"/>
 
-Gradle IntelliJ 插件管理插件项目的依赖关系 - 包括基本 IDE 和其他[插件依赖项](plugin_dependencies.md)。
-它提供了运行带有您的插件的 IDE 以及打包和[发布](publishing_plugin.md#publishing-plugin-with-gradle)插件到 [JetBrains Marketplace](https://plugins.jetbrains.com) 的任务。
-为了确保插件不受[API 更改](api_changes_list.md)的影响，这些更改可能在平台的主要版本发布之间发生，您可以快速验证您的插件与其他 IDE 和版本的兼容性。
+The Gradle plugin manages the dependencies of a plugin project – both the base IDE and other [plugin dependencies](plugin_dependencies.md).
+It provides tasks to run the IDE with your plugin and to package and [publish](publishing_plugin.md#publishing-plugin-with-gradle) your plugin to the [JetBrains Marketplace](https://plugins.jetbrains.com).
+To make sure that a plugin is not affected by [API changes](api_changes_list.md), which may happen between major releases of the platform, you can quickly verify your plugin against other IDEs and releases.
 
-创建新的基于 Gradle 的 IntelliJ 平台插件项目主要有两种方法：
-- [新建项目向导](https://www.jetbrains.com/help/idea/new-project-wizard.html) 中提供了专用生成器 - 它创建一个包含所有必需文件的最小插件项目
-- [](plugin_github_template.md) 可在 GitHub 上获取 - 除了所需的项目文件之外，它还包括 GitHub Actions CI 工作流程的配置
+There are two main ways of creating a new Gradle-based IntelliJ Platform plugin project:
+- dedicated generator available in the [New Project Wizard](https://www.jetbrains.com/help/idea/new-project-wizard.html) – it creates a minimal plugin project with all the required files
+- [](plugin_github_template.md) available on GitHub – in addition to the required project files, it includes configuration of the GitHub Actions CI workflows
 
-本文档部分描述了使用 <control>New Project（新建项目）</control> 向导生成的插件结构，但使用 _IntelliJ Platform Plugin Template_ 生成的项目涵盖了所有描述的文件和目录。
-请参阅[](plugin_github_template.md)小节，了解有关该方法优点的更多信息以及如何使用它的说明。
+This documentation section describes the plugin structure generated with the <control>New Project</control> wizard, but the project generated with _IntelliJ Platform Plugin Template_ covers all the described files and directories.
+See [](plugin_github_template.md) for more information about the advantages of this approach and instructions on how to use it.
 
 ### 备择方案 {id=alternatives}
 
@@ -43,5 +46,5 @@ Gradle IntelliJ 插件管理插件项目的依赖关系 - 包括基本 IDE 和�
 
 * [创建基于 Gradle 的插件项目](creating_plugin_project.md)
 * [配置 Gradle IntelliJ 插件](configuring_plugin_project.md)
-  * [添加 Kotlin 支持](using_kotlin.md) (optional)
+  * [添加 Kotlin 支持](using_kotlin.md)
 * [发布插件](publishing_plugin.md)

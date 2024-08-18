@@ -4,6 +4,8 @@
 
 <link-summary>Configuring plugin projects for targeting IntelliJ Platform-based IDEs other than IntelliJ IDEA.</link-summary>
 
+<include from="creating_plugin_project.md" element-id="gradle1xOnly"/>
+
 Plugin projects can target any (custom) IDEs, as long as the products are based on the [IntelliJ Platform](intellij_platform.md).
 Such plugins are developed much like plugin projects that target IntelliJ IDEA.
 

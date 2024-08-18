@@ -33,6 +33,7 @@ To express a dependency on classes from other plugins or modules, perform the fo
 </procedure>
 
 ## 1. Locating Plugin ID and Preparing Sandbox
+{#locating-plugin-id-and-preparing-sandbox}
 
 A compatible version must be chosen carefully according to the plugin's [compatibility](build_number_ranges.md).
 For non-bundled plugins, it is not possible to specify the minimum/maximum version for the dependent plugin. ([Issue](https://youtrack.jetbrains.com/issue/IDEABKL-7906))
@@ -47,19 +48,27 @@ For plugins published on [JetBrains Marketplace](https://plugins.jetbrains.com):
 
 ### Bundled and Other Plugins
 
+All IDs of bundled plugins can be gathered using a dedicated Gradle task.
+See _Other_ tab on how to locate the plugin ID for a plugin distribution file.
+
 <tabs>
 
-<tab title="Gradle">
+<tab title="IntelliJ Platform Gradle Plugin (2.x)">
 
-When using [Gradle IntelliJ Plugin](developing_plugins.md), all bundled plugin IDs can be gathered using [`listBundledPlugins`](tools_gradle_intellij_plugin.md#tasks-listbundledplugins) task.
-
-For [](tools_intellij_platform_gradle_plugin.md), use [`printBundledPlugins`](tools_intellij_platform_gradle_plugin_tasks.md#printBundledPlugins) task.
+Use [`printBundledPlugins`](tools_intellij_platform_gradle_plugin_tasks.md#printBundledPlugins) task.
 
 </tab>
 
-<tab title="DevKit or non-public plugins">
+<tab title="Gradle IntelliJ Plugin (1.x)">
 
-When using [DevKit](developing_themes.md) and for non-public plugins, locate the plugin's main JAR file containing <path>META-INF/plugin.xml</path> descriptor with [`<id>`](plugin_configuration_file.md#idea-plugin__id) tag (or [`<name>`](plugin_configuration_file.md#idea-plugin__name) if not specified).
+Use [`listBundledPlugins`](tools_gradle_intellij_plugin.md#tasks-listbundledplugins) task.
+
+</tab>
+
+<tab title="Other">
+
+Locate the plugin's main JAR file containing <path>META-INF/plugin.xml</path> descriptor with [`<id>`](plugin_configuration_file.md#idea-plugin__id) tag (use [`<name>`](plugin_configuration_file.md#idea-plugin__name) if `<id>` is not specified).
+
 Bundled plugins are located in <path>\$PRODUCT_ROOT\$/plugins/\$PLUGIN_NAME\$/lib/\$PLUGIN_NAME\$.jar</path>.
 
 </tab>
@@ -69,7 +78,9 @@ Bundled plugins are located in <path>\$PRODUCT_ROOT\$/plugins/\$PLUGIN_NAME\$/li
 #### IDs of Bundled Plugins
 
 The following table lists some commonly used bundled plugins and their ID.
-See also [](intellij_community_plugins_extension_point_list.md) and [](plugin_compatibility.md#modules-specific-to-functionality).
+See also [](plugin_compatibility.md#modules-specific-to-functionality).
+
+<!-- please do not add more entries unless it's clearly a popular plugin -->
 
 | Plugin Name               | Plugin ID                       | Related Documentation         |
 |---------------------------|---------------------------------|-------------------------------|
@@ -77,6 +88,7 @@ See also [](intellij_community_plugins_extension_point_list.md) and [](plugin_co
 | CSS                       | `com.intellij.css`              | [](webstorm.md)               |
 | Database Tools and SQL    | `com.intellij.database`         | [](data_grip.md)              |
 | Gradle                    | `com.intellij.gradle`           |                               |
+| Groovy                    | `org.intellij.groovy`           |                               |
 | IntelliLang               | `org.intellij.intelliLang`      | [](language_injection.md)     |
 | Java                      | `com.intellij.java`             | [](idea.md#java)              |
 | JavaScript and TypeScript | `JavaScript`                    | [](webstorm.md)               |
@@ -92,11 +104,32 @@ See also [](intellij_community_plugins_extension_point_list.md) and [](plugin_co
 If the plugin is not bundled with the target IDE, run the (sandbox) [IDE Development Instance](ide_development_instance.md) of your target IDE and install the plugin there.
 
 ## 2. Project Setup
+{#project-setup}
 
-Depending on the chosen development workflow (Gradle or DevKit), one of the two following steps is necessary.
+Depending on the chosen development workflow (Gradle or DevKit), one of the following steps is necessary.
 
-<tabs>
-<tab title="Gradle">
+### IntelliJ Platform Gradle Plugin (2.x)
+
+{collapsible="true" default-state="expanded"}
+
+Define dependencies on plugins using the provided helper functions in the `dependencies {}` block of the <path>build.gradle.kts</path> file:
+
+```kotlin
+dependencies {
+  intellijPlatform {
+    bundledPlugin("<pluginId>")
+    plugin("<nonBundledPluginId>:<version>")
+  }
+}
+```
+
+For bundled plugins, use `bundledPlugin()`. Use `plugin()` for non-bundled plugins (for example, from [JetBrains Marketplace](https://plugins.jetbrains.com)).
+
+See [](tools_intellij_platform_gradle_plugin_dependencies_extension.md#plugins) for full reference and additional options.
+
+### Gradle IntelliJ Plugin (1.x)
+
+{collapsible="true" default-state="collapsed"}
 
 > Please see the [`intellij.plugins`](tools_gradle_intellij_plugin.md#intellij-extension-plugins) property for acceptable values.
 >
@@ -128,9 +161,10 @@ intellij {
 > Transitive dependencies required for tests must currently be [specified explicitly](https://github.com/JetBrains/gradle-intellij-plugin/issues/38).
 >
 {style="note"}
-</tab>
 
-<tab title="DevKit">
+### Plugin DevKit
+
+{collapsible="true" default-state="collapsed"}
 
 > Existing DevKit-based projects can be [converted to use Gradle setup](migrating_plugin_devkit_to_gradle.md) where dependency management is fully automated.
 >
@@ -155,11 +189,8 @@ Add the JARs of the plugin on which the project depends to the <control>Classpat
 
 </procedure>
 
-</tab>
-
-</tabs>
-
 ## 3. Dependency Declaration in plugin.xml
+{#dependency-declaration-in-pluginxml}
 
 Regardless of whether a plugin project uses [](plugin_compatibility.md#modules-available-in-all-products), or [](plugin_compatibility.md#modules-specific-to-functionality), the correct module must be listed as a dependency in <path>plugin.xml</path>.
 If a project depends on another plugin, the dependency must be declared like a [module](plugin_compatibility.md#modules).
@@ -168,7 +199,7 @@ If only general IntelliJ Platform features (APIs) are used, then a default depen
 To display a list of available IntelliJ Platform modules, invoke the [code completion](https://www.jetbrains.com/help/idea/auto-completing-code.html#4eac28ba) feature for the [`<depends>`](plugin_configuration_file.md#idea-plugin__depends) element contents while editing the plugin project's <path>plugin.xml</path> file.
 
 In the <path>plugin.xml</path>, add a `<depends>` tag with the dependency plugin's ID as its content.
-Continuing with the example from [Project Setup](#2-project-setup) above, the dependency declaration in <path>plugin.xml</path> would be:
+Continuing with the example from [Project Setup](#project-setup) above, the dependency declaration in <path>plugin.xml</path> would be:
 
 ```xml
 <depends>com.example.another-plugin</depends>

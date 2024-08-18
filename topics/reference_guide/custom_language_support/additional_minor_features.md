@@ -30,7 +30,12 @@ Structural braces have higher priority than regular braces: they are matched wit
 An opening non-structural brace is not matched with a closing one if one of them is inside a pair of matched structural braces and another is outside.
 See also [](#recognizing-complex-multi-block-expressions).
 
-If the brace matching is "too heavy" and should not be executed in EDT, implement [`HeavyBraceHighlighter`](%gh-ic%/platform/lang-impl/src/com/intellij/codeInsight/highlighting/HeavyBraceHighlighter.java) and register in `com.intellij.heavyBracesHighlighter` EP (*2022.3*).
+#### "Heavy" Brace Matching
+<primary-label ref="2022.3"/>
+
+If the brace matching is "too heavy" and should not be executed in [EDT](threading_model.md), implement
+[`HeavyBraceHighlighter`](%gh-ic%/platform/lang-impl/src/com/intellij/codeInsight/highlighting/HeavyBraceHighlighter.java)
+and register in `com.intellij.heavyBracesHighlighter` extension point.
 
 ### Quote Handling
 
@@ -87,6 +92,7 @@ EP: `com.intellij.nameSuggestionProvider`
 EP: `com.intellij.highlightUsagesHandlerFactory`
 
 [`HighlightUsagesHandlerFactory`](%gh-ic%/platform/lang-impl/src/com/intellij/codeInsight/highlighting/HighlightUsagesHandlerFactory.java) allows highlighting e.g., Exit Points or Exceptions.
+Can be [](indexing_and_psi_stubs.md#DumbAwareAPI) (2024.3+).
 
 ### TODO View
 
@@ -141,7 +147,8 @@ See also [](#brace-matching).
 EP: `com.intellij.breadcrumbsInfoProvider`
 
 [`BreadcrumbsProvider`](%gh-ic%/platform/editor-ui-api/src/com/intellij/ui/breadcrumbs/BreadcrumbsProvider.java)
-allows for language-specific breadcrumbs.
+allows for language-specific [breadcrumbs](https://www.jetbrains.com/help/idea/navigating-through-the-source-code.html#editor_breadcrumbs).
+[Sticky Lines](https://www.jetbrains.com/help/idea/sticky-lines.html) feature also uses this data.
 
 - [`GroovyBreadcrumbsInfoProvider`](%gh-ic%/plugins/groovy/src/org/jetbrains/plugins/groovy/editor/GroovyBreadcrumbsInfoProvider.kt)
 
@@ -200,7 +207,7 @@ If access to indexes is not required, it can be marked [dumb aware](indexing_and
 
 EP: `com.intellij.editorTabTitleProvider`
 
-[`EditorTabTitleProvider`](%gh-ic%/platform/ide-core-impl/src/com/intellij/openapi/fileEditor/impl/EditorTabTitleProvider.java)
+[`EditorTabTitleProvider`](%gh-ic%/platform/ide-core-impl/src/com/intellij/openapi/fileEditor/impl/EditorTabTitleProvider.kt)
 allows for specifying custom names and tooltips displayed in the title of editor tabs.
 If access to indexes is not required, it can be marked [dumb aware](indexing_and_psi_stubs.md#DumbAwareAPI).
 

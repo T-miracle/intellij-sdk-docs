@@ -12,20 +12,39 @@ See also [](build_number_ranges.md#multipleIDEVersions).
 
 ## Plugin Verifier
 
+### Using with Gradle
+
+Integration in [Gradle build](configuring_plugin_project.md) is available out-of-the box via dedicated Gradle tasks.
+
+<tabs>
+<tab title="IntelliJ Platform Gradle Plugin (2.x)">
+
+Use [`verifyPlugin`](tools_intellij_platform_gradle_plugin_tasks.md#verifyPlugin) task.
+
+</tab>
+<tab title="Gradle IntelliJ Plugin (1.x)">
+
+Use [`runPluginVerifier`](tools_gradle_intellij_plugin.md#tasks-runpluginverifier) task.
+
+</tab>
+</tabs>
+
+Integration with Continuous Integration (CI) environments is as simple as running the corresponding Gradle task as another quality check step.
+See the IntelliJ Platform Plugin Template [GitHub workflow configuration file](https://github.com/JetBrains/intellij-platform-plugin-template/blob/main/.github/workflows/build.yml) as reference.
+
+#### Navigation in the IDE
+
+Reported places are highlighted and linked to the plugin's source code in the <control>Gradle</control> tool window output (2023.3+).
+
+### JetBrains Marketplace
+
 Compatibility with newer IDEs can easily be verified for plugins hosted on the [JetBrains Marketplace](https://plugins.jetbrains.com) using the built-in [Plugin Verifier](https://blog.jetbrains.com/platform/2018/07/plugins-repository-now-integrates-with-the-plugin-verification-tool/).
 
-Integration in [Gradle build](configuring_plugin_project.md) is available using the [`runPluginVerifier`](tools_gradle_intellij_plugin.md#tasks-runpluginverifier) task, please see [Gradle IntelliJ Plugin - Plugin Verifier](tools_gradle_intellij_plugin.md#tasks-runpluginverifier) for details.
+### Other Usages
 
-> Reported places are highlighted and linked to the plugin's source code in the <control>Gradle</control> toolwindow output (2023.3).
->
-{title="Navigation in the IDE" style="tip"}
+If a plugin is hosted on GitHub and the project is _not_ using Gradle, consider using third-party GitHub Actions [IntelliJ Platform Plugin Verifier](https://github.com/marketplace/actions/intellij-platform-plugin-verifier) or [IntelliJ Plugin Verifier](https://github.com/marketplace/actions/intellij-plugin-verifier).
 
-You can easily integrate it in Continuous Integration (CI) environments by running this task as another quality check step.
-Check the IntelliJ Platform Plugin Template [GitHub workflow configuration file](https://github.com/JetBrains/intellij-platform-plugin-template/blob/main/.github/workflows/build.yml) as sample.
-
-If your plugin is hosted on GitHub and you are _not_ using Gradle, consider using third-party GitHub Actions [IntelliJ Platform Plugin Verifier](https://github.com/marketplace/actions/intellij-platform-plugin-verifier) or [IntelliJ Plugin Verifier](https://github.com/marketplace/actions/intellij-plugin-verifier).
-
-In other cases, [intellij-plugin-verifier](https://github.com/JetBrains/intellij-plugin-verifier) can be used standalone as well.
+In all other cases, [intellij-plugin-verifier](https://github.com/JetBrains/intellij-plugin-verifier) can be used standalone as well.
 
 ## IDE Support
 
@@ -69,6 +88,6 @@ Inspection: <control>Plugin DevKit | Plugin descriptor | Plugin.xml validity</co
 A plugin might specify a [compatibility range](build_number_ranges.md) including releases where some API is not available.
 Under the hood, it uses an artifact containing generated data via `@ApiStatus.AvailableSince`, which is automatically attached to the project.
 
-> If values are not specified directly in [<path>plugin.xml</path>](plugin_configuration_file.md) (e.g., when providing values via [](tools_gradle_intellij_plugin.md#tasks-patchpluginxml) Gradle task), they must be set explicitly in the inspection's settings.
+> If values are not specified directly in [<path>plugin.xml</path>](plugin_configuration_file.md) (e.g., when providing values via `patchPluginXml` Gradle task (Reference: [2.x](tools_intellij_platform_gradle_plugin_tasks.md#patchPluginXml), [1.x](tools_gradle_intellij_plugin.md#tasks-patchpluginxml))), they must be set explicitly in the inspection's settings.
 
 Inspection: <control>Plugin DevKit | Code | Usage of IntelliJ API not available in older IDEs</control>

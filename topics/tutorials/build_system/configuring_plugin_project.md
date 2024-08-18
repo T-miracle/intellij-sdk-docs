@@ -1,11 +1,13 @@
-# 配置 Gradle IntelliJ 插件
-
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<link-summary>配置必要的 Gradle IntelliJ 插件属性和任务。</link-summary>
+# Configuring Gradle IntelliJ Plugin
 
-本节提供了有关 Gradle 插件属性的指导，以实现常见的你所期望的功能。
-要了解更高级的选项，请参阅完整的 [Gradle IntelliJ 插件](tools_gradle_intellij_plugin.md) 参考文档。
+<link-summary>Configuring the essential Gradle IntelliJ Plugin attributes and tasks.</link-summary>
+
+This section presents a guided tour of Gradle plugin attributes to achieve the commonly desired functionality.
+For more advanced options, see the full [](tools_gradle_intellij_plugin.md) reference.
+
+<include from="creating_plugin_project.md" element-id="gradle1xOnly"/>
 
 <include from="snippets.md" element-id="gradlePluginVersion"/>
 
@@ -53,8 +55,8 @@ IntelliJ 平台插件项目可以依赖于捆绑的或第三方的插件。
 Gradle 插件将获取由 [`intellij.plugins`](tools_gradle_intellij_plugin.md#intellij-extension-plugins) 定义的插件列表中的任何插件。
 有关指定插件和版本的信息，请参阅 Gradle 插件 [IntelliJ 扩展](tools_gradle_intellij_plugin.md#configuration-intellij-extension)。
 
-请注意，此属性描述了一个依赖关系，以便 Gradle 插件可以获取所需的构件。
-运行时依赖关系必须按照 [插件依赖](plugin_dependencies.md#3-dependency-declaration-in-pluginxml) 中所述添加到 [Plugin Configuration](plugin_configuration_file.md) (<path>plugin.xml</path>) 文件中。
+Note that this attribute describes a dependency so that the Gradle plugin can fetch the required artifacts.
+The runtime dependency must be added in the [Plugin Configuration](plugin_configuration_file.md) (<path>plugin.xml</path>) file as described in [Plugin Dependencies](plugin_dependencies.md#dependency-declaration-in-pluginxml).
 
 ## 运行 IDE 任务
 

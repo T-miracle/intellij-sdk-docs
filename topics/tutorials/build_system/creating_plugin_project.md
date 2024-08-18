@@ -6,7 +6,18 @@
 
 本文档页面描述了使用[新建项目向导](https://www.jetbrains.com/help/idea/new-project-wizard.html)生成的基于 Gradle 的插件项目，但使用 [](plugin_github_template.md) 生成的项目涵盖了所有描述的文件和目录。
 
-## 使用新建项目向导创建插件 {id=creating-a-plugin-with-new-project-wizard}
+<snippet id="gradle1xOnly">
+
+> This page covers [](tools_gradle_intellij_plugin.md) only.
+>
+> See the [](tools_intellij_platform_gradle_plugin.md) reference.
+> A dedicated page for it will be provided later.
+>
+{title="Gradle IntelliJ Plugin (1.x) Only"}
+
+</snippet>
+
+## Creating a Plugin with New Project Wizard
 
 <include from="snippets.md" element-id="gradlePluginVersion"/>
 

@@ -1,17 +1,14 @@
-# 捆绑插件 API 源
-
 <!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+
+# 捆绑插件 API 源
 
 <link-summary>为其他插件公开插件的 API 源。</link-summary>
 
-如果一个插件暴露其自己的 API 供其他插件使用，考虑将插件的 API 源码捆绑在 ZIP 发布中是值得的。
+如果一个插件公开了供其他插件使用的 API，那么考虑将插件的 API 源代码打包到 ZIP 分发包中是值得的。
+能够查看 API 源代码能够极大地改善开发体验，因此强烈建议将它们一起打包。
 
-如果第三方插件使用 [](tools_gradle_intellij_plugin.md) 并向捆绑源码的插件添加依赖，源码将自动附加到插件库中，并在开发者导航到 API 类时在 IDE 中可见。
-能够查看 API 源码极大地提升了开发体验，强烈建议将其捆绑在一起。
-
-> 从 Gradle IntelliJ Plugin 1.7.0 开始，可以在 IDE 中附加捆绑的插件源码。
->
-{style="note"}
+如果第三方插件使用了 [](tools_intellij_platform_gradle_plugin.md) 或 [](tools_gradle_intellij_plugin.md)（1.7.0+），
+并且添加了一个依赖关系到将源代码打包在 ZIP 分发包中的插件，那么这些源代码会自动附加到插件库中，并在开发者浏览 API 类时在 IDE 中可见。
 
 ## API 源码位置
 
