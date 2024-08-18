@@ -4,7 +4,8 @@
 
 <link-summary>Layout and contents of a plugin distribution file.</link-summary>
 
-Plugin distribution will be built using [Gradle](tools_gradle_intellij_plugin.md#tasks-buildplugin) or [Plugin DevKit](deploying_theme.md).
+Plugin distribution are built using the dedicated Gradle `buildPlugin` task (Reference: [2.x](tools_intellij_platform_gradle_plugin_tasks.md#buildPlugin),
+[1.x](tools_gradle_intellij_plugin.md#tasks-buildplugin)) or [Plugin DevKit](deploying_theme.md).
 
 The plugin distribution <path>.jar</path> file contains:
 
@@ -49,12 +50,16 @@ end title
 
 The plugin <path>.jar</path> file is placed in the <path>/lib</path> folder under the plugin's "root" folder, together with all required bundled libraries.
 
-All jars from the <path>/lib</path> folder are automatically added to the classpath (see also [Plugin Class Loaders](plugin_class_loaders.md)).
+All JARs from the <path>/lib</path> folder are automatically added to the classpath (see also [Plugin Class Loaders](plugin_class_loaders.md)).
 
-> Do not repackage libraries into the main plugin archive (<path>sample.jar</path> in the sample below).
+<snippet id="doNotRepackageLibraries">
+
+> Do not repackage libraries into the main plugin JAR file.
 > Otherwise, [Plugin Verifier](verifying_plugin_compatibility.md) will yield false positives for unresolved classes and methods.
 >
 {title="Do Not Repackage Libraries" style="warning"}
+
+</snippet>
 
 ```plantuml
 @startuml

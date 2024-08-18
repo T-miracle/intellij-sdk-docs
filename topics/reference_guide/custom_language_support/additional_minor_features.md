@@ -33,7 +33,7 @@ See also [](#recognizing-complex-multi-block-expressions).
 #### "Heavy" Brace Matching
 <primary-label ref="2022.3"/>
 
-If the brace matching is "too heavy" and should not be executed in [EDT](general_threading_rules.md), implement
+If the brace matching is "too heavy" and should not be executed in [EDT](threading_model.md), implement
 [`HeavyBraceHighlighter`](%gh-ic%/platform/lang-impl/src/com/intellij/codeInsight/highlighting/HeavyBraceHighlighter.java)
 and register in `com.intellij.heavyBracesHighlighter` extension point.
 
@@ -92,6 +92,7 @@ EP: `com.intellij.nameSuggestionProvider`
 EP: `com.intellij.highlightUsagesHandlerFactory`
 
 [`HighlightUsagesHandlerFactory`](%gh-ic%/platform/lang-impl/src/com/intellij/codeInsight/highlighting/HighlightUsagesHandlerFactory.java) allows highlighting e.g., Exit Points or Exceptions.
+Can be [](indexing_and_psi_stubs.md#DumbAwareAPI) (2024.3+).
 
 ### TODO View
 
@@ -206,7 +207,7 @@ If access to indexes is not required, it can be marked [dumb aware](indexing_and
 
 EP: `com.intellij.editorTabTitleProvider`
 
-[`EditorTabTitleProvider`](%gh-ic%/platform/ide-core-impl/src/com/intellij/openapi/fileEditor/impl/EditorTabTitleProvider.java)
+[`EditorTabTitleProvider`](%gh-ic%/platform/ide-core-impl/src/com/intellij/openapi/fileEditor/impl/EditorTabTitleProvider.kt)
 allows for specifying custom names and tooltips displayed in the title of editor tabs.
 If access to indexes is not required, it can be marked [dumb aware](indexing_and_psi_stubs.md#DumbAwareAPI).
 

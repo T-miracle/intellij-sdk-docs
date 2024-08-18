@@ -1,11 +1,13 @@
-# Configuring Gradle IntelliJ Plugin
-
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+
+# Configuring Gradle IntelliJ Plugin
 
 <link-summary>Configuring the essential Gradle IntelliJ Plugin attributes and tasks.</link-summary>
 
 This section presents a guided tour of Gradle plugin attributes to achieve the commonly desired functionality.
-For more advanced options, see the full [Gradle IntelliJ Plugin](tools_gradle_intellij_plugin.md) reference.
+For more advanced options, see the full [](tools_gradle_intellij_plugin.md) reference.
+
+<include from="creating_plugin_project.md" element-id="gradle1xOnly"/>
 
 <include from="snippets.md" element-id="gradlePluginVersion"/>
 
@@ -54,7 +56,7 @@ The Gradle plugin will fetch any plugins in the list defined by [`intellij.plugi
 See the Gradle plugin [IntelliJ Extension](tools_gradle_intellij_plugin.md#configuration-intellij-extension) for information about specifying the plugin and version.
 
 Note that this attribute describes a dependency so that the Gradle plugin can fetch the required artifacts.
-The runtime dependency must be added in the [Plugin Configuration](plugin_configuration_file.md) (<path>plugin.xml</path>) file as described in [Plugin Dependencies](plugin_dependencies.md#3-dependency-declaration-in-pluginxml).
+The runtime dependency must be added in the [Plugin Configuration](plugin_configuration_file.md) (<path>plugin.xml</path>) file as described in [Plugin Dependencies](plugin_dependencies.md#dependency-declaration-in-pluginxml).
 
 ## Run IDE Task
 

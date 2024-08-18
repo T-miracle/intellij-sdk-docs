@@ -29,7 +29,7 @@ Use [`LightPlatformTestCase`](%gh-ic%/platform/testFramework/src/com/intellij/te
 or [`BasePlatformTestCase`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/fixtures/BasePlatformTestCase.java)
 for tests that don't have any dependency on Java functionality.
 
-For 2019.2 and earlier, use [`LightPlatformCodeInsightFixtureTestCase`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/fixtures/LightPlatformCodeInsightFixtureTestCase.java).
+For 2019.2 and earlier, use [`LightPlatformCodeInsightFixtureTestCase`](%gh-ic-223%/platform/testFramework/src/com/intellij/testFramework/fixtures/LightPlatformCodeInsightFixtureTestCase.java).
 
 **Examples:**
 - [`JavaCopyrightTest`](%gh-ic%/java/java-tests/testSrc/com/intellij/copyright/JavaCopyrightTest.kt)
@@ -63,6 +63,8 @@ When writing a light test, it is possible to specify the requirements of the pro
 It is done by extending the [`LightProjectDescriptor`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/LightProjectDescriptor.java) class and returning the project descriptor (usually stored in `static final` field) from `getProjectDescriptor()`.
 
 Before executing each test, the project instance will be reused if the test case returns the same project descriptor as the previous one or recreated if the descriptor is different (`equals() = false`).
+
+When [testing JVM languages](testing_faq.md#how-to-test-a-jvm-language), see also [`DefaultLightProjectDescriptor`](%gh-ic%/java/testFramework/src/com/intellij/testFramework/fixtures/DefaultLightProjectDescriptor.java).
 
 ## Heavy Tests
 

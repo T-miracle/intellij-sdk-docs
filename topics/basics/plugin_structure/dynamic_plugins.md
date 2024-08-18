@@ -5,7 +5,7 @@
 
 <link-summary>Making a plugin dynamic allows installing, updating, and uninstalling it without an IDE restart, as well as hot reloading plugin changes during the development.</link-summary>
 
-Installing, updating, and uninstalling plugins without restarting the IDE is available in the IntelliJ Platform.
+Installing, updating, and uninstalling plugins without restarting the IDE is available for all plugins following the restrictions listed below.
 
 During plugin development, [Auto-Reload](ide_development_instance.md#enabling-auto-reload) also allows code changes to take effect immediately in the sandbox IDE instance.
 To test whether dynamic installation works correctly, verify installing [local build distribution](publishing_plugin.md#building-distribution) succeeds (see [Troubleshooting](#troubleshooting)).
@@ -16,7 +16,7 @@ Note that any unloading problems in a production environment will ask the user t
 >
 {style="note"}
 
-> 3rd-party **paid** plugins can't be installed, updated, or uninstalled without restarting the IDE.
+> Third-party **paid** plugins can't be installed, updated, or uninstalled without restarting the IDE.
 >
 {style="warning"}
 
@@ -56,7 +56,7 @@ Application, project, and module [services](plugin_services.md) declared with `o
 
 ## Code
 
-> Loading and unloading plugins happens in EDT and under write action.
+> Loading and unloading plugins happens in [EDT](threading_model.md) and under write action.
 >
 {style="note"}
 

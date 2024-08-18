@@ -33,7 +33,7 @@ Enum class describing the failure level of the IntelliJ Plugin Verifier CLI tool
 | `NONE`                             | Contains no option.                                                                 |
 
 See also:
-- [Extension: `intellijPlatform.verifyPlugin.failureLevel`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-verifyPlugin-failureLevel)
+- [Extension: `intellijPlatform.pluginVerification.failureLevel`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-pluginVerification-failureLevel)
 - [Tasks: `verifyPlugin.failureLevel`](tools_intellij_platform_gradle_plugin_tasks.md#verifyPlugin-failureLevel)
 
 
@@ -48,7 +48,7 @@ Each entry is composed of a product code and coordinates used for dependency and
 
 | Name                    | Code   | Artifact Coordinates                               | Binary release |
 |-------------------------|--------|----------------------------------------------------|:--------------:|
-| `AndroidStudio`         | `AI`   | `com.google.android.studio:studio`                 |    &check;     |
+| `AndroidStudio`         | `AI`   | -                                                  |    &check;     |
 | `Aqua`                  | `QA`   | -                                                  |    &check;     |
 | `CLion`                 | `CL`   | `com.jetbrains.intellij.clion:clion`               |    &check;     |
 | `DataGrip`              | `DB`   | -                                                  |    &check;     |
@@ -103,6 +103,7 @@ The information is retrieved from the <path>product-info.json</path> file in the
 | `bundledPlugins`    | The list of bundled plugins provided with the current release.           |
 | `fileExtensions`    | The list of file extensions associated with the product.                 |
 | `modules`           | The list of modules of the product.                                      |
+| `layout`            | The modules and plugins dependencies mapping.                            |
 
 ### `validateSupportedVersion()`
 {#ProductInfo-validateSupportedVersion}
@@ -135,7 +136,7 @@ List of available channels used by JetBrains IDEs and [Android Studio](android_s
 | `PREVIEW`   |                |     &check;     |
 
 See also:
-- [Extension: `intellijPlatform.verifyPlugin.ides`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-verifyPlugin-ides)
+- [Extension: `intellijPlatform.pluginVerification.ides`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-pluginVerification-ides)
 - [Tasks: `printProductsReleases`](tools_intellij_platform_gradle_plugin_tasks.md#printProductsReleases)
 
 
@@ -154,8 +155,10 @@ Interface that provides a clear way to filter binary product releases for Intell
 | `channels`   | A list of [`ProductRelease.Channel`](#ProductRelease-Channel) types of binary releases to search in. |
 
 See also:
-- [Extension: `intellijPlatform.verifyPlugin.ides`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-verifyPlugin-ides)
+- [Extension: `intellijPlatform.pluginVerification.ides`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-pluginVerification-ides)
 - [Tasks: `printProductsReleases`](tools_intellij_platform_gradle_plugin_tasks.md#printProductsReleases)
+- [Gradle Properties: `productsReleasesAndroidStudioUrl`](tools_intellij_platform_gradle_plugin_gradle_properties.md#productsReleasesAndroidStudioUrl)
+- [Gradle Properties: `productsReleasesJetBrainsIdesUrl`](tools_intellij_platform_gradle_plugin_gradle_properties.md#productsReleasesJetBrainsIdesUrl)
 
 
 ## `SplitModeAware.SplitModeTarget`
@@ -165,11 +168,11 @@ See also:
 
 Describes a part of the product where the developed plugin can be installed when running in _splitMode_ handled by [`SplitModeAware`](tools_intellij_platform_gradle_plugin_task_awares.md#SplitModeAware).
 
-| Name                   | Description                                       |
-|------------------------|---------------------------------------------------|
-| `BACKEND`              | Install plugin in the backed IDE.                 |
-| `FRONTEND`             | Install plugin in the frontend IDE.               |
-| `BACKEND_AND_FRONTEND` | Install plugin in both backend and frontend IDEs. |
+| Name       | Description                                       |
+|------------|---------------------------------------------------|
+| `BACKEND`  | Install plugin in the backed IDE.                 |
+| `FRONTEND` | Install plugin in the frontend IDE.               |
+| `BOTH`     | Install plugin in both backend and frontend IDEs. |
 
 
 ## `Subsystems`
@@ -186,7 +189,7 @@ Specify which subsystems of the IDE should be checked by the IntelliJ Plugin Ver
 | `WITHOUT_ANDROID` | Exclude problems related to Android support. |
 
 See also:
-- [Extension: `intellijPlatform.verifyPlugin.subsystemsToCheck`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-verifyPlugin-subsystemsToCheck)
+- [Extension: `intellijPlatform.pluginVerification.subsystemsToCheck`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-pluginVerification-subsystemsToCheck)
 - [Tasks: `verifyPlugin.subsystemsToCheck`](tools_intellij_platform_gradle_plugin_tasks.md#verifyPlugin-subsystemsToCheck)
 
 
@@ -197,21 +200,27 @@ See also:
 
 Allows for adding `test-framework` testing library variants. See [Dependencies Extension: Testing](tools_intellij_platform_gradle_plugin_dependencies_extension.md#testing).
 
-| Name                | Coordinates                                                                    |
-|---------------------|--------------------------------------------------------------------------------|
-| `Platform.JUnit4`   | `com.jetbrains.intellij.platform:test-framework`                               |
-| `Platform.JUnit5`   | `com.jetbrains.intellij.platform:test-framework-junit5`                        |
-| `Platform.Bundled`  | **SEE NOTE BELOW** Adds <path>[platformPath]/lib/testFramework.jar</path> file |
-| `Plugin.Go`         | `com.jetbrains.intellij.go:go-test-framework`                                  |
-| `Plugin.Ruby`       | `com.jetbrains.intellij.idea:ruby-test-framework`                              |
-| `Plugin.Java`       | `com.jetbrains.intellij.java:java-test-framework`                              |
-| `Plugin.JavaScript` | `com.jetbrains.intellij.javascript:javascript-test-framework`                  |
-| `Plugin.Maven`      | `com.jetbrains.intellij.maven:maven-test-framework`                            |
-| `Plugin.ReSharper`  | `com.jetbrains.intellij.resharper:resharper-test-framework`                    |
+| Name                | Coordinates                                                                                                                                                                                                                                                                                                                 |
+|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Platform`          | `com.jetbrains.intellij.platform:test-framework`                                                                                                                                                                                                                                                                            |
+| `JUnit5`            | `com.jetbrains.intellij.platform:test-framework-junit5`                                                                                                                                                                                                                                                                     |
+| `Bundled`           | **SEE NOTE BELOW** Adds <path>[platformPath]/lib/testFramework.jar</path> file                                                                                                                                                                                                                                              |
+| `Metrics`           | `com.jetbrains.intellij.tools:ide-metrics-benchmark`<br/> `com.jetbrains.intellij.tools:ide-metrics-collector` <br/> `com.jetbrains.intellij.tools:ide-util-common`                                                                                                                                                         |
+| `Starter`           | `com.jetbrains.intellij.tools:ide-starter-squashed` <br/> `com.jetbrains.intellij.tools:ide-starter-junit5` <br/> `com.jetbrains.intellij.tools:ide-starter-driver` <br/> `com.jetbrains.intellij.driver:driver-client` <br/> `com.jetbrains.intellij.driver:driver-sdk` <br/> `com.jetbrains.intellij.driver:driver-model` |
+| `Plugin.Go`         | `com.jetbrains.intellij.go:go-test-framework`                                                                                                                                                                                                                                                                               |
+| `Plugin.Ruby`       | `com.jetbrains.intellij.idea:ruby-test-framework`                                                                                                                                                                                                                                                                           |
+| `Plugin.Java`       | `com.jetbrains.intellij.java:java-test-framework`                                                                                                                                                                                                                                                                           |
+| `Plugin.JavaScript` | `com.jetbrains.intellij.javascript:javascript-test-framework`                                                                                                                                                                                                                                                               |
+| `Plugin.Maven`      | `com.jetbrains.intellij.maven:maven-test-framework`                                                                                                                                                                                                                                                                         |
+| `Plugin.ReSharper`  | `com.jetbrains.intellij.resharper:resharper-test-framework`                                                                                                                                                                                                                                                                 |
 
-> The `Platform.Bundled` type should not be used unless it is necessary, like in the case of [Rider](rider.md), as its `test-framework` is not published as an artifact.
+> The `Bundled` type should not be used unless it is necessary, like in the case of [Rider](rider.md), as its `test-framework` is not published as an artifact.
 >
-{style="warning" title="Using Platform.Bundled"}
+{style="warning" title="Using Bundled"}
+
+There are two known issues related to `Platform` and `JUnit5` Test Frameworks:
+- [](tools_intellij_platform_gradle_plugin_faq.md#missing-opentest4j-dependency-in-test-framework)
+- [](tools_intellij_platform_gradle_plugin_faq.md#junit5-test-framework-refers-to-junit4)
 
 
 ## `VerificationReportsFormats`
@@ -230,7 +239,7 @@ Enum class describing the type of the results produced by the IntelliJ Plugin Ve
 | `NONE`     | Contains no options.           |
 
 See also:
-- [Extension: `intellijPlatform.verifyPlugin.verificationReportsFormats`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-verifyPlugin-verificationReportsFormats)
+- [Extension: `intellijPlatform.pluginVerification.verificationReportsFormats`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-pluginVerification-verificationReportsFormats)
 - [Tasks: `verifyPlugin.verificationReportsFormats`](tools_intellij_platform_gradle_plugin_tasks.md#verifyPlugin-verificationReportsFormats)
 
 

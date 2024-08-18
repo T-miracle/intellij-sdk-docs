@@ -21,7 +21,7 @@ A service needing a shutdown hook/cleanup routine can implement [`Disposable`](%
 #### Types
 
 The IntelliJ Platform offers three types of services: _application-level_ services (global singleton), _project-level_ services, and _module-level_ services.
-For the latter two, a separate instance of the service is created for each instance of its corresponding scope, see [Project Model Introduction](project_structure.md).
+For the latter two, a separate instance of the service is created for each instance of its corresponding scope, see [Project Model Introduction](project_model.md).
 
 > Avoid using module-level services as it can increase memory usage for projects with many modules.
 >
@@ -29,6 +29,7 @@ For the latter two, a separate instance of the service is created for each insta
 {id="moduleServiceNote"}
 
 #### Constructor
+{#ctor}
 
 To improve startup performance, avoid any heavy initializations in the constructor.
 
@@ -59,7 +60,7 @@ The service instance will be created in scope according to the caller (see [](#r
 
 * None of these attributes is required: `os`, `client`, `overrides`, `id`, `preload`.
 * Service class must be `final`.
-* [Constructor injection](#constructor) of dependency services is not supported.
+* [Constructor injection](#ctor) of dependency services is not supported.
 * If application-level service is a [PersistentStateComponent](persisting_state_of_components.md), roaming must be disabled (`roamingType = RoamingType.DISABLED`).
 
 Use these inspections to verify these and highlight services that can be converted (2023.3):
@@ -282,7 +283,7 @@ Registration in <path>plugin.xml</path>:
 {style="warning" title="Correct Service Retrieval"}
 
 Getting a service doesn't need a read action and can be performed from any thread.
-If a service is requested from several threads, it will be initialized in the first thread, and other threads will be blocked until it is fully initialized.
+If a service is requested from several [threads](threading_model.md), it will be initialized in the first thread, and other threads will be blocked until it is fully initialized.
 
 <tabs group="languages">
 <tab title="Java" group-key="java">

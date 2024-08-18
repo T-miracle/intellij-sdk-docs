@@ -10,23 +10,46 @@
 
 </tldr>
 
-## Working with Projects
+> Everything in the IntelliJ Platform SDK is done within the context of a project.
 
 The IntelliJ Platform stores the project configuration data in XML files.
-The list of those files depends on the chosen [project format](https://www.jetbrains.com/help/idea/creating-and-managing-projects.html#project-formats).
+The list of those files depends on the chosen [project format](https://www.jetbrains.com/help/idea/creating-and-managing-projects.html#project-formats):
+
+<tabs>
+<tab title="Directory-Based">
+
+Project and workspace settings are stored in a number of XML files under the <path>\$project_home_directory\$/.idea</path> directory.
+Each XML file is responsible for its own set of settings and can be recognized by its name: <path>projectCodeStyle.xml</path>, <path>encodings.xml</path>, <path>vcs.xml</path> etc.
+As for the file-based format projects, <path>.iml</path> files describe modules.
+
+</tab>
+
+<tab title="File-Based (Legacy)">
 
 For file-based format projects (legacy), the information core to the project itself (e.g., location of the component modules, compiler settings, etc.) is stored in the <path>\$project_name\$.ipr</path> file.
 The information about modules the project includes is stored in <path>\$module_name\$.iml</path> files.
 Module files are created for each module.
 
-For directory-based format projects, the project and workspace settings are stored in a number of XML files under the <path>\$project_home_directory\$/.idea</path> directory.
-Each XML file is responsible for its own set of settings and can be recognized by its name: <path>projectCodeStyle.xml</path>, <path>encodings.xml</path>, <path>vcs.xml</path> etc.
-As for the file-based format projects, <path>.iml</path> files describe modules.
+</tab>
+</tabs>
 
 Note that direct access to project files isn't required to load or save settings.
 See [Persisting State of Components](persisting_state_of_components.md) for more information.
 
+## Working with Projects
+
+<snippet id="useWorkspaceModelAPI">
+
+> The [](workspace_model.md) API is available since 2024.2 for use by third-party plugins and should be preferred over using the [Project Model](project_model.md) API.
+>
+> See [](workspace_model.md#interoperability) and [](workspace_model_usages.md).
+>
+{title="Workspace Model API (2024.2+)" style="note"}
+
+</snippet>
+
 To work with projects and project files, use the following classes and interfaces:
+
 * [`Project`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/Project.java)
 * [`ProjectRootManager`](%gh-ic%/platform/projectModel-api/src/com/intellij/openapi/roots/ProjectRootManager.java)
 * [`ProjectManager`](%gh-ic%/platform/projectModel-api/src/com/intellij/openapi/project/ProjectManager.java)
@@ -109,7 +132,7 @@ See [SDK](sdk.md) for more details.
 
 Utility classes used for modifying the project structure can be found in the package [`projectModel-impl.openapi`](%gh-ic%/platform/projectModel-impl/src/com/intellij/openapi).
 Its [`roots`](%gh-ic%/platform/projectModel-impl/src/com/intellij/openapi/roots) subpackage contains instances and utilities intended for work with project and module source roots, including [`ModuleRootModificationUtil`](%gh-ic%/platform/projectModel-api/src/com/intellij/openapi/roots/ModuleRootModificationUtil.java) and [`ProjectRootUtil`](%gh-ic%/platform/projectModel-impl/src/com/intellij/openapi/projectRoots/impl/ProjectRootUtil.java).
-Project structure changes need to be performed in [write action](general_threading_rules.md#read-write-lock).
+Project structure changes need to be performed in [write action](threading_model.md#write-actions).
 
 Refer to the [project_model](%gh-sdk-samples-master%/project_model/src/main/java/org/intellij/sdk/project/model/ModificationAction.java) code sample to learn how project structure modification can be implemented.
 

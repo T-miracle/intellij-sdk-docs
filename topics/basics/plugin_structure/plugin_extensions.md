@@ -1,6 +1,6 @@
 # Extensions
 
-<!-- Copyright 2000-2023 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+<!-- Copyright 2000-2024 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
 
 <link-summary>Extensions are the most common way of customizing functionality in the IDE.</link-summary>
 
@@ -66,9 +66,9 @@ and one extension to access the `another.plugin.myExtensionPoint` extension poin
   and exposes custom properties "key" and "implementationClass".
 -->
 <extensions defaultExtensionNs="another.plugin">
-  <myExtensionPoint
-      key="keyValue"
-      implementationClass="com.example.MyExtensionPointImpl"/>
+<myExtensionPoint
+    key="keyValue"
+    implementationClass="com.example.MyExtensionPointImpl"/>
 </extensions>
 ```
 
@@ -77,7 +77,7 @@ and one extension to access the `another.plugin.myExtensionPoint` extension poin
 Please note the following important points:
 
 - Extension implementation must be stateless. Use explicit [](plugin_services.md) for managing (runtime) data.
-- Avoid any initialization in the constructor, see also notes for [Services](plugin_services.md#constructor).
+- Avoid any initialization in the constructor, see also notes for [Services](plugin_services.md#ctor).
 - Do not perform any static initialization. Use inspection <control>Plugin DevKit | Code | Static initialization in extension point implementations</control> (2023.3).
 - An extension implementation must not be registered as [Service](plugin_services.md) additionally. Use inspection <control>Plugin DevKit | Code | Extension registered as service/component</control> (2023.3).
 
@@ -106,20 +106,25 @@ If an extension instance needs to "opt out" in certain scenarios, it can throw [
 
 Several tooling features are available to help configure bean class extension points in <path>plugin.xml</path>.
 
-Properties annotated with [`RequiredElement`](%gh-ic%/platform/core-api/src/com/intellij/openapi/extensions/RequiredElement.java) are inserted automatically and validated (2019.3 and later).
-If the given property is allowed to have an explicit empty value, set `allowEmpty` to `true` (2020.3 and later).
+#### Required Properties
+<primary-label ref="2019.3"/>
 
-Property names matching the following list will resolve to fully qualified class name:
+Properties annotated with [`RequiredElement`](%gh-ic%/platform/core-api/src/com/intellij/openapi/extensions/RequiredElement.java) are inserted automatically and validated.
+
+If the given property is allowed to have an explicit empty value, set `allowEmpty` to `true` (2020.3+).
+
+#### Class names
+
+Property names matching the following list will resolve to a fully qualified class name:
 
 - `implementation`
 - `className`
-- `serviceInterface` / `serviceImplementation`
 - ending with `Class` (case-sensitive)
+- `serviceInterface`/`serviceImplementation`
 
-A required parent type can be specified in the extension point declaration via nested [`<with>`](plugin_configuration_file.md#idea-plugin__extensionPoints__extensionPoint__with):
+A required parent type can be specified in the [extension point declaration](plugin_extension_points.md) via [`<with>`](plugin_configuration_file.md#idea-plugin__extensionPoints__extensionPoint__with):
 
 ```xml
-
 <extensionPoint name="myExtension" beanClass="MyExtensionBean">
   <with
       attribute="psiElementClass"
@@ -127,12 +132,22 @@ A required parent type can be specified in the extension point declaration via n
 </extensionPoint>
 ```
 
-Property name `language` (or ending in `*Language`, 2020.2+) resolves to all present `Language` IDs.
+#### Custom resolve
 
-Similarly, `action` resolves to all registered [`<action>`](plugin_configuration_file.md#idea-plugin__actions__action) IDs.
+Property name `language` (or ending in `*Language`, 2020.2+) resolves to all present [`Language`](%gh-ic%/platform/core-api/src/com/intellij/lang/Language.java) IDs.
 
-Annotating with [`@Nls`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/Nls.java) validates a UI `String` capitalization according to the text property `Capitalization` enum value (2019.2 and later).
+Similarly, `action` and `actionId` (2024.3+) resolve to all registered [`<action>`](plugin_configuration_file.md#idea-plugin__actions__action) IDs.
+
+#### Deprecation/ApiStatus
 
 Properties marked as `@Deprecated` or annotated with any of [`ApiStatus`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/ApiStatus.java) `@Internal`, `@Experimental`, `@ScheduledForRemoval`, or `@Obsolete` will be highlighted accordingly.
 
-Attributes with `Enum` type support code insight with _lowerCamelCased_ notation (2020.1 and later). Note: these must not override `toString()`.
+#### Enum properties
+<primary-label ref="2020.1"/>
+
+Attributes with `Enum` type support code insight with _lowerCamelCased_ notation. Note: Enum implementation must not override `toString()`.
+
+#### I18n
+<primary-label ref="2019.2"/>
+
+Annotating with [`@Nls`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/Nls.java) validates a UI `String` capitalization according to the text property `Capitalization` enum value.

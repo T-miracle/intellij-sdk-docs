@@ -16,133 +16,16 @@ Tasks have dependencies on each other, they inherit from [](tools_intellij_platf
 and can be configured independently.
 However, most cases will be covered by the [](tools_intellij_platform_gradle_plugin_extension.md).
 
-```mermaid
-flowchart LR
-    subgraph TASKS ["`**IntelliJ Platform Gradle Plugin Tasks**`"]
-        direction TB
-
-        initializeIntelliJPlatformPlugin
-
-        subgraph ALL ["` `"]
-            subgraph BUILD ["Build"]
-                buildPlugin
-                buildSearchableOptions
-                jarSearchableOptions
-
-                subgraph prepareSandbox_patchPluginXml ["` `"]
-                    prepareSandbox
-                    patchPluginXml
-                end
-
-                subgraph instrumentation
-                    direction BT
-
-                    instrumentedJar
-                    instrumentCode
-                end
-            end
-
-            subgraph PUBLISH ["Publish"]
-                publishPlugin
-                signPlugin
-            end
-
-            subgraph TEST ["Test"]
-                runIde
-                prepareTest
-                testIdePerformance>testIdePerformance]
-                testIdeUi>testIdeUi]
-            end
-
-            subgraph VERIFY ["Verify"]
-                direction TB
-
-                verifyPlugin
-                verifyPluginSignature
-                verifyPluginStructure
-                verifyPluginProjectConfiguration
-            end
-
-            TEST ~~~ VERIFY
-
-            printBundledPlugins
-            printProductsReleases
-        end
-    end
-
-    subgraph GRADLE ["Gradle Tasks"]
-        jar
-        test
-
-        subgraph compile ["` `"]
-            compileJava
-            compileKotlin
-        end
-    end
-
-
-    initializeIntelliJPlatformPlugin --> | runs before | ALL
-
-    buildPlugin --> jarSearchableOptions & prepareSandbox_patchPluginXml
-    buildSearchableOptions --> prepareSandbox_patchPluginXml
-    instrumentCode --> compile
-    instrumentedJar --> jar & instrumentCode
-    jarSearchableOptions --> buildSearchableOptions & prepareSandbox_patchPluginXml
-    patchPluginXml
-    prepareSandbox --> jar & instrumentedJar
-
-    publishPlugin --> buildPlugin & signPlugin
-    signPlugin --> buildPlugin
-
-    runIde --> prepareSandbox_patchPluginXml
-
-    prepareTest --> prepareSandbox_patchPluginXml
-    test --> prepareTest
-    testIdePerformance
-    testIdeUi
-
-    verifyPlugin --> buildPlugin
-    verifyPluginProjectConfiguration --> patchPluginXml
-    verifyPluginSignature
-    verifyPluginStructure --> prepareSandbox
-
-    click initializeIntelliJPlatformPlugin "#initializeIntelliJPlatformPlugin"
-
-    click buildPlugin "#buildPlugin"
-    click buildSearchableOptions "#buildSearchableOptions"
-    click instrumentCode "#instrumentCode"
-    click instrumentedJar "#instrumentedJar"
-    click jarSearchableOptions "#jarSearchableOptions"
-    click patchPluginXml "#patchPluginXml"
-    click prepareSandbox "#prepareSandbox"
-
-    click publishPlugin "#publishPlugin"
-    click signPlugin "#signPlugin"
-
-    click runIde "#runIde"
-
-    click prepareTest "#prepareTest"
-    click testIdePerformance "#testIdePerformance"
-    click testIdeUi "#testIdeUi"
-
-    click verifyPlugin "#verifyPlugin"
-    click verifyPluginProjectConfiguration "#verifyPluginProjectConfiguration"
-    click verifyPluginSignature "#verifyPluginSignature"
-    click verifyPluginStructure "#verifyPluginStructure"
-
-    click printBundledPlugins "#printBundledPlugins"
-    click printProductsReleases "#printProductsReleases"
-
-    style TASKS fill:transparent
-    style ALL fill:transparent
-```
-
 
 
 ## `buildPlugin`
 {#buildPlugin}
 
+<link-summary>Builds the plugin and prepares the ZIP archive for testing and deployment.</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform), [](tools_intellij_platform_gradle_plugin_plugins.md#module), [](tools_intellij_platform_gradle_plugin_plugins.md#base)
 
 **Depends on**: [`jarSearchableOptions`](#jarSearchableOptions), [`prepareSandbox`](#prepareSandbox)
 
@@ -161,9 +44,7 @@ where the name and location of [`archiveFile`](#buildPlugin-archiveFile) can be 
 [`Zip`](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.bundling.Zip.html) base task.
 By default, the `archiveBaseName` is set to the plugin name specified in the <path>plugin.xml</path> file, after it gets patched with the [`patchPluginXml`](#patchPluginXml) task.
 
-> Do not repackage libraries into the main plugin archive, see [](plugin_content.md#plugin-with-dependencies).
->
-{style="warning"}
+<include from="plugin_content.md" element-id="doNotRepackageLibraries"/>
 
 
 ### `archiveFile`
@@ -179,6 +60,8 @@ Type
 
 ## `buildSearchableOptions`
 {#buildSearchableOptions}
+
+<link-summary>Builds the index of UI components (searchable options) for the plugin.</link-summary>
 
 <tldr>
 
@@ -216,7 +99,7 @@ Default value
 {#buildSearchableOptions-showPaidPluginWarning}
 
 Emits a warning when the task is executed by a paid plugin.
-Can be disabled with the [`paidPluginSearchableOptionsWarning`](tools_intellij_platform_gradle_plugin_gradle_properties.md#paidPluginSearchableOptionsWarning) build feature.
+Can be disabled with the [`paidPluginSearchableOptionsWarning`](tools_intellij_platform_gradle_plugin_gradle_properties.md#paidPluginSearchableOptionsWarning) Gradle property.
 
 {style="narrow"}
 Type
@@ -230,18 +113,24 @@ Default value
 ## `composedJar`
 {#composedJar}
 
+<link-summary>Composes a final JAR by combining the base JAR, and instrumented classes, and declared submodules.</link-summary>
+
 <tldr>
 
-**Extends**: [`Jar`][gradle-jar-task], [`instrumentedJar`](#instrumentedJar)
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform), [](tools_intellij_platform_gradle_plugin_plugins.md#module)
+
+**Depends on**: [`jar`][gradle-jar-task], [`instrumentedJar`](#instrumentedJar)
+
+**Extends**: [`Jar`][gradle-jar-task]
 
 **Sources**: [`ComposedJarTask`](%gh-ijpgp-master%/src/main/kotlin/org/jetbrains/intellij/platform/gradle/tasks/ComposedJarTask.kt)
 
 </tldr>
 
-Composes a final Jar archive by combining the output of base `jar` or [`instrumentedJar`](#instrumentedJar) tasks,
+Composes a final JAR by combining the output of base `jar` or [`instrumentedJar`](#instrumentedJar) tasks,
 depending on if code instrumentation is enabled with [`intellijPlatform.instrumentCode`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-instrumentCode).
 
-The final Jar is also combined with plugin modules marked using the [`pluginModule`](tools_intellij_platform_gradle_plugin_dependencies_extension.md#plugins) dependencies helper.
+The final JAR is also combined with plugin modules marked using the [`pluginModule`](tools_intellij_platform_gradle_plugin_dependencies_extension.md#plugins) dependencies helper.
 
 
 ### `archiveFile`
@@ -258,7 +147,11 @@ Type
 ## `generateManifest`
 {#generateManifest}
 
+<link-summary>Generates the <path>MANIFEST.MF</path> file with all relevant information about the project configuration.</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform), [](tools_intellij_platform_gradle_plugin_plugins.md#module)
 
 **Extends**: [`DefaultTask`][gradle-default-task], [`IntelliJPlatformVersionAware`](tools_intellij_platform_gradle_plugin_task_awares.md#IntelliJPlatformVersionAware)
 
@@ -270,7 +163,7 @@ Generates the <path>MANIFEST.MF</path> file with all relevant information about 
 
 To apply the produced manifest file, `JarCompanion.applyPluginManifest` method should be called on a task extending [`Jar`][gradle-jar-task].
 
-This file is bundled into the output jar files produced by [`composedJar`](#composedJar), [`instrumentedJar`](#instrumentedJar), and [`Jar`][gradle-jar-task] tasks.
+This file is bundled into the output JAR files produced by [`composedJar`](#composedJar), [`instrumentedJar`](#instrumentedJar), and [`Jar`][gradle-jar-task] tasks.
 
 
 ### `pluginVersion`
@@ -327,7 +220,11 @@ Type
 ## `initializeIntelliJPlatformPlugin`
 {#initializeIntelliJPlatformPlugin}
 
+<link-summary>Initializes the IntelliJ Platform Gradle Plugin</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform), [](tools_intellij_platform_gradle_plugin_plugins.md#module), [](tools_intellij_platform_gradle_plugin_plugins.md#base)
 
 **Extends**: [`DefaultTask`][gradle-default-task], [`IntelliJPlatformVersionAware`](tools_intellij_platform_gradle_plugin_task_awares.md#IntelliJPlatformVersionAware)
 
@@ -433,7 +330,13 @@ Type
 ## `instrumentCode`
 {#instrumentCode}
 
+<link-summary>Executes the code instrumentation.</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform), [](tools_intellij_platform_gradle_plugin_plugins.md#module)
+
+**Depends on**: [`jar`][gradle-jar-task]
 
 **Extends**: [`DefaultTask`][gradle-default-task], [`JavaCompilerAware`](tools_intellij_platform_gradle_plugin_task_awares.md#JavaCompilerAware)
 
@@ -525,7 +428,11 @@ Type
 ## `instrumentedJar`
 {#instrumentedJar}
 
+<link-summary>Creates a JAR file with instrumented classes.</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform), [](tools_intellij_platform_gradle_plugin_plugins.md#module)
 
 **Depends on**: `jar`, [`instrumentCode`](#instrumentCode)
 
@@ -540,11 +447,15 @@ Creates a copy of the current module's `jar` task output with instrumented class
 ## `jarSearchableOptions`
 {#jarSearchableOptions}
 
+<link-summary>Creates a JAR file with searchable options to be distributed with the plugin.</link-summary>
+
 <tldr>
 
-**Depends on**: [`buildSearchableOptions`](#buildSearchableOptions), [`patchPluginXml`](#patchPluginXml), [`prepareSandbox`](#prepareSandbox)
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform)
 
-**Extends**: [`Jar`][gradle-jar-task], [`PluginAware`](tools_intellij_platform_gradle_plugin_task_awares.md#PluginAware), [`SandboxAware`](tools_intellij_platform_gradle_plugin_task_awares.md#SandboxAware)
+**Depends on**: [`buildSearchableOptions`](#buildSearchableOptions), [`prepareSandbox`](#prepareSandbox)
+
+**Extends**: [`Jar`][gradle-jar-task]
 
 **Sources**: [`JarSearchableOptionsTask`](%gh-ijpgp-master%/src/main/kotlin/org/jetbrains/intellij/platform/gradle/tasks/JarSearchableOptionsTask.kt)
 
@@ -566,19 +477,6 @@ Default value
 : <path>[buildDirectory]/libs</path>
 
 
-### `inputDirectory`
-{#jarSearchableOptions-inputDirectory}
-
-Specifies the directory where the prepared searchable options are read from.
-
-{style="narrow"}
-Type
-: `DirectoryProperty`
-
-Default value
-: [`buildSearchableOptions.outputDirectory`](#buildSearchableOptions-outputDirectory)
-
-
 ### `noSearchableOptionsWarning`
 {#jarSearchableOptions-noSearchableOptionsWarning}
 
@@ -597,7 +495,11 @@ Default value
 ## `patchPluginXml`
 {#patchPluginXml}
 
+<link-summary>Patches <path>plugin.xml</path> file with provided values.</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform)
 
 **Extends**: [`DefaultTask`][gradle-default-task], [`IntelliJPlatformVersionAware`](tools_intellij_platform_gradle_plugin_task_awares.md#IntelliJPlatformVersionAware)
 
@@ -605,7 +507,7 @@ Default value
 
 </tldr>
 
-Patches <path>plugin.xml</path> files with values provided with the [`intelliJPlatform.pluginConfiguration`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-pluginConfiguration) extension.
+Patches <path>plugin.xml</path> file with values provided with the [`intelliJPlatform.pluginConfiguration`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-pluginConfiguration) extension.
 
 
 ### `inputFile`
@@ -869,14 +771,91 @@ Default value
 
 
 
-## `prepareSandbox`
-{#prepareSandbox}
+## `prepareJarSearchableOptions`
+{#prepareJarSearchableOptions}
+
+<link-summary>Collects the content produced with `buildSearchableOptions` for the `jarSearchableOptions`.</link-summary>
 
 <tldr>
 
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform)
+
+**Depends on**: [`buildSearchableOptions`](#buildSearchableOptions), [`composedJar`](#composedJar), [`prepareSandbox`](#prepareSandbox)
+
+**Extends**: [`DefaultTask`][gradle-default-task]
+
+**Sources**: [`PrepareJarSearchableOptionsTask`](%gh-ijpgp-master%/src/main/kotlin/org/jetbrains/intellij/platform/gradle/tasks/PrepareJarSearchableOptionsTask.kt)
+
+</tldr>
+
+Collects the content produced with `buildSearchableOptions` for the `jarSearchableOptions`.
+
+
+### `inputDirectory`
+{#prepareJarSearchableOptions-inputDirectory}
+
+Specifies the directory where the prepared searchable options are read from.
+
+{style="narrow"}
+Type
+: `DirectoryProperty`
+
+Default value
+: [`buildSearchableOptions.outputDirectory`](#buildSearchableOptions-outputDirectory)
+
+
+### `outputDirectory`
+{#prepareJarSearchableOptions-outputDirectory}
+
+Specifies the directory where the filtered content is placed.
+
+{style="narrow"}
+Type
+: `DirectoryProperty`
+
+Default value
+: <path>[buildDirectory]/tmp/prepareJarSearchableOptions</path>
+
+
+### `libContainer`
+{#prepareJarSearchableOptions-libContainer}
+
+Specifies the <path>lib</path> directory within the current sandbox.
+
+{style="narrow"}
+Type
+: `DirectoryProperty`
+
+Default value
+: <path>[prepareSandbox.pluginDirectory]/lib</path>
+
+
+### `composedJarFile`
+{#prepareJarSearchableOptions-composedJarFile}
+
+Specifies the final composed Jar archive with the plugin content.
+
+{style="narrow"}
+Type
+: `RegularFileProperty`
+
+Default value
+: [`composedJar.archiveFile`](tools_intellij_platform_gradle_plugin_tasks.md#composedJar-archiveFile)
+
+
+
+## `prepareSandbox`
+{#prepareSandbox}
+
+<link-summary>Prepares a sandbox environment with the plugin and its dependencies installed.</link-summary>
+
+<tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform), [](tools_intellij_platform_gradle_plugin_plugins.md#module)
+
 **Depends on**: `jar`, [`instrumentedJar`](#instrumentedJar)
 
-**Extends**: [`Sync`][gradle-jar-task], [`SandboxProducerAware`](tools_intellij_platform_gradle_plugin_task_awares.md#SandboxProducerAware)
+**Extends**: [`Sync`][gradle-jar-task], [`IntelliJPlatformVersionAware`](tools_intellij_platform_gradle_plugin_task_awares.md#IntelliJPlatformVersionAware), [`SplitModeAware`](tools_intellij_platform_gradle_plugin_task_awares.md#SplitModeAware)
 
 **Sources**: [`PrepareSandboxTask`](%gh-ijpgp-master%/src/main/kotlin/org/jetbrains/intellij/platform/gradle/tasks/PrepareSandboxTask.kt)
 
@@ -918,6 +897,19 @@ Default value
 : [`SandboxAware.sandboxPluginsDirectory`](tools_intellij_platform_gradle_plugin_task_awares.md#SandboxAware-sandboxPluginsDirectory)
 
 
+### `pluginName`
+{#prepareSandbox-pluginName}
+
+Specifies the name of the plugin directory in the sandbox.
+
+{style="narrow"}
+Type
+: `Property<String>`
+
+Default value
+: [`intellijPlatform.projectName`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-projectName)
+
+
 ### `pluginDirectory`
 {#prepareSandbox-pluginDirectory}
 
@@ -928,7 +920,7 @@ Type
 : `DirectoryProperty`
 
 Default value
-: [`defaultDestinationDirectory`](#prepareSandbox-defaultDestinationDirectory)/[`intellijPlatform.projectName`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-projectName)
+: [`defaultDestinationDirectory`](#prepareSandbox-defaultDestinationDirectory)/[`projectName`](#prepareSandbox-pluginName)
 
 
 ### `disabledPlugins`
@@ -980,7 +972,11 @@ Type
 ## `prepareTest`
 {#prepareTest}
 
+<link-summary>Prepares the test task.</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform), [](tools_intellij_platform_gradle_plugin_plugins.md#module)
 
 **Depends on**: [`prepareTestSandbox`](#prepareTestSandbox)
 
@@ -997,11 +993,15 @@ Prepares an immutable [`test`](#test) task and provides all necessary dependenci
 ## `prepareTestSandbox`
 {#prepareTestSandbox}
 
+<link-summary>Prepares the test task sandbox.</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform)
 
 **Depends on**: `jar`, [`instrumentedJar`](#instrumentedJar)
 
-**Extends**: [`Sync`][gradle-jar-task], [`SandboxProducerAware`](tools_intellij_platform_gradle_plugin_task_awares.md#SandboxProducerAware)
+**Extends**: [`Sync`][gradle-jar-task], [`IntelliJPlatformVersionAware`](tools_intellij_platform_gradle_plugin_task_awares.md#IntelliJPlatformVersionAware), [`SplitModeAware`](tools_intellij_platform_gradle_plugin_task_awares.md#SplitModeAware)
 
 **Sources**: [`PrepareSandboxTask`](%gh-ijpgp-master%/src/main/kotlin/org/jetbrains/intellij/platform/gradle/tasks/PrepareSandboxTask.kt)
 
@@ -1014,7 +1014,11 @@ The [`prepareSandbox`](#prepareSandbox) task instance configured to work with th
 ## `printBundledPlugins`
 {#printBundledPlugins}
 
+<link-summary>Prints the list of bundled plugins available within the currently targeted IntelliJ Platform.</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform), [](tools_intellij_platform_gradle_plugin_plugins.md#module), [](tools_intellij_platform_gradle_plugin_plugins.md#base)
 
 **Extends**: [`DefaultTask`][gradle-default-task], [`IntelliJPlatformVersionAware`](tools_intellij_platform_gradle_plugin_task_awares.md#IntelliJPlatformVersionAware)
 
@@ -1029,7 +1033,11 @@ Prints the list of bundled plugins available within the currently targeted Intel
 ## `printProductsReleases`
 {#printProductsReleases}
 
+<link-summary>Prints the list of binary product releases that match criteria.</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform), [](tools_intellij_platform_gradle_plugin_plugins.md#module), [](tools_intellij_platform_gradle_plugin_plugins.md#base)
 
 **Extends**: [`DefaultTask`][gradle-default-task], [`ProductReleasesValueSource.FilterParameters`](tools_intellij_platform_gradle_plugin_types.md#ProductReleasesValueSource-FilterParameters)
 
@@ -1065,7 +1073,11 @@ See also:
 ## `publishPlugin`
 {#publishPlugin}
 
+<link-summary>Publishes the plugin to the remote plugins repository.</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform)
 
 **Depends on**: [`buildPlugin`](#buildPlugin), [`signPlugin`](#signPlugin)
 
@@ -1172,7 +1184,11 @@ Default value
 ## `runIde`
 {#runIde}
 
+<link-summary>Runs the IDE instance using the currently selected IntelliJ Platform with the built plugin loaded.</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform)
 
 **Depends on**: [`patchPluginXml`](#patchPluginXml), [`prepareSandbox`](#prepareSandbox)
 
@@ -1190,10 +1206,75 @@ To register a customized task, use [`intelliJPlatformTestingExtension.runIde`](t
 
 
 
+## `runIdeForUiTests`
+{#runIdeForUiTests}
+
+<secondary-label ref="unavailable"/>
+
+<link-summary>Runs the IDE instance using the currently selected IntelliJ Platform with the built plugin and Robot Server plugin loaded.</link-summary>
+
+Runs the IDE instance using the currently selected IntelliJ Platform with the built plugin and Robot Server plugin loaded.
+
+This task is not available by default and needs to be registered manually by applying the following code:
+
+<tabs group="languages">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+val runIdeForUiTests by intellijPlatformTesting.runIde.registering {
+  task {
+    jvmArgumentProviders += CommandLineArgumentProvider {
+      listOf(
+        "-Drobot-server.port=8082",
+        "-Dide.mac.message.dialogs.as.sheets=false",
+        "-Djb.privacy.policy.text=<!--999.999-->",
+        "-Djb.consents.confirmation.enabled=false",
+      )
+    }
+  }
+  plugins {
+    robotServerPlugin()
+  }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+intellijPlatformTesting.runIde {
+  runIdeForUiTests {
+    task {
+      jvmArgumentProviders.add({
+        [
+          "-Drobot-server.port=8082",
+          "-Dide.mac.message.dialogs.as.sheets=false",
+          "-Djb.privacy.policy.text=<!--999.999-->",
+          "-Djb.consents.confirmation.enabled=false",
+        ]
+      } as CommandLineArgumentProvider)
+    }
+    plugins {
+      robotServerPlugin()
+    }
+  }
+}
+```
+
+</tab>
+</tabs>
+
+
 ## `setupDependencies`
 {#setupDependencies}
 
+<link-summary>Deprecated. A deprecated method for setting up IntelliJ Platform dependencies.</link-summary>
+
+<secondary-label ref="deprecated"/>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform), [](tools_intellij_platform_gradle_plugin_plugins.md#module), [](tools_intellij_platform_gradle_plugin_plugins.md#base)
 
 **Extends**: [`DefaultTask`][gradle-default-task]
 
@@ -1215,7 +1296,11 @@ This method is no longer needed as the dependency on IntelliJ Platform is declar
 ## `signPlugin`
 {#signPlugin}
 
+<link-summary>Signs the ZIP archive with the provided key using Marketplace ZIP Signer library.2</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform)
 
 **Depends on**: [`buildPlugin`](#buildPlugin)
 
@@ -1232,6 +1317,8 @@ it is required to provide a certificate chain and a private key with its passwor
 As soon as [`privateKey`](#signPlugin-privateKey) (or [`privateKeyFile`](#signPlugin-privateKeyFile)) and [`certificateChain`](#signPlugin-certificateChain)
 (or [`certificateChainFile`](#signPlugin-certificateChainFile) properties are specified,
 the task will be executed automatically right before the [`publishPlugin`](#publishPlugin) task.
+
+> To start using the plugin signing feature, it is necessary to add a dependency on the Marketplace ZIP Signer CLI tool by adding the [`zipSigner()`](tools_intellij_platform_gradle_plugin_dependencies_extension.md#tools) entry to the dependencies section.
 
 For more details, see [](plugin_signing.md).
 
@@ -1417,7 +1504,11 @@ Default value
 ## `test`
 {#test}
 
+<link-summary>The base Gradle test task preconfigured to run IntelliJ Platform tests.</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform), [](tools_intellij_platform_gradle_plugin_plugins.md#module)
 
 **Depends on**: [`prepareTest`](#prepareTest)
 
@@ -1433,10 +1524,16 @@ The task itself isn't mutated and a dedicated [`prepareTest`](#prepareTest) task
 
 
 
-## `testIde`*
+## `testIde`
 {#testIde}
 
+<secondary-label ref="unavailable"/>
+
+<link-summary>Runs tests using a custom IntelliJ Platform with the developed plugin installed.</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform), [](tools_intellij_platform_gradle_plugin_plugins.md#module)
 
 **Depends on**: [`prepareTest`](#prepareTest)
 
@@ -1448,9 +1545,9 @@ The task itself isn't mutated and a dedicated [`prepareTest`](#prepareTest) task
 
 > The `testIde` task is not registered by default.
 >
-{style="tip"}
+{style="warning"}
 
-Runs plugin tests against the currently selected IntelliJ Platform with the built plugin loaded.
+Runs tests using a custom IntelliJ Platform with the developed plugin installed.
 It directly extends the [Test][gradle-test-task] Gradle task, which allows for an extensive configuration (system properties, memory management, etc.).
 
 The [`TestIdeTask`](%gh-ijpgp-master%/src/main/kotlin/org/jetbrains/intellij/platform/gradle/tasks/TestIdeTask.kt) is a class used only for handling custom `testIde` tasks.
@@ -1462,6 +1559,22 @@ To register a customized test task, use [`intelliJPlatformTestingExtension.testI
 ## `testIdePerformance`
 {#testIdePerformance}
 
+<secondary-label ref="incubating"/>
+
+<link-summary>Runs performance tests on the IntelliJ Platform with the developed plugin installed.</link-summary>
+
+<tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform)
+
+**Depends on**: [`prepareSandbox`](#prepareSandbox)
+
+**Extends**: [`JavaExec`][gradle-javaexec-task], [`RunnableIdeAware`](tools_intellij_platform_gradle_plugin_task_awares.md#RunnableIdeAware), [`TestableAware`](tools_intellij_platform_gradle_plugin_task_awares.md#TestableAware), [`IntelliJPlatformVersionAware`](tools_intellij_platform_gradle_plugin_task_awares.md#IntelliJPlatformVersionAware)
+
+**Sources**: [`TestIdePerformanceTask`](%gh-ijpgp-master%/src/main/kotlin/org/jetbrains/intellij/platform/gradle/tasks/TestIdePerformanceTask.kt)
+
+</tldr>
+
 > Not implemented.
 >
 {style="warning"}
@@ -1470,6 +1583,20 @@ To register a customized test task, use [`intelliJPlatformTestingExtension.testI
 
 ## `testIdeUi`
 {#testIdeUi}
+
+<secondary-label ref="incubating"/>
+
+<link-summary>Runs the IDE instance with the developed plugin and Starter framework for UI testing.</link-summary>
+
+<tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform)
+
+**Extends**: [`Test`][gradle-test-task], [`TestableAware`](tools_intellij_platform_gradle_plugin_task_awares.md#TestableAware)
+
+**Sources**: [`TestIdeUiTask`](%gh-ijpgp-master%/src/main/kotlin/org/jetbrains/intellij/platform/gradle/tasks/TestIdeUiTask.kt)
+
+</tldr>
 
 Runs the IDE instance with the developed plugin and Starter framework for UI testing.
 
@@ -1491,7 +1618,11 @@ Default value
 ## `verifyPluginProjectConfiguration`
 {#verifyPluginProjectConfiguration}
 
+<link-summary>Validates the plugin project configuration.</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform), [](tools_intellij_platform_gradle_plugin_plugins.md#module)
 
 **Depends on**: [`patchPluginXml`](#patchPluginXml)
 
@@ -1706,7 +1837,11 @@ Default value
 ## `verifyPluginSignature`
 {#verifyPluginSignature}
 
+<link-summary>Validates the signature of the plugin archive file using the Marketplace ZIP Signer library.</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform)
 
 **Extends**: [`JavaExec`][gradle-javaexec-task], [`SigningAware`](tools_intellij_platform_gradle_plugin_task_awares.md#SigningAware)
 
@@ -1768,7 +1903,11 @@ Default value
 ## `verifyPluginStructure`
 {#verifyPluginStructure}
 
+<link-summary>Validates completeness and contents of <path>plugin.xml</path> descriptors as well as plugin archive structure.</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform)
 
 **Depends on**: [`prepareSandbox`](#prepareSandbox)
 
@@ -1840,7 +1979,11 @@ Default value
 ## `verifyPlugin`
 {#verifyPlugin}
 
+<link-summary>Runs the IntelliJ Plugin Verifier CLI tool to check the binary compatibility with specified IDE builds.</link-summary>
+
 <tldr>
+
+**Available in:** [](tools_intellij_platform_gradle_plugin_plugins.md#platform)
 
 **Depends on**: [`buildPlugin`](#buildPlugin)
 
@@ -1850,10 +1993,14 @@ Default value
 
 </tldr>
 
-Runs the IntelliJ Plugin Verifier CLI tool to check the binary compatibility with specified IDE builds.
+Runs the [IntelliJ Plugin Verifier](verifying_plugin_compatibility.md) CLI tool to check the binary compatibility with specified IDE builds.
+
+Due to caching, the latest Plugin Verifier release version might not be picked up by Gradle immediately.
+In such cases, [refresh dependencies](https://docs.gradle.org/current/userguide/dependency_management.html#sec:refreshing-dependencies)
+manually.
 
 See also:
-- [Extension: `intellijPlatform.verifyPlugin`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-verifyPlugin)
+- [Extension: `intellijPlatform.pluginVerification`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-pluginVerification)
 - [Types: `FailureLevel`](tools_intellij_platform_gradle_plugin_types.md#FailureLevel)
 - [Types: `Subsystems`](tools_intellij_platform_gradle_plugin_types.md#Subsystems)
 - [Types: `VerificationReportsFormats`](tools_intellij_platform_gradle_plugin_types.md#VerificationReportsFormats)
@@ -1865,7 +2012,7 @@ See also:
 {#verifyPlugin-ides}
 
 Specifies IntelliJ Platform IDEs used by the IntelliJ Plugin Verifier CLI tool for binary plugin verification.
-The list of IDEs is managed through the [`intellijPlatform.verifyPlugin.ides`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-verifyPlugin-ides) extension.
+The list of IDEs is managed through the [`intellijPlatform.pluginVerification.ides`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-pluginVerification-ides) extension.
 
 {style="narrow"}
 Type
@@ -1897,7 +2044,7 @@ Type
 : `ListProperty<String>`
 
 Default value
-: [`intellijPlatform.verifyPlugin.externalPrefixes`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-verifyPlugin-externalPrefixes)
+: [`intellijPlatform.pluginVerification.externalPrefixes`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-pluginVerification-externalPrefixes)
 
 
 ### `failureLevel`
@@ -1910,7 +2057,7 @@ Type
 : [`ListProperty<FailureLevel>`](tools_intellij_platform_gradle_plugin_types.md#FailureLevel)
 
 Default value
-: [`intellijPlatform.verifyPlugin.failureLevel`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-verifyPlugin-failureLevel)
+: [`intellijPlatform.pluginVerification.failureLevel`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-pluginVerification-failureLevel)
 
 
 ### `freeArgs`
@@ -1919,14 +2066,14 @@ Default value
 Represents a list of free arguments that are passed directly to the IntelliJ Plugin Verifier CLI tool.
 These arguments are used in conjunction with those provided by dedicated options.
 
-See [](tools_intellij_platform_gradle_plugin_faq.md#how-to-mute-specific-problems-in-verifyplugin) for sample usage.
+See [](tools_intellij_platform_gradle_plugin_faq.md#mutePluginVerifierProblems) for sample usage.
 
 {style="narrow"}
 Type
 : `ListProperty<String>`
 
 Default value
-: [`intellijPlatform.verifyPlugin.freeArgs`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-verifyPlugin-freeArgs)
+: [`intellijPlatform.pluginVerification.freeArgs`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-pluginVerification-freeArgs)
 
 
 ### `ignoredProblemsFile`
@@ -1939,7 +2086,7 @@ Type
 : `RegularFileProperty`
 
 Default value
-: [`intellijPlatform.verifyPlugin.ignoredProblemsFile`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-verifyPlugin-ignoredProblemsFile)
+: [`intellijPlatform.pluginVerification.ignoredProblemsFile`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-pluginVerification-ignoredProblemsFile)
 
 
 ### `offline`
@@ -1970,7 +2117,7 @@ Type
 : [`Subsystems`](tools_intellij_platform_gradle_plugin_types.md#Subsystems)
 
 Default value
-: [`intellijPlatform.verifyPlugin.subsystemsToCheck`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-verifyPlugin-subsystemsToCheck)
+: [`intellijPlatform.pluginVerification.subsystemsToCheck`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-pluginVerification-subsystemsToCheck)
 
 
 ### `teamCityOutputFormat`
@@ -1984,7 +2131,7 @@ Type
 : `Property<Boolean>`
 
 Default value
-: [`intellijPlatform.verifyPlugin.teamCityOutputFormat`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-verifyPlugin-teamCityOutputFormat)
+: [`intellijPlatform.pluginVerification.teamCityOutputFormat`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-pluginVerification-teamCityOutputFormat)
 
 
 ### `verificationReportsDirectory`
@@ -1997,7 +2144,7 @@ Type
 : `DirectoryProperty`
 
 Default value
-: [`intellijPlatform.verifyPlugin.verificationReportsDirectory`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-verifyPlugin-verificationReportsDirectory)
+: [`intellijPlatform.pluginVerification.verificationReportsDirectory`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-pluginVerification-verificationReportsDirectory)
 
 
 ### `verificationReportsFormats`
@@ -2010,7 +2157,7 @@ Type
 : [`ListProperty<VerificationReportsFormats>`](tools_intellij_platform_gradle_plugin_types.md#VerificationReportsFormats)
 
 Default value
-: [`intellijPlatform.verifyPlugin.verificationReportsFormats`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-verifyPlugin-verificationReportsFormats)
+: [`intellijPlatform.pluginVerification.verificationReportsFormats`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-pluginVerification-verificationReportsFormats)
 
 
 <include from="snippets.md" element-id="missingContent"/>

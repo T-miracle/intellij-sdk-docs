@@ -76,9 +76,14 @@ NOTE: Entries not starting with code quotes (`name`) can be added to document no
 `com.intellij.psi.stubs.StubElement.getChildrenStubs()` method return type changed from `List<StubElement>` to `List<StubElement<?>>`
 : Raw-type changed to a properly parameterized type. This is binary compatible change but may cause compilation errors. In most of the cases, it's enough to add `<?>` at the use site to fix the issue.
 
+Unbundled JUnit library
+: Add an explicit dependency in the plugin project.
+
 ## 2024.2
 
 ### IntelliJ Platform 2024.2
+
+Constructor of `com.intellij.ui.tabs.TabInfo` requires not-null `JComponent` argument.
 
 `com.intellij.execution.lineMarker.ExecutorAction.Companion.wrap(RunContextAction, Int)` method removed
 : Use `com.intellij.execution.lineMarker.ExecutorAction.Companion.wrap(AnAction, Executor, Int)` instead.
@@ -91,6 +96,14 @@ NOTE: Entries not starting with code quotes (`name`) can be added to document no
 
 `com.intellij.platform.workspace.jps.entities.DependenciesKt.modifyEntity(MutableEntityStorage, LibraryEntity, Function1)` method removed
 : Use `com.intellij.platform.workspace.jps.entities.DependenciesKt.modifyLibraryEntity(MutableEntityStorage, LibraryEntity, Function1)` instead.
+
+### UML Plugin 2024.2
+
+`com.intellij.uml.UmlGraphBuilder(Project, Graph2D, Graph2DView, DiagramDataModel<?>, DiagramPresentationModel)` constructor removed
+: Use `com.intellij.uml.UmlGraphBuilder(Project, Graph2D, Graph2DView, DiagramDataModel<?>, GraphThreadingType, DiagramPresentationModel)` instead.
+
+`com.intellij.openapi.graph.impl.builder.GraphBuilderImpl.addEdge(Object, Object, Object)` method removed
+: Use `com.intellij.openapi.graph.impl.builder.GraphBuilderImpl.addEdge(Object, Object, String, Object, Object[], Function<? super E,? extends Edge>)` instead.
 
 ### Python Plugin 2024.2
 
@@ -111,6 +124,13 @@ NOTE: Entries not starting with code quotes (`name`) can be added to document no
 `org.jetbrains.kotlin.fir.types.ConeTypeUtilsKt.renderReadableWithFqNames(ConeKotlinType)` method removed
 : Internals of Kotlin compiler.
 
+`org.jetbrains.kotlin.analysis.project.structure.KtModule` class renamed to `org.jetbrains.kotlin.analysis.api.projectStructure.KaModule`
+: Update code usages.
+
+`org.jetbrains.kotlin.fir.expressions.FirAssignmentOperatorStatement` class removed
+: Internals of Kotlin compiler.
+
+
 ### Database Plugin 2024.2
 
 `com.intellij.database.datagrid.DataGrid.getCoroutineScope()` abstract method added
@@ -126,6 +146,11 @@ NOTE: Entries not starting with code quotes (`name`) can be added to document no
 
 `com.intellij.httpClient.http.request.HttpRequestPsiConverter.toRequestConfig(HttpRequest)` method visibility changed from `public` to `private`
 : This method is an implementation detail.
+
+### Dependency Analysis Plugin 2024.2
+
+`com.jetbrains.dependencyAnalysis` package removed
+: The package `com.jetbrains.dependencyAnalysis` has been removed. Please update your code to use the new package `com.jetbrains.dependencyAnalysis.core` instead.
 
 ## 2024.1
 
