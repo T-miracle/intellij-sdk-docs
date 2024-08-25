@@ -4,7 +4,7 @@
 
 <link-summary>允许通过其他插件扩展插件的功能。</link-summary>
 
-> See [Plugin Extensions](plugin_extensions.md) for _using_ extension points in your plugin.
+> 请参阅 [插件扩展](plugin_extensions.md) 了解插件中_使用_扩展点。
 >
 {style="note"}
 
