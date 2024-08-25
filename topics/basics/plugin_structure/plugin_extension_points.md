@@ -2,7 +2,7 @@
 
 # 扩展点
 
-<link-summary>Allowing to extend plugin's functionality by other plugins.</link-summary>
+<link-summary>允许通过其他插件扩展插件的功能。</link-summary>
 
 > See [Plugin Extensions](plugin_extensions.md) for _using_ extension points in your plugin.
 >
