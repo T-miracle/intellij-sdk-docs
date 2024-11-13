@@ -6,6 +6,7 @@
 
 | Release Name | Channel | Release Date | Version | IntelliJ IDEA Version |
 |--------------|:-------:|--------------|---------|-----------------------|
+| Meerkat &#124; 2024.3.1 Canary 1 | ![Canary][canary] | November 12, 2024 | **2024.3.1.1**<p>AI-243.21565.23.2431.12637205</p> | **null**<p>243.21565.23</p> |
 | Ladybug Feature Drop &#124; 2024.2.2 Canary 9 | ![Canary][canary] | October 31, 2024 | **2024.2.2.9**<p>AI-242.23339.11.2422.12584204</p> | **2024.2.3**<p>242.23339.11</p> |
 | Ladybug Feature Drop &#124; 2024.2.2 Canary 8 | ![Canary][canary] | October 25, 2024 | **2024.2.2.8**<p>AI-242.23339.11.2422.12548333</p> | **2024.2.3**<p>242.23339.11</p> |
 | Ladybug Feature Drop &#124; 2024.2.2 Canary 7 | ![Canary][canary] | October 17, 2024 | **2024.2.2.7**<p>AI-242.23339.11.2422.12512484</p> | **2024.2.3**<p>242.23339.11</p> |
@@ -572,10 +573,10 @@
 
 | Release Name | Channel | Release Date | Version | IntelliJ IDEA Version |
 |--------------|:-------:|--------------|---------|-----------------------|
+| Meerkat &#124; 2024.3.1 Canary 1 | ![Canary][canary] | November 12, 2024 | **2024.3.1.1**<p>AI-243.21565.23.2431.12637205</p> | **null**<p>243.21565.23</p> |
 | Ladybug Feature Drop &#124; 2024.2.2 Canary 9 | ![Canary][canary] | October 31, 2024 | **2024.2.2.9**<p>AI-242.23339.11.2422.12584204</p> | **2024.2.3**<p>242.23339.11</p> |
 | Ladybug Feature Drop &#124; 2024.2.2 Canary 8 | ![Canary][canary] | October 25, 2024 | **2024.2.2.8**<p>AI-242.23339.11.2422.12548333</p> | **2024.2.3**<p>242.23339.11</p> |
 | Ladybug Feature Drop &#124; 2024.2.2 Canary 7 | ![Canary][canary] | October 17, 2024 | **2024.2.2.7**<p>AI-242.23339.11.2422.12512484</p> | **2024.2.3**<p>242.23339.11</p> |
-| Ladybug Feature Drop &#124; 2024.2.2 Canary 6 | ![Canary][canary] | October 14, 2024 | **2024.2.2.6**<p>AI-242.23339.11.2422.12480590</p> | **2024.2.3**<p>242.23339.11</p> |
 | Ladybug &#124; 2024.2.1 Patch 2 | ![Patch][patch] | October 31, 2024 | **2024.2.1.11**<p>AI-242.23339.11.2421.12550806</p> | **2024.2.3**<p>242.23339.11</p> |
 
 [release]: https://img.shields.io/badge/-Release-blue?style=flat-square
