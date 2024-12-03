@@ -19,6 +19,7 @@
 | Ladybug Feature Drop &#124; 2024.2.2 Canary 3 | ![Canary][canary] | September 23, 2024 | **2024.2.2.3**<p>AI-242.21829.142.2422.12395834</p> | **2024.2.1**<p>242.21829.142</p> |
 | Ladybug Feature Drop &#124; 2024.2.2 Canary 2 | ![Canary][canary] | September 12, 2024 | **2024.2.2.2**<p>AI-242.21829.142.2422.12358220</p> | **2024.2.1**<p>242.21829.142</p> |
 | Ladybug Feature Drop &#124; 2024.2.2 Canary 1 | ![Canary][canary] | September 9, 2024 | **2024.2.2.1**<p>AI-242.21829.142.2422.12329062</p> | **2024.2.1**<p>242.21829.142</p> |
+| Ladybug &#124; 2024.2.1 Patch 3 | ![Patch][patch] | December 2, 2024 | **2024.2.1.12**<p>AI-242.23339.11.2421.12700392</p> | **2024.2.3**<p>242.23339.11</p> |
 | Ladybug &#124; 2024.2.1 Patch 2 | ![Patch][patch] | October 31, 2024 | **2024.2.1.11**<p>AI-242.23339.11.2421.12550806</p> | **2024.2.3**<p>242.23339.11</p> |
 | Ladybug &#124; 2024.2.1 Patch 1 | ![Patch][patch] | October 14, 2024 | **2024.2.1.10**<p>AI-242.23339.11.2421.12483815</p> | **2024.2.3**<p>242.23339.11</p> |
 | Ladybug &#124; 2024.2.1 | ![Release][release] | October 1, 2024 | **2024.2.1.9**<p>AI-242.21829.142.2421.12409432</p> | **2024.2.1**<p>242.21829.142</p> |
@@ -580,7 +581,7 @@
 | Meerkat &#124; 2024.3.1 Canary 2 | ![Canary][canary] | November 14, 2024 | **2024.3.1.2**<p>AI-243.21565.129.2431.12655144</p> | **2024.3**<p>243.21565.129</p> |
 | Meerkat &#124; 2024.3.1 Canary 1 | ![Canary][canary] | November 12, 2024 | **2024.3.1.1**<p>AI-243.21565.23.2431.12637205</p> | **2024.3**<p>243.21565.23</p> |
 | Ladybug Feature Drop &#124; 2024.2.2 Beta 1 | ![Beta][beta] | November 18, 2024 | **2024.2.2.10**<p>AI-242.23726.103.2422.12630895</p> | **2024.2.4**<p>242.23726.103</p> |
-| Ladybug Feature Drop &#124; 2024.2.2 Canary 9 | ![Canary][canary] | October 31, 2024 | **2024.2.2.9**<p>AI-242.23339.11.2422.12584204</p> | **2024.2.3**<p>242.23339.11</p> |
+| Ladybug &#124; 2024.2.1 Patch 3 | ![Patch][patch] | December 2, 2024 | **2024.2.1.12**<p>AI-242.23339.11.2421.12700392</p> | **2024.2.3**<p>242.23339.11</p> |
 
 [release]: https://img.shields.io/badge/-Release-blue?style=flat-square
 [patch]: https://img.shields.io/badge/-Patch-orange?style=flat-square
