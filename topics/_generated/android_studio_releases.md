@@ -6,6 +6,7 @@
 
 | Release Name | Channel | Release Date | Version | IntelliJ IDEA Version |
 |--------------|:-------:|--------------|---------|-----------------------|
+| Meerkat &#124; 2024.3.1 Canary 5 | ![Canary][canary] | December 12, 2024 | **2024.3.1.5**<p>AI-243.21565.193.2431.12752199</p> | **2024.3**<p>243.21565.193</p> |
 | Meerkat &#124; 2024.3.1 Canary 4 | ![Canary][canary] | December 2, 2024 | **2024.3.1.4**<p>AI-243.21565.193.2431.12735582</p> | **2024.3**<p>243.21565.193</p> |
 | Meerkat &#124; 2024.3.1 Canary 3 | ![Canary][canary] | November 21, 2024 | **2024.3.1.3**<p>AI-243.21565.193.2431.12691553</p> | **2024.3**<p>243.21565.193</p> |
 | Meerkat &#124; 2024.3.1 Canary 2 | ![Canary][canary] | November 14, 2024 | **2024.3.1.2**<p>AI-243.21565.129.2431.12655144</p> | **2024.3**<p>243.21565.129</p> |
@@ -579,10 +580,10 @@
 
 | Release Name | Channel | Release Date | Version | IntelliJ IDEA Version |
 |--------------|:-------:|--------------|---------|-----------------------|
+| Meerkat &#124; 2024.3.1 Canary 5 | ![Canary][canary] | December 12, 2024 | **2024.3.1.5**<p>AI-243.21565.193.2431.12752199</p> | **2024.3**<p>243.21565.193</p> |
 | Meerkat &#124; 2024.3.1 Canary 4 | ![Canary][canary] | December 2, 2024 | **2024.3.1.4**<p>AI-243.21565.193.2431.12735582</p> | **2024.3**<p>243.21565.193</p> |
 | Meerkat &#124; 2024.3.1 Canary 3 | ![Canary][canary] | November 21, 2024 | **2024.3.1.3**<p>AI-243.21565.193.2431.12691553</p> | **2024.3**<p>243.21565.193</p> |
 | Ladybug Feature Drop &#124; 2024.2.2 RC 1 | ![RC][rc] | December 5, 2024 | **2024.2.2.11**<p>AI-242.23726.103.2422.12721465</p> | **2024.2.4**<p>242.23726.103</p> |
-| Ladybug Feature Drop &#124; 2024.2.2 Beta 1 | ![Beta][beta] | November 18, 2024 | **2024.2.2.10**<p>AI-242.23726.103.2422.12630895</p> | **2024.2.4**<p>242.23726.103</p> |
 | Ladybug &#124; 2024.2.1 Patch 3 | ![Patch][patch] | December 2, 2024 | **2024.2.1.12**<p>AI-242.23339.11.2421.12700392</p> | **2024.2.3**<p>242.23339.11</p> |
 
 [release]: https://img.shields.io/badge/-Release-blue?style=flat-square
