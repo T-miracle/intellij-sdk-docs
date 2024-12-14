@@ -11,8 +11,6 @@
 [CLion](https://www.jetbrains.com/clion/) is an IntelliJ Platform-based product.
 Plugin projects for CLion can be developed using [IntelliJ IDEA](idea.md).
 
-<include from="snippets.md" element-id="jetbrainsProductOpenSourceLicense"/>
-
 ## CLion Plugin Setup
 
 > When targeting 2020.3, see this [migration guide](https://blog.jetbrains.com/clion/2020/12/migration-guide-for-plugins-2020-3/).
@@ -51,7 +49,7 @@ dependencies {
 
 <tab title="Gradle IntelliJ Plugin (1.x)">
 
-The configuration of CLion plugin projects follows the methods described in [Configuring Plugin Projects using a Product-Specific Attribute](dev_alternate_products.md#configuring-plugin-projects-using-a-product-specific-attribute), and [Configuring the plugin.xml File](dev_alternate_products.md#configuring-pluginxml).
+The configuration of CLion plugin projects follows the methods described in [Configuring Plugin Projects using a Product-Specific Attribute](dev_alternate_products.md#using-a-product-specific-attribute), and [Configuring the plugin.xml File](dev_alternate_products.md#configuring-pluginxml).
 
 The table below summarizes the [](tools_gradle_intellij_plugin.md) attributes to set in the plugin project's Gradle build script.
 Click on an entry in the table's *Attribute* column to go to the documentation about that attribute.

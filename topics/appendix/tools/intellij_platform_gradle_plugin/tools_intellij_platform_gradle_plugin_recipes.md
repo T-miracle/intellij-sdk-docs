@@ -4,9 +4,9 @@
 
 <link-summary>Recipes for solving particular tasks with IntelliJ Platform Gradle Plugin</link-summary>
 
-## Run a custom task with customized sandbox location
+## Run a custom task with a customized sandbox location
 
-To create a custom task with the sandbox directory specified outside of the default <path>build/idea-sandbox/[TYPE]-[VERSION]/</path> location, pass the new location to its `prepareSandboxTask` sandbox producer configuration:
+To create a custom task with the sandbox directory specified outside the default <path>build/idea-sandbox/[TYPE]-[VERSION]/</path> location, pass the new location to its `prepareSandboxTask` sandbox producer configuration:
 
 <tabs group="languages">
 <tab title="Kotlin" group-key="kotlin">
@@ -216,7 +216,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath("com.guardsquare:proguard-gradle:7.5")
+    classpath("com.guardsquare:proguard-gradle:7.5.0")
   }
 }
 
@@ -248,7 +248,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath("com.guardsquare:proguard-gradle:7.5")
+    classpath("com.guardsquare:proguard-gradle:7.5.0")
   }
 }
 

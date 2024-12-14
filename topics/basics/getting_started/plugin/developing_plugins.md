@@ -44,7 +44,9 @@ See [](plugin_github_template.md) for more information about the advantages of t
 
 ## 插件开发工作流程
 
-* [创建基于 Gradle 的插件项目](creating_plugin_project.md)
-* [配置 Gradle IntelliJ 插件](configuring_plugin_project.md)
-  * [添加 Kotlin 支持](using_kotlin.md)
-* [发布插件](publishing_plugin.md)
+* [](creating_plugin_project.md)
+  * [](plugin_github_template.md)
+* [](configuring_plugin_project.md)
+* [](using_kotlin.md)
+* [](plugin_signing.md)
+* [](publishing_plugin.md)

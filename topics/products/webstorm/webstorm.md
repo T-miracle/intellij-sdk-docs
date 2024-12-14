@@ -11,12 +11,12 @@
 [WebStorm](https://www.jetbrains.com/webstorm/) is an IntelliJ Platform-based product.
 Plugin projects for WebStorm can be developed using [IntelliJ IDEA](idea.md).
 
+> WebStorm is free for non-commercial use
+
 > Follow [Building a Plugin for WebStorm – Tutorial for JavaScript Developers](learning_resources.md#articles) blog post series to get started
 > and [How To Build a Plugin for JetBrains IDEs (Analog.js Example)](learning_resources.md#webinars) webinar.
 >
 {style="note"}
-
-<include from="snippets.md" element-id="jetbrainsProductOpenSourceLicense"/>
 
 ## WebStorm Plugin Setup
 
@@ -52,7 +52,7 @@ dependencies {
 
 <tab title="Gradle IntelliJ Plugin (1.x)">
 
-The configuration of WebStorm plugin projects follows the methods described in [Configuring Plugin Projects using the IntelliJ IDEA Product Attribute](dev_alternate_products.md#configuring-plugin-projects-using-the-intellij-idea-product-attribute) and [Configuring the plugin.xml File](dev_alternate_products.md#configuring-pluginxml) for PhpStorm.
+The configuration of WebStorm plugin projects follows the methods described in [Configuring Plugin Projects using the IntelliJ IDEA Product Attribute](dev_alternate_products.md#using-the-intellij-idea-product-attribute) and [Configuring the plugin.xml File](dev_alternate_products.md#configuring-pluginxml) for PhpStorm.
 
 The table below summarizes the [](tools_gradle_intellij_plugin.md) attributes to set in the plugin project's Gradle build script.
 Click on an entry in the table's *Attribute* column to go to the documentation about that attribute.
@@ -89,7 +89,9 @@ Test your plugin with any version of WebStorm you wish to support.
 
 <primary-label ref="2020.3"/>
 
-To use existing test base classes, specify `com.jetbrains.intellij.javascript:javascript-test-framework:$VERSION$` as `testImplementation` dependency explicitly (see [IntelliJ Platform Artifacts Repositories](intellij_artifacts.md#gradle-example-for-an-individual-module-from-the-intellij-platform)).
+To use existing test base classes, add `TestFrameworkType.Plugin.JavaScript` test-framework available from [](tools_intellij_platform_gradle_plugin_types.md#TestFrameworkType-Plugin).
+
+Alternatively, specify `com.jetbrains.intellij.javascript:javascript-test-framework:$VERSION$` as `testImplementation` dependency explicitly (see [IntelliJ Platform Artifacts Repositories](intellij_artifacts.md#gradle-example-for-an-individual-module-from-the-intellij-platform)).
 
 ## Open Source Plugins for WebStorm
 

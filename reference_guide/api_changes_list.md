@@ -67,7 +67,7 @@ NOTE: Entries not starting with code quotes (`name`) can be added to document no
 
 IntelliJ API may be occasionally changed between releases, leading to existing plugins' incompatibilities with newer IDE builds.
 
-Please see [](verifying_plugin_compatibility.md) on how to use Plugin Verifier and IDE inspections to check such problems.
+See [](verifying_plugin_compatibility.md) on how to use Plugin Verifier and IDE inspections to check such problems.
 
 ## Known Breaking Changes
 
@@ -75,6 +75,7 @@ Please see [](verifying_plugin_compatibility.md) on how to use Plugin Verifier a
 
 The following pages list the breaking changes in IDE and plugin releases with required/recommended steps to take by plugin authors.
 
+* [Changes in 2025.*](api_changes_list_2025.md)
 * [Changes in 2024.*](api_changes_list_2024.md)
 * [Changes in 2023.*](api_changes_list_2023.md)
 * [Changes in 2022.*](api_changes_list_2022.md)

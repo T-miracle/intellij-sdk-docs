@@ -52,23 +52,27 @@ IntelliJ 平台提供三种类型的服务：_应用级_ 服务（全局单例�
 
 ## 轻量级服务 {id=light-services}
 
-不需要覆盖/暴露为其他插件的 **API** 的服务不需要在 <path>[plugin.xml](plugin_configuration_file.md)</path> 中注册（见 [](#declaring-a-service)）。
-相反，请使用 [`@Service`](%gh-ic%/platform/core-api/src/com/intellij/openapi/components/Service.java) 注释服务类（见 [](#examples)）。
-服务实例将根据调用者的范围创建（见 [](#retrieving-a-service)）。
+A service not going to be overridden or exposed as API to other plugins does not need to be registered in <path>[plugin.xml](plugin_configuration_file.md)</path> (see [](#declaring-a-service)).
+Instead, annotate the service class with [`@Service`](%gh-ic%/platform/core-api/src/com/intellij/openapi/components/Service.java) (see [](#examples)).
+The service instance will be created in the scope according to the caller (see [](#retrieving-a-service)).
 
 ### 轻量级服务限制
 
-* 没有必需的属性：`os`、`client`、`overrides`、`id`、`preload`。
-* 服务类必须是 `final`。
-* 不支持[依赖服务的构造函数注入](#ctor)。
-* 如果应用级服务是 [PersistentStateComponent](persisting_state_of_components.md)，必须禁用漫游（`roamingType = RoamingType.DISABLED`）。
+* None of these attributes/restrictions (available for [registration of non-light services](#declaring-a-service)) is allowed: `id`, `os`, `client`, `overrides`, `configurationSchemaKey`/`preload` (Internal API).
+* There is no separate headless/test implementation required.
+* Service class must be `final`.
+* [Constructor injection](#ctor) of dependency services is not supported.
+* If an application-level service is a [PersistentStateComponent](persisting_state_of_components.md), roaming must be disabled (`roamingType = RoamingType.DISABLED`).
 
-使用以下检查来验证这些限制并突出显示可以转换的服务（2023.3）：
+Use these inspections to verify above restrictions and highlight non-light services that can be converted (2023.3):
+
 - <control>Plugin DevKit | Code | Light service must be final</control>
 - <control>Plugin DevKit | Code | Mismatch between light service level and its constructor</control>
 - <control>Plugin DevKit | Code | A service can be converted to a light one</control> 和相应的 <control>Plugin DevKit | Plugin descriptor | A service can be converted to a light one</control> 用于 <path>plugin.xml</path>
 
-### 示例 {id=examples}
+### Examples
+
+{id="lightServiceExamples"}
 
 <tabs group="languages">
 
@@ -78,19 +82,24 @@ IntelliJ 平台提供三种类型的服务：_应用级_ 服务（全局单例�
 应用级轻量级服务：
 
 ```java
+
 @Service
 public final class MyAppService {
+
   public void doSomething(String param) {
     // ...
   }
+
 }
 ```
 
 项目级轻量级服务示例：
 
 ```java
+
 @Service(Service.Level.PROJECT)
 public final class MyProjectService {
+
   private final Project myProject;
 
   MyProjectService(Project project) {
@@ -101,6 +110,7 @@ public final class MyProjectService {
     String projectName = myProject.getName();
     // ...
   }
+
 }
 ```
 
@@ -139,18 +149,25 @@ class MyProjectService(private val project: Project) {
 
 要注册非 [轻量级服务](#light-services)，为每种类型提供了不同的扩展点：
 
-* `com.intellij.applicationService` - 应用级服务
-* `com.intellij.projectService` - 项目级服务
-* `com.intellij.moduleService` - 模块级服务（不推荐，见 [注](#types)）
+* `com.intellij.applicationService` – application-level service
+* `com.intellij.projectService` – project-level service
+* `com.intellij.moduleService` – module-level service (not recommended, see [Note](#types))
 
-要暴露服务 **API**，为 `serviceInterface` 创建一个单独的类，并在相应的注册在 `serviceImplementation` 中的类中扩展它。
-如果没有指定 `serviceInterface`，则假定它与 `serviceImplementation` 具有相同的值。
-使用检查 <control>Plugin DevKit | Plugin descriptor | Plugin.xml extension registration</control> 来突出显示多余的 `serviceInterface` 声明。
+The service implementation is specified in the required `serviceImplementation` attribute.
 
-要为测试/无头环境提供自定义实现，请另外指定 `testServiceImplementation`/`headlessImplementation`。
+### Service API
 
-### 示例
+To expose a service's API, create a separate class for `serviceInterface` and extend it in the corresponding class registered in `serviceImplementation`.
+If `serviceInterface` isn't specified, it is supposed to have the same value as `serviceImplementation`.
+Use inspection <control>Plugin DevKit | Plugin descriptor | Plugin.xml extension registration</control> to highlight redundant `serviceInterface` declarations.
 
+### Additional Attributes
+
+A service can be restricted to a certain OS via the `os` attribute.
+
+To provide a custom implementation for test or headless environment, specify `testServiceImplementation` or `headlessImplementation` respectively.
+
+### Examples
 
 <tabs group="languages">
 
@@ -203,6 +220,7 @@ class MyProjectService(private val project: Project) {
     }
   }
   ```
+
 </tab>
 
 <tab title="Kotlin" group-key="kotlin">
@@ -249,22 +267,24 @@ class MyProjectService(private val project: Project) {
     }
   }
   ```
+
 </tab>
 
 </tabs>
 
 在 <path>plugin.xml</path> 中注册：
 ```xml
+
 <extensions defaultExtensionNs="com.intellij">
   <!-- 声明应用级服务 -->
   <applicationService
-      serviceInterface="com.example.MyAppService"
-      serviceImplementation="com.example.MyAppServiceImpl"/>
+          serviceInterface="com.example.MyAppService"
+          serviceImplementation="com.example.MyAppServiceImpl"/>
 
   <!-- 声明项目级服务 -->
   <projectService
-      serviceInterface="com.example.MyProjectService"
-      serviceImplementation="com.example.MyProjectServiceImpl"/>
+          serviceInterface="com.example.MyProjectService"
+          serviceImplementation="com.example.MyProjectServiceImpl"/>
 </extensions>
 ```
 
@@ -312,6 +332,7 @@ val applicationService = service<MyAppService>()
 
 val projectService = project.service<MyProjectService>()
 ```
+
 </tab>
 
 </tabs>

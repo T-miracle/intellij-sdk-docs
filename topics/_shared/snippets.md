@@ -35,12 +35,6 @@ _Plugin DevKit_ 插件与 IntelliJ IDEA 捆绑在一起直至 2023.2。
 
 </snippet>
 
-<snippet id="jetbrainsProductOpenSourceLicense">
-
-> 合格的开源项目可以[申请 JetBrains 产品的免费许可证](https://www.jetbrains.com/community/opensource/)。
-
-</snippet>
-
 <snippet id="jetbrainsIDE_TLDR">
 
 <tldr>
@@ -75,7 +69,7 @@ _Early Access Program_ (EAP) releases of upcoming versions are available [here](
 >
 > **2024.2+**: Java 21
 >
-> **2022.2+**: Java 17 ([blog post](https://blog.jetbrains.com/platform/2022/08/intellij-project-migrates-to-java-17/))
+> **2022.3+**: Java 17 ([blog post](https://blog.jetbrains.com/platform/2022/08/intellij-project-migrates-to-java-17/))
 >
 > **2020.3+**: Java 11 ([blog post](https://blog.jetbrains.com/platform/2020/09/intellij-project-migrates-to-java-11/))
 >

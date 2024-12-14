@@ -16,7 +16,7 @@ The IntelliJ Platform executes background processes widely and provides two main
 >
 > See [](coroutine_execution_contexts.md) for coroutine-based APIs to use in different contexts.
 >
-{style="warning"}
+{style="warning" title="Use Kotlin Coroutines"}
 
 The Progress API allows running processes on BGT with a modal (dialog), non-modal (visible in the status bar), or invisible progress.
 It also allows for process cancellation and progress tracking (as a fraction of work done or textual).
@@ -38,7 +38,7 @@ The key classes are:
   - [`ProgressWrapper`](%gh-ic%/platform/core-impl/src/com/intellij/openapi/progress/util/ProgressWrapper.java) – wraps an existing progress indicator, usually to fork another thread with the same cancellation policy.
     Use [`SensitiveProgressWrapper`](%gh-ic%/platform/core-impl/src/com/intellij/concurrency/SensitiveProgressWrapper.java) to allow that separate thread's indicator to be canceled independently of the main thread.
 
-- [`Task`](%gh-ic%/platform/core-api/src/com/intellij/openapi/progress/Task.java) - encapsulates an operation to perform.
+- [`Task`](%gh-ic%/platform/core-api/src/com/intellij/openapi/progress/Task.java) – encapsulates an operation to perform.
   See `Task`'s inner subclasses for backgroundable, modal and other base task classes.
 
 ### Starting
@@ -73,7 +73,7 @@ new Task.Backgroundable(project, "Synchronizing data", true) {
 </tab>
 </tabs>
 
-`ProgressManager` also allows running runnables and computables not wrapped within `Task` with several `run*()` methods.
+`ProgressManager` also allows running `Runnable` and `Computable` instances not wrapped within `Task` with several `run*()` methods.
 Example:
 
 <tabs group="languages">
@@ -138,7 +138,9 @@ It allows canceling processes deeply in the call stack, without the need to hand
 
 PCE is handled by the infrastructure that started the process and must never be logged or swallowed.
 In case of catching it for some reason, it must be rethrown.
-Use inspection <control>Plugin DevKit | Code | 'ProcessCanceledException' handled incorrectly</control> (2023.3).
+Use inspection
+<control>Plugin DevKit | Code | Cancellation exception handled incorrectly</control> (2024.3)
+(previously named <control>'ProcessCanceledException' handled incorrectly</control> (2023.3)).
 
 All code working with [PSI](psi.md) or in other kinds of background processes must be prepared for PCE being thrown at any point.
 
@@ -155,14 +157,14 @@ Use inspection <control>Plugin DevKit | Code | Cancellation check in loops</cont
 
 ### Tracking Progress
 
-Displaying progress to the user is achieved with `ProgressIndicator` or `ProgressManager`, if no indicator instance is available in the current context.
+Displaying progress to the user is achieved with `ProgressIndicator` or `ProgressManager` if no indicator instance is available in the current context.
 
 To report progress, use the following methods:
 - `setText(String)` – sets text above the progress bar
 - `setText2(String)` – sets text under the progress bar
 - `setFraction(double)` – sets the progress fraction: a number between 0.0 (nothing) and 1.0 (all) reflecting the ratio of work that has already been done.
   Only works for determinate indicator.
-  The fraction should provide the user with a rough estimation of the time left.
+  The fraction should provide the user with an estimation of the time left.
   If this is impossible, consider making the progress indeterminate.
 - `setIndeterminate(boolean)` – marks the progress indeterminate (for processes that can't estimate the amount of work to be done) or determinate (for processes that can display the fraction of the work done using `setFraction(double)`).
 

@@ -18,6 +18,20 @@ Dumb-aware "Highlight Usages"
 `ParsingTestCase`: stable PSI check
 : [`ParsingTestCase`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/ParsingTestCase.java) verifies that reparsing causes no changes (Parser bug).
 
+Performance test classes and methods renamed to _Benchmark_
+:
+- [`PerformanceTestInfo`](%gh-ic-242%/platform/testFramework/src/com/intellij/testFramework/PerformanceTestInfo.java) has been renamed to [`BenchmarkTestInfo`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/BenchmarkTestInfo.java)
+- [`PlatformTestUtil.newPerformanceTest*()`](%gh-ic-242%/platform/testFramework/src/com/intellij/testFramework/PlatformTestUtil.java) methods have been renamed to [`PlatformTestUtil.newBenchmark*()`](%gh-ic%/platform/testFramework/src/com/intellij/testFramework/PlatformTestUtil.java)
+
+Testing: `Logger.error()` behaviour
+: Does not throw during tests anymore, see [issue](https://youtrack.jetbrains.com/issue/IJPL-453) for details.
+
+### IntelliJ IDEA 2024.3
+
+Unbundled _Swing UI Designer_ Plugin
+: [Install](https://plugins.jetbrains.com/plugin/25304-swing-ui-designer) from JetBrains Marketplace.
+Consider using [](kotlin_ui_dsl_version_2.md) for forms instead.
+
 ## 2024.2
 
 ### IntelliJ Platform 2024.2
@@ -34,8 +48,13 @@ Testing: `ProjectActivity`
 Testing: indexes
 : Indexes are now built asynchronously during tests, see [](testing_faq.md#how-to-handle-indexing).
 
-ToggleAction in popups
+`ToggleAction` in popups
 : No longer closes popups, see [](basic_action_system.md#toggleActionPopupMenus)
+
+### Kotlin Plugin
+
+Depending on K1 API
+: Plugins using K1 API classes must adjust their usages, see [Migrating Your IntelliJ IDEA Kotlin Plugin to K2 Mode](https://blog.jetbrains.com/platform/2024/09/migrating-your-kotlin-plugin-to-k2-mode/).
 
 ### PyCharm 2024.2
 

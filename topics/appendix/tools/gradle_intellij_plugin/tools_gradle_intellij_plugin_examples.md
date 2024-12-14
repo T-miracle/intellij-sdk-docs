@@ -1,19 +1,19 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Gradle IntelliJ Plugin – Usage Examples
+# Gradle IntelliJ Plugin (1.x) – Usage Examples
+<primary-label ref="Obsolete"/>
 
-<link-summary>Usage Examples of plugins using Gradle IntelliJ Plugin.</link-summary>
+<link-summary>Usage Examples of plugins using Gradle IntelliJ Plugin (1.x).</link-summary>
 
-Marketplace platform provides the [IntelliJ Platform Explorer](https://jb.gg/ipe) – a search tool for browsing Extension Points inside existing implementations of open-source IntelliJ Platform plugins.
+<include from="tools_gradle_intellij_plugin.md" element-id="gradlePluginObsolete"/>
+
+The JetBrains Marketplace platform provides the [IntelliJ Platform Explorer](https://jb.gg/ipe) – a search tool for browsing Extension Points inside existing implementations of open-source IntelliJ Platform plugins.
 
 One of its features is the possibility of filtering the plugins by those that utilize [Gradle](https://jb.gg/ipe?buildSystem=gradle) or [Gradle KTS](https://jb.gg/ipe?buildSystem=gradle_kts) build scripts.
 
 As examples of using this plugin, you can also check out the following projects:
 
 - [Erlang plugin](https://github.com/ignatov/intellij-erlang) and its [TeamCity build configuration](https://teamcity.jetbrains.com/project.html?projectId=IntellijIdeaPlugins_Erlang&tab=projectOverview)
-- [Rust plugin](https://github.com/intellij-rust/intellij-rust)
-    - Fully written in Kotlin
-    - Uses [Grammar-Kit]
 - [Perl5 plugin](https://github.com/hurricup/Perl5-IDEA)
 - [Bamboo Soy plugin](https://github.com/google/bamboo-soy) and its [Travis configuration file](https://github.com/google/bamboo-soy/blob/master/.travis.yml)
 - [AceJump plugin](https://github.com/johnlindquist/AceJump)

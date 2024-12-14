@@ -8,6 +8,13 @@ Translations for IntelliJ Platform products and plugins can be provided in two w
 - [](#language-packs)
 - [](#bundled-translations)
 
+<video src="https://www.youtube.com/watch?v=36BPMPBFCG4"/>
+
+_This talk covers how to implement localization in JetBrains plugins.
+While JetBrains IDEs are available in Simplified Chinese, Japanese, and Korean, most plugins remain English-only.
+Joachim demonstrates how to easily localize different plugin elements like messages, settings, inspections, and file templates.
+The session also provides tips on localizing plugin descriptions for Marketplace, websites, or handbooks._
+
 ## Language Packs
 
 Localizing IDEs is achieved by providing language packs (see [language packs](https://plugins.jetbrains.com/search?tags=Language%20Pack) provided by JetBrains).
@@ -35,9 +42,21 @@ The `locale` attribute defines the translation language on two possible levels:
 
 ### Language Selection
 
-It is important to note that there is no language chooser in the IDE, and language packs serve as the IDE "language switcher."
+<tabs>
+<tab title="2024.2+">
+
+In versions 2024.2 and newer language packs are bundled in IDE distributions.
+To select the IDE language, follow the instruction from the [IntelliJ IDEA Web Help](https://www.jetbrains.com/help/idea/language-and-region.html#language).
+
+</tab>
+<tab title="Pre-2024.2">
+
+In versions 2024.1 and older, there is no language selector in the IDE, and language packs serve as the IDE "language switcher."
 Installing a language pack changes the IDE language to the one defined by the `languageBundle` EP.
 Only a single language pack can be installed at the same time, and restart is required for the translations to take effect.
+
+</tab>
+</tabs>
 
 ### Getting the Current Locale Programmatically
 
@@ -68,26 +87,37 @@ Proper localization files will be used at runtime depending on the [IDE language
 
 ### Bundled Translations Structure
 
-Translations for a specific language can be organized in two ways:
-- Language directory: <path>/localization/\$LANGUAGE_CODE\$/\$REGION_CODE\$</path> (`$REGION_CODE$` level is optional).
-  Example:
+Translations for a specific language can be organized in two ways as shown below.
+The proper directory layout/filename suffixes is the only thing needed for the translations to work.
+No additional actions like registering EPs are needed.
+
+#### Language Directory
+
+Translated resources are stored in a dedicated directory structure.
+
+<path>/localization/\$LANGUAGE_CODE\$/\$REGION_CODE\$</path> (`$REGION_CODE$` level is optional).
+
+Example:
   - Original template description:
 
     <path>/fileTemplates/code/JavaDoc Class.java.html</path>
   - Translated template description: <path></path>
 
     <path>/localization/zh/CN/fileTemplates/code/JavaDoc Class.java.html</path>
-- Localization suffix in filename: <path>/intentionDescriptions/QuickEditAction/description_\$LANGUAGE_CODE\$_\$REGION_CODE\$.html</path>.
-  Example:
+
+#### Localization Suffix in Filename
+
+Translated resources are stored in files with dedicated filename.
+
+<path>/intentionDescriptions/QuickEditAction/description_\$LANGUAGE_CODE\$_\$REGION_CODE\$.html</path>
+
+Example:
   - Original template description:
 
     <path>/intentionDescriptions/QuickEditAction/description.html</path>
   - Translated template description: <path></path>
 
     <path>/intentionDescriptions/QuickEditAction/description_zh_CN.html</path>
-
-The proper directory layout/filename suffixes is the only thing needed for the translations to work.
-No additional actions like registering EPs are needed.
 
 ## Translated Elements
 
@@ -102,9 +132,9 @@ The following table contains the possible translated elements and information ab
 | [Postfix template descriptions](postfix_templates.md#postfix-template-description)<p>(<path>*.xml</path> file in <path>/postfixTemplates</path> directory)</p>              | Yes           | Since 2024.2                                                                             |
 | Tips of the day<p>(<path>*.html</path> files in <path>tips</path> directory)</p>                                                                                            | Yes           | Since 2024.2                                                                             |
 
-See the [IntelliJ Platform UI Guidelines | Text](https://jetbrains.design/intellij/text/capitalization/) sections for good practices about writing UI texts.
+See the [IntelliJ Platform UI Guidelines | Text](capitalization.md) sections for good practices about writing UI texts.
 
-## Translation Priority
+## Translation Lookup Order
 
 Translations can be provided on three different levels:
 - region-specific translation
@@ -114,7 +144,7 @@ Translations can be provided on three different levels:
 In addition, translations can be [organized in directories or with file suffixes](#bundled-translations-structure), and the same translation can be provided by a [language pack](#language-packs) or [IDE/plugin](#bundled-translations).
 
 All these conditions determine how a single translation is resolved at runtime.
-The priority is as follows:
+The lookup order is as follows:
 
 1. Translation file from the language pack.
 2. Region level (for example, `zh_CN`, `zh_TW`) localization file:
@@ -130,5 +160,16 @@ The priority is as follows:
 4. Default file (no suffix) within the IDE or plugin (original English message).
 
    {type="alpha-lower"}
+
+### Example
+
+Assume that the current IDE language is set to Simplified Chinese (`zh_CN`).
+To find an example <path>messages/MyBundle.properties</path> message bundle for this language, the locations will be searched in the following order:
+1. <path>messages/MyBundle.properties</path> (in the selected language pack plugin)
+2. <path>localization/zh/CN/messages/MyBundle.properties</path> (region level)
+3. <path>messages/MyBundle_zh_CN.properties</path> (region level)
+4. <path>localization/zh/messages/MyBundle.properties</path> (language level)
+5. <path>messages/MyBundle_zh.properties</path> (language level)
+6. <path>messages/MyBundle.properties</path> (default)
 
 <include from="snippets.md" element-id="missingContent"/>

@@ -66,6 +66,36 @@
 - [`JavaImplicitTypeDeclarativeInlayHintsProvider`](%gh-ic%/java/java-impl/src/com/intellij/codeInsight/hints/JavaImplicitTypeDeclarativeInlayHintsProvider.kt) - 在 Java 代码中显示用 `var` 关键字声明的变量的推断类型，当推断类型可能不清晰时
 - [`JavaMethodChainsDeclarativeInlayProvider`](%gh-ic%/java/java-impl/src/com/intellij/codeInsight/hints/JavaMethodChainsDeclarativeInlayProvider.kt) - 在 Java 代码中的方法调用链中显示方法返回类型
 
+To provide a custom configuration UI, implement
+[`InlayHintsCustomSettingsProvider`](%gh-ic%/platform/lang-api/src/com/intellij/codeInsight/hints/declarative/InlayHintsCustomSettingsProvider.kt)
+registered in `com.intellij.codeInsight.declarativeInlayProviderCustomSettingsProvider` extension point.
+
+Preview texts displayed for inlay hint providers under <ui-path>Settings | Editor | Inlay Hints</ui-path> must be located in plugin resources in <path>inlayProviders/\$provider_id\$</path> directory, for example, <path>inlayProviders/java.implicit.types</path>.
+The <path>\$provider_id\$</path> value must match the `providerId` attribute of `com.intellij.codeInsight.declarativeInlayProvider` EP.
+The preview file name must be <path>preview.\$ext\$</path>, where <path>\$ext\$</path> is a default extension of a supported file type, for example, <path>preview.java</path>.
+Hints displayed in the preview panel are defined with the dedicated markup:
+
+<tabs>
+<tab title="2023.2+">
+
+```
+/*<# Displayed Hint #>*/
+```
+
+</tab>
+<tab title="Pre-2023.2">
+
+```
+<# Displayed Hint #>
+```
+
+</tab>
+</tabs>
+
+**Examples**:
+- [`inlayProviders/java.implicit.types/preview.java`](%gh-ic%/java/java-impl/resources/inlayProviders/java.implicit.types/preview.java)
+- [`inlayProviders/groovy.lambda.parameter.inlay.provider/preview.groovy`](%gh-ic%/plugins/groovy/resources/inlayProviders/groovy.lambda.parameter.inlay.provider/preview.groovy)
+
 ### 代码视图提供者 {id=code-vision-provider}
 
 > 此 API 仍处于实验状态，可能会在不保持向后兼容的情况下进行更改。
@@ -90,6 +120,15 @@
 `CodeVisionGroupSettingProvider` 是在设置中显示代码视图提供者的名称和描述所必需的。
 `groupId` 必须与 `CodeVisionProvider` 实现中指定的值匹配；如果未指定，则默认为 `id`。
 `groupName` 是在代码视图组中显示的名称，`description` 将在右侧详细信息面板中可见。
+
+Code vision preview is available under <ui-path>Settings | Editor | Inlay Hints | Code vision</ui-path>.
+In case if multiple preview examples in different languages are provided for an existing code vision provider, IDE will choose the most important from its point of view.
+For example, IntelliJ IDEA will use Java preview, PhpStorm will use PHP preview, etc.
+
+To provide a preview example for a custom code vision provider:
+1. Create a <path>codeVisionProviders/\$model_id\$/preview.\$ext\$</path> file, for example, <path>codeVisionProviders/vcs.code.vision/preview.java</path>.
+   The <path>\$modelId\$</path> must match the `groupId` of `CodeVisionGroupSettingProvider` and `modelId` (see 2.).
+2. Register an `com.intellij.codeInsight.codeVisionSettingsPreviewLanguage`, which specifies the preview `language` and `modelId`.
 
 **示例：**
 - [`JavaInheritorsCodeVisionProvider`](%gh-ic%/java/java-impl/src/com/intellij/codeInsight/daemon/impl/JavaInheritorsCodeVisionProvider.kt) - 显示 Java 类或方法的继承者数量。点击内联提示将打开继承者列表。该提供者是 `DaemonBoundCodeVisionProvider`。

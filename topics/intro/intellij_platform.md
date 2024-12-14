@@ -66,9 +66,7 @@ IntelliJ 平台是许多 JetBrains IDE 的基础。
 同样，其他产品，例如 [WebStorm](webstorm.md) 和 [DataGrip](data_grip.md) 基于 IntelliJ IDEA 社区版，它包含一组不同的插件，但不包括其他默认插件。
 这允许插件针对多个产品，因为每个产品都将包含基本功能和来自 IntelliJ IDEA Community Edition 存储库的精选插件。
 
-<include from="snippets.md" element-id="jetbrainsProductOpenSourceLicense"/>
-
-以下 IDE 基于 IntelliJ 平台：
+The following IDEs are based on the IntelliJ Platform:
 
 * [JetBrains](https://www.jetbrains.com) IDEs:
     * [AppCode](app_code.md)

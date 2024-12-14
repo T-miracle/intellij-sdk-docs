@@ -58,7 +58,7 @@ See [](#deploying-a-plugin-with-gradle) on how to publish new versions using Gra
 
 ## 使用 Gradle 发布插件 {id=publishing-plugin-with-gradle}
 
-Once [Gradle support](configuring_plugin_project.md) has been configured, and the plugin has been [uploaded manually](#uploading-a-plugin-to-jetbrains-marketplace) to the plugin repository at least once,
+Once [Gradle support](creating_plugin_project.md) has been configured, and the plugin has been [uploaded manually](#uploading-a-plugin-to-jetbrains-marketplace) to the plugin repository at least once,
 it can be built and deployed to the [JetBrains Marketplace](https://plugins.jetbrains.com) automatically using dedicated Gradle tasks.
 
 > **2.x** refers to [](tools_intellij_platform_gradle_plugin.md) and **1.x** to [](tools_gradle_intellij_plugin.md) in the following sections.
@@ -95,24 +95,9 @@ To deploy a plugin to the JetBrains Marketplace, supply the Personal Access Toke
 
 首先定义一个环境变量，例如：
 
-<tabs group="gradlePluginVersion">
-
-<tab title="IntelliJ Platform Gradle Plugin (2.x)" group-key="2.x">
-
 ```bash
-export ORG_GRADLE_PROJECT_intellijPlatform.publishing.token='YOUR_TOKEN'
+export ORG_GRADLE_PROJECT_intellijPlatformPublishingToken='YOUR_TOKEN'
 ```
-
-</tab>
-
-<tab title="Gradle IntelliJ Plugin (1.x)" group-key="1.x">
-
-```bash
-export ORG_GRADLE_PROJECT_intellijPublishToken='YOUR_TOKEN'
-```
-
-</tab>
-</tabs>
 
 > 在 macOS 系统上，设置在 <path>.bash_profile</path> 中的环境变量只对从 bash 运行的进程可见。
 > 要让所有进程可见的环境变量需要在 [Environment.plist](https://developer.apple.com/library/archive/qa/qa1067/_index.html) 中定义。
@@ -124,33 +109,27 @@ Now provide the environment variable in the run configuration for running the `p
 To do so, create a Gradle run configuration (if not already done), select the Gradle project, specify the
 `publishPlugin` task, and then add the environment variable.
 
-#### IntelliJ Platform Gradle Plugin (2.x)
+<tabs group="gradlePluginVersion">
+
+<tab title="IntelliJ Platform Gradle Plugin (2.x)" group-key="2.x">
 
 ```kotlin
-publishPlugin {
-  token.set(System.getenv("ORG_GRADLE_PROJECT_intellijPlatform.publishing.token"))
-}
-```
-
-#### Gradle IntelliJ Plugin (1.x)
-
-{collapsible="true" default-state="collapsed"}
-
-<tabs group="languages">
-<tab title="Kotlin" group-key="kotlin">
-
-```kotlin
-publishPlugin {
-  token.set(System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken"))
+intellijPlatform {
+  publishing {
+    token = providers.gradleProperty("intellijPlatformPublishingToken")
+  }
 }
 ```
 
 </tab>
-<tab title="Groovy" group-key="groovy">
 
-```groovy
-publishPlugin {
-  token = System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken")
+<tab title="Gradle IntelliJ Plugin (1.x)" group-key="1.x">
+
+```kotlin
+tasks {
+  publishPlugin {
+    token = providers.gradleProperty("intellijPlatformPublishingToken")
+  }
 }
 ```
 
@@ -166,24 +145,9 @@ publishPlugin {
 Like using environment variables, the token can also be passed as a parameter to the Gradle task.
 For example, provide the parameter on the command line or by putting it in the arguments of the Gradle run configuration.
 
-<tabs group="gradlePluginVersion">
-
-<tab title="IntelliJ Platform Gradle Plugin (2.x)" group-key="2.x">
-
 ```bash
--Dorg.gradle.project.intellijPlatform.publishing.token=YOUR_TOKEN
+-PintellijPlatformPublishingToken=YOUR_TOKEN
 ```
-
-</tab>
-
-<tab title="Gradle IntelliJ Plugin (1.x)" group-key="1.x">
-
-```bash
--Dorg.gradle.project.intellijPublishToken=YOUR_TOKEN
-```
-
-</tab>
-</tabs>
 
 请注意，在这种情况下，仍然需要在 Gradle 属性中设置一些默认值（可以为空）。
 
@@ -213,15 +177,21 @@ To deploy a new version of the plugin to the JetBrains Marketplace, invoke the `
 
 ### 指定发布通道 {id=specifying-a-release-channel}
 
-It's possible to deploy plugins to a chosen release channel by configuring the `publishPlugin.channels` property
-(Reference: [2.x](tools_intellij_platform_gradle_plugin_tasks.md#publishPlugin-channels), [1.x](tools_gradle_intellij_plugin.md#tasks-publishplugin-channels)).
+<tabs group="gradlePluginVersion">
+
+<tab title="IntelliJ Platform Gradle Plugin (2.x)" group-key="2.x">
+
+It's possible to deploy plugins to a chosen release channel by configuring the [`intellijPlatform.publishing.channels`](tools_intellij_platform_gradle_plugin_extension.md#intellijPlatform-publishing-channels) extension property.
+
 
 <tabs group="languages">
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
-publishPlugin {
-  channels.set(listOf("beta"))
+intellijPlatform {
+  publishing {
+    channels = listOf("beta")
+  }
 }
 ```
 
@@ -229,10 +199,45 @@ publishPlugin {
 <tab title="Groovy" group-key="groovy">
 
 ```groovy
-publishPlugin {
-  channels = ['beta']
+intellijPlatform {
+  publishing {
+    channels = ['beta']
+  }
 }
 ```
+
+</tab>
+</tabs>
+
+</tab>
+<tab title="Gradle IntelliJ Plugin (1.x)" group-key="1.x">
+
+It's possible to deploy plugins to a chosen release channel by configuring the [`publishPlugin.channels`](tools_gradle_intellij_plugin.md#tasks-publishplugin-channels) task property.
+
+<tabs group="languages">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+tasks {
+  publishPlugin {
+    channels = listOf("beta")
+  }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+tasks {
+  publishPlugin {
+    channels = ['beta']
+  }
+}
+```
+
+</tab>
+</tabs>
 
 </tab>
 </tabs>

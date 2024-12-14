@@ -7,7 +7,7 @@ on:
     paths: [ 'code_samples/**','.github/workflows/code-samples.yml' ]
 
 env:
-  PLUGIN_VERIFIER_IDE_VERSIONS: '2023.3.7 2024.1.5 2024.2'
+  PLUGIN_VERIFIER_IDE_VERSIONS: '2024.1.7 2024.2.4 2024.3'
 
 jobs:
 
@@ -34,7 +34,6 @@ jobs:
           - editor_basics
           - facet_basics
           - framework_basics
-          - kotlin_demo
           - live_templates
           - max_opened_projects
           - module
@@ -73,6 +72,7 @@ jobs:
           tasks {
             runPluginVerifier {
               ideVersions.set("\"$PLUGIN_VERIFIER_IDE_VERSIONS\"".split(' ').toList())
+              freeArgs.set(listOf(\"-mute\", \"TemplateWordInPluginId\"))
             }
           }
           " >> code_samples/${{ matrix.plugin }}/build.gradle.kts

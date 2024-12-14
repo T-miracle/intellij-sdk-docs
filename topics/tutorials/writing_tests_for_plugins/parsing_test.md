@@ -1,6 +1,6 @@
-# 2. Parsing Test
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<!-- Copyright 2000-2022 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
+# 2. Parsing Test
 
 <tldr>
 
@@ -35,13 +35,14 @@ private recover_property ::= !(KEY|SEPARATOR|COMMENT)
 Create the <path>ParsingTestData.simple</path> properties file in the <path>testData</path> folder.
 Note the last few lines define a purposely incorrect key.
 
-```bash
+```properties
 ```
 {src="simple_language_plugin/src/test/testData/ParsingTestData.simple"}
 
 ## Copy the Expected PSI Tree
-The easiest way to get the expected PSI structure for any file is to use the PSI Viewer.
-Run the project and use <ui-path>Tools | View PSI Structure</ui-path>.
+The easiest way to get the expected PSI structure for any file is to use the [built-in PSI viewer](explore_api.md#internalMode).
+Run the project and use <ui-path>Tools | View PSI Structure...</ui-path>
+(enable [Internal Mode](enabling_internal.md) explicitly for the IDE instance if the menu is not available).
 
 ![PSI Tree Copy](plugin_copy_psi.png)
 
@@ -50,7 +51,7 @@ Use the <control>Copy PSI</control> button to copy the expected PSI structure to
 ## Define the Output Reference Test Data
 Create a file <path>ParsingTestData.txt</path> with the copied PSI tree.
 
-```text
+```properties
 ```
 {src="simple_language_plugin/src/test/testData/ParsingTestData.txt"}
 

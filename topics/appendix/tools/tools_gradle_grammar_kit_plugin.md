@@ -16,7 +16,6 @@ The [Gradle Grammar-Kit Plugin](https://github.com/JetBrains/gradle-grammar-kit-
 
 > The plugin does not support two-pass generation. Therefore, it does not support method mixins.
 >
->
 {style="note" title="Known Limitations"}
 
 > Please see [CONTRIBUTING](https://github.com/JetBrains/gradle-grammar-kit-plugin/blob/master/CONTRIBUTING.md) on how to submit feedback and contribute to this project.
@@ -136,8 +135,9 @@ Default value
 {#generatelexer-task}
 
 The `generateLexer` task generates a lexer for the given grammar.
-The task is configured using the common [`grammarKit`](#grammar-kit-extension) extension.
 
+The following sections describe task configuration options.
+See also [](#grammar-kit-extension) for common configuration.
 
 #### sourceFile
 {#tasks-generatelexer-source}
@@ -146,7 +146,7 @@ The source <path>.*flex</path> file to generate the lexer from.
 
 {style="narrow"}
 Required
-: `true`
+: yes
 
 Type
 : `String`
@@ -159,7 +159,7 @@ The path to the target directory for the generated lexer.
 
 {style="narrow"}
 Required
-: `true`
+: yes
 
 Type
 : `String`
@@ -198,8 +198,9 @@ Default
 {#generateparser-task}
 
 The `generateParser` task generates a parser for the given grammar.
-The task is configured using the common [`grammarKit`](#grammar-kit-extension) extension.
 
+The following sections describe task configuration options.
+See also [](#grammar-kit-extension) for common configuration.
 
 #### sourceFile
 {#tasks-generateparser-source}
@@ -208,7 +209,7 @@ The source <path>.bnf</path> file to generate the parser from.
 
 {style="narrow"}
 Required
-: `true`
+: yes
 
 Type
 : `String`
@@ -234,7 +235,7 @@ The location of the generated parser class, relative to the [`targetRootOutputDi
 
 {style="narrow"}
 Required
-: `true`
+: yes
 
 Type
 : `String`
@@ -247,7 +248,7 @@ The location of the generated PSI files, relative to the [`targetRootOutputDir`]
 
 {style="narrow"}
 Required
-: `true`
+: yes
 
 Type
 : `String`
@@ -268,8 +269,8 @@ Default
 
 ## Usage Examples
 
-* [Perl5 plugin](https://github.com/Camelcade/Perl5-IDEA/blob/master/build.gradle.kts)
-* [Rust plugin](https://github.com/intellij-rust/intellij-rust/blob/master/build.gradle.kts)
+* [CSV Editor](https://github.com/SeeSharpSoft/intellij-csv-validator/blob/main/build.gradle.kts)
+* [Perl5 plugin](https://github.com/Camelcade/Perl5-IDEA/blob/master/plugin/core/build.gradle.kts)
 * [Bamboo Soy plugin](https://github.com/google/bamboo-soy/blob/master/build.gradle)
 
 ## Links

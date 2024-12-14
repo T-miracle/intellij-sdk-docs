@@ -45,7 +45,7 @@ dependencies {
 </tab>
 <tab title="Gradle IntelliJ Plugin (1.x)">
 
-The configuration of IntelliJ IDEA plugin projects follows the methods described in [Configuring Plugin Projects using the IntelliJ IDEA Product Attribute](dev_alternate_products.md#configuring-plugin-projects-using-the-intellij-idea-product-attribute).
+The configuration of IntelliJ IDEA plugin projects follows the methods described in [Configuring Plugin Projects using the IntelliJ IDEA Product Attribute](dev_alternate_products.md#using-the-intellij-idea-product-attribute).
 
 | `gradle-intellij-plugin` Attribute                                               | Attribute Value                                                                               |
 |----------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
@@ -63,11 +63,11 @@ See [](intellij_community_plugins_extension_point_list.md) for API from bundled 
 
 ## Java
 
-See [](plugin_compatibility.md#java) on how to use Java-specific functionality.
+See [Java Plugin](plugin_compatibility.md#java) on how to use Java-specific functionality.
 
 [PSI Cookbook](psi_cookbook.md#java-specific) lists a number of common operations for working with Java PSI.
 
-Depending on exact functionality, a plugin can also target [](uast.md) to support multiple JVM languages, including Java and Kotlin.
+Depending on the exact functionality, a plugin can also target [](uast.md) to support multiple JVM languages, including Java and Kotlin.
 
 Relevant Extension Points:
 
@@ -75,3 +75,15 @@ Relevant Extension Points:
 - [](intellij_community_plugins_extension_point_list.md#javaindexingpluginxml)
 - [](intellij_community_plugins_extension_point_list.md#javapluginxml)
 - [](intellij_community_plugins_extension_point_list.md#javapsipluginxml)
+
+### Java Test Framework
+
+To use existing test base classes, add `TestFrameworkType.Plugin.Java` test-framework available from [](tools_intellij_platform_gradle_plugin_types.md#TestFrameworkType-Plugin).
+
+Alternatively, specify `com.jetbrains.intellij.java:java-test-framework:$VERSION$` as `testImplementation` dependency explicitly (see [IntelliJ Platform Artifacts Repositories](intellij_artifacts.md#gradle-example-for-an-individual-module-from-the-intellij-platform)).
+
+## Kotlin
+
+Configure Kotlin [plugin dependency](plugin_dependencies.md) with plugin ID `org.jetbrains.kotlin`.
+
+See also [UAST](uast.md) on how to support multiple JVM languages, including Kotlin.

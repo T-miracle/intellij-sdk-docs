@@ -5,7 +5,7 @@
 <link-summary>概述在开发过程中用于运行和调试插件的IDE实例。</link-summary>
 
 A plugin project can be run or debugged from within the development instance of IntelliJ IDEA.
-Selecting the `runIde` task for a Gradle-based project (or [Run](running_and_debugging_a_theme.md) menu for a Plugin DevKit-based project)
+Selecting the `runIde` task for a Gradle-based project (or [Run](running_and_debugging_a_theme.md) menu for a _Plugin DevKit_-based project)
 will launch a _Development Instance_ of the target IDE with the current development version of the plugin enabled.
 
 This page describes how to control some settings for the Development Instance.
@@ -118,6 +118,10 @@ in the plugin project and switch back focus to the sandbox instance to trigger r
 
 {collapsible="true" default-state="collapsed"}
 
+<primary-label ref="Obsolete"/>
+
+<include from="tools_gradle_intellij_plugin.md" element-id="gradlePluginObsolete"/>
+
 Auto-Reload is enabled by default for target platform 2020.2 or later.
 
 Set property [`runIde.autoReloadPlugins`](tools_gradle_intellij_plugin.md#tasks-runide-autoreloadplugins) to `true` for enabling it in earlier platform versions or `false` to disable it explicitly,
@@ -136,7 +140,7 @@ and switch focus back to the sandbox instance to trigger reload.
 
 {collapsible="true" default-state="collapsed"}
 
-在 Plugin DevKit 的 [运行配置](running_and_debugging_a_theme.md) 中添加系统属性 `idea.auto.reload.plugins`。
+Add system property `idea.auto.reload.plugins` in the _Plugin DevKit_ [run configuration](running_and_debugging_a_theme.md).
 
 要禁用自动重载，请将 `idea.auto.reload.plugins` 显式设置为 `false`（2020.1.2+）。
 
@@ -158,6 +162,10 @@ The Sandbox Home location can be configured with the [`intellijPlatform.sandboxC
 
 {collapsible="true" default-state="collapsed"}
 
+<primary-label ref="Obsolete"/>
+
+<include from="tools_gradle_intellij_plugin.md" element-id="gradlePluginObsolete"/>
+
 The default Sandbox Home location in a [](tools_gradle_intellij_plugin.md) plugin project is:
 
 * Windows: <path>\$PROJECT_DIRECTORY\$\\build\\idea-sandbox</path>
@@ -169,7 +177,7 @@ The default Sandbox Home location in a [](tools_gradle_intellij_plugin.md) plugi
 
 {collapsible="true" default-state="collapsed"}
 
-For Plugin DevKit-based plugins, the default <control>Sandbox Home</control> location is defined in the IntelliJ Platform Plugin SDK.
+For _Plugin DevKit_-based plugins, the default <control>Sandbox Home</control> location is defined in the IntelliJ Platform Plugin SDK.
 See the [Setting Up a Theme Development Environment](setting_up_theme_environment.md#add-intellij-platform-plugin-sdk) for information about how to set up Sandbox Home in IntelliJ Platform SDK.
 
 默认的沙盒主目录位置是：

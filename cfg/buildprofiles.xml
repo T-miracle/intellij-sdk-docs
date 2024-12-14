@@ -5,7 +5,7 @@
     <variables>
         <header-logo>https://resources.jetbrains.com/storage/logos/web/jetbrains/jetbrains-particle.svg</header-logo>
         <web-root>https://plugins.jetbrains.com/docs</web-root>
-        <product-web-url>https://docs.namichong.com/intellij-platform-sdk/</product-web-url>
+        <product-web-url>https://docs.namichong.com/intellij-platform-sdk/welcome.html</product-web-url>
         <!--<search-scope/>-->
         <fallback-url/>
         <download-page>https://jb.gg/ipe</download-page>
@@ -28,9 +28,11 @@
         <noindex-content status="eap">false</noindex-content>
         <noindex-content status="release">false</noindex-content>
 
-        <!--<algolia-api-key>b2164178006efda97bc5f1f116925c77</algolia-api-key>
-        <algolia-id>1CHQA0UPET</algolia-id>
-        <algolia-index>intellij-sdk-docs</algolia-index>-->
+        <!--<algolia-id>JWPLKSKZVF</algolia-id>
+        <algolia-index>prod_INTELLIJ-SDK-DOCS_HELP</algolia-index>
+        <algolia-api-key>bce9ba6ce7419efe813d671244d3bf6a</algolia-api-key>
+        <algolia-product-id>intellij</algolia-product-id>
+        <algolia-product-version></algolia-product-version>-->
 
         <analytics-head-script-file>google-analytics-code.html</analytics-head-script-file>
         <analytics-body-html-file>google-analytics-noscript.html</analytics-body-html-file>

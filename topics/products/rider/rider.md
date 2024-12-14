@@ -12,12 +12,12 @@ Rider plugins are generally used to expose the functionality of a [ReSharper](ht
 [Rider](https://www.jetbrains.com/rider/) uses the IntelliJ Platform somewhat [differently](intellij_platform.md#rider) than other Platform-based based IDEs.
 Rider uses the IntelliJ Platform to provide the user interface for a C# and .NET IDE but uses ReSharper to provide the language-specific features.
 
-<include from="snippets.md" element-id="jetbrainsProductOpenSourceLicense"/>
+> Rider is free for non-commercial use
 
 ## IntelliJ IDEA Configuration for Rider Plugin Development
 
 Although there is no dedicated Rider SDK, the [ReSharper DevGuide](https://www.jetbrains.com/help/resharper/sdk/getting_started.html) addresses the subject of plugins for Rider.
-The documentation describes the [configuration](https://www.jetbrains.com/help/resharper/sdk/creating_plugin.html) of the Gradle build script and <path>settings.gradle</path> file to build a Rider plugin using the [Gradle project system](configuring_plugin_project.md) in IntelliJ IDEA.
+The documentation describes the [configuration](https://www.jetbrains.com/help/resharper/sdk/creating_plugin.html) of the Gradle build script and <path>settings.gradle</path> file to build a Rider plugin using the [Gradle build system](creating_plugin_project.md) in IntelliJ IDEA.
 
 > See [](rider_extension_point_list.md) for the complete list.
 >

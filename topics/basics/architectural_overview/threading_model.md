@@ -330,6 +330,8 @@ Writing data is only allowed on EDT invoked with `Application.invokeLater()`.
 
 Write operations must always be wrapped in a write action with one of the [API](#write-actions-api) methods.
 
+Modifying the model is only allowed from write-safe contexts (see [](#invoking-operations-on-edt-and-modality)).
+
 </tab>
 
 <tab title="Earlier versions" group-key="oldThreading">
@@ -535,7 +537,7 @@ Ideally, they should only clear some caches.
 
 It is also possible to schedule background processing of events.
 In such cases, be prepared that some new events might be delivered before the background processing starts – and thus the world might have changed by that moment or even in the middle of background processing.
-Consider using [`MergingUpdateQueue`](%gh-ic%/platform/ide-core/src/com/intellij/util/ui/update/MergingUpdateQueue.java) and [NBRA](#cancellable-read-actions-api) to mitigate these issues.
+Consider using [`MergingUpdateQueue`](%gh-ic%/platform/ide-core/src/com/intellij/util/ui/update/MergingUpdateQueue.kt) and [NBRA](#cancellable-read-actions-api) to mitigate these issues.
 
 ### VFS Events
 
@@ -546,6 +548,9 @@ Massive batches of VFS events can be pre-processed in the background with [`Asyn
 ### How to check whether the current thread is the EDT/UI thread?
 
 Use `Application.isDispatchThread()`.
+
+If code must be invoked on EDT and the current thread can be EDT or BGT, use [`UIUtil.invokeLaterIfNeeded()`](%gh-ic%/platform/util/ui/src/com/intellij/util/ui/UIUtil.java).
+If the current thread is EDT, this method will run code immediately, or will schedule a later invocation if the current thread is BGT.
 
 ### Why write actions are currently allowed only on EDT?
 

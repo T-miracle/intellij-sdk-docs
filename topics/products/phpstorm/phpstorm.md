@@ -11,8 +11,6 @@
 [PhpStorm](https://www.jetbrains.com/phpstorm/) is an IntelliJ Platform-based product.
 Plugin projects targeting PhpStorm can be developed using [IntelliJ IDEA](idea.md).
 
-<include from="snippets.md" element-id="jetbrainsProductOpenSourceLicense"/>
-
 See also:
 
 * [](plugin_alternatives.md#phpstorm-advanced-metadata)
@@ -55,11 +53,15 @@ dependencies {
 
 {collapsible="true" default-state="collapsed"}
 
+<primary-label ref="Obsolete"/>
+
+<include from="tools_gradle_intellij_plugin.md" element-id="gradlePluginObsolete"/>
+
 <tabs>
 
 <tab title="PhpStorm IDE">
 
-The configuration of targeting PhpStorm IDE follows the methods described in [Configuring Plugin Projects Using a Product-Specific Attribute](dev_alternate_products.md#configuring-plugin-projects-using-a-product-specific-attribute).
+The configuration of targeting PhpStorm IDE follows the methods described in [Configuring Plugin Projects Using a Product-Specific Attribute](dev_alternate_products.md#using-a-product-specific-attribute).
 
 The possibility of configuring the `PS` IntelliJ Platform type was introduced in [](tools_gradle_intellij_plugin.md) 1.8.0.
 Only the versions of PhpStorm 2022.2 and newer are supported.
@@ -81,7 +83,7 @@ The IntelliJ IDEA Ultimate Edition (with the PHP plugin) must be used for develo
 However, this IntelliJ IDEA Ultimate configuration runs the risk of accidentally using some APIs that are not available in PhpStorm.
 The recommended best practice is to use PhpStorm for testing.
 
-Configuration of a Gradle-based PhpStorm plugin project is used as a tutorial in the section [Configuring Plugin Projects using the IntelliJ IDEA Product Attribute](dev_alternate_products.md#configuring-plugin-projects-using-the-intellij-idea-product-attribute).
+Configuration of a Gradle-based PhpStorm plugin project is used as a tutorial in the section [Configuring Plugin Projects using the IntelliJ IDEA Product Attribute](dev_alternate_products.md#using-the-intellij-idea-product-attribute).
 Many techniques are discussed, such as choosing a version of IntelliJ IDEA Ultimate given a targeted version of PhpStorm.
 
 The table below summarizes the [](tools_gradle_intellij_plugin.md) attributes to set in the plugin project's Gradle build script.

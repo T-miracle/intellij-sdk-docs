@@ -91,7 +91,7 @@ source code, as well as other basic features of IntelliJ IDEA.
 Many developers keep the
 [IntelliJ Community source code](https://github.com/JetBrains/intellij-community)
 open in a separate IDE project while working on their plugin.
-Others search the source code of the IntelliJ Platform that is attached by default when using a [Gradle](configuring_plugin_project.md)-based project.
+Others search the source code of the IntelliJ Platform that is attached by default when using a [Gradle](creating_plugin_project.md)-based project.
 While both methods work, it should be noted that developing plugins without inspecting the IntelliJ Platform code is nearly impossible,
 and all the tips below assume having the sources available.
 
@@ -155,8 +155,9 @@ must not be used, see [](api_internal.md) for more details and replacements.
 ## 3 Tools and References
 
 ### 3.1 Use Internal Mode and PsiViewer
+{id="internalMode"}
 
-As a plugin developer, you should enable the [internal mode](enabling_internal.md) in IntelliJ IDEA.
+When developing plugins, always enable the [internal mode](enabling_internal.md) in IntelliJ IDEA.
 This provides access to a suite of tools to help you develop, debug, and test IntelliJ Platform plugins.
 
 One of its most helpful features is the [UI Inspector](internal_ui_inspector.md),

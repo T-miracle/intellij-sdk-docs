@@ -1,12 +1,12 @@
-# 扩展
+<!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-<!-- Copyright 2000-2024 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file. -->
+# 扩展
 
 <link-summary>扩展是 IDE 中自定义功能的最常见方式。</link-summary>
 
 _扩展_ 是插件以不像将操作添加到菜单或工具栏那样直接的方式，来扩展 IntelliJ 平台功能的最常见方式。
 
-以下是使用扩展完成的一些最常见任务：
+The following are some of the most common tasks achieved using extensions:
 
 * `com.intellij.toolWindow` 扩展点允许插件添加 [工具窗口](tool_windows.md)（显示在IDE用户界面两侧的面板）；
 * `com.intellij.applicationConfigurable` 和 `com.intellij.projectConfigurable` 扩展点允许插件向 [设置对话框](settings.md) 添加页面；
@@ -66,9 +66,9 @@ _扩展_ 是插件以不像将操作添加到菜单或工具栏那样直接的�
           并公开自定义属性 "key" 和 "implementationClass"。
         -->
 <extensions defaultExtensionNs="another.plugin">
-<myExtensionPoint
-    key="keyValue"
-    implementationClass="com.example.MyExtensionPointImpl"/>
+  <myExtensionPoint
+      key="keyValue"
+      implementationClass="com.example.MyExtensionPointImpl"/>
 </extensions>
 ```
 
@@ -76,10 +76,10 @@ _扩展_ 是插件以不像将操作添加到菜单或工具栏那样直接的�
 
 请注意以下重要点：
 
-- Extension implementation must be stateless. Use explicit [](plugin_services.md) for managing (runtime) data.
-- Avoid any initialization in the constructor, see also notes for [Services](plugin_services.md#ctor).
+- Extension implementation must be stateless. Use explicit [services](plugin_services.md) for managing (runtime) data.
+- Avoid any initialization in the constructor, see also notes for [services](plugin_services.md#ctor).
 - Do not perform any static initialization. Use inspection <control>Plugin DevKit | Code | Static initialization in extension point implementations</control> (2023.3).
-- An extension implementation must not be registered as [Service](plugin_services.md) additionally. Use inspection <control>Plugin DevKit | Code | Extension registered as service/component</control> (2023.3).
+- An extension implementation must not be registered as a [service](plugin_services.md) additionally. Use inspection <control>Plugin DevKit | Code | Extension registered as service/component</control> (2023.3).
 
 在使用 [Kotlin](using_kotlin.md) 时：
 
@@ -91,11 +91,13 @@ _扩展_ 是插件以不像将操作添加到菜单或工具栏那样直接的�
 
 ### 扩展默认属性
 
-`id` : 唯一标识符。考虑在 ID 前添加与插件名称或 ID 相关的前缀，以避免与定义相同 ID 的其他插件发生冲突，例如 `com.example.myplugin.myExtension`。
+`id`
+: Unique ID. Consider prepending ID with the prefix related to the plugin name or ID to not clash with other plugins defining extensions with the same ID, for example, `com.example.myplugin.myExtension`.
 
 `order` : 允许使用 `first`、`last` 或 `before|after [id]` 来排序所有定义的扩展。
 
-`os` : 允许将扩展限制为给定的操作系统，例如 `os="windows"` 仅在 Windows 上注册扩展。
+`os`
+: Allows restricting an extension to a given OS, for example, `os="windows"` registers the extension on Windows only
 
 如果扩展实例需要在某些场景下“不适用”，则可以在其构造函数中抛出 [`ExtensionNotApplicableException`](%gh-ic%/platform/extensions/src/com/intellij/openapi/extensions/ExtensionNotApplicableException.java)。
 

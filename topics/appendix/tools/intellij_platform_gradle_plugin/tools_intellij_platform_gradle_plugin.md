@@ -14,7 +14,8 @@
 
 </tldr>
 
-The _IntelliJ Platform Gradle Plugin 2.x_ is a plugin for the Gradle build system to help configure environments for building, testing, verifying, and publishing plugins for IntelliJ-based IDEs.
+The _IntelliJ Platform Gradle Plugin 2.x_ is a [Gradle](https://docs.gradle.org/current/userguide/userguide.html)
+plugin for building, testing, verifying, configuring environments, and publishing plugins for IntelliJ-based IDEs.
 It is the successor of _[](tools_gradle_intellij_plugin.md)_ which is no longer under active development.
 
 Learn more about it in the [Release Announcement](https://blog.jetbrains.com/platform/2024/07/intellij-platform-gradle-plugin-2-0/).
@@ -29,7 +30,8 @@ Learn more about it in the [Release Announcement](https://blog.jetbrains.com/pla
 
 ## Requirements
 
-IntelliJ Platform Gradle Plugin 2.x requires the following minimal versions:
+IntelliJ Platform Gradle Plugin 2.x requires the following *minimal* versions:
+
 - IntelliJ Platform: **2022.3**
 - Gradle: **8.2**
 
@@ -44,7 +46,8 @@ IntelliJ Platform Gradle Plugin 2.x requires the following minimal versions:
 >
 {style="note"}
 
-To apply the IntelliJ Platform Gradle Plugin to a project, add the following entry to the `plugins` block in the <path>build.gradle.kts</path> file:
+To apply the IntelliJ Platform Gradle Plugin to a project, add the following entry to the `plugins`
+block in the Gradle build file:
 
 <tabs group="languages">
 <tab title="Kotlin" group-key="kotlin">
@@ -71,11 +74,12 @@ If migrating from the [](tools_gradle_intellij_plugin.md), replace the old `org.
 
 ### Snapshot Release
 
-To use the latest snapshot versions, add the following to the <path>settings.gradle.kts</path> file:
+To use the latest snapshot version of this plugin, add the following to the Gradle Settings file:
 
 <tabs group="languages">
 <tab title="Kotlin" group-key="kotlin">
 
+<path>settings.gradle.kts</path>
 ```kotlin
 pluginManagement {
   repositories {
@@ -88,6 +92,7 @@ pluginManagement {
 </tab>
 <tab title="Groovy" group-key="groovy">
 
+<path>settings.gradle</path>
 ```groovy
 pluginManagement {
   repositories {
@@ -103,28 +108,25 @@ pluginManagement {
 </tabs>
 
 
-[//]: # (> The current IntelliJ Platform Gradle Plugin Snapshot version is ![GitHub Snapshot Release]&#40;https://img.shields.io/nexus/s/org.jetbrains.intellij.platform/intellij-platform-gradle-plugin?server=https://oss.sonatype.org&label=&#41;)
-> The current IntelliJ Platform Gradle Plugin Snapshot version is: `2.0.0-SNAPSHOT`
+> The current IntelliJ Platform Gradle Plugin Snapshot version is ![GitHub Snapshot Release](https://img.shields.io/nexus/s/org.jetbrains.intellij.platform/intellij-platform-gradle-plugin?server=https://oss.sonatype.org&label=)
 >
-> The snapshot release is published with the constant version, creating a possibility for Gradle to resort to the cached version of the plugin.
+> The snapshot release is published with a fixed version, so Gradle can resort to the cached version of the plugin.
 >
 > To update all dependencies in the dependency cache, use the `--refresh-dependencies` command line option.
-
 
 ### Plugins
 
 The IntelliJ Platform Gradle Plugin consists of [plugins](tools_intellij_platform_gradle_plugin_plugins.md) which can be applied depending on the purpose.
 By default, the [](tools_intellij_platform_gradle_plugin_plugins.md#platform) plugin (`org.jetbrains.intellij.platform`) should be applied to the main plugin project module.
 
-When working with the [](#multi-module-project-structure) it is required to use [](tools_intellij_platform_gradle_plugin_plugins.md#module) plugin (`org.jetbrains.intellij.platform.module`) instead to creating tasks and configurations specific to the main module only.
+When working in a [](#multi-module-project-structure) it is required to use [](tools_intellij_platform_gradle_plugin_plugins.md#module) plugin (`org.jetbrains.intellij.platform.module`) instead of creating tasks and configurations specific to the main module only.
 
 The [](tools_intellij_platform_gradle_plugin_plugins.md#settings) plugin (`org.jetbrains.intellij.platform.settings`) allows for adding plugin development related repositories right in the <path>settings.gradle.kts</path> file if project configuration involves [](#configuration.dependencyResolutionManagement).
-
 
 ### Attaching Sources
 
 To attach IntelliJ Platform sources in the IDE, the <control>Download sources</control> setting has to be enabled in IDE versions 2023.2 and later.
-This option respects the [](tools_intellij_platform_gradle_plugin_gradle_properties.md#downloadSources) property, which is enabled by default.
+This option respects the plugin's [](tools_intellij_platform_gradle_plugin_gradle_properties.md#downloadSources) property, which is enabled by default.
 
 <tabs>
 
@@ -150,9 +152,9 @@ No additional IDE settings are required.
 
 </tabs>
 
-The attaching sources is handed by the Plugin DevKit plugin thus it's recommended to use always the latest available IDE release.
+The attaching sources operation in the IDE is handled by the _Plugin DevKit_ plugin, thus it is recommended to always use the latest available IDE version.
 
-If the opened compiled class has no sources available locally, the Plugin DevKit plugin will detect the relevant source coordinates and provide an action to <control>Download IntelliJ Platform sources</control> or <control>Attach \$API_NAME\$ sources</control>.
+If the opened compiled class has no sources available locally, the _Plugin DevKit_ plugin will detect the relevant source coordinates and provide an action to <control>Download IntelliJ Platform sources</control> or <control>Attach \$API_NAME\$ sources</control>.
 
 ## Configuration
 
@@ -161,6 +163,7 @@ If the opened compiled class has no sources available locally, the Plugin DevKit
 {title="Exploring Configuration Options"}
 
 ### Setting Up Repositories
+
 {#configuration.repositories}
 
 All IntelliJ Platform SDK artifacts are available via IntelliJ Maven repositories (see [](intellij_artifacts.md)), which exist in three variants:
@@ -210,12 +213,15 @@ repositories {
 See [](tools_intellij_platform_gradle_plugin_repositories_extension.md) on how to configure additional repositories.
 
 #### Dependency Resolution Management
+
 {#configuration.dependencyResolutionManagement}
 
-To access the IntelliJ Platform Gradle Plugin within the <path>settings.gradle.kts</path> to use with `dependencyResolutionManagement`, add:
+To access the IntelliJ Platform Gradle Plugin within the Gradle Settings file to use with `dependencyResolutionManagement`, add:
 
 <tabs group="languages">
 <tab title="Kotlin" group-key="kotlin">
+
+<path>settings.gradle.kts</path>
 
 ```kotlin
 import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
@@ -238,7 +244,10 @@ dependencyResolutionManagement {
 ```
 
 </tab>
+
 <tab title="Groovy" group-key="groovy">
+
+<path>settings.gradle</path>
 
 ```groovy
 import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
@@ -263,7 +272,6 @@ dependencyResolutionManagement {
 </tab>
 </tabs>
 
-
 #### Cache Redirector
 {#configuration.cacheRedirector}
 
@@ -274,7 +282,7 @@ To switch off the default usage of JetBrains Cache Redirector, see the [](tools_
 
 ### Setting Up IntelliJ Platform
 
-Dependencies and [repositories](#configuration.repositories) are handled using explicit entries within `dependencies {}` and `repositories {}` blocks in <path>build.gradle.kts</path> file.
+Dependencies and [repositories](#configuration.repositories) are handled using explicit entries within `dependencies {}` and `repositories {}` blocks in the Gradle build file.
 
 A minimum configuration for targeting IntelliJ IDEA Community 2023.3:
 
@@ -335,6 +343,7 @@ See [](tools_intellij_platform_gradle_plugin_dependencies_extension.md) on how t
 {style="note"}
 
 #### Parametrize IntelliJ Platform Dependency
+
 {#dependenciesParametrizePlatform}
 
 As a fallback, `intellijPlatform` extension can be used to allow dynamic configuration of the target platform, for example, via <path>gradle.properties</path>:
@@ -344,7 +353,7 @@ platformType = IC
 platformVersion = 2023.3
 ```
 
-The above Gradle properties can be referenced in the <path>build.gradle.kts</path> file with:
+The above Gradle properties can be referenced in the Gradle build file with:
 
 <tabs group="languages">
 <tab title="Kotlin" group-key="kotlin">
@@ -413,8 +422,8 @@ dependencies {
 </tab>
 </tabs>
 
-
 #### Local IntelliJ Platform IDE Instance
+
 {#dependenciesLocalPlatform}
 
 It is possible to refer to the locally available IntelliJ-based IDE using the `local` helper function:
@@ -511,12 +520,11 @@ dependencies {
 
 <include from="tools_intellij_platform_gradle_plugin_repositories_extension.md" element-id="localPlatformArtifacts_required"/>
 
-
 ### Multi-Module Project Structure
 
 When working on a complex plugin, it is often convenient to split the code base into multiple submodules.
-To avoid polluting submodules with tasks or configurations specific to the root module only (e.g., tasks for signing, publishing, or running the plugin),
-a dedicated subplugin was introduced.
+To avoid polluting submodules with tasks or configurations specific to the root module only (for example, tasks for signing, publishing, or running the plugin),
+a dedicated sub-plugin was introduced.
 
 The root module of the IntelliJ-based plugin project must apply the main [](tools_intellij_platform_gradle_plugin_plugins.md#platform) plugin as follows:
 

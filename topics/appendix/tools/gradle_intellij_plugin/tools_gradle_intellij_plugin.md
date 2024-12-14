@@ -1,6 +1,7 @@
 <!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
 # Gradle IntelliJ Plugin (1.x)
+<primary-label ref="Obsolete"/>
 
 <tldr>
 
@@ -12,12 +13,17 @@
 
 <link-summary>Gradle IntelliJ Plugin configures Gradle-based plugin projects for building, testing, verifying, and publishing the plugin.</link-summary>
 
-The Gradle IntelliJ Plugin is a plugin for the Gradle build system to help configure your environment for building, testing, verifying, and publishing plugins for IntelliJ-based IDEs.
+<snippet id="gradlePluginObsolete">
 
-> This plugin is no longer under active development.
+> Gradle IntelliJ Plugin (1.x) is no longer under active development.
+>
 > Whenever possible, use [](tools_intellij_platform_gradle_plugin.md) instead.
 >
-{title="Obsolescence Notice" style="note"}
+{title="Obsolescence Notice" style="warning"}
+
+</snippet>
+
+The Gradle IntelliJ Plugin is a plugin for the Gradle build system to help configure your environment for building, testing, verifying, and publishing plugins for IntelliJ-based IDEs.
 
 This plugin allows you to build plugins for IntelliJ Platform using specified IntelliJ SDK and bundled or third-party plugins.
 
@@ -322,7 +328,7 @@ Acceptable values
 - `RD` - [Rider](rider.md)
 - `GO` - [GoLand](goland.md)
 - `AI` - [Android Studio](android_studio.md)
-- `RR` - [Rust Rover](https://plugins.jetbrains.com/plugin/22407-rust/edit)
+- `RR` - [Rust Rover](https://www.jetbrains.com/rust/)
 - `JPS` - JPS-only
 - `GW` - Gateway
 

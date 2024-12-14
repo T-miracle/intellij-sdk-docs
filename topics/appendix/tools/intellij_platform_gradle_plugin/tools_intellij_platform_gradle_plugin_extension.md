@@ -646,8 +646,37 @@ The provided value is used for the `<idea-version until-build=""/>` element attr
 
 The default value is set to the `MAJOR.*` version based on the currently selected IntelliJ Platform, such as `233.*`.
 
-The `until-build` attribute can be unset by setting `provider { null }` as a value.
-Note that passing only `null` will make Gradle use a default value instead.
+The `until-build` attribute can be unset by providing `provider { null }` as a value:
+
+<tabs group="languages">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+intellijPlatform {
+  pluginConfiguration {
+    ideaVersion {
+      untilBuild = provider { null }
+    }
+  }
+}
+```
+
+</tab>
+
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+intellijPlatform {
+  pluginConfiguration {
+    ideaVersion {
+      untilBuild = provider { null }
+    }
+  }
+}
+```
+
+</tab>
+</tabs>
 
 {style="narrow"}
 Type
@@ -1409,10 +1438,10 @@ intellijPlatform {
       local file('/path/to/ide/')
       recommended()
       select {
-        types = [IntelliJPlatformType.PhpStorm]
-        channels = [ProductRelease.Channel.RELEASE]
-        sinceBuild = '232'
-        untilBuild = '241.*'
+        it.types = [IntelliJPlatformType.PhpStorm]
+        it.channels = [ProductRelease.Channel.RELEASE]
+        it.sinceBuild = '232'
+        it.untilBuild = '241.*'
       }
     }
   }

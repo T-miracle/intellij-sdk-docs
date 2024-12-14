@@ -12,12 +12,12 @@ JCEF（Java Chromium Embedded Framework）是 [CEF](https://bitbucket.org/chromi
 
 在 IDE 内嵌入浏览器组件可以用于：
 
-- 渲染 HTML 内容
-- 预览生成的 HTML（例如，来自 Markdown）
-- 创建自定义的基于 web 的组件（例如，图表预览、图像浏览器等）
+- rendering HTML content
+- previewing generated HTML (e.g., from Markdown)
+- creating custom web-based components (e.g., diagram preview, image browser, etc.)
 
-推荐在默认的 IntelliJ Platform UI 框架中实现 UI，即 Swing。
-只有在插件需要显示 HTML 文档或标准的 UI 创建方法不足够时，才考虑使用 JCEF 方法。
+It is recommended to implement UI in the default IntelliJ Platform UI framework, which is Swing.
+Consider using the JCEF approach only in cases when a plugin needs to display HTML documents or the standard approach for creating UI is not enough.
 
 JCEF 替代了过去在 IDE 中用来渲染 web 内容的 JavaFX。
 
@@ -58,7 +58,7 @@ JCEF 替代了过去在 IDE 中用来渲染 web 内容的 JavaFX。
 
 ## 在插件中使用 JCEF {id=using-jcef-in-a-plugin}
 
-IntelliJ Platform API 暴露的核心 JCEF 类是 [`JBCefApp`](%gh-ic%/platform/platform-api/src/com/intellij/ui/jcef/JBCefApp.java)。
+IntelliJ Platform API 暴露的核心 JCEF 类是 [`JBCefApp`](%gh-ic%/platform/ui.jcef/jcef/JBCefApp.java)。
 它负责初始化 JCEF 上下文并管理其生命周期。
 
 无需显式初始化 `JBCefApp`。
@@ -81,16 +81,16 @@ JCEF 可能不受支持的情况包括：
 
 ### 浏览器 {id=browser}
 
-JCEF 浏览器由 [`JBCefBrowser`](%gh-ic%/platform/platform-api/src/com/intellij/ui/jcef/JBCefBrowser.java) 类表示。
-它负责在实际的基于 Chromium 的浏览器中加载和渲染请求的文档。
+JCEF browser is represented by the [`JBCefBrowser`](%gh-ic%/platform/ui.jcef/jcef/JBCefBrowser.java) class.
+It is responsible for loading and rendering requested documents in the actual Chromium-based browser.
 
-JCEF 浏览器可以通过使用 `JBCefBrowser` 类的构造函数，或通过 [`JBCefBrowserBuilder`](%gh-ic%/platform/platform-api/src/com/intellij/ui/jcef/JBCefBrowserBuilder.java) 创建。
-在浏览器需要默认的[客户端](#browser-client)和默认选项时，使用构造函数即可。
-构建器方法允许使用自定义客户端和配置其他选项。
+JCEF browsers can be created either by using the `JBCefBrowser` class' constructors or via [`JBCefBrowserBuilder`](%gh-ic%/platform/ui.jcef/jcef/JBCefBrowserBuilder.java).
+Use constructors in the cases when a browser with the default [client](#browser-client) and default options is enough.
+The builder approach allows using custom clients and configuring other options.
 
 #### 将浏览器添加到 UI {id=adding-browser-to-ui}
 
-[`JBCefBrowser.getComponent()`](%gh-ic%/platform/platform-api/src/com/intellij/ui/jcef/JBCefBrowser.java) 提供了嵌入实际浏览器的 UI 组件。
+[`JBCefBrowser.getComponent()`](%gh-ic%/platform/ui.jcef/jcef/JBCefBrowser.java) 提供了嵌入实际浏览器的 UI 组件。
 这个组件是 Swing `JComponent` 的实例，可以添加到插件 UI 中：
 
 ```java
@@ -105,9 +105,9 @@ myPanel.add(browser.getComponent());
 加载文档的方法可以从 EDT 和后台线程调用。
 可以设置一个初始 URL（传递给构造函数或构建器），在浏览器创建和初始化时加载。
 
-To load a document in the browser, use one of [`JBCefBrowserBase.load*()`](%gh-ic%/platform/platform-api/src/com/intellij/ui/jcef/JBCefBrowserBase.java) methods.
+To load a document in the browser, use one of [`JBCefBrowserBase.load*()`](%gh-ic%/platform/ui.jcef/jcef/JBCefBrowserBase.java) methods.
 Methods loading documents can be called from both [EDT and background threads](threading_model.md).
-It is possible to set an initial URL (passed to constructor or builder) that will be loaded when browser is created and initialized.
+It is possible to set an initial URL (passed to constructor or builder) that will be loaded when the browser is created and initialized.
 
 ### 浏览器客户端 {id=browser-client}
 
@@ -116,17 +116,17 @@ It is possible to set an initial URL (passed to constructor or builder) that wil
 - 控制台消息打印
 - 浏览器获得焦点
 
-处理程序允许在插件代码中响应这些事件，并改变浏览器的行为。
-每个浏览器绑定到一个客户端，一个客户端可以与多个浏览器实例共享。
+Browser client provides an interface for setting up [handlers](#event-handlers) related to various browser events, e.g.:
+- HTML document loaded
+- console message printed
+- the browser gained focus
 
-浏览器客户端由 [`JBCefClient`](%gh-ic%/platform/platform-api/src/com/intellij/ui/jcef/JBCefClient.java) 表示，这是对 JCEF 的 [`CefClient`](%gh-jcef-master%/org/cef/CefClient.java) 的包装。
-`JBCefClient` 允许注册多个同类型的处理程序，而 `CefClient` 则不支持。
-要访问底层的 `CefClient` 及其 API，请调用 `JBCefClient.getCefClient()`。
+Handlers allow reacting to these events in plugin code and changing the browser's behavior.
+Each browser is tied to a single client, and a single client can be shared with multiple browser instances.
 
-```java
-JBCefClient client = new JBCefClient();
-CefClient cefClient = client.getCefClient();
-```
+Browser client is represented by [`JBCefClient`](%gh-ic%/platform/ui.jcef/jcef/JBCefClient.java), which is a wrapper for JCEF's [`CefClient`](%gh-jcef-master%/org/cef/CefClient.java).
+`JBCefClient` allows registering multiple handlers of the same type, which is not possible with `CefClient`.
+To access the underlying `CefClient` and its API, call `JBCefClient.getCefClient()`.
 
 #### 创建和访问客户端 {id=creating-and-accessing-client}
 
@@ -144,11 +144,13 @@ JBCefBrowser browser = new JBCefBrowser(client);
 JBCefClient associatedClient = browser.getJBCefClient();
 ```
 
-### 事件处理程序 {id=event-handlers}
+JCEF API provides various event handler interfaces that allow handling a wide set of events emitted by the browser.
+Example handlers:
+- [`CefLoadHandler`](%gh-jcef-master%/org/cef/handler/CefLoadHandler.java) - handles browser loading events.<br/>
+  **Example:** Implement `CefLoadHandler.onLoadEnd()` to [execute scripts](#executing-javascript) after a document is loaded.
 
-JCEF API 提供了各种事件处理程序接口，允许处理浏览器发出的大量事件。示例处理程序：
-- [`CefLoadHandler`](%gh-jcef-master%/org/cef/handler/CefLoadHandler.java) - 处理浏览器加载事件。<br/>
-  **示例：** 实现 `CefLoadHandler.onLoadEnd()` 来在文档加载后[执行脚本](#executing-javascript)。
+- [`CefDisplayHandler`](%gh-jcef-master%/org/cef/handler/CefDisplayHandler.java) - handles events related to the browser display state.<br/>
+  **Example:** Implement `CefDisplayHandler.onAddressChange()` to load project files in the browser when a local file link is clicked, or opening an external browser if an external link is clicked.
 
 - [`CefDisplayHandler`](%gh-jcef-master%/org/cef/handler/CefDisplayHandler.java) - 处理与浏览器显示状态相关的事件。<br/>
   **示例：** 实现 `CefDisplayHandler.onAddressChange()` 在点击本地文件链接时在浏览器中加载项目文件，或点击外部链接时打开外部浏览器。
@@ -156,8 +158,7 @@ JCEF API 提供了各种事件处理程序接口，允许处理浏览器发出�
 - [`CefContextMenuHandler`](%gh-jcef-master%/org/cef/handler/CefContextMenuHandler.java) - 处理上下文菜单事件。<br/>
   **示例：** 实现 `CefContextMenuHandler.onBeforeContextMenu()` 来更改浏览器上下文菜单的项目。
 
-- [`CefDownloadHandler`](%gh-jcef-master%/org/cef/handler/CefDownloadHandler.java) - 文件下载事件。<br/>
-  **示例：** 实现 `CefDownloadHandler.onBeforeDownload()` 以启用在嵌入式浏览器中下载文件。
+See the [org.cef.handler](%gh-jcef-master%/org/cef/handler) package for all available handlers.
 
 请参阅 [org.cef.handler](%gh-jcef-master%/org/cef/handler) 包中的所有可用处理程序。
 
@@ -183,20 +184,21 @@ browser.getCefBrowser().executeJavaScript(
 );
 ```
 
-上述代码将在嵌入式浏览器中执行，并显示一个带有 "Hello World!" 消息的警告框。
-`url` 和 `lineNumber` 参数用于浏览器中的错误报告，如果脚本抛出错误。
-这些参数的目的是帮助调试错误，并且对于脚本执行并非至关重要。
-通常将 `browser.getCefBrowser().getUrl()` 或 null/空字符串，以及 `0` 作为这些参数传递。
+The above snippet will be executed in the embedded browser and will display an alert box with the "Hello World!" message.
+The `url` and `lineNumber` parameters are used in the error report in the browser if the script throws an error.
+Their purpose is to help debugging in case of errors, and they are not crucial for the script execution.
+It is common to pass `browser.getCefBrowser().getUrl()` or null/empty string, and `0` as these parameters.
 
 ### 从 JavaScript 执行插件代码 {id=executing-plugin-code-from-javascript}
 
-JCEF 不提供直接从插件代码访问 DOM 的功能（未来可能会[更改](https://youtrack.jetbrains.com/issue/JBR-2046)），与 JavaScript 的异步通信通过回调机制实现。
-它允许通过 JavaScript 从嵌入的浏览器执行插件代码，例如，当点击按钮或链接、按下快捷键、调用 JavaScript 函数等时。
+JCEF doesn't provide direct access to DOM from the plugin code (it may [change](https://youtrack.jetbrains.com/issue/JBR-2046) in the future), and asynchronous communication with JavaScript is achieved with the callback mechanism.
+It allows executing plugin code from the embedded browser via JavaScript, e.g., when a button or link is clicked, a shortcut is pressed, a JavaScript function is called, etc.
 
-JavaScript 查询回调由 [`JBCefJSQuery`](%gh-ic%/platform/platform-api/src/com/intellij/ui/jcef/JBCefJSQuery.java) 表示。
+JavaScript 查询回调由 [`JBCefJSQuery`](%gh-ic%/platform/ui.jcef/jcef/JBCefJSQuery.java) 表示。
 它是一个绑定到特定浏览器的对象，持有一组实现所需插件行为的处理器。
 
-考虑一个需要在编辑器中打开本地文件链接，在外部浏览器中打开外部链接的案例。这样的需求可以如下实现（每一步在代码片段下方进行解释）：
+Consider a case which requires opening local files links in the editor and external links in an external browser.
+Such a requirement could be implemented as follows (each step is explained under the code snippet):
 
 ```java
 JBCefJSQuery openLinkQuery = JBCefJSQuery.create(browser); // 1
@@ -228,25 +230,26 @@ browser.getCefBrowser().executeJavaScript( // 6
 );
 ```
 
-1. 创建 `JBCefJSQuery` 实例。确保传递的浏览器实例为 `JBCefBrowserBase` 类型（可能需要进行类型转换）。
-2. 添加一个处理器实现要执行的插件代码。
-   示例实现根据链接是本地还是外部，将链接在编辑器或外部浏览器中打开。
-3. 处理器可以选择性地返回 `JBCefJSQuery.Response` 对象，该对象包含插件代码端发生的成功或错误信息。
-   如果需要，可以在浏览器中处理此信息。
-4. 执行 JavaScript 代码，创建自定义的 `openLink` 函数。
-5. 注入 JavaScript 代码，负责调用步骤 2 中实现的插件代码。
-   添加到 `openLinkQuery` 的处理器将在每次调用 `openLink` 函数时被触发。
+1. Create a ` JBCefQuery ` instance. Make sure that the passed browser instance is of the type `JBCefBrowserBase` (casting may be necessary).
+2. Add a handler implementing a plugin code to be executed.
+   Example implementation opens a link in the editor or an external browser depending on whether the link is local or external.
+3. Handlers can optionally return a `JBCefJSQuery.Response` object, which holds information about success or error occurred on the plugin code side.
+   It can be handled in the browser if needed.
+4. Execute JavaScript, which creates a custom `openLink` function.
+5. Inject JavaScript code responsible for invoking plugin code implemented in step 2.
+   The handler added to `openLinkQuery` will be invoked on each `openLink` function call.
 
-   注意 `JBCefJSQuery.inject()` 方法的 `"link"` 参数。
-   它是 `openLink` 函数的 `link` 参数名称。
-   该值被注入到查询函数调用中，可以是处理器所需的任何值，例如 `"myJsObject.prop"`、`"'JavaScript string'"` 等。
-6. 执行 JavaScript 代码，注册一个点击事件监听器。
-   每当点击浏览器中的 `a` 元素时，监听器将调用步骤 4 中定义的 `openLink` 函数，并传入点击链接的 `href` 值。
+   Note the `"link"` parameter of the `JBCefJSQuery.inject()` method.
+   It is the name of the `openLink` function's `link` parameter.
+   This value is injected to the query function call and can be any value required by the handler, e.g., `"myJsObject.prop"`, `"'JavaScript string'"`, etc.
+6. Execute JavaScript, which registers a click event listener in the browser.
+   Whenever an `a` element is clicked in the browser, the listener will invoke the `openLink` function defined in step 4 with the `href` value of the clicked link.
 
 ### 从插件分发中加载资源 {id=loading-resources-from-plugin-distribution}
 
-当插件功能实现了基于 Web 的用户界面时，插件可能会在其[分发](plugin_content.md)中提供 HTML、CSS 和 JavaScript 文件，或者根据某些配置动态生成这些文件。
-这些资源无法被浏览器轻松访问。
+In cases when a plugin feature implements a web-based UI, the plugin may provide HTML, CSS, and JavaScript files in its [distribution](plugin_content.md) or build them on the fly depending on some configuration.
+The browser cannot easily access such resources.
+They can be made accessible by implementing proper request [handlers](#event-handlers), which make them available to the browser at predefined URLs.
 
 可以通过实现适当的请求[处理器](#event-handlers)来使这些资源可访问，使其在预定义的 URL 上对浏览器可用。
 
@@ -255,11 +258,16 @@ browser.getCefBrowser().executeJavaScript( // 6
 这类资源的服务由负责在 IntelliJ Platform 基于 IDE 中显示 SVG 文件的 Image Viewer 组件实现。
 有关实现细节，请参见 [`JCefImageViewer`](%gh-ic%/images/src/org/intellij/images/editor/impl/jcef/JCefImageViewer.kt) 和相关类。
 
-### 滚动条的外观和感觉 {id=scrollbars-look-and-feel}
+Default browser scrollbars may be not enough, for example, when they stand out of the IDE scrollbars look, or specific look and behavior is required.
 
-默认的浏览器滚动条可能不足以满足需求，例如，当它们与 IDE 的滚动条外观不匹配，或者需要特定的外观和行为时。
+In JCEF browsers, scrollbars look and feel can be customized by CSS and JavaScript.
+IntelliJ Platform provides [`JBCefScrollbarsHelper`](%gh-ic%/platform/ui.jcef/jcef/JBCefScrollbarsHelper.java) that allows customizing scrollbars in two ways:
+1. Using `JBCefScrollbarsHelper.buildScrollbarsStyle()`, which provides the styles adapted to the IDE scrollbars (recommended).
+2. Using [OverlayScrollbars](https://kingsora.github.io/OverlayScrollbars/) library adapted to the IDE look and feel.
+   For the details, see `getOverlayScrollbarsSourceCSS()`, `getOverlayScrollbarsSourceJS()`, and `getOverlayScrollbarStyle()` Javadocs.
+   It should be used when transparent scrollbars or other advanced options are required.
 
-在 JCEF 浏览器中，滚动条的外观和感觉可以通过 CSS 和 JavaScript 进行自定义。IntelliJ Platform 提供了 [`JBCefScrollbarsHelper`](%gh-ic%/platform/platform-api/src/com/intellij/ui/jcef/JBCefScrollbarsHelper.java)，允许以两种方式自定义滚动条：
+在 JCEF 浏览器中，滚动条的外观和感觉可以通过 CSS 和 JavaScript 进行自定义。IntelliJ Platform 提供了 [`JBCefScrollbarsHelper`](%gh-ic%/platform/ui.jcef/jcef/JBCefScrollbarsHelper.java)，允许以两种方式自定义滚动条：
 1. 使用 `JBCefScrollbarsHelper.getOverlayScrollbarStyle()`，该方法提供适配 IDE 滚动条的样式。
 2. 使用 [OverlayScrollbars](https://kingsora.github.io/OverlayScrollbars/) 库，该库已适配 IDE 的外观和感觉。
    详情请参见 `getOverlayScrollbarsSourceCSS()`、`getOverlayScrollbarsSourceJS()` 和 `buildScrollbarsStyle()` 的 Javadoc。
@@ -276,7 +284,9 @@ browser.getCefBrowser().executeJavaScript( // 6
 
 参见 [`JBCefTestHelper`](%gh-ic%/platform/platform-tests/testSrc/com/intellij/ui/jcef/JBCefTestHelper.java) 以及该包中的测试。
 
-## 调试 {id=debugging}
+The [Chrome DevTools](https://developers.google.com/web/tools/chrome-devtools/), embedded into JCEF, can be used as a debugging and profiling tool.
+It is active by default, so that a Chrome DevTools client can attach to it via the default port 9222.
+The default port can be changed via the registry key `ide.browser.jcef.debug.port` (go to <ui-path>Help | Find Action...</ui-path> and type "Registry").
 
 嵌入在 JCEF 中的 [Chrome DevTools](https://developers.google.com/web/tools/chrome-devtools/) 可以用作调试和分析工具。
 默认情况下，它是启用的，因此 Chrome DevTools 客户端可以通过默认的 9222 端口连接到它。
@@ -300,7 +310,7 @@ JBCefBrowser devToolsBrowser = JBCefBrowser.createBuilder()
     .build();
 ```
 
-要在单独的窗口中打开 DevTools，请调用 `JBCefBrowser.openDevtools()`。
+To open DevTools in a separate window, call `JBCefBrowser.openDevtools()`.
 
 ## JCEF 使用示例 {id=jcef-usage-examples}
 

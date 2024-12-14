@@ -107,7 +107,7 @@ Use the following guidelines to choose the correct parent:
 * For resources with a shorter lifetime, create a disposable using `Disposer.newDisposable()` and dispose it manually using `Disposable.dispose()`.
   Note that it's always best to specify a parent for such a disposable (e.g., a project-level service), so that there is no memory leak if the `Disposable.dispose()` call is not reached because of an exception or a programming error.
 
-> Even though `Application` and `Project` implement `Disposable`, they must NEVER be used as parent disposables in plugin code.
+> Even though `Application` and `Project` implement `Disposable`, they must **never** be used as parent disposables in plugin code.
 > Disposables registered using those objects as parents will not be disposed when the plugin is unloaded, leading to memory leaks.
 >
 > Consider a case of a disposable resource created by a plugin and registered with a project as its parent.
@@ -121,7 +121,7 @@ Use the following guidelines to choose the correct parent:
 >     section Lifetimes
 >         Project         : 0, 10
 >         Plugin          : 2, 5
->         Plugin Resource : crit, 2, 10
+>         Plugin Resource : crit, 3, 10
 > ```
 >
 > If the resource used, e.g., a plugin's project-level service (if shorter living parents are possible, prefer them), the resource would be disposed together with the plugin:
@@ -133,7 +133,7 @@ Use the following guidelines to choose the correct parent:
 >     section Lifetimes
 >         Project         : 0, 10
 >         Plugin          : 2, 5
->         Plugin Resource : 2, 5
+>         Plugin Resource : 3, 5
 > ```
 >
 > Inspection <control>Plugin DevKit | Code | Incorrect parentDisposable parameter</control> will highlight such problems.
@@ -232,7 +232,7 @@ Regardless, it illustrates the basic pattern, which is:
 When the application exits, it performs a final sanity check to verify everything was disposed.
 If something was registered with the `Disposer` but remains undisposed, the IntelliJ Platform reports it before shutting down.
 
-In test and Debug mode (`idea.disposer.debug` is set to `on`), registering a `Disposable` with the `Disposer` also registers a stack trace for the object's allocation path.
+In test, [internal](enabling_internal.md), and debug mode (add `idea.disposer.debug=on` in <ui-path>Help | Edit Custom Properties...</ui-path>), registering a `Disposable` with the `Disposer` also registers a stack trace for the object's allocation path.
 The `Disposer` accomplishes this by creating a `Throwable` at the time of registration.
 
 The following snippet represents the sort of "memory leak detected" error encountered in practice:

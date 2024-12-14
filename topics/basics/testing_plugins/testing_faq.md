@@ -32,6 +32,11 @@ See [](testing_plugins.md#ui-tests) for UI integration tests.
 
 ## Issues
 
+### Unresolved test-framework dependencies
+<primary-label ref="2024.2"/>
+
+<include from="tests_and_fixtures.md" element-id="testFrameworkDependencies"/>
+
 ### "No Tests Found" targeting 2021.3+
 <primary-label ref="2021.3"/>
 
@@ -152,7 +157,7 @@ Use [`DefaultLogger.disableStderrDumping()`](%gh-ic%/platform/util/src/com/intel
 
 ### How to register a resource (DTD, XSD) temporarily?
 
-Use [`ExternalResourceManagerExImpl.registerResourceTemporarily()`](%gh-ic%/xml/xml-psi-impl/src/com/intellij/javaee/ExternalResourceManagerExImpl.java) passing `getTestRootDisposable()`.
+Use [`ExternalResourceManagerExImpl.registerResourceTemporarily()`](%gh-ic%/xml/xml-psi-impl/src/com/intellij/javaee/ExternalResourceManagerExImpl.kt) passing `getTestRootDisposable()`.
 
 ### How to replace component/service in tests?
 

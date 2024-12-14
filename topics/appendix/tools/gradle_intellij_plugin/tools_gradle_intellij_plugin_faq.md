@@ -1,8 +1,11 @@
 <!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Gradle IntelliJ Plugin – FAQ
+# Gradle IntelliJ Plugin (1.x) – FAQ
+<primary-label ref="Obsolete"/>
 
-<link-summary>FAQ for using Gradle IntelliJ Plugin</link-summary>
+<link-summary>FAQ for using Gradle IntelliJ Plugin (1.x)</link-summary>
+
+<include from="tools_gradle_intellij_plugin.md" element-id="gradlePluginObsolete"/>
 
 ### How to target 2022.3 platform?
 
@@ -312,3 +315,4 @@ It is also possible to refer to the sandbox directory of another Gradle project 
 Please upgrade to Kotlin 1.9.0. See the [](using_kotlin.md#incremental-compilation) section if using Kotlin 1.8.20.
 
 <include from="snippets.md" element-id="missingContent"/>
+

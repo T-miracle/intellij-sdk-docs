@@ -79,6 +79,114 @@ NOTE: Entries not starting with code quotes (`name`) can be added to document no
 Unbundled JUnit library
 : Add an explicit dependency in the plugin project.
 
+`com.intellij.openapi.actionSystem.impl.MoreActionGroup(boolean, int, DefaultConstructorMarker)` constructor removed
+: Use other constructors instead.
+
+`ai.grazie.nlp.stemmer` package removed
+: Add an explicit dependency on the NLP platform if needed.
+
+`com.intellij.openapi.externalSystem.model.task.event.ExternalSystemStartEventImpl` class renamed to `com.intellij.openapi.externalSystem.model.task.event.ExternalSystemStartEvent`
+: Use new class
+
+`com.intellij.openapi.externalSystem.model.task.event.TaskOperationDescriptorImpl` class renamed to `com.intellij.openapi.externalSystem.model.task.event.TaskOperationDescriptor`
+: Use new class
+
+`com.intellij.openapi.externalSystem.model.task.event.DefaultOperationResult` class renamed to `com.intellij.openapi.externalSystem.model.task.event.OperationResult`
+: Use new class
+
+`com.intellij.openapi.externalSystem.model.task.event.FailureResultImpl` class renamed to `com.intellij.openapi.externalSystem.model.task.event.FailureResult`
+: Use new class
+
+`com.intellij.openapi.externalSystem.model.task.event.SkippedResultImpl` class renamed to `com.intellij.openapi.externalSystem.model.task.event.SkippedResult`
+: Use new class
+
+`com.intellij.openapi.externalSystem.model.task.event.SuccessResultImpl` class renamed to `com.intellij.openapi.externalSystem.model.task.event.SuccessResult`
+: Use new class
+
+`com.intellij.openapi.externalSystem.model.task.event.ExternalSystemStatusEventImpl` class renamed to `com.intellij.openapi.externalSystem.model.task.event.ExternalSystemStatusEvent`
+: Use new class
+
+`com.intellij.openapi.externalSystem.model.task.event.FailureImpl` class renamed to `com.intellij.openapi.externalSystem.model.task.event.Failure`
+: Use new class
+
+`com.intellij.openapi.externalSystem.model.task.event.ExternalSystemFinishEventImpl` class renamed to `com.intellij.openapi.externalSystem.model.task.event.ExternalSystemFinishEvent`
+: Use new class
+
+Interface `com.intellij.openapi.externalSystem.model.task.event.TaskOperationDescriptor` changed to class
+: Recompile your plugin with new class
+
+`com.intellij.openapi.externalSystem.importing.AbstractOpenProjectProvider.linkToExistingProjectAsync(VirtualFile arg0, Project arg1, Continuation arg2)` method marked final
+: Override method `com.intellij.openapi.externalSystem.importing.AbstractOpenProjectProvider#linkProject` instead
+
+
+
+### JSON Plugin (new) 2024.3
+
+`com.intellij.json.JsonElementTypes` class removed
+:
+<snippet id="json-plugin-fix">
+Add an [explicit dependency](plugin_dependencies.md) on the newly extracted JSON plugin (`com.intellij.modules.json`) in `plugin.xml`.<br/>If the plugin is built against 2024.3+, also add `com.intellij.modules.json` to the [bundled plugins](tools_intellij_platform_gradle_plugin_dependencies_extension.md#bundled-plugin) in the Gradle build script.
+</snippet>
+
+`com.intellij.json.JsonFileType` class removed
+: <include from="api_changes_list_2024.md" element-id="json-plugin-fix"/>
+
+`com.intellij.json.JsonLanguage` class removed
+: <include from="api_changes_list_2024.md" element-id="json-plugin-fix"/>
+
+`com.intellij.json.JsonParserDefinition` class removed
+: <include from="api_changes_list_2024.md" element-id="json-plugin-fix"/>
+
+`com.intellij.json.JsonTokenType` class removed
+: <include from="api_changes_list_2024.md" element-id="json-plugin-fix"/>
+
+`com.intellij.json` package removed
+: <include from="api_changes_list_2024.md" element-id="json-plugin-fix"/>
+
+`com.intellij.json.codeinsight` package removed
+: <include from="api_changes_list_2024.md" element-id="json-plugin-fix"/>
+
+`com.intellij.json.highlighting` package removed
+: <include from="api_changes_list_2024.md" element-id="json-plugin-fix"/>
+
+`com.intellij.json.psi` package removed
+: <include from="api_changes_list_2024.md" element-id="json-plugin-fix"/>
+
+`com.jetbrains.jsonSchema` package removed
+: <include from="api_changes_list_2024.md" element-id="json-plugin-fix"/>
+
+### Database Plugin 2024.3
+
+`com.intellij.database.datagrid.DataGrid.getFormatterConfig(ModelIndex)` abstract method added
+: Only recompilation is needed for classes that implement `DataGrid` and delegate calls to an actual `DataGrid` implementation.
+
+### Package Checker 2024.3
+
+`com.intellij.packageChecker.model.Dependency(Package, Set, DataContext)` constructor removed
+: Use other constructors instead.
+
+### HTTP Client Plugin 2024.3
+
+`com.intellij.httpClient.http.request.run.HttpRunRequestInfo` class moved to package `com.intellij.httpClient.http.request.run.info`
+: Update code usages.
+
+### JavaScript Plugin 2024.3
+
+`com.intellij.lang.ecmascript6.JSXHarmonyFileType` class renamed to `com.intellij.lang.javascript.JSXFileType`
+: Update code usages.
+
+Interface `com.intellij.lang.javascript.JSElementTypes` no longer extends `com.intellij.lang.javascript.JSStubElementTypes`
+: Update code usages.
+
+Field `com.intellij.lang.javascript.JavaScriptSupportLoader.ECMA_SCRIPT_L4` moved to `com.intellij.lang.javascript.flex.FlexSupportLoader`
+: Update code usages.
+
+### Kotlin Plugin 2024.3
+
+`org.jetbrains.kotlin.idea.quickfix.AddAnnotationFix(KtElement, ClassId, AddAnnotationFix.Kind, FqName, SmartPsiElementPointer, int, DefaultConstructorMarker)` constructor parameter type changed from `FqName` to `List<String>`
+: Update code usages.
+
+
 ## 2024.2
 
 ### IntelliJ Platform 2024.2
@@ -96,6 +204,9 @@ Constructor of `com.intellij.ui.tabs.TabInfo` requires not-null `JComponent` arg
 
 `com.intellij.platform.workspace.jps.entities.DependenciesKt.modifyEntity(MutableEntityStorage, LibraryEntity, Function1)` method removed
 : Use `com.intellij.platform.workspace.jps.entities.DependenciesKt.modifyLibraryEntity(MutableEntityStorage, LibraryEntity, Function1)` instead.
+
+`ai.grazie.nlp.utils.UtilsKt.tokenizeByWhitespace(String)` method removed
+: NLP platform internals.
 
 ### UML Plugin 2024.2
 

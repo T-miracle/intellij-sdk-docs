@@ -21,7 +21,13 @@ When planning your work, talk and try to understand what your users need the mos
 If you are unsure about an implemented solution, consider sharing the work in progress with a limited group of users (e.g., your colleagues or active community members) and gathering the feedback that will help you improve the final result.
 See the [Custom Release Channels](publishing_plugin.md#specifying-a-release-channel) section for information on how to automate sharing the pre-release plugin versions.
 
+### Feedback
+
 Gathering feedback on the existing features can help identify what works well and what should be improved, which also increases the overall plugin quality.
+
+<video src="https://www.youtube.com/watch?v=J3VEfTUX6Bs"/>
+
+_This session covers best practices for addressing feature requests, handling bug reports, navigating diverse communication styles, and fostering user engagement._
 
 ## Ease of Use
 
@@ -95,3 +101,8 @@ It is recommended to proofread the texts or use one of the [spellcheck plugins](
 The description on the plugin page is the place where users have the first contact with the plugin, and its content helps them to decide if it is what they are looking for.
 The description should be clear, polished, and follow the rules described in the JetBrains Marketplace [documentation](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description).
 See also this webinar about [5 tips for optimizing the JetBrains Marketplace plugin page](https://youtu.be/oB1GA9JeeiY?t=52).
+
+## Providing Translations
+
+[Translating](providing_translations.md) the plugin may improve the experience and increase the adoption of non-English speaking users, for example, in the dynamically growing Chinese market.
+Even if translating is not planned in the nearest future, it is recommended to make the plugin ready for translation by following recommendations from the [](internationalization.md) section.

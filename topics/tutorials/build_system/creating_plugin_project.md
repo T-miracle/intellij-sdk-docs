@@ -2,7 +2,7 @@
 
 # 创建一个插件 Gradle 项目
 
-<link-summary>创建和运行基于 Gradle 的 IntelliJ 平台插件项目。</link-summary>
+<link-summary>Creating and running a Gradle-based IntelliJ Platform plugin project.</link-summary>
 
 本文档页面描述了使用[新建项目向导](https://www.jetbrains.com/help/idea/new-project-wizard.html)生成的基于 Gradle 的插件项目，但使用 [](plugin_github_template.md) 生成的项目涵盖了所有描述的文件和目录。
 
@@ -34,11 +34,11 @@
    选择插件将用于实现的<control>Language</control>。在本例中，选择<control>Kotlin</control>选项。
    有关更多信息，请参见[插件开发者的 Kotlin](using_kotlin.md)。
 
-   > 使用 IntelliJ IDEA 2023.1 或更新版本生成的项目默认支持 Kotlin 和 Java 源代码。
-   > 项目生成器会自动创建 <path>\$PLUGIN_DIR\$/src/main/kotlin</path> 源代码目录。
-   > 要添加 Java 源代码，请创建 <path>\$PLUGIN_DIR\$/src/main/java</path> 目录。
+   > Projects generated with IntelliJ IDEA 2023.1 or newer support both Kotlin and Java sources out of the box.
+   > The Project generator automatically creates <path>\$PLUGIN_DIR\$/src/main/kotlin</path> sources directory.
+   > To add Java sources, create the <path>\$PLUGIN_DIR\$/src/main/java</path> directory manually.
    >
-   {style="note"}
+   {style="note" title="Using Kotlin and Java sources"}
 
 5. 提供 <control>Group</control>，通常是公司域名的反转形式（例如 `com.example.mycompany`）。
    它用于项目 Gradle 构建脚本中的 Gradle 属性 `project.group` 值。

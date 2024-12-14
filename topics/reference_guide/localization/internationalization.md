@@ -42,7 +42,12 @@ NLS context annotations must be annotated with `@Nls` and they can define:
 The IntelliJ Platform provides NLS context annotations, including:
 - general contexts: [`NlsContexts`](%gh-ic%/platform/util/src/com/intellij/openapi/util/NlsContexts.java) nested annotations
 - action contexts: [`NlsActions`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/util/NlsActions.java) nested annotations
-- miscellaneous contexts: [`@InspectionMessage`](%gh-ic%/platform/analysis-api/src/com/intellij/codeInspection/util/InspectionMessage.java), [`@IntentionFamilyName`](%gh-ic%/platform/analysis-api/src/com/intellij/codeInspection/util/IntentionFamilyName.java), [`@IntentionName`](%gh-ic%/platform/analysis-api/src/com/intellij/codeInspection/util/IntentionName.java), [`@GutterName`](%gh-ic%/platform/lang-api/src/com/intellij/codeInsight/daemon/GutterName.java), [`@TooltipTitle`](%gh-ic%/platform/platform-api/src/com/intellij/ide/TooltipTitle.java)
+- miscellaneous contexts:
+  [`@InspectionMessage`](%gh-ic%/platform/analysis-api/src/com/intellij/codeInspection/util/InspectionMessage.java),
+  [`@IntentionFamilyName`](%gh-ic%/platform/analysis-api/src/com/intellij/codeInspection/util/IntentionFamilyName.java),
+  [`@IntentionName`](%gh-ic%/platform/analysis-api/src/com/intellij/codeInspection/util/IntentionName.java),
+  [`@GutterName`](%gh-ic%/platform/lang-api/src/com/intellij/codeInsight/daemon/GutterName.java),
+  [`@TooltipTitle`](%gh-ic%/platform/platform-api/src/com/intellij/ide/TooltipTitle.java)
 
 To find all available annotations, search for `@NlsContext` usages in the [intellij-community](https://github.com/JetBrains/intellij-community) source code.
 
@@ -65,9 +70,16 @@ All NLS strings from a module should be added to a <path>*.properties</path> fil
 A standard location of message files in JAR is <path>/messages/\*.properties</path>.
 In [Gradle-based plugin](developing_plugins.md#gradle-plugin) project sources, message files are located in <path>\$MODULE_ROOT\$/src/main/resources/messages/\*.properties</path>.
 
-> A standard convention for naming message bundle properties file is <path>*Bundle.properties</path>.
+> A standard convention for naming a message bundle properties file is <path>*Bundle.properties</path>.
+>
+> If a plugin project is multi-module, and it combines resources into a single JAR, make sure that all bundle files have unique names or paths.
+> Otherwise, only the last packed bundle file will exist in the distribution package.
+>
+{style="warning"}
 
 A corresponding [bundle class](#message-bundle-class) should be used to access the strings from the code.
+
+> Enable <control>Plugin DevKit | Plugin descriptor | Plugin.xml i18n verification</control> inspection for reporting hardcoded texts in [plugin descriptor files](plugin_configuration_file.md).
 
 ### Message Bundle Class
 
@@ -136,6 +148,8 @@ Annotating message key parameter with [`@PropertyKey`](%gh-java-annotations%/com
 
 ### Moving Strings to Message Bundles
 
+> Make sure the encoding for bundle files is set to UTF-8 in <ui-path>Settings | Editor | File Encodings | Properties Files (*.properties)</ui-path>.
+
 IntelliJ IDEA provides inspections with fixes which help with moving strings to message bundles, e.g. <ui-path>Editor | Inspections | Java | Internationalization | Hardcoded strings</ui-path> for Java and Kotlin code.
 
 It is possible to move multiple hardcoded strings to a message bundle in batch mode.
@@ -168,7 +182,7 @@ It will cause the IDE to generate prefix and suffix automatically when the strin
 
 ### Using `&` in Messages
 
-The `&` symbol in message bundles is used to specify [mnemonic](https://jetbrains.design/intellij/principles/mnemonics/) characters for buttons and labels.
+The `&` symbol in message bundles is used to specify [mnemonic](mnemonics.md) characters for buttons and labels.
 To use `&` in a value, escape it by a backslash (note that you also need to escape the backslash symbol):
 ```
 section.title=Drag \\\& Drop
@@ -310,7 +324,7 @@ message("dialog.title.add.0", message("concept.library"))
 ```
 
 If several localized strings (non-user input) are used to concatenate the string, then the following techniques can be used (in order of preference):
-1. Consider reworking the UI to avoid the string concatenation (consult the UX expert if your organization has any, or check [IntelliJ Platform UI Guidelines](https://jetbrains.design/intellij/)).
+1. Consider reworking the UI to avoid the string concatenation (consult the UX expert if your organization has any, or check [IntelliJ Platform UI Guidelines](ui_guidelines_welcome.topic)).
    - Put string parts into different UI elements.
    - Remove a UI element which shows the concatenated string.
 2. Rephrase the string.
@@ -338,7 +352,7 @@ If several localized strings (non-user input) are used to concatenate the string
    - Given X terms and Y contexts, it will result in X*Y strings.
      It is acceptable to have several strings for small X and Y.
      For more cases, the translations may become unmaintainable.
-   - If terms are provided other by plugins via an extension point, the extension point API would require a change to provide full strings.
+   - If plugins provide terms via an extension point, the extension point API would require a change to provide full strings.
 
 #### Messages Depending on Numbers
 
@@ -375,5 +389,23 @@ It adds an appropriate ending to numbers, so it turns into `1st`, `2nd`, `3rd`, 
 ```
 parameter.cast.fix=Cast {0,number,ordinal} parameter to {1}
 ```
+
+### Formatting Non-Textual Values
+
+Different countries and languages display numbers, dates and times, durations, file sizes, and other values, in a localized way.
+The IntelliJ Platform provides some utils to display them properly.
+
+#### Date and Time
+
+- [`DateFormatUtil`](%gh-ic%/platform/platform-api/src/com/intellij/util/text/DateFormatUtil.java) ([IDE's locale](providing_translations.md#getting-the-current-locale-programmatically) is supported since 2024.1)
+- [`NlsMessages.formatDateLong()`](%gh-ic%/platform/ide-core-impl/src/com/intellij/ide/nls/NlsMessages.java)
+
+#### Durations
+
+- [`NlsMessages.formatDuration()`](%gh-ic%/platform/ide-core-impl/src/com/intellij/ide/nls/NlsMessages.java)
+
+#### File Sizes
+
+- [`Formats.formatFileSize()`](%gh-ic%/platform/util/base/src/com/intellij/openapi/util/text/Formats.java) (the units are not localized and the default JVM locale is used instead of the [IDE's locale](providing_translations.md#getting-the-current-locale-programmatically))
 
 <include from="snippets.md" element-id="missingContent"/>

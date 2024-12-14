@@ -11,8 +11,6 @@
 [PyCharm](https://www.jetbrains.com/pycharm/) is an IntelliJ Platform-based product.
 Plugin projects for PyCharm can be developed using [IntelliJ IDEA](idea.md).
 
-<include from="snippets.md" element-id="jetbrainsProductOpenSourceLicense"/>
-
 ## WebStorm Plugin Setup
 
 ### Gradle Build Script
@@ -47,7 +45,7 @@ dependencies {
 
 <tab title="Gradle IntelliJ Plugin (1.x)">
 
-The configuration of PyCharm plugin projects follows the methods described in [Configuring Plugin Projects using a Product-Specific Attribute](dev_alternate_products.md#configuring-plugin-projects-using-a-product-specific-attribute), and [Configuring the plugin.xml File](dev_alternate_products.md#configuring-pluginxml).
+The configuration of PyCharm plugin projects follows the methods described in [Configuring Plugin Projects using a Product-Specific Attribute](dev_alternate_products.md#using-a-product-specific-attribute), and [Configuring the plugin.xml File](dev_alternate_products.md#configuring-pluginxml).
 The table below summarizes the [](tools_gradle_intellij_plugin.md) attributes to set in the Gradle build script.
 Click on an entry in the table's *Attribute* column to go to the documentation about that attribute.
 

@@ -43,25 +43,34 @@
 * 重写 `getDimensionServiceKey()` 方法返回用于持久化对话框大小的标识符。
 * 重写 `getHelpId()` 方法返回与对话框关联的上下文帮助主题（参见 [上下文帮助](ide_infrastructure.md#context-help)）。
 
-使用 [Kotlin UI DSL](kotlin_ui_dsl_version_2.md) 提供对话框的内容（参见 [samples](#kotlin)）。
-或者在使用Java时，可以使用 `DialogWrapper` 类与 [GUI Designer forms](https://www.jetbrains.com/help/idea/gui-designer-basics.html) 结合使用。
-在这种情况下，将一个 GUI Designer 表单绑定到扩展 `DialogWrapper` 类的类中，将表单的顶层面板绑定到一个字段，并从 `createCenterPanel()` 方法中返回该字段。
+#### Dialog Content
+
+Use [Kotlin UI DSL](kotlin_ui_dsl_version_2.md) to provide the dialog's contents (see [samples](#kotlin)).
+Alternatively or when using Java, the `DialogWrapper` class can be used together with [GUI Designer forms](https://www.jetbrains.com/help/idea/gui-designer-basics.html).
+In this case, bind a GUI Designer form to the class extending `DialogWrapper`, bind the top-level panel of the form to a field and return that field from the `createCenterPanel()` method.
 
 > 请查看 [UI Guidelines](layout.md) 主题，获取关于如何在对话框中布置 UI 控件的建议。
 >
-> 可以使用 [UI 检查器](internal_ui_inspector.md) 在运行时检查现有对话框，例如查找 UI 组件的实际实现。
+> Existing dialogs can be inspected at runtime using [UI Inspector](internal_ui_inspector.md), for example, to locate the underlying implementation of UI components.
+>
+
+#### Displaying the Dialog
 
 要显示对话框，请调用 `show()` 方法，然后使用 `getExitCode()` 方法来检查对话框如何关闭（参见 `DialogWrapper#OK_EXIT_CODE, CANCEL_EXIT_CODE, CLOSE_EXIT_CODE`）。
 可以使用 `showAndGet()` 方法来结合这两个调用。
 
-要自定义对话框中显示的按钮（替换标准的 <control>OK</control>/<control>Cancel</control>/<control>Help</control> 按钮集合），可以重写 `createActions()` 或 `createLeftActions()` 方法。
-这两个方法都返回一组 Swing Action 对象。
-如果按钮用于关闭对话框，请使用 [`DialogWrapperExitAction`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) 作为动作的基类。
-使用 `action.putValue(DialogWrapper.DEFAULT_ACTION, true)` 来设置默认按钮。
+#### Customizing Buttons
+
+To customize the buttons displayed in the dialog (replacing the standard <control>OK</control>/<control>Cancel</control>/<control>Help</control> set of buttons), override either the `createActions()` or `createLeftActions()` methods.
+Both of these methods return an array of Swing Action objects.
+If a button closes the dialog, use [`DialogWrapperExitAction`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java) as the base class for the action.
+
+Use `action.putValue(DialogWrapper.DEFAULT_ACTION, true)` to set the default button and
+`action.putValue(DialogWrapper.FOCUSED_ACTION, true)` to set the focused button.
 
 ### 输入验证 {id=input-validation}
 
-请参阅 [UI Guidelines](validation_errors.md) 中的主题，了解有关验证错误的信息。
+See also [](validation_errors.md) topic in UI Guidelines.
 
 要验证输入到对话框中的数据，请重写 `doValidate()` 方法。
 该方法将由定时器自动调用。

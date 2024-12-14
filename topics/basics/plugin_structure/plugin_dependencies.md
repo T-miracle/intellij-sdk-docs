@@ -92,7 +92,7 @@ See also [](plugin_compatibility.md#modules-specific-to-functionality).
 | IntelliLang               | `org.intellij.intelliLang`      | [](language_injection.md)     |
 | Java                      | `com.intellij.java`             | [](idea.md#java)              |
 | JavaScript and TypeScript | `JavaScript`                    | [](webstorm.md)               |
-| Kotlin                    | `org.jetbrains.kotlin`          | [](using_kotlin.md)           |
+| Kotlin                    | `org.jetbrains.kotlin`          | [](idea.md#kotlin)            |
 | Markdown                  | `org.intellij.plugins.markdown` |                               |
 | Maven                     | `org.jetbrains.idea.maven`      |                               |
 | Spring                    | `com.intellij.spring`           | [](spring_api.md)             |
@@ -130,6 +130,10 @@ See [](tools_intellij_platform_gradle_plugin_dependencies_extension.md#plugins) 
 ### Gradle IntelliJ Plugin (1.x)
 
 {collapsible="true" default-state="collapsed"}
+
+<primary-label ref="Obsolete"/>
+
+<include from="tools_gradle_intellij_plugin.md" element-id="gradlePluginObsolete"/>
 
 > Please see the [`intellij.plugins`](tools_gradle_intellij_plugin.md#intellij-extension-plugins) property for acceptable values.
 >

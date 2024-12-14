@@ -26,9 +26,9 @@ The shortcut for a built-in button is <shortcut>Shift+Enter</shortcut>.
 A browse button opens a dialog with the disk, a tree view or a table of values.
 Use a control with the browse icon for a file/folder path selected from the disk.
 
-![](input_browse.png){width=250}
+![](input_browse.png){width=378}
 
-An input field with browse button: [`TextFieldWithBrowseButton`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/TextFieldWithBrowseButton.java)
+[//]: # (An input field with browse button: [`TextFieldWithBrowseButton`]&#40;%gh-ic%/platform/platform-api/src/com/intellij/openapi/ui/TextFieldWithBrowseButton.java&#41;)
 
 A combo box with browse button:
 <tabs group="languages">
@@ -86,7 +86,8 @@ Do **not** place the button on the right of the control.
 
 ### Expand field
 
-If the input text can be long and place is constrained, use a built-in button to expand the control ([`ExtendableTextField`](%gh-ic%/platform/platform-api/src/com/intellij/ui/components/fields/ExtendableTextField.java)):
+If the input text can be long and place is constrained, use a built-in button to expand the control
+([`ExpandableTextField`](%gh-ic%/platform/platform-api/src/com/intellij/ui/components/fields/ExpandableTextField.java)):
 
 ![](expandable_1.png){width=332}
 

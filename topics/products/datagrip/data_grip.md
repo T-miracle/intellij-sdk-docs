@@ -11,8 +11,6 @@
 [DataGrip](https://www.jetbrains.com/datagrip/) is an IntelliJ Platform-based product.
 Plugin projects targeting DataGrip can be developed using [IntelliJ IDEA](idea.md).
 
-<include from="snippets.md" element-id="jetbrainsProductOpenSourceLicense"/>
-
 ## DataGrip Plugin Setup
 
 ### Gradle Build Script
@@ -24,7 +22,7 @@ Plugin projects targeting DataGrip can be developed using [IntelliJ IDEA](idea.m
 Define a dependency using [`datagrip()`](tools_intellij_platform_gradle_plugin_dependencies_extension.md), see _Versions_ link on top of this page for all available versions.
 See [](tools_intellij_platform_gradle_plugin.md#dependenciesLocalPlatform) for using a local installation.
 
-A dependency on the bundled `DatabaseTools` plugin must be added using the [`bundledPlugin()`](tools_intellij_platform_gradle_plugin_dependencies_extension.md#plugins) helper.
+A dependency on the bundled `com.intellij.database` plugin must be added using the [`bundledPlugin()`](tools_intellij_platform_gradle_plugin_dependencies_extension.md#plugins) helper.
 
 Minimum <path>build.gradle.kts</path> setup:
 
@@ -39,7 +37,7 @@ repositories {
 dependencies {
   intellijPlatform {
     datagrip("<versionNumber>")
-    bundledPlugin("DatabaseTools")
+    bundledPlugin("com.intellij.database")
   }
 }
 ```
@@ -48,7 +46,7 @@ dependencies {
 
 <tab title="Gradle IntelliJ Plugin (1.x)">
 
-The configuration of DataGrip plugin projects follows the methods described in [Configuring Plugin Projects using the IntelliJ IDEA Product Attribute](dev_alternate_products.md#configuring-plugin-projects-using-the-intellij-idea-product-attribute), and [Configuring the plugin.xml File](dev_alternate_products.md#configuring-pluginxml).
+The configuration of DataGrip plugin projects follows the methods described in [Configuring Plugin Projects using the IntelliJ IDEA Product Attribute](dev_alternate_products.md#using-the-intellij-idea-product-attribute), and [Configuring the plugin.xml File](dev_alternate_products.md#configuring-pluginxml).
 
 The table below summarizes the [](tools_gradle_intellij_plugin.md) attributes to set in the plugin project's Gradle build script.
 Click on an entry in the table's *Attribute* column to go to the documentation about that attribute.
