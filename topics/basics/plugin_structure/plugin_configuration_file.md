@@ -23,7 +23,7 @@ The sections below describe all the elements in detail.
 如果要求不同，下面的文档将明确说明。
 附加配置文件的一个用例是当插件提供仅在某些 IDE 中可用并且需要 [某些模块](plugin_compatibility.md#modules-specific-to-functionality) 的可选功能时。
 
-## 2.实用的资源
+## 实用的资源
 
 Please make sure to follow the guidelines from [Plugin Overview page](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html) for an optimal presentation of your plugin on JetBrains Marketplace.
 The _Busy Plugin Developers. Episode 2_ discusses [5 tips for optimizing JetBrains Marketplace plugin page](https://youtu.be/oB1GA9JeeiY?t=52) in more detail.

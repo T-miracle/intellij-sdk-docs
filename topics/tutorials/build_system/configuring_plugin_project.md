@@ -1,17 +1,17 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Configuring Gradle IntelliJ Plugin
+# 配置 Gradle IntelliJ Plugin
 
-<link-summary>Configuring the essential Gradle IntelliJ Plugin attributes and tasks.</link-summary>
+<link-summary>配置 Gradle IntelliJ 插件的基本属性和任务。</link-summary>
 
-This section presents a guided tour of Gradle plugin attributes to achieve the commonly desired functionality.
-For more advanced options, see the full [](tools_gradle_intellij_plugin.md) reference.
+本节将引导你了解 Gradle 插件属性，以实现常见的功能需求。  
+欲了解更多高级选项，请参阅完整的 [](tools_gradle_intellij_plugin.md) 参考。
 
 <include from="creating_plugin_project.md" element-id="gradle1xOnly"/>
 
 <include from="snippets.md" element-id="gradlePluginVersion"/>
 
-## Keep Up To Date
+## 保持最新 {id=keep-up-to-date}
 
 Gradle IntelliJ 插件和 [Gradle](https://gradle.org/install/) 构建系统在不断开发，每个新版本都会带来重要的错误修复、新功能和改进，从而提高开发效率。
 强烈建议将 Gradle 和 Gradle IntelliJ 插件都升级到最新版本。

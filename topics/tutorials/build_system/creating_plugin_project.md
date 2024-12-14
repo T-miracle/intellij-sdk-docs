@@ -8,16 +8,15 @@
 
 <snippet id="gradle1xOnly">
 
-> This page covers [](tools_gradle_intellij_plugin.md) only.
+> 本页面仅涵盖 [](tools_gradle_intellij_plugin.md) 内容。  
+> 请参阅 [](tools_intellij_platform_gradle_plugin.md) 参考。  
+> 专门的页面将稍后提供。
 >
-> See the [](tools_intellij_platform_gradle_plugin.md) reference.
-> A dedicated page for it will be provided later.
->
-{title="Gradle IntelliJ Plugin (1.x) Only"}
+{title="仅限 Gradle IntelliJ Plugin (1.x)"}
 
 </snippet>
 
-## Creating a Plugin with New Project Wizard
+## 使用新建项目向导创建插件 {id="creating-a-plugin-with-new-project-wizard"}
 
 <include from="snippets.md" element-id="gradlePluginVersion"/>
 
@@ -34,9 +33,9 @@
    选择插件将用于实现的<control>Language</control>。在本例中，选择<control>Kotlin</control>选项。
    有关更多信息，请参见[插件开发者的 Kotlin](using_kotlin.md)。
 
-   > Projects generated with IntelliJ IDEA 2023.1 or newer support both Kotlin and Java sources out of the box.
-   > The Project generator automatically creates <path>\$PLUGIN_DIR\$/src/main/kotlin</path> sources directory.
-   > To add Java sources, create the <path>\$PLUGIN_DIR\$/src/main/java</path> directory manually.
+   > 使用 IntelliJ IDEA 2023.1 或更新版本生成的项目默认支持 Kotlin 和 Java 源代码。
+   > 项目生成器会自动创建 <path>\$PLUGIN_DIR\$/src/main/kotlin</path> 源代码目录。  
+   > 要添加 Java 源代码，请手动创建 <path>\$PLUGIN_DIR\$/src/main/java</path> 目录。
    >
    {style="note" title="Using Kotlin and Java sources"}
 
@@ -115,7 +114,7 @@ repositories {
   mavenCentral()
 }
 
-// 配置 Gradle IntelliJ 插件
+// 配置 Gradle IntelliJ Plugin
 // 了解更多：https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
   version.set("2022.2.5")

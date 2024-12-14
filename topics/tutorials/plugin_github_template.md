@@ -10,7 +10,7 @@ IntelliJ 平台插件模板 是使用[新建项目向导](creating_plugin_projec
 
 该模板的主要目的是通过预配置项目框架和 CI，链接到适当的文档页面，并保持所有内容的组织，加快新老开发人员的插件开发设置阶段。
 
-> Note: This template uses [](tools_intellij_platform_gradle_plugin.md).
+> 注意：此模板使用[](tools_intellij_platform_gradle_plugin.md)。
 
 GitHub 模板 允许您从脚手架创建新的存储库，而无需复制和粘贴内容、克隆存储库或手动清除历史记录。
 您所要做的就是单击 GitHub 项目页面上的<control>使用此模板</control>按钮（您必须使用 GitHub 帐户登录）。
@@ -18,7 +18,7 @@ GitHub 模板 允许您从脚手架创建新的存储库，而无需复制和粘
 
 完成后，项目就可以克隆到本地环境并使用 [IntelliJ IDEA](https://www.jetbrains.com/idea/download) 打开。
 
-For more details, refer to the [IntelliJ Platform Plugin Template][gh:plugin-template] project documentation.
+有关更多详情，请参阅 [IntelliJ Platform 插件模板][gh:plugin-template] 项目的文档。
 
 > _忙碌的插件开发者的录音 —— 第 0 集_ 网络研讨会详细描述并展示了[如何使用 IntelliJ 平台插件模板](https://youtu.be/-6D5-xEaYig?t=230)。
 >

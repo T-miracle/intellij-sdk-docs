@@ -91,13 +91,14 @@ The following are some of the most common tasks achieved using extensions:
 
 ### 扩展默认属性
 
-`id`
-: Unique ID. Consider prepending ID with the prefix related to the plugin name or ID to not clash with other plugins defining extensions with the same ID, for example, `com.example.myplugin.myExtension`.
+`id`  
+: 唯一标识符。考虑在 ID 前添加与插件名称或 ID 相关的前缀，以避免与其他插件定义具有相同 ID 的扩展发生冲突，例如 `com.example.myplugin.myExtension`。
 
-`order` : 允许使用 `first`、`last` 或 `before|after [id]` 来排序所有定义的扩展。
+`order` :
+允许使用 `first`、`last` 或 `before|after [id]` 来排序所有定义的扩展。
 
 `os`
-: Allows restricting an extension to a given OS, for example, `os="windows"` registers the extension on Windows only
+: 允许将扩展限制为特定操作系统，例如，`os="windows"` 仅在 Windows 上注册该扩展。
 
 如果扩展实例需要在某些场景下“不适用”，则可以在其构造函数中抛出 [`ExtensionNotApplicableException`](%gh-ic%/platform/extensions/src/com/intellij/openapi/extensions/ExtensionNotApplicableException.java)。
 
@@ -105,23 +106,23 @@ The following are some of the most common tasks achieved using extensions:
 
 有几个工具功能可帮助在 <path>plugin.xml</path> 中配置 bean 类扩展点。
 
-#### Required Properties
+#### 必需属性
 <primary-label ref="2019.3"/>
 
-Properties annotated with [`RequiredElement`](%gh-ic%/platform/core-api/src/com/intellij/openapi/extensions/RequiredElement.java) are inserted automatically and validated.
+使用 [`RequiredElement`](%gh-ic%/platform/core-api/src/com/intellij/openapi/extensions/RequiredElement.java) 注解的属性会自动插入并进行验证。
 
-If the given property is allowed to have an explicit empty value, set `allowEmpty` to `true` (2020.3+).
+如果允许该属性具有显式的空值，可以将 `allowEmpty` 设置为 `true`（2020.3+）。
 
-#### Class names
+#### 类名 {id=class-names}
 
-Property names matching the following list will resolve to a fully qualified class name:
+匹配以下列表的属性名将解析为一个完全限定的类名：
 
 - `implementation`
 - `className`
-- ending with `Class` (case-sensitive)
-- `serviceInterface`/`serviceImplementation`
+- 以 `Class` 结尾（区分大小写）
+- `serviceInterface` / `serviceImplementation`
 
-A required parent type can be specified in the [extension point declaration](plugin_extension_points.md) via [`<with>`](plugin_configuration_file.md#idea-plugin__extensionPoints__extensionPoint__with):
+可以通过在 [扩展点声明](plugin_extension_points.md) 中使用 [`<with>`](plugin_configuration_file.md#idea-plugin__extensionPoints__extensionPoint__with) 来指定所需的父类型。
 
 ```xml
 <extensionPoint name="myExtension" beanClass="MyExtensionBean">
@@ -131,22 +132,20 @@ A required parent type can be specified in the [extension point declaration](plu
 </extensionPoint>
 ```
 
-#### Custom resolve
+#### 自定义解析 {id=custom-resolve}
 
-Property name `language` (or ending in `*Language`, 2020.2+) resolves to all present [`Language`](%gh-ic%/platform/core-api/src/com/intellij/lang/Language.java) IDs.
+属性名 `language`（或以 `*Language` 结尾，2020.2+）解析为所有当前存在的 [`Language`](%gh-ic%/platform/core-api/src/com/intellij/lang/Language.java) ID。
 
-Similarly, `action` and `actionId` (2024.3+) resolve to all registered [`<action>`](plugin_configuration_file.md#idea-plugin__actions__action) IDs.
+类似地，`action` 和 `actionId`（2024.3+）解析为所有注册的 [`<action>`](plugin_configuration_file.md#idea-plugin__actions__action) ID。
 
-#### Deprecation/ApiStatus
+#### 废弃/ApiStatus {id=deprecation-apistatus}
 
-Properties marked as `@Deprecated` or annotated with any of [`ApiStatus`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/ApiStatus.java) `@Internal`, `@Experimental`, `@ScheduledForRemoval`, or `@Obsolete` will be highlighted accordingly.
+标记为 `@Deprecated` 或使用任何以下 [`ApiStatus`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/ApiStatus.java) 注解的属性，如 `@Internal`、`@Experimental`、`@ScheduledForRemoval` 或 `@Obsolete`，将会被相应地高亮显示。
 
-#### Enum properties
-<primary-label ref="2020.1"/>
+#### 枚举属性 {id=enum-properties}
 
-Attributes with `Enum` type support code insight with _lowerCamelCased_ notation. Note: Enum implementation must not override `toString()`.
+具有 `Enum` 类型的属性支持使用 _lowerCamelCased_ 命名法的代码提示。注意：枚举实现不得重写 `toString()` 方法。
 
-#### I18n
-<primary-label ref="2019.2"/>
+#### 国际化 (I18n) {id=i18n}
 
-Annotating with [`@Nls`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/Nls.java) validates a UI `String` capitalization according to the text property `Capitalization` enum value.
+使用 [`@Nls`](%gh-java-annotations%/common/src/main/java/org/jetbrains/annotations/Nls.java) 注解可以根据文本属性 `Capitalization` 枚举值验证 UI `String` 的大小写。

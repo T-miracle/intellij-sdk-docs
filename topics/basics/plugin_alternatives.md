@@ -35,7 +35,7 @@ SSR 模板可以用于[创建自定义检查](https://www.jetbrains.com/help/ide
 
 创建的脚本存储在[IDE 配置目录](https://www.jetbrains.com/help/idea/directories-used-by-the-ide-to-store-settings-caches-plugins-and-logs.html#config-directory) 并且不能作为项目文件或配置的一部分进行共享。
 
-## Flora Plugin
+## Flora 插件 {id=flora-plugin}
 <secondary-label ref="incubating"/>
 
 [Flora](https://plugins.jetbrains.com/plugin/17669-flora-beta-) 插件允许将项目特定的扩展开发为 Kotlin 脚本 (<path>\*.kts</path>) 或 JavaScript (<path>\*.js</path>) 文件。

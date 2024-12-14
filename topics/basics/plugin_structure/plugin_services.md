@@ -28,7 +28,7 @@ IntelliJ 平台提供三种类型的服务：_应用级_ 服务（全局单例�
 {style="note"}
 {id="moduleServiceNote"}
 
-#### 构造函数 {id=constructor}
+#### 构造函数
 {#ctor}
 
 为了提高启动性能，请避免在构造函数中进行任何繁重的初始化。
@@ -52,25 +52,25 @@ IntelliJ 平台提供三种类型的服务：_应用级_ 服务（全局单例�
 
 ## 轻量级服务 {id=light-services}
 
-A service not going to be overridden or exposed as API to other plugins does not need to be registered in <path>[plugin.xml](plugin_configuration_file.md)</path> (see [](#declaring-a-service)).
-Instead, annotate the service class with [`@Service`](%gh-ic%/platform/core-api/src/com/intellij/openapi/components/Service.java) (see [](#examples)).
-The service instance will be created in the scope according to the caller (see [](#retrieving-a-service)).
+一个不打算被覆盖或暴露为其他插件 API 的服务，不需要在 <path>[plugin.xml](plugin_configuration_file.md)</path> 中注册（参见 [](#declaring-a-service)）。  
+相反，使用 [`@Service`](%gh-ic%/platform/core-api/src/com/intellij/openapi/components/Service.java) 注解服务类（参见 [](#examples)）。  
+该服务实例将在调用者的作用域内创建（参见 [](#retrieving-a-service)）。
 
 ### 轻量级服务限制
 
-* None of these attributes/restrictions (available for [registration of non-light services](#declaring-a-service)) is allowed: `id`, `os`, `client`, `overrides`, `configurationSchemaKey`/`preload` (Internal API).
-* There is no separate headless/test implementation required.
-* Service class must be `final`.
-* [Constructor injection](#ctor) of dependency services is not supported.
-* If an application-level service is a [PersistentStateComponent](persisting_state_of_components.md), roaming must be disabled (`roamingType = RoamingType.DISABLED`).
+* 以下属性/限制（适用于 [非轻量级服务的注册](#declaring-a-service)）不允许使用：`id`、`os`、`client`、`overrides`、`configurationSchemaKey`/`preload`（内部 API）。
+* 不需要单独的无头/测试实现。
+* 服务类必须是 `final`。
+* 不支持 [构造函数注入](#ctor) 依赖服务。
+* 如果一个应用级服务是 [PersistentStateComponent](persisting_state_of_components.md)，则必须禁用漫游（`roamingType = RoamingType.DISABLED`）。
 
-Use these inspections to verify above restrictions and highlight non-light services that can be converted (2023.3):
+使用以下检查来验证上述限制，并突出显示可以转换为轻量级服务的非轻量级服务（2023.3）：
 
 - <control>Plugin DevKit | Code | Light service must be final</control>
 - <control>Plugin DevKit | Code | Mismatch between light service level and its constructor</control>
 - <control>Plugin DevKit | Code | A service can be converted to a light one</control> 和相应的 <control>Plugin DevKit | Plugin descriptor | A service can be converted to a light one</control> 用于 <path>plugin.xml</path>
 
-### Examples
+### Examples {id=examples}
 
 {id="lightServiceExamples"}
 
@@ -149,25 +149,25 @@ class MyProjectService(private val project: Project) {
 
 要注册非 [轻量级服务](#light-services)，为每种类型提供了不同的扩展点：
 
-* `com.intellij.applicationService` – application-level service
-* `com.intellij.projectService` – project-level service
-* `com.intellij.moduleService` – module-level service (not recommended, see [Note](#types))
+* `com.intellij.applicationService` – 应用级服务
+* `com.intellij.projectService` – 项目级服务
+* `com.intellij.moduleService` – 模块级服务（不推荐，参见 [备注](#types)）
 
-The service implementation is specified in the required `serviceImplementation` attribute.
+服务实现通过必需的 `serviceImplementation` 属性指定。
 
-### Service API
+### 服务 API {id=service-api}
 
-To expose a service's API, create a separate class for `serviceInterface` and extend it in the corresponding class registered in `serviceImplementation`.
-If `serviceInterface` isn't specified, it is supposed to have the same value as `serviceImplementation`.
-Use inspection <control>Plugin DevKit | Plugin descriptor | Plugin.xml extension registration</control> to highlight redundant `serviceInterface` declarations.
+要暴露服务的 API，创建一个单独的类作为 `serviceInterface`，并在 `serviceImplementation` 中注册的相应类中进行扩展。  
+如果没有指定 `serviceInterface`，则默认它的值与 `serviceImplementation` 相同。  
+使用检查 <control>Plugin DevKit | Plugin descriptor | Plugin.xml extension registration</control> 来突出显示冗余的 `serviceInterface` 声明。
 
-### Additional Attributes
+### 额外属性 {id=additional-attributes}
 
-A service can be restricted to a certain OS via the `os` attribute.
+可以通过 `os` 属性将服务限制为特定的操作系统。
 
-To provide a custom implementation for test or headless environment, specify `testServiceImplementation` or `headlessImplementation` respectively.
+为了在测试或无头环境中提供自定义实现，分别指定 `testServiceImplementation` 或 `headlessImplementation`。
 
-### Examples
+### 示例
 
 <tabs group="languages">
 
@@ -301,8 +301,8 @@ To provide a custom implementation for test or headless environment, specify `te
 >
 {style="warning" title="正确的服务获取"}
 
-Getting a service doesn't need a read action and can be performed from any thread.
-If a service is requested from several [threads](threading_model.md), it will be initialized in the first thread, and other threads will be blocked until it is fully initialized.
+获取服务不需要读操作，可以在任何线程中执行。  
+如果一个服务被多个 [线程](threading_model.md) 请求，它将在第一个线程中初始化，其他线程将在服务完全初始化之前被阻塞。
 
 <tabs group="languages">
 <tab title="Java" group-key="java">
@@ -337,7 +337,7 @@ val projectService = project.service<MyProjectService>()
 
 </tabs>
 
-<chapter title="Getting Service Flow" collapsible="true" default-state="collapsed">
+<chapter title="获取服务流程" collapsible="true" default-state="collapsed">
 
 ```plantuml
 @startuml

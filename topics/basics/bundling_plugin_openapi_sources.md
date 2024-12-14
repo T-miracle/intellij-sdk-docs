@@ -52,7 +52,7 @@ end title
 定义 API 的一般规则是包括可能被客户端插件代码消耗的类。
 
 当然，更复杂的插件可能需要更细粒度的结构。
-请参见 [Gradle IntelliJ 插件 - 使用示例](tools_gradle_intellij_plugin_examples.md)。
+请参见 [Gradle IntelliJ Plugin - 使用示例](tools_gradle_intellij_plugin_examples.md)。
 
 ## 在 Gradle 构建脚本中捆绑 API 源码
 

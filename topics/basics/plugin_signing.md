@@ -83,7 +83,7 @@ openssl req\
 
 > 当上传公钥到JetBrains Marketplace可用时，将会添加关于基于私钥生成公钥的信息。
 
-### Gradle IntelliJ 插件 {id=gradle-intellij-plugin}
+### Gradle IntelliJ Plugin {id=gradle-intellij-plugin}
 
 在版本`1.x`中，Gradle IntelliJ 插件提供了[`signPlugin`](tools_gradle_intellij_plugin.md#tasks-signplugin)任务，当指定了[`signPlugin.certificateChain`](tools_gradle_intellij_plugin.md#tasks-signplugin-certificatechain)和[`signPlugin.privateKey`](tools_gradle_intellij_plugin.md#tasks-signplugin-privatekey)签名属性时，该任务将在[`publishPlugin`](tools_gradle_intellij_plugin.md#tasks-publishplugin)任务之前自动执行。
 否则，它将被跳过。
@@ -159,8 +159,11 @@ publishPlugin {
 >
 {style="warning"}
 
-Instead of using the [`signPlugin.privateKey`](tools_gradle_intellij_plugin.md#tasks-signplugin-privatekey) and [`signPlugin.certificateChain`](tools_gradle_intellij_plugin.md#tasks-signplugin-certificatechain) properties which expect the key and certificate chain content to be provided directly, it's also possible to specify the paths to the files containing the key and certificate chain content.
-To do that, use the [`signPlugin.privateKeyFile`](tools_gradle_intellij_plugin.md#tasks-signplugin-privatekeyfile) and [`signPlugin.certificateChainFile`](tools_gradle_intellij_plugin.md#tasks-signplugin-certificatechainfile) properties instead.
+与直接提供密钥和证书链内容的 [`signPlugin.privateKey`](tools_gradle_intellij_plugin.md#tasks-signplugin-privatekey) 和
+[`signPlugin.certificateChain`](tools_gradle_intellij_plugin.md#tasks-signplugin-certificatechain) 属性不同，  
+也可以指定包含密钥和证书链内容的文件路径。  
+为此，请使用 [`signPlugin.privateKeyFile`](tools_gradle_intellij_plugin.md#tasks-signplugin-privatekeyfile) 和
+[`signPlugin.certificateChainFile`](tools_gradle_intellij_plugin.md#tasks-signplugin-certificatechainfile) 属性。
 
 <tabs group="languages">
 <tab title="Kotlin" group-key="kotlin">
@@ -283,7 +286,7 @@ java -jar marketplace-zip-signer-cli.jar sign\
 在选择 TrustStore 时，请确保 CA 受限于您信任的内部 CA。
 使用带有公共 CA 的 TrustStore 可能会使用户面临攻击风险。
 
-If adding a TrustStore to a user's environment is not possible, the user may also add the root CAs public key to <ui-path>Settings | Plugins | Manage Plugin Certificates</ui-path>.
+如果无法将 TrustStore 添加到用户的环境中，用户也可以将根 CA 的公钥添加到 <ui-path>Settings | Plugins | Manage Plugin Certificates</ui-path> 中。
 
 ### 使用自签名证书
 
@@ -297,7 +300,7 @@ keytool -import -alias IdeaPlugin -file chain.crt -keystore pluginKeystore.jks -
 ```
 （注意：TrustStore 密码必须保持为 `changeit`）
 
-否则，用户可以手动将公钥添加到 <ui-path>Settings | Plugins | Manage Plugin Certificates（设置 | 插件 | 管理插件证书）</ui-path>。
+否则，用户可以手动将公钥添加到 <ui-path>Settings | Plugins | Manage Plugin Certificates</ui-path>。
 
 ## 插件签名验证 {id=plugin-signature-verification}
 

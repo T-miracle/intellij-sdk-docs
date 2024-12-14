@@ -3,81 +3,80 @@
 # 组件（已弃用）
 <primary-label ref="Deprecated"/>
 
-<link-summary>Migrating deprecated plugin components to the current solutions.</link-summary>
-
-> When writing new plugins, creating Components must be avoided.
-> Any existing Components should be migrated to services, extensions, or listeners (see below).
+<link-summary>将已弃用的插件组件迁移到当前的解决方案。</link-summary>
+> 在编写新插件时，必须避免创建组件。  
+> 任何现有的组件应该迁移到服务、扩展或监听器（见下文）。
 >
-{style="warning" title="Deprecation Notice"}
+{style="warning" title="废弃通知"}
 
-Plugin Components are a legacy feature supported for compatibility with plugins created for older versions of the IntelliJ Platform.
-Plugins using Components don't support [dynamic loading](dynamic_plugins.md) (the ability to install, update, and uninstall plugins without restarting the IDE).
+插件组件是一个遗留特性，为了兼容旧版本 IntelliJ 平台上创建的插件而保留。  
+使用组件的插件不支持 [动态加载](dynamic_plugins.md)（即在不重启 IDE 的情况下安装、更新和卸载插件）。
 
-Plugin Components are defined in the `<application-components>`, `<project-components>`, and `<module-components>` sections in a [Plugin Configuration File](plugin_configuration_file.md).
+插件组件在 [插件配置文件](plugin_configuration_file.md) 中的 `<application-components>`、`<project-components>` 和 `<module-components>` 部分中定义。
 
-## Migration
+## 迁移 {id=migration}
 
-To migrate existing code from Components to modern APIs, see the following guidelines.
+要将现有代码从组件迁移到现代 API，请参阅以下指南。
 
-### Manage State
+### 管理状态 {id=manage-state}
 
-To manage some state or logic that is only necessary when the user performs a specific operation, use a [Service](plugin_services.md).
+要管理仅在用户执行特定操作时才需要的状态或逻辑，请使用 [服务](plugin_services.md)。
 
-### Persisting State
+### 持久化状态 {id=persisting-state}
 
-To store the state of your plugin at the application or project level, use a [Service](plugin_services.md) and implement the `PersistentStateComponent` interface.
-See [Persisting State of Components](persisting_state_of_components.md) for details.
+要在应用级或项目级存储插件的状态，请使用 [服务](plugin_services.md) 并实现 `PersistentStateComponent` 接口。  
+有关详细信息，请参阅 [组件状态的持久化](persisting_state_of_components.md)。
 
-### Subscribing to Events
+### 订阅事件 {id=subscribing-to-events}
 
-To subscribe to events, use a [listener](plugin_listeners.md) or create an [extension](plugin_extensions.md) for a dedicated extension point (for example, `com.intellij.editorFactoryListener`) if one exists for the event to subscribe to.
+要订阅事件，请使用 [监听器](plugin_listeners.md)，或者如果该事件有对应的扩展点，创建一个 [扩展](plugin_extensions.md) 来进行订阅（例如，`com.intellij.editorFactoryListener`）。
 
-### Application Startup
+### 应用启动 {id=application-startup}
 
-> Executing code on application startup should be avoided whenever possible because it slows down startup.
->
+> 尽量避免在应用启动时执行代码，因为这会拖慢启动速度。
+
 {style="warning"}
 
-Plugin code should only be executed when projects are opened (see [Project Open](#project-open)) or when the user invokes an action of a plugin.
-If this can't be avoided, add a [listener](plugin_listeners.md) subscribing to the [`AppLifecycleListener`](%gh-ic%/platform/ide-core/src/com/intellij/ide/AppLifecycleListener.java) topic.
-See also [Running Tasks Once](ide_infrastructure.md#running-tasks-once).
+插件代码应仅在打开项目时执行（参见 [项目打开](#project-open)）或当用户触发插件的某个操作时执行。  
+如果无法避免，在 [`AppLifecycleListener`](%gh-ic%/platform/ide-core/src/com/intellij/ide/AppLifecycleListener.java) 主题上添加一个 [监听器](plugin_listeners.md) 进行订阅。  
+另请参阅 [仅执行一次任务](ide_infrastructure.md#running-tasks-once)。
 
-### Project Open
+### 项目打开 {id=project-open}
 
 <tabs>
 
-<tab title="2023.1 and later">
+<tab title="2023.1 及之后版本">
 
-Using [Kotlin coroutines](kotlin_coroutines.md), implement [`ProjectActivity`](%gh-ic%/platform/core-api/src/com/intellij/openapi/startup/StartupActivity.kt) and register in `com.intellij.postStartupActivity` extension point.
-Examples:
+使用 [Kotlin 协程](kotlin_coroutines.md)，实现 [`ProjectActivity`](%gh-ic%/platform/core-api/src/com/intellij/openapi/startup/StartupActivity.kt) 并注册到 `com.intellij.postStartupActivity` 扩展点。  
+示例：
 - [`PowerSaveModeNotifier`](%gh-ic%/platform/lang-impl/src/com/intellij/ide/actions/PowerSaveModeNotifier.kt)
 - [`TipOfTheDayStartupActivity`](%gh-ic%/platform/tips-of-the-day/src/com/intellij/ide/TipOfTheDayStartupActivity.kt)
 
-Implementation in [Kotlin](using_kotlin.md) is required because Java doesn't support suspending functions.
+要求使用 [Kotlin](using_kotlin.md) 实现，因为 Java 不支持挂起函数。
 
 </tab>
 
-<tab title="Pre-2023.1">
+<tab title="2023.1 之前版本">
 
-To execute code when a project is being opened, use one of these two [extensions](plugin_extensions.md):
+要在打开项目时执行代码，请使用以下两种 [扩展](plugin_extensions.md) 之一：
 
-`com.intellij.postStartupActivity`
-: [`StartupActivity`](%gh-ic%/platform/core-api/src/com/intellij/openapi/startup/StartupActivity.kt) for immediate execution on [EDT](threading_model.md).
-Implement `DumbAware` to indicate activity can run in a background thread (in parallel with other such tasks).
+`com.intellij.postStartupActivity`  
+: [`StartupActivity`](%gh-ic%/platform/core-api/src/com/intellij/openapi/startup/StartupActivity.kt)，在 [EDT](threading_model.md) 上立即执行。  
+实现 `DumbAware` 以指示该活动可以在后台线程中运行（与其他此类任务并行）。
 
-`com.intellij.backgroundPostStartupActivity`
-: [`StartupActivity.Background`](%gh-ic%/platform/core-api/src/com/intellij/openapi/startup/StartupActivity.kt) for execution with a 5-second delay in a background thread (2019.3 or later).
+`com.intellij.backgroundPostStartupActivity`  
+: [`StartupActivity.Background`](%gh-ic%/platform/core-api/src/com/intellij/openapi/startup/StartupActivity.kt)，在后台线程中延迟 5 秒执行（2019.3 或更高版本）。
 
-Any long-running or CPU-intensive tasks should be made visible to users by using `ProgressManager.run(Task.Backgroundable)` (see [](background_processes.md)).
-Access to indexes must be wrapped with [`DumbService`](indexing_and_psi_stubs.md#dumb-mode), see also [](threading_model.md).
+任何长时间运行或 CPU 密集型的任务应通过 `ProgressManager.run(Task.Backgroundable)` 显示给用户（参见 [](background_processes.md)）。  
+访问索引必须通过 [`DumbService`](indexing_and_psi_stubs.md#dumb-mode) 包装，另请参见 [](threading_model.md)。
 
-See also [](ide_infrastructure.md#running-tasks-once).
+另请参阅 [](ide_infrastructure.md#running-tasks-once)。
 
 </tab>
 
 </tabs>
 
-### Project and Application Close
+### 项目和应用关闭 {id=project-and-application-close}
 
-To execute code on project closing or application shutdown, implement the [`Disposable`](%gh-ic%/platform/util/src/com/intellij/openapi/Disposable.java) interface in a [Service](plugin_services.md) and place the code in the `dispose()` method.
-Alternatively, use `Disposer.register()` passing a `Project` or `Application` service instance as the `parent` argument (see [Choosing a Disposable Parent](disposers.md#choosing-a-disposable-parent)).
+要在项目关闭或应用关闭时执行代码，请在 [服务](plugin_services.md) 中实现 [`Disposable`](%gh-ic%/platform/util/src/com/intellij/openapi/Disposable.java) 接口，并将代码放入 `dispose()` 方法中。  
+另外，可以使用 `Disposer.register()`，将 `Project` 或 `Application` 服务实例作为 `parent` 参数传递（参见 [选择可销毁的父对象](disposers.md#choosing-a-disposable-parent)）。
