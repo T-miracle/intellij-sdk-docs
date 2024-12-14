@@ -7,14 +7,14 @@
 [![Build](https://img.shields.io/github/actions/workflow/status/JetBrains/intellij-sdk-docs/code-samples.yml?branch=main&style=flat-square)][gh:workflow-code-samples]
 [![Slack](https://img.shields.io/badge/Slack-%23intellij--platform-blue?style=flat-square&logo=Slack)][jb:slack]
 
-欢迎来到 [IntelliJ 平台 SDK 文档（中文版）](https://blog.namichong.com/translation-docs/intellij-platform-sdk/welcome.html) 站点的存储库。
+欢迎来到 [IntelliJ 平台 SDK 文档（中文版）](https://docs.namichong.com/intellij-platform-sdk/) 站点的存储库。
 
 > [!TIP]
 > The code samples can also be found in the [IntelliJ SDK Code Samples](https://github.com/JetBrains/intellij-sdk-code-samples) mirror repository.
 
 ## 反馈
 
-请使用[获取帮助](https://blog.namichong.com/translation-docs/intellij-platform-sdk/getting-help.html)中列出的渠道，报告给我们任何内容不一致、过时资料、外观的问题和其他缺陷。
+请使用[获取帮助](https://docs.namichong.com/intellij-platform-sdk/getting-help.html)中列出的渠道，报告给我们任何内容不一致、过时资料、外观的问题和其他缺陷。
 
 ## 贡献
 
