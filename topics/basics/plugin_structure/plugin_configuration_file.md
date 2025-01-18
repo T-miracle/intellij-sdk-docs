@@ -56,6 +56,7 @@ Deprecated elements are omitted in the list below.
   - [`<depends>`](#idea-plugin__depends)
   - [`<incompatible-with>`](#idea-plugin__incompatible-with)
   - [`<extensions>`](#idea-plugin__extensions)
+    - [`<*>`](#idea-plugin__extensions__*)
   - [`<extensionPoints>`](#idea-plugin__extensionPoints)
     - [`<extensionPoint>`](#idea-plugin__extensionPoints__extensionPoint)
       - [`<with>`](#idea-plugin__extensionPoints__extensionPoint__with)
@@ -160,7 +161,7 @@ Default value
 Example
 :
   ```xml
-  <id>com.company.framework</id>
+  <id>com.example.framework</id>
   ```
 
 ### `name`
@@ -535,28 +536,79 @@ Attributes
 
 Children
 :
-The children elements are registrations of the extension points defined by
-[`<extensionPoint>`](#idea-plugin__extensionPoints__extensionPoint) elements. Extension elements names follow the EPs names
-defined by `name`
+The children elements are registrations of instances
+of [extension points](#idea-plugin__extensionPoints__extensionPoint) provided by the IntelliJ Platform or plugins.
+<br/>
+An extension element name is defined by its extension point via
+`name`
 or `qualifiedName` attributes.
+<br/>
+An extension element attributes depend on the extension point implementation, but all extensions support basic attributes:
+`id`, `order`,
+and `os`.
 
 
 Examples
 :
-- Extensions' declaration with the default namespace:
-```xml
-<extensions defaultExtensionNs="com.intellij">
-  <applicationService
-      serviceImplementation="com.example.Service"/>
-</extensions>
-```
+- Extensions' declaration with a default namespace:
+    ```xml
+    <extensions defaultExtensionNs="com.intellij">
+      <applicationService
+          serviceImplementation="com.example.Service"/>
+    </extensions>
+    ```
 - Extensions' declaration using the fully qualified extension name:
-```xml
-<extensions>
-  <com.example.vcs.myExtension
-      implementation="com.example.MyExtension"/>
-</extensions>
-```
+    ```xml
+    <extensions>
+      <com.example.vcs.myExtension
+          implementation="com.example.MyExtension"/>
+    </extensions>
+    ```
+
+#### `*`
+{#idea-plugin__extensions__*}
+
+An extension instance registered under [`<extensions>`](#idea-plugin__extensions).
+
+Listed attributes are basic attributes available for all extensions.
+The list of actual attributes can be longer depending on the extension point implementation.
+
+
+
+Attributes
+:
+- `id` _(optional)_<br/>
+  Unique extension identifier.
+  It allows for referencing an extension in other attributes, for example, in
+  `order`.
+  <br/>
+  To not clash with other plugins defining extensions with the same identifier,
+  consider prepending the identifier with a prefix related to the plugin [`<id>`](#idea-plugin__id) or 
+  [`<name>`](#idea-plugin__name), for example, `id="com.example.myplugin.myExtension"`.
+- `order` _(optional)_<br/>
+  Allows for ordering the extension relative to other instances of the same extension point.
+  Supported values:
+    - `first` - orders the extension as first.
+       It is not guaranteed that the extension will be the first if multiple extensions are defined as `first`.
+    - `last` - orders the extension as last.
+       It is not guaranteed that the extension will be the last if multiple extensions are defined as `last`.
+    - `before extension_id` - orders the extension before an extension with
+       the given `id`
+    - `after extension_id` - orders the extension after an extension with
+       the given `id`
+  <br/>
+  Values can be combined, for example, `order="after extensionY, before extensionX"`.
+- `os` _(optional)_<br/>
+
+    Allows restricting an extension to a given OS.
+    Supported values:
+      - `freebsd`
+      - `linux`
+      - `mac`
+      - `unix`
+      - `windows`
+    
+    For example, `os="windows"` registers the extension on Windows only.
 
 ### `extensionPoints`
 {#idea-plugin__extensionPoints}
@@ -598,26 +650,31 @@ Attributes
 :
 - `name` _(`name` or `qualifiedName` is **required**)_<br/>
   The extension point name that should be unique in the scope of the plugin, e.g., `myExtension`.
-  The fully qualified name of the extension point is built at runtime by prepending the value of the `name` attribute
-  with the plugin [`<id>`](#idea-plugin__id) + `.` prefix.
-  Only one of the `name` and `qualifiedName` attributes can be specified.<br/>
+  The fully qualified name of the extension point is built at runtime by prepending the value of the `name`
+  attribute with the plugin [`<id>`](#idea-plugin__id) + `.` prefix.<br/>
   Example: when the `name` is `myExtension` and plugin ID is `com.example.myplugin`, the fully qualified name of
-  the EP will be `com.example.myplugin.myExtension`.
+  the EP will be `com.example.myplugin.myExtension`.<br/>
+  Only one of the `name` and
+  `qualifiedName` attributes can be
+  specified.
 - `qualifiedName` _(`name` or `qualifiedName` is **required**)_<br/>
   The fully qualified name of the extension point.
   It should be unique between different plugins, and it is recommended to include a plugin ID to guarantee uniqueness,
-  e.g., `com.example.myplugin.myExtension`.
+  e.g., `com.example.myplugin.myExtension`.<br/>
   Only one of the `name` and `qualifiedName` attributes can be specified.
 - `interface` _(`interface` or `beanClass` is **required**)_<br/>
-  The fully qualified name of the interface to be implemented for extending the plugin's functionality.
+  The fully qualified name of the interface to be implemented for extending the plugin's functionality.<br/>
   Only one of the `interface` and `beanClass` attributes can be specified.
-  See [Extension Points](plugin_extension_points.md) for more
-  information.
 - `beanClass` _(`interface` or `beanClass` is **required**)_<br/>
-  The fully qualified name of the extension point bean class providing additional information to the plugin.
+  The fully qualified name of the extension point bean class providing additional information to the plugin.<br/>
+  The bean class specifies one or several properties annotated with the
+  [`@Attribute`](%gh-ic%/platform/util/src/com/intellij/util/xmlb/annotations/Attribute.java)
+  annotation.
+  Note that bean classes do not follow the JavaBean standard.
+  Implement
+  [`PluginAware`](%gh-ic%/platform/extensions/src/com/intellij/openapi/extensions/PluginAware.java)
+  to obtain information about the plugin providing the actual extension (see [Error Handling](plugin_extension_points.md#error-handling)).<br/>
   Only one of the `interface` and `beanClass` attributes can be specified.
-  See [Extension Points](plugin_extension_points.md) for more
-  information.
 - `dynamic` _(optional)_<br/>
   Boolean value defining whether the extension point meets the requirements to be
   [dynamic](plugin_extension_points.md#dynamic-extension-points),
@@ -653,11 +710,11 @@ Attributes
 :
 - `tag` _(`tag` or `attribute` is **required**)_<br/>
   The name of the tag holding the fully qualified name of the class which parent type will be limited
-  by the type provided in the `implements` attribute.
+  by the type provided in the `implements` attribute.<br/>
   Only one of the `tag` and `attribute` attributes can be specified.
 - `attribute` _(`tag` or `attribute` is **required**)_<br/>
   The name of the attribute holding the fully qualified name of the class which parent type will be limited
-  by the type provided in the `implements` attribute.
+  by the type provided in the `implements` attribute.<br/>
   Only one of the `tag` and `attribute` attributes can be specified.
 - `implements` _(**required**)_<br/>
 
