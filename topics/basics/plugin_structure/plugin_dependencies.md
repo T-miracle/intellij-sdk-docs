@@ -4,85 +4,84 @@
 
 <!-- https://jb.gg/ij-plugin-dependencies -->
 
-<link-summary>Declaring dependencies on other IntelliJ Platform-based plugins.</link-summary>
+<link-summary>声明对其他基于 IntelliJ 平台的插件的依赖。</link-summary>
 
-A plugin may depend on API and classes from other plugins, either bundled or third-party.
+插件可能依赖于其他插件（无论是捆绑插件还是第三方插件）的 API 和类。
 
-This document describes the syntax for declaring plugin dependencies and optional plugin dependencies.
-For more information about dependencies on the IntelliJ Platform modules, see [](plugin_compatibility.md).
+本文档描述了声明插件依赖和可选插件依赖的语法。  
+有关 IntelliJ 平台模块依赖的更多信息，请参阅 [](plugin_compatibility.md)。
 
-> For adding dependencies on 3rd party libraries, use regular [Gradle dependency management](https://docs.gradle.org/current/userguide/core_dependency_management.html).
+> 对于添加对第三方库的依赖，请使用常规的 [Gradle 依赖管理](https://docs.gradle.org/current/userguide/core_dependency_management.html)。
 >
 {style="note"}
 
-<procedure title="Required Steps">
+<procedure title="必要步骤">
 
-To express a dependency on classes from other plugins or modules, perform the following three required steps detailed below on this page:
+要表达对其他插件或模块类的依赖，请按照本页详细说明的以下三个必要步骤操作：
 
-1. Locate Plugin ID
-2. Project Setup
-3. Declaration in <path>[plugin.xml](plugin_configuration_file.md)</path>
+1. 定位插件 ID
+2. 项目设置
+3. 在 <path>[plugin.xml](plugin_configuration_file.md)</path> 中声明
 
-> If `java.lang.NoClassDefFoundError` occurs at runtime, most likely Step 3 was omitted.
+> 如果在运行时出现 `java.lang.NoClassDefFoundError`，很可能是省略了步骤 3。
 >
-> Otherwise, loading the plugin dependency may have failed, please check log files from
-> the [Development Instance](ide_development_instance.md#development-instance-settings-caches-logs-and-plugins)).
+> 否则，加载插件依赖可能失败，请检查
+> [开发实例](ide_development_instance.md#development-instance-settings-caches-logs-and-plugins) 中的日志文件。
 >
-{title="Getting java.lang.NoClassDefFoundError"}
+{title="出现 java.lang.NoClassDefFoundError"}
 
 </procedure>
 
-## 1. Locating Plugin ID and Preparing Sandbox
-{#locating-plugin-id-and-preparing-sandbox}
+## 1. 定位插件 ID 并准备沙箱 {id=locating-plugin-id-and-preparing-sandbox}
 
-A compatible version must be chosen carefully according to the plugin's [compatibility](build_number_ranges.md).
-For non-bundled plugins, it is not possible to specify the minimum/maximum version for the dependent plugin. ([Issue](https://youtrack.jetbrains.com/issue/IDEABKL-7906))
+必须根据插件的 [兼容性](build_number_ranges.md) 仔细选择兼容版本。  
+对于非捆绑插件，无法为依赖插件指定最小/最大版本。（[问题](https://youtrack.jetbrains.com/issue/IDEABKL-7906)）
 
 ### JetBrains Marketplace
 
-For plugins published on [JetBrains Marketplace](https://plugins.jetbrains.com):
+对于发布在 [JetBrains Marketplace](https://plugins.jetbrains.com) 上的插件：
 
-1. Open plugin's detail page
-2. Scroll down to the bottom section <control>Additional Information</control>
-3. Copy <control>Plugin ID</control>
+1. 打开插件的详情页面
+2. 滚动到页面底部的 <control>附加信息</control> 部分
+3. 复制 <control>插件 ID</control>
 
-### Bundled and Other Plugins
+### 捆绑插件和其他插件 {id=bundled-and-other-plugins}
 
-All IDs of bundled plugins can be gathered using a dedicated Gradle task.
-See _Other_ tab on how to locate the plugin ID for a plugin distribution file.
+所有捆绑插件的 ID 都可以通过专用的 Gradle 任务收集。  
+有关如何定位插件分发文件的插件 ID，请参阅 _其他_ 选项卡。
 
 <tabs>
 
 <tab title="IntelliJ Platform Gradle Plugin (2.x)">
 
-Use [`printBundledPlugins`](tools_intellij_platform_gradle_plugin_tasks.md#printBundledPlugins) task.
+使用 [`printBundledPlugins`](tools_intellij_platform_gradle_plugin_tasks.md#printBundledPlugins) 任务。
 
 </tab>
 
 <tab title="Gradle IntelliJ Plugin (1.x)">
 
-Use [`listBundledPlugins`](tools_gradle_intellij_plugin.md#tasks-listbundledplugins) task.
+使用 [`listBundledPlugins`](tools_gradle_intellij_plugin.md#tasks-listbundledplugins) 任务。
 
 </tab>
 
-<tab title="Other">
+<tab title="其他">
 
-Locate the plugin's main JAR file containing <path>META-INF/plugin.xml</path> descriptor with [`<id>`](plugin_configuration_file.md#idea-plugin__id) tag (use [`<name>`](plugin_configuration_file.md#idea-plugin__name) if `<id>` is not specified).
+定位包含 <path>META-INF/plugin.xml</path> 描述文件的插件主 JAR 文件，其中包含 [`<id>`](plugin_configuration_file.md#idea-plugin__id) 标签（如果未指定 `<id>`，则使用 [`<name>`](plugin_configuration_file.md#idea-plugin__name)）。
 
-Bundled plugins are located in <path>\$PRODUCT_ROOT\$/plugins/\$PLUGIN_NAME\$/lib/\$PLUGIN_NAME\$.jar</path>.
+捆绑插件位于 <path>\$PRODUCT_ROOT\$/plugins/\$PLUGIN_NAME\$/lib/\$PLUGIN_NAME\$.jar</path>。
 
 </tab>
 
 </tabs>
 
-#### IDs of Bundled Plugins
+#### 捆绑插件的 ID
 
-The following table lists some commonly used bundled plugins and their ID.
-See also [](plugin_compatibility.md#modules-specific-to-functionality).
+下表列出了一些常用的捆绑插件及其 ID。  
+另请参阅 [](plugin_compatibility.md#modules-specific-to-functionality)。
 
-<!-- please do not add more entries unless it's clearly a popular plugin -->
+<!-- 请不要添加更多条目，除非它明显是一个流行的插件 -->
 
-| Plugin Name               | Plugin ID                       | Related Documentation         |
+| 插件名称               | 插件 ID                       | 相关文档         |
 |---------------------------|---------------------------------|-------------------------------|
 | Copyright                 | `com.intellij.copyright`        |                               |
 | CSS                       | `com.intellij.css`              | [](webstorm.md)               |
@@ -99,20 +98,19 @@ See also [](plugin_compatibility.md#modules-specific-to-functionality).
 | Spring Boot               | `com.intellij.spring.boot`      | [](spring_api.md#spring-boot) |
 | YAML                      | `org.jetbrains.plugins.yaml`    |                               |
 
-### Preparing Sandbox
+### 准备沙盒 {id=preparing-sandbox}
 
-If the plugin is not bundled with the target IDE, run the (sandbox) [IDE Development Instance](ide_development_instance.md) of your target IDE and install the plugin there.
+如果插件未与目标 IDE 捆绑，请运行目标 IDE 的（沙盒）[IDE 开发实例](ide_development_instance.md)并在其中安装插件。
 
-## 2. Project Setup
-{#project-setup}
+## 2. 项目设置 {id=project-setup}
 
-Depending on the chosen development workflow (Gradle or DevKit), one of the following steps is necessary.
+根据选择的开发工作流（Gradle 或 DevKit），以下是必要的步骤之一。
 
-### IntelliJ Platform Gradle Plugin (2.x)
+### IntelliJ Platform Gradle 插件 (2.x) {id=intellij-platform-gradle-plugin-2x}
 
 {collapsible="true" default-state="expanded"}
 
-Define dependencies on plugins using the provided helper functions in the `dependencies {}` block of the <path>build.gradle.kts</path> file:
+在 `<path>build.gradle.kts</path>` 文件的 `dependencies {}` 块中使用提供的辅助函数定义插件依赖：
 
 ```kotlin
 dependencies {
@@ -123,11 +121,11 @@ dependencies {
 }
 ```
 
-For bundled plugins, use `bundledPlugin()`. Use `plugin()` for non-bundled plugins (for example, from [JetBrains Marketplace](https://plugins.jetbrains.com)).
+对于捆绑插件，使用 `bundledPlugin()`。对于非捆绑插件（例如来自 [JetBrains Marketplace](https://plugins.jetbrains.com)），使用 `plugin()`。
 
-See [](tools_intellij_platform_gradle_plugin_dependencies_extension.md#plugins) for full reference and additional options.
+有关完整参考和其他选项，请参阅 [](tools_intellij_platform_gradle_plugin_dependencies_extension.md#plugins)。
 
-### Gradle IntelliJ Plugin (1.x)
+### Gradle IntelliJ 插件 (1.x) {id=gradle-intellij-plugin-1x}
 
 {collapsible="true" default-state="collapsed"}
 
@@ -135,11 +133,11 @@ See [](tools_intellij_platform_gradle_plugin_dependencies_extension.md#plugins) 
 
 <include from="tools_gradle_intellij_plugin.md" element-id="gradlePluginObsolete"/>
 
-> Please see the [`intellij.plugins`](tools_gradle_intellij_plugin.md#intellij-extension-plugins) property for acceptable values.
+> 请参阅 [`intellij.plugins`](tools_gradle_intellij_plugin.md#intellij-extension-plugins) 属性以了解可接受的值。
 >
 {style="note"}
 
-Add the dependency to the [`intellij.plugins`](tools_gradle_intellij_plugin.md#intellij-extension-plugins) parameter in your build script:
+将依赖添加到构建脚本中的 [`intellij.plugins`](tools_gradle_intellij_plugin.md#intellij-extension-plugins) 参数：
 
 <tabs>
 <tab title="Kotlin">
@@ -162,59 +160,58 @@ intellij {
 </tab>
 </tabs>
 
-> Transitive dependencies required for tests must currently be [specified explicitly](https://github.com/JetBrains/gradle-intellij-plugin/issues/38).
+> 目前，测试所需的传递依赖必须[显式指定](https://github.com/JetBrains/gradle-intellij-plugin/issues/38)。
 >
 {style="note"}
 
-### Plugin DevKit
+### 插件 DevKit {id=plugin-devkit}
 
 {collapsible="true" default-state="collapsed"}
 
-> Existing DevKit-based projects can be [converted to use Gradle setup](migrating_plugin_devkit_to_gradle.md) where dependency management is fully automated.
+> 现有的基于 DevKit 的项目可以[转换为使用 Gradle 设置](migrating_plugin_devkit_to_gradle.md)，其中依赖管理是完全自动化的。
 >
 {style="note"}
 
-Add the JARs of the plugin on which the project depends to the <control>Classpath</control> of the [*IntelliJ Platform SDK*](setting_up_theme_environment.md#add-intellij-platform-plugin-sdk).
+将项目依赖的插件 JAR 添加到 [*IntelliJ Platform SDK*](setting_up_theme_environment.md#add-intellij-platform-plugin-sdk) 的 <control>Classpath</control> 中。
 
-> Do not add the plugin JARs as a library: this will fail at runtime because the IntelliJ Platform will load two separate copies of the dependency plugin classes.
+> 不要将插件 JAR 添加为库：这将在运行时失败，因为 IntelliJ Platform 会加载依赖插件类的两个独立副本。
 >
 {style="warning"}
 
-<procedure title="Adding a plugin dependency in DevKit-based plugin">
+<procedure title="在基于 DevKit 的插件中添加插件依赖">
 
-1. Open the <control>Project Structure</control> dialog and go to <ui-path>Platform Settings | SDKs</ui-path> section.
-2. Select the SDK used in the project.
-3. Click the <control>+</control> button in the <control>Classpath</control> tab.
-4. Select the plugin JAR depending on whether it is bundled or non-bundled plugin:
-   - For bundled plugins, the plugin JAR files are located in <path>plugins/\$PLUGIN_NAME\$</path> or <path>plugins/\$PLUGIN_NAME\$/lib</path> under the main installation directory.
-   - For non-bundled plugins, depending on the platform version, the plugin JAR files are located in:
-     - [plugins directory for versions 2020.1+](https://www.jetbrains.com/help/idea/directories-used-by-the-ide-to-store-settings-caches-plugins-and-logs.html#plugins-directory)
-     - [plugins directory for versions pre-2020.1](https://www.jetbrains.com/help/idea/2019.3/tuning-the-ide.html#plugins-directory)
+1. 打开 <control>Project Structure</control> 对话框并转到 <ui-path>Platform Settings | SDKs</ui-path> 部分。
+2. 选择项目中使用的 SDK。
+3. 点击 <control>Classpath</control> 选项卡中的 <control>+</control> 按钮。
+4. 根据插件是捆绑还是非捆绑插件选择插件 JAR：
+    - 对于捆绑插件，插件 JAR 文件位于主安装目录下的 <path>plugins/\$PLUGIN_NAME\$</path> 或 <path>plugins/\$PLUGIN_NAME\$/lib</path>。
+    - 对于非捆绑插件，根据平台版本，插件 JAR 文件位于：
+        - [2020.1+ 版本的插件目录](https://www.jetbrains.com/help/idea/directories-used-by-the-ide-to-store-settings-caches-plugins-and-logs.html#plugins-directory)
+        - [2020.1 之前版本的插件目录](https://www.jetbrains.com/help/idea/2019.3/tuning-the-ide.html#plugins-directory)
 
 </procedure>
 
-## 3. Dependency Declaration in plugin.xml
-{#dependency-declaration-in-pluginxml}
+## 3. 在 plugin.xml 中声明依赖 {id=dependency-declaration-in-pluginxml}
 
-Regardless of whether a plugin project uses [](plugin_compatibility.md#modules-available-in-all-products), or [](plugin_compatibility.md#modules-specific-to-functionality), the correct module must be listed as a dependency in <path>plugin.xml</path>.
-If a project depends on another plugin, the dependency must be declared like a [module](plugin_compatibility.md#modules).
-If only general IntelliJ Platform features (APIs) are used, then a default dependency on `com.intellij.modules.platform` must be declared.
+无论插件项目使用的是 [](plugin_compatibility.md#modules-available-in-all-products) 还是 [](plugin_compatibility.md#modules-specific-to-functionality)，正确的模块都必须作为依赖项列在 <path>plugin.xml</path> 中。
+如果项目依赖于另一个插件，则必须像 [模块](plugin_compatibility.md#modules) 一样声明依赖。
+如果仅使用一般的 IntelliJ Platform 功能（API），则必须声明对 `com.intellij.modules.platform` 的默认依赖。
 
-To display a list of available IntelliJ Platform modules, invoke the [code completion](https://www.jetbrains.com/help/idea/auto-completing-code.html#4eac28ba) feature for the [`<depends>`](plugin_configuration_file.md#idea-plugin__depends) element contents while editing the plugin project's <path>plugin.xml</path> file.
+要显示可用的 IntelliJ Platform 模块列表，请在编辑插件项目的 <path>plugin.xml</path> 文件时，为 [`<depends>`](plugin_configuration_file.md#idea-plugin__depends) 元素内容调用 [代码补全](https://www.jetbrains.com/help/idea/auto-completing-code.html#4eac28ba) 功能。
 
-In the <path>plugin.xml</path>, add a `<depends>` tag with the dependency plugin's ID as its content.
-Continuing with the example from [Project Setup](#project-setup) above, the dependency declaration in <path>plugin.xml</path> would be:
+在 <path>plugin.xml</path> 中，添加一个 `<depends>` 标签，并将依赖插件的 ID 作为其内容。
+继续上面的 [项目设置](#project-setup) 示例，<path>plugin.xml</path> 中的依赖声明将如下所示：
 
 ```xml
 <depends>com.example.another-plugin</depends>
 ```
 
-## Optional Plugin Dependencies
+## 可选插件依赖
 
-A plugin can also specify an optional plugin dependency.
-In this case, the plugin will load even if the plugin it depends on is not installed or enabled, but part of the plugin's functionality will not be available.
+插件还可以指定可选插件依赖。
+在这种情况下，即使依赖的插件未安装或未启用，插件也会加载，但部分功能将不可用。
 
-Declare additional `optional="true"` and required `config-file` attribute pointing to the [optional plugin descriptor file](plugin_configuration_file.md#additional-plugin-configuration-files):
+声明额外的 `optional="true"` 和必需的 `config-file` 属性，指向 [可选插件描述文件](plugin_configuration_file.md#additional-plugin-configuration-files)：
 
 ```xml
 <depends
@@ -222,15 +219,15 @@ Declare additional `optional="true"` and required `config-file` attribute pointi
     config-file="myPluginId-optionalPluginName.xml">dependency.plugin.id</depends>
 ```
 
-> Additional plugin descriptor files must follow the naming pattern <path>myPluginId-\$NAME\$.xml</path> resulting in unique filenames to prevent problems with classloaders in tests ([Details](https://youtrack.jetbrains.com/issue/IDEA-205964)).
+> 额外的插件描述文件必须遵循命名模式 <path>myPluginId-\$NAME\$.xml</path>，以确保文件名唯一，防止测试中类加载器出现问题（[详情](https://youtrack.jetbrains.com/issue/IDEA-205964)）。
 >
 {style="note"}
 
-### Sample
+### 示例 {id=sample}
 
-The plugin adds additional highlighting for Java and Kotlin files.
-The main <path>plugin.xml</path> defines a required dependency on the Java plugin (plugin ID `com.intellij.java`) and registers the corresponding `com.intellij.annotator` extension.
-Additionally, it specifies an optional dependency on the Kotlin plugin (plugin ID `org.jetbrains.kotlin`):
+该插件为 Java 和 Kotlin 文件添加了额外的语法高亮功能。
+主 <path>plugin.xml</path> 定义了对 Java 插件（插件 ID `com.intellij.java`）的必需依赖，并注册了相应的 `com.intellij.annotator` 扩展。
+此外，它还指定了对 Kotlin 插件（插件 ID `org.jetbrains.kotlin`）的可选依赖：
 
 <path>plugin.xml</path>
 ```xml
@@ -250,17 +247,17 @@ Additionally, it specifies an optional dependency on the Kotlin plugin (plugin I
 </idea-plugin>
 ```
 
-The configuration file <path>myPluginId-withKotlin.xml</path> is located in the same directory as the main <path>plugin.xml</path> file.
-In that file, the annotator extension for Kotlin is defined:
+配置文件 <path>myPluginId-withKotlin.xml</path> 位于与主 <path>plugin.xml</path> 文件相同的目录中。
+在该文件中，定义了 Kotlin 的注释器扩展：
 
 <path>myPluginId-withKotlin.xml</path>
 
 ```xml
 <idea-plugin>
-   <extensions defaultExtensionNs="com.intellij">
-      <annotator
-          language="kotlin"
-          implementationClass="com.example.MyKotlinAnnotator"/>
-   </extensions>
+  <extensions defaultExtensionNs="com.intellij">
+    <annotator
+            language="kotlin"
+            implementationClass="com.example.MyKotlinAnnotator"/>
+  </extensions>
 </idea-plugin>
 ```

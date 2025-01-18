@@ -6,8 +6,8 @@
 
 <link-summary>插件配置文件包含有关插件的所有信息，以及所有注册的扩展、操作、监听器等。</link-summary>
 
-The <path>plugin.xml</path> configuration file contains all the information about the plugin, which is displayed in the [plugins' settings dialog](https://www.jetbrains.com/help/idea/managing-plugins.html), and all registered extensions, actions, listeners, etc.
-The sections below describe all the elements in detail.
+<path>plugin.xml</path> 配置文件包含有关插件的所有信息，这些信息显示在[插件设置对话框](https://www.jetbrains.com/help/idea/managing-plugins.html)中，以及所有已注册的扩展、操作、监听器等。  
+以下部分详细描述了所有元素。
 
 示例 <path>plugin.xml</path> 文件可以在 [IntelliJ SDK 文档代码示例](https://github.com/JetBrains/intellij-sdk-code-samples) 存储库中找到。
 
@@ -25,19 +25,19 @@ The sections below describe all the elements in detail.
 
 ## 实用的资源
 
-Please make sure to follow the guidelines from [Plugin Overview page](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html) for an optimal presentation of your plugin on JetBrains Marketplace.
-The _Busy Plugin Developers. Episode 2_ discusses [5 tips for optimizing JetBrains Marketplace plugin page](https://youtu.be/oB1GA9JeeiY?t=52) in more detail.
+请确保遵循 [插件概述页面](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html) 的指南，以便在 JetBrains Marketplace 上以最佳方式展示您的插件。  
+_Busy Plugin Developers. Episode 2_ 详细讨论了 [优化 JetBrains Marketplace 插件页面的 5 个技巧](https://youtu.be/oB1GA9JeeiY?t=52)。
 
-See also [](marketing.md) about widgets and badges.
+另请参阅 [](marketing.md) 了解小部件和徽章。
 
-## Configuration Structure Overview
+## 配置结构概述 {id=configuration-structure-overview}
 
-> If an element or an attribute is not documented on this page, consider them as configuration items intended to be used by JetBrains only.
-> They must not be used by third-party plugins.
+> 如果某个元素或属性未在此页面上记录，请将其视为仅供 JetBrains 使用的配置项。  
+> 第三方插件不得使用它们。
 >
-{title="Private Configuration Elements" style="warning"}
+{title="私有配置元素" style="warning"}
 
-Deprecated elements are omitted in the list below.
+以下列表中省略了已弃用的元素。
 
 [//]: # (GENERATED CONTENT START)
 
@@ -89,26 +89,22 @@ Deprecated elements are omitted in the list below.
   - [`<projectListeners>`](#idea-plugin__projectListeners)
     - [`<listener>`](#idea-plugin__applicationListeners__listener)
 
-## `idea-plugin`
-{#idea-plugin}
+## `idea-plugin` {id=idea-plugin}
 
-The <path>plugin.xml</path> file root element.
+<path>plugin.xml</path> 文件的根元素。
 
 {style="narrow"}
-Required
-: **yes**
+必填
+: **是**
 
-
-Attributes
+属性
 :
-- `url` _(optional; ignored in an [additional config file](#additional-plugin-configuration-files))_<br/>
-  The link to the plugin homepage displayed on the plugin page in
-  the [JetBrains Marketplace](https://plugins.jetbrains.com).
-- `require-restart` _(optional)_<br/>
+- `url` _(可选；在[附加配置文件](#additional-plugin-configuration-files)中忽略)_<br/>
+  插件主页的链接，显示在 [JetBrains Marketplace](https://plugins.jetbrains.com) 的插件页面上。
+- `require-restart` _(可选)_<br/>
 
-    The boolean value determining whether the plugin installation, update, or uninstallation requires an IDE restart
-    (see [Dynamic Plugins](dynamic_plugins.md) for details).<br/>
-    Default value: `false`.
+  布尔值，确定插件的安装、更新或卸载是否需要重启 IDE（详见 [动态插件](dynamic_plugins.md)）。<br/>
+  默认值：`false`。
 
 Children
 :
@@ -132,163 +128,142 @@ Children
   - [`<module-components>`](#idea-plugin__module-components)  ![Deprecated][deprecated]
   - [`<project-components>`](#idea-plugin__project-components)  ![Deprecated][deprecated]
 
-### `id`
-{#idea-plugin__id}
+### `id` {id=idea-plugin__id}
 
-A unique identifier of the plugin.
-It should be a fully qualified name similar to Java packages and must not collide with the ID of existing plugins.
-The ID is a technical value used to identify the plugin in the IDE and [JetBrains Marketplace](https://plugins.jetbrains.com).
-Please use characters, numbers, and `'.'`/`'-'`/`'_'` symbols only and keep it reasonably short.
+插件的唯一标识符。  
+它应该类似于 Java 包的完全限定名称，并且不得与现有插件的 ID 冲突。  
+ID 是一个技术值，用于在 IDE 和 [JetBrains Marketplace](https://plugins.jetbrains.com) 中标识插件。  
+请仅使用字母、数字和 `'.'`/`'-'`/`'_'` 符号，并保持其合理简短。
 
-> Make sure to pick a stable ID, as the value cannot be changed later after public release.
+> 请确保选择一个稳定的 ID，因为在公开发布后无法更改此值。
 >
 {style="warning"}
 
 {style="narrow"}
-Required
-: no; ignored in an [additional config file](#additional-plugin-configuration-files)<br/>
-**It is highly recommended to set in <path>plugin.xml</path> file.**<br/>
-The element can be skipped in the source <path>plugin.xml</path> file if the Gradle plugin `patchPluginXml` task
-([2.x](tools_intellij_platform_gradle_plugin_tasks.md#patchPluginXml),
-[1.x](tools_gradle_intellij_plugin.md#tasks-patchpluginxml))
-is enabled and configured.
+必填
+: 否；在[附加配置文件](#additional-plugin-configuration-files)中忽略<br/>
+**强烈建议在 <path>plugin.xml</path> 文件中设置。**<br/>
+如果启用了 Gradle 插件的 `patchPluginXml` 任务（[2.x](tools_intellij_platform_gradle_plugin_tasks.md#patchPluginXml)，[1.x](tools_gradle_intellij_plugin.md#tasks-patchpluginxml)）并进行了配置，则可以在源 <path>plugin.xml</path> 文件中跳过此元素。
 
+默认值
+: [`<name>`](#idea-plugin__name) 元素的值。
 
-Default value
-: Value of the [`<name>`](#idea-plugin__name) element.
-
-Example
+示例
 :
   ```xml
   <id>com.company.framework</id>
   ```
 
-### `name`
-{#idea-plugin__name}
+### `name` {id=idea-plugin__name}
 
 <tldr>
 
-**Reference:** [JetBrains Marketplace: Plugin Name](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name)
+**参考:** [JetBrains Marketplace: 插件名称](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name)
 
 </tldr>
 
-The user-visible plugin display name (Title Case).
+用户可见的插件显示名称（首字母大写）。
 
 {style="narrow"}
-Required
-: **yes**; ignored in an [additional config file](#additional-plugin-configuration-files)
+必填
+: **是**；在[附加配置文件](#additional-plugin-configuration-files)中忽略
 
 
-Example
+示例
 :
   ```xml
   <name>My Framework Support</name>
   ```
 
-### `version`
-{#idea-plugin__version}
+### `version` {id=idea-plugin__version}
 
 <tldr>
 
-**Reference:** [JetBrains Marketplace: Semantic Versioning](https://plugins.jetbrains.com/docs/marketplace/semver.html)
+**参考:** [JetBrains Marketplace: 语义化版本](https://plugins.jetbrains.com/docs/marketplace/semver.html)
 
 </tldr>
 
-The plugin version displayed in the <control>Plugins</control> settings dialog and on the
-[JetBrains Marketplace](https://plugins.jetbrains.com) plugin page.
-Plugins uploaded to the JetBrains Marketplace must follow semantic versioning.
+显示在 <control>插件</control> 设置对话框和 [JetBrains Marketplace](https://plugins.jetbrains.com) 插件页面中的插件版本。  
+上传到 JetBrains Marketplace 的插件必须遵循语义化版本控制。
 
 {style="narrow"}
-Required
-: **yes**; ignored in an [additional config file](#additional-plugin-configuration-files)<br/>
-The element can be skipped in the source <path>plugin.xml</path> file if the Gradle plugin `patchPluginXml` task
-([2.x](tools_intellij_platform_gradle_plugin_tasks.md#patchPluginXml),
-[1.x](tools_gradle_intellij_plugin.md#tasks-patchpluginxml))
-is enabled and configured.
+必填
+: **是**；在[附加配置文件](#additional-plugin-configuration-files)中忽略<br/>
+如果启用了 Gradle 插件的 `patchPluginXml` 任务（[2.x](tools_intellij_platform_gradle_plugin_tasks.md#patchPluginXml)，[1.x](tools_gradle_intellij_plugin.md#tasks-patchpluginxml)）并进行了配置，则可以在源 <path>plugin.xml</path> 文件中跳过此元素。
 
-
-Example
+示例
 :
   ```xml
   <version>1.3.18</version>
   ```
 
-### `product-descriptor`
-{#idea-plugin__product-descriptor}
+### `product-descriptor` {id=idea-plugin__product-descriptor}
 
 <tldr>
 
-**Reference:** [JetBrains Marketplace: How to add required parameters for paid plugins](https://plugins.jetbrains.com/docs/marketplace/add-required-parameters.html)
+**参考:** [JetBrains Marketplace: 如何为付费插件添加必要参数](https://plugins.jetbrains.com/docs/marketplace/add-required-parameters.html)
 
 </tldr>
 
-[Paid](https://plugins.jetbrains.com/build-and-market) or
-[Freemium](https://plugins.jetbrains.com/docs/marketplace/freemium.html) plugin descriptor.
+[付费](https://plugins.jetbrains.com/build-and-market) 或 [免费增值](https://plugins.jetbrains.com/docs/marketplace/freemium.html) 插件描述符。
 
 {style="narrow"}
-Required
-: only for paid or freemium plugins; ignored in an [additional config file](#additional-plugin-configuration-files)<br/>
-**Do not add `<product-descriptor>` element in a free plugin.**
+必填
+: 仅适用于付费或免费增值插件；在[附加配置文件](#additional-plugin-configuration-files)中忽略<br/>
+**不要在免费插件中添加 `<product-descriptor>` 元素。**
 
 
 
-Attributes
+属性
 :
-- `code` _(**required**)_<br/>
-  The plugin product code used in the JetBrains Sales System.
-  The code must be agreed with JetBrains in advance and follow
-  [the requirements](https://plugins.jetbrains.com/docs/marketplace/obtain-a-product-code-from-jetbrains.html).
-- `release-date` _(**required**)_<br/>
-  Date of the major version release in the `YYYYMMDD` format.
-- `release-version` _(**required**)_<br/>
-  A major version in a special number format.
-- `optional` _(optional)_<br/>
-  The boolean value determining whether the plugin is
-  a [Freemium](https://plugins.jetbrains.com/docs/marketplace/freemium.html) plugin.<br/>
-  Default value: `false`.
-- `eap` _(optional)_<br/>
+- `code` _(**必填**)_<br/>
+  用于 JetBrains 销售系统的插件产品代码。  
+  该代码必须事先与 JetBrains 达成一致，并遵循 [要求](https://plugins.jetbrains.com/docs/marketplace/obtain-a-product-code-from-jetbrains.html)。
+- `release-date` _(**必填**)_<br/>
+  主要版本发布的日期，格式为 `YYYYMMDD`。
+- `release-version` _(**必填**)_<br/>
+  特殊数字格式的主要版本。
+- `optional` _(可选)_<br/>
+  布尔值，确定插件是否为 [免费增值](https://plugins.jetbrains.com/docs/marketplace/freemium.html) 插件。<br/>
+  默认值：`false`。
+- `eap` _(可选)_<br/>
 
-    Specifies the boolean value determining whether the plugin is an EAP release.<br/>
-    Default value: `false`.
+  指定布尔值，确定插件是否为 EAP 版本。<br/>
+  默认值：`false`。
 
-### `idea-version`
-{#idea-plugin__idea-version}
+### `idea-version` {id=idea-plugin__idea-version}
 
 <tldr>
 
-**Reference:** [Build Number Ranges](build_number_ranges.md)
+**参考:** [构建号范围](build_number_ranges.md)
 
 </tldr>
 
-The plugin's range of compatible IntelliJ-based IDE versions.
+插件兼容的基于 IntelliJ 的 IDE 版本范围。
 
 {style="narrow"}
-Required
-: **yes**; ignored in an [additional config file](#additional-plugin-configuration-files)<br/>
-The element can be skipped in the source <path>plugin.xml</path> file if the Gradle plugin `patchPluginXml` task
-([2.x](tools_intellij_platform_gradle_plugin_tasks.md#patchPluginXml),
-[1.x](tools_gradle_intellij_plugin.md#tasks-patchpluginxml))
-is enabled and configured.
+必填
+: **是**；在[附加配置文件](#additional-plugin-configuration-files)中忽略<br/>
+如果启用了 Gradle 插件的 `patchPluginXml` 任务（[2.x](tools_intellij_platform_gradle_plugin_tasks.md#patchPluginXml)，[1.x](tools_gradle_intellij_plugin.md#tasks-patchpluginxml)）并进行了配置，则可以在源 <path>plugin.xml</path> 文件中跳过此元素。
 
 
 
-Attributes
+属性
 :
-- `since-build` _(**required**)_<br/>
-  The lowest IDE version compatible with the plugin.
-- `until-build` _(optional)_<br/>
+- `since-build` _(**必填**)_<br/>
+  与插件兼容的最低 IDE 版本。
+- `until-build` _(可选)_<br/>
 
-    The highest IDE version compatible with the plugin.
-    Undefined value declares compatibility with all the IDEs since the version specified by the `since-build`
-    (also with the future builds that may cause incompatibility errors).
+  与插件兼容的最高 IDE 版本。  
+  未定义值表示与自 `since-build` 指定的版本以来的所有 IDE 兼容（也包括可能导致不兼容错误的未来版本）。
 
-Examples
+示例
 :
-- Compatibility with a specific build number (2021.3.3) and higher versions:
+- 兼容特定构建号（2021.3.3）及更高版本：
     ```xml
     <idea-version since-build="213.7172.25"/>
     ```
-- Compatibility with versions from any of `213` branches to any of `221` branches:
+- 兼容从任何 `213` 分支到任何 `221` 分支的版本：
     ```xml
     <idea-version
         since-build="213" until-build="221.*"/>
@@ -299,35 +274,32 @@ Examples
 
 <tldr>
 
-**Reference:** [JetBrains Marketplace: Contacts and Resources](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#contacts-and-resources)
+**参考:** [JetBrains Marketplace: 联系方式和资源](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#contacts-and-resources)
 
 </tldr>
 
-The vendor name or organization ID (if created) in the <control>Plugins</control> settings dialog and on
-the [JetBrains Marketplace](https://plugins.jetbrains.com) plugin page.
+在 <control>插件</control> 设置对话框和 [JetBrains Marketplace](https://plugins.jetbrains.com) 插件页面中显示的供应商名称或组织 ID（如果已创建）。
 
 {style="narrow"}
-Required
-: **yes**; ignored in an [additional config file](#additional-plugin-configuration-files)
+必填
+: **是**；在[附加配置文件](#additional-plugin-configuration-files)中忽略
 
-
-
-Attributes
+属性
 :
-- `url` _(optional)_<br/>
-  The URL to the vendor's homepage.
-  Supports `https://` and `http://` scheme links.
-- `email` _(optional)_<br/>
+- `url` _(可选)_<br/>
+  供应商主页的 URL。  
+  支持 `https://` 和 `http://` 协议的链接。
+- `email` _(可选)_<br/>
 
-    The vendor's email address.
+  供应商的电子邮件地址。
 
-Examples
+示例
 :
-- Personal vendor with an email address provided:
+- 提供电子邮件地址的个人供应商：
     ```xml
     <vendor email="joe@example.com">Joe Doe</vendor>
     ```
-- Organizational vendor with a website URL and email address provided:
+- 提供网站 URL 和电子邮件地址的组织供应商：
     ```xml
     <vendor
         url="https://mycompany.example.com"
@@ -341,37 +313,32 @@ Examples
 
 <tldr>
 
-**Reference:** [JetBrains Marketplace: Plugin Description](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description)
+**参考:** [JetBrains Marketplace: 插件描述](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description)
 
 </tldr>
 
-The plugin description displayed on the [JetBrains Marketplace](https://plugins.jetbrains.com) plugin page and in
-the <control>Plugins</control> settings dialog.
+在 [JetBrains Marketplace](https://plugins.jetbrains.com) 插件页面和 <control>插件</control> 设置对话框中显示的插件描述。
 
-Simple HTML elements, like text formatting, paragraphs, lists, etc., are allowed and must be wrapped into
-`<![CDATA[` ... `]]>` section.
+允许使用简单的 HTML 元素，如文本格式化、段落、列表等，并且必须包裹在 `<![CDATA[` ... `]]>` 部分中。
 
 {style="narrow"}
-Required
-: **yes**; ignored in an [additional config file](#additional-plugin-configuration-files)<br/>
-The element can be skipped in the source <path>plugin.xml</path> file if the Gradle plugin `patchPluginXml` task
-([2.x](tools_intellij_platform_gradle_plugin_tasks.md#patchPluginXml),
-[1.x](tools_gradle_intellij_plugin.md#tasks-patchpluginxml))
-is enabled and configured.
+必填
+: **是**；在[附加配置文件](#additional-plugin-configuration-files)中忽略<br/>
+如果启用了 Gradle 插件的 `patchPluginXml` 任务（[2.x](tools_intellij_platform_gradle_plugin_tasks.md#patchPluginXml)，[1.x](tools_gradle_intellij_plugin.md#tasks-patchpluginxml)）并进行了配置，则可以在源 <path>plugin.xml</path> 文件中跳过此元素。
 
 
-Example
+示例
 :
   ```xml
   <description><![CDATA[
-  Provides support for My Framework.
-  The support includes:
+  提供对 My Framework 的支持。  
+  支持包括：
   <ul>
-    <li>code completion</li>
-    <li>references</li>
+    <li>代码补全</li>
+    <li>引用</li>
   </ul>
-  For more information visit the
-  <a href="https://example.com">project site</a>.
+  更多信息请访问
+  <a href="https://example.com">项目网站</a>。
   ]]></description>
   ```
 
@@ -380,39 +347,33 @@ Example
 
 <tldr>
 
-**Reference:** [JetBrains Marketplace: Change Notes](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#change-notes)
+**参考:** [JetBrains Marketplace: 变更日志](https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#change-notes)
 
 </tldr>
 
-A short summary of new features, bugfixes, and changes provided with the latest plugin version.
-Change notes are displayed on the [JetBrains Marketplace](https://plugins.jetbrains.com) plugin page and in
-the <control>Plugins</control> settings dialog.
+最新插件版本提供的新功能、错误修复和变更的简短摘要。  
+变更日志显示在 [JetBrains Marketplace](https://plugins.jetbrains.com) 插件页面和 <control>插件</control> 设置对话框中。
 
-Simple HTML elements, like text formatting, paragraphs, lists, etc., are allowed and must be wrapped into
-`<![CDATA[` ... `]]>` section.
+允许使用简单的 HTML 元素，如文本格式化、段落、列表等，并且必须包裹在 `<![CDATA[` ... `]]>` 部分中。
 
 {style="narrow"}
-Required
-: no; ignored in an [additional config file](#additional-plugin-configuration-files)<br/>
-The element can be skipped in the source <path>plugin.xml</path> file if the Gradle plugin `patchPluginXml` task
-([2.x](tools_intellij_platform_gradle_plugin_tasks.md#patchPluginXml),
-[1.x](tools_gradle_intellij_plugin.md#tasks-patchpluginxml))
-is enabled and configured.
+必填
+: 否；在[附加配置文件](#additional-plugin-configuration-files)中忽略<br/>
+如果启用了 Gradle 插件的 `patchPluginXml` 任务（[2.x](tools_intellij_platform_gradle_plugin_tasks.md#patchPluginXml)，[1.x](tools_gradle_intellij_plugin.md#tasks-patchpluginxml)）并进行了配置，则可以在源 <path>plugin.xml</path> 文件中跳过此元素。
 
-
-Example
+示例
 :
   ```xml
   <change-notes><![CDATA[
-  <h2>New Features</h2>
+  <h2>新功能</h2>
   <ul>
-    <li>Feature 1</li>
-    <li>Feature 2</li>
+    <li>功能 1</li>
+    <li>功能 2</li>
   </ul>
-  <h2>Bug Fixes</h2>
+  <h2>错误修复</h2>
   <ul>
-    <li>Fixed issue 1</li>
-    <li>Fixed issue 2</li>
+    <li>修复问题 1</li>
+    <li>修复问题 2</li>
   </ul>
   ]]></change-notes>
   ```
@@ -422,59 +383,54 @@ Example
 
 <tldr>
 
-**Reference:** [Plugin Dependencies](plugin_dependencies.md)
-, [Modules Specific to Functionality](plugin_compatibility.md#modules-specific-to-functionality)
+**参考:** [插件依赖项](plugin_dependencies.md)，[功能特定模块](plugin_compatibility.md#modules-specific-to-functionality)
 
 </tldr>
 
-Specifies a dependency on another plugin or a module of an IntelliJ Platform-based product.
-A single [`<idea-plugin>`](#idea-plugin) element can contain multiple `<depends>` elements.
+指定对另一个插件或基于 IntelliJ 平台的产品的模块的依赖。  
+单个 [`<idea-plugin>`](#idea-plugin) 元素可以包含多个 `<depends>` 元素。
 
 {style="narrow"}
-Required
-: no; in most cases dependency on the
-[platform](plugin_compatibility.md#modules-available-in-all-products)
-module is needed
+必填
+: 否；大多数情况下需要依赖 [平台](plugin_compatibility.md#modules-available-in-all-products) 模块
 
 
 
-Attributes
+属性
 :
-- `optional` _(optional)_<br/>
-  Boolean value defining whether the dependency is optional to load the plugin in the IDE.
-  If the dependency plugin is not installed in the current IDE, and `optional` is:
-    - `true` - the plugin will be loaded
-    - `false` (default) - the plugin will not be loaded
-- `config-file` _(required when `optional` is `true`)_<br/>
+- `optional` _(可选)_<br/>
+  布尔值，定义依赖项是否为加载插件到 IDE 中的可选项。  
+  如果当前 IDE 中未安装依赖插件，且 `optional` 为：
+  - `true` - 插件将被加载
+  - `false`（默认值）- 插件将不会被加载
+- `config-file` _(当 `optional` 为 `true` 时必填)_<br/>
 
-    Relative path to an
-    [additional configuration file](#additional-plugin-configuration-files),
-    loaded only if the dependency plugin is installed in the current IDE.
+  [附加配置文件](#additional-plugin-configuration-files) 的相对路径，仅当依赖插件安装在当前 IDE 中时才会加载。
 
-Examples
+示例
 :
-- Required plugin dependency:
+- 必需的插件依赖：
     ```xml
     <depends>com.example.dependencypluginid</depends>
     ```
-- Required dependency on the IntelliJ IDEA Java Module:
+- 对 IntelliJ IDEA Java 模块的必需依赖：
     ```xml
     <depends>com.intellij.modules.java</depends>
     ```
-- Optional plugin dependency:
+- 可选的插件依赖：
     ```xml
     <depends optional="true">
       com.example.dependencypluginid
     </depends>
     ```
-- Required module dependency with additional configuration:
+- 带有附加配置的必需模块依赖：
     ```xml
     <depends
         config-file="myPluginId-withJava.xml">
       com.intellij.modules.java
     </depends>
     ```
-- Optional module dependency with additional configuration:
+- 带有附加配置的可选模块依赖：
     ```xml
     <depends
         optional="true"
@@ -490,23 +446,22 @@ Examples
 
 <tldr>
 
-**Reference:** [Declaring Incompatibility with Module](plugin_compatibility.md#declaring-incompatibility-with-module)
+**参考:** [声明与模块的不兼容性](plugin_compatibility.md#declaring-incompatibility-with-module)
 
 </tldr>
 
-Declares incompatibility with a provided module.
+声明与提供的模块不兼容。
 
 {style="narrow"}
-Required
-: no; ignored in an [additional config file](#additional-plugin-configuration-files)
+必填
+: 否；在[附加配置文件](#additional-plugin-configuration-files)中忽略
 
-
-Example
+示例
 :
   ```xml
   <incompatible-with>
-    com.intellij.modules.appcode.ide
-  </incompatible-with>
+  com.intellij.modules.appcode.ide
+</incompatible-with>
   ```
 
 ### `extensions`
@@ -514,47 +469,44 @@ Example
 
 <tldr>
 
-**Reference:** [Extensions](plugin_extensions.md)
+**参考:** [扩展](plugin_extensions.md)
 
 </tldr>
 
-Defines the plugin extensions.
+定义插件扩展。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
 
-Attributes
+属性
 :
-- `defaultExtensionNs` _(optional)_<br/>
+- `defaultExtensionNs` _(可选)_<br/>
 
-    Default extensions namespace.
-    It allows skipping the common prefix in fully qualified extension point names.
-    Usually, the `com.intellij` namespace is used when the plugin implements IntelliJ Platform extensions.
+  默认扩展命名空间。  
+  它允许在完全限定的扩展点名称中跳过公共前缀。  
+  通常，当插件实现 IntelliJ 平台扩展时，使用 `com.intellij` 命名空间。
 
-Children
+子元素
 :
-The children elements are registrations of the extension points defined by
-[`<extensionPoint>`](#idea-plugin__extensionPoints__extensionPoint) elements. Extension elements names follow the EPs names
-defined by `name`
-or `qualifiedName` attributes.
+子元素是通过 [`<extensionPoint>`](#idea-plugin__extensionPoints__extensionPoint) 元素定义的扩展点的注册。扩展元素名称遵循由 `name` 或 `qualifiedName` 属性定义的扩展点名称。
 
 
-Examples
+示例
 :
-- Extensions' declaration with the default namespace:
+- 使用默认命名空间的扩展声明：
 ```xml
 <extensions defaultExtensionNs="com.intellij">
   <applicationService
       serviceImplementation="com.example.Service"/>
 </extensions>
 ```
-- Extensions' declaration using the fully qualified extension name:
+- 使用完全限定扩展名称的扩展声明：
 ```xml
 <extensions>
   <com.example.vcs.myExtension
-      implementation="com.example.MyExtension"/>
+          implementation="com.example.MyExtension"/>
 </extensions>
 ```
 
@@ -563,114 +515,99 @@ Examples
 
 <tldr>
 
-**Reference:** [Extension Points](plugin_extension_points.md)
+**参考:** [扩展点](plugin_extension_points.md)
 
 </tldr>
 
-Extension points defined by the plugin.
+插件定义的扩展点。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
-Children
+子元素
 :
-  - [`<extensionPoint>`](#idea-plugin__extensionPoints__extensionPoint)
+- [`<extensionPoint>`](#idea-plugin__extensionPoints__extensionPoint)
 
 #### `extensionPoint`
 {#idea-plugin__extensionPoints__extensionPoint}
 
 <tldr>
 
-**Reference:** [Declaring Extension Points](plugin_extension_points.md#declaring-extension-points)
+**参考:** [声明扩展点](plugin_extension_points.md#declaring-extension-points)
 
 </tldr>
 
-A single extension point entry of the [`<extensionPoints>`](#idea-plugin__extensionPoints) defined by the plugin.
-A single [`<extensionPoints>`](#idea-plugin__extensionPoints) element can contain multiple `<extensionPoint>` elements.
+插件定义的 [`<extensionPoints>`](#idea-plugin__extensionPoints) 中的单个扩展点条目。  
+单个 [`<extensionPoints>`](#idea-plugin__extensionPoints) 元素可以包含多个 `<extensionPoint>` 元素。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
 
-Attributes
+属性
 :
-- `name` _(`name` or `qualifiedName` is **required**)_<br/>
-  The extension point name that should be unique in the scope of the plugin, e.g., `myExtension`.
-  The fully qualified name of the extension point is built at runtime by prepending the value of the `name` attribute
-  with the plugin [`<id>`](#idea-plugin__id) + `.` prefix.
-  Only one of the `name` and `qualifiedName` attributes can be specified.<br/>
-  Example: when the `name` is `myExtension` and plugin ID is `com.example.myplugin`, the fully qualified name of
-  the EP will be `com.example.myplugin.myExtension`.
-- `qualifiedName` _(`name` or `qualifiedName` is **required**)_<br/>
-  The fully qualified name of the extension point.
-  It should be unique between different plugins, and it is recommended to include a plugin ID to guarantee uniqueness,
-  e.g., `com.example.myplugin.myExtension`.
-  Only one of the `name` and `qualifiedName` attributes can be specified.
-- `interface` _(`interface` or `beanClass` is **required**)_<br/>
-  The fully qualified name of the interface to be implemented for extending the plugin's functionality.
-  Only one of the `interface` and `beanClass` attributes can be specified.
-  See [Extension Points](plugin_extension_points.md) for more
-  information.
-- `beanClass` _(`interface` or `beanClass` is **required**)_<br/>
-  The fully qualified name of the extension point bean class providing additional information to the plugin.
-  Only one of the `interface` and `beanClass` attributes can be specified.
-  See [Extension Points](plugin_extension_points.md) for more
-  information.
-- `dynamic` _(optional)_<br/>
-  Boolean value defining whether the extension point meets the requirements to be
-  [dynamic](plugin_extension_points.md#dynamic-extension-points),
-  which is a prerequisite for [dynamic plugins](dynamic_plugins.md).<br/>
-  Default value: `false`.
-- `area` _(optional)_<br/>
+- `name` _(`name` 或 `qualifiedName` 是**必填**)_<br/>
+  扩展点名称，在插件范围内应唯一，例如 `myExtension`。  
+  扩展点的完全限定名称在运行时通过将 `name` 属性的值前缀为插件 [`<id>`](#idea-plugin__id) + `.` 来构建。  
+  只能指定 `name` 和 `qualifiedName` 属性中的一个。<br/>
+  示例：当 `name` 为 `myExtension` 且插件 ID 为 `com.example.myplugin` 时，扩展点的完全限定名称将为 `com.example.myplugin.myExtension`。
+- `qualifiedName` _(`name` 或 `qualifiedName` 是**必填**)_<br/>
+  扩展点的完全限定名称。  
+  它应在不同插件之间唯一，建议包含插件 ID 以保证唯一性，例如 `com.example.myplugin.myExtension`。  
+  只能指定 `name` 和 `qualifiedName` 属性中的一个。
+- `interface` _(`interface` 或 `beanClass` 是**必填**)_<br/>
+  用于扩展插件功能的接口的完全限定名称。  
+  只能指定 `interface` 和 `beanClass` 属性中的一个。  
+  有关更多信息，请参阅 [扩展点](plugin_extension_points.md)。
+- `beanClass` _(`interface` 或 `beanClass` 是**必填**)_<br/>
+  提供插件附加信息的扩展点 bean 类的完全限定名称。  
+  只能指定 `interface` 和 `beanClass` 属性中的一个。  
+  有关更多信息，请参阅 [扩展点](plugin_extension_points.md)。
+- `dynamic` _(可选)_<br/>
+  布尔值，定义扩展点是否符合 [动态](plugin_extension_points.md#dynamic-extension-points) 要求，这是 [动态插件](dynamic_plugins.md) 的前提条件。<br/>
+  默认值：`false`。
+- `area` _(可选)_<br/>
 
-    The scope in which the [extension](plugin_extensions.md) is
-    instantiated.
-    It is not recommended to use non-default values.
-    Allowed values:
-      - `IDEA_APPLICATION` _(default)_
-      - `IDEA_PROJECT`
-      - `IDEA_MODULE` (**deprecated**)
+  [扩展](plugin_extensions.md) 实例化的范围。  
+  不建议使用非默认值。  
+  允许的值：
+  - `IDEA_APPLICATION` _(默认)_
+  - `IDEA_PROJECT`
+  - `IDEA_MODULE` (**已弃用**)
 
-Children
+子元素
 :
-  - [`<with>`](#idea-plugin__extensionPoints__extensionPoint__with)
+- [`<with>`](#idea-plugin__extensionPoints__extensionPoint__with)
 
 ##### `with`
 {#idea-plugin__extensionPoints__extensionPoint__with}
 
-Specifies the required parent type for class names provided in extension point tags or attributes.
-A single [`<extensionPoint>`](#idea-plugin__extensionPoints__extensionPoint) element can contain
-multiple `<with>` elements.
+指定扩展点标签或属性中提供的类名称所需的父类型。  
+单个 [`<extensionPoint>`](#idea-plugin__extensionPoints__extensionPoint) 元素可以包含多个 `<with>` 元素。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
 
-Attributes
+属性
 :
-- `tag` _(`tag` or `attribute` is **required**)_<br/>
-  The name of the tag holding the fully qualified name of the class which parent type will be limited
-  by the type provided in the `implements` attribute.
-  Only one of the `tag` and `attribute` attributes can be specified.
-- `attribute` _(`tag` or `attribute` is **required**)_<br/>
-  The name of the attribute holding the fully qualified name of the class which parent type will be limited
-  by the type provided in the `implements` attribute.
-  Only one of the `tag` and `attribute` attributes can be specified.
-- `implements` _(**required**)_<br/>
+- `tag` _(`tag` 或 `attribute` 是**必填**)_<br/>
+  持有类完全限定名称的标签名称，其父类型将由 `implements` 属性中提供的类型限制。  
+  只能指定 `tag` 和 `attribute` 属性中的一个。
+- `attribute` _(`tag` 或 `attribute` 是**必填**)_<br/>
+  持有类完全限定名称的属性名称，其父类型将由 `implements` 属性中提供的类型限制。  
+  只能指定 `tag` 和 `attribute` 属性中的一个。
+- `implements` _(**必填**)_<br/>
 
-    The fully qualified name of the parent type limiting the type provided in the place specified by
-    `tag` or
-    `attribute`.
+  限制由 `tag` 或 `attribute` 指定的位置中提供的类型的父类型的完全限定名称。
 
-Example
+示例
 :
-  An extension point which restricts the type provided in a `myClass` attribute to be an instance
-  of `com.example.ParentType`, and the type provided in a `someClass` element to be an instance
-  of `java.lang.Comparable`:
-  
+一个扩展点，限制 `myClass` 属性中提供的类型为 `com.example.ParentType` 的实例，并限制 `someClass` 元素中提供的类型为 `java.lang.Comparable` 的实例：
+
   ```xml
   <extensionPoint
       name="myExtension"
@@ -683,35 +620,34 @@ Example
         implements="java.lang.Comparable"/>
   </extensionPoint>
   ```
-  
-  When using the above extension point, an implementation could be registered as follows:
-  
+
+使用上述扩展点时，可以按如下方式注册实现：
+
   ```xml
   <myExtension ...
       myClass="com.example.MyCustomType">
     <someClass>com.example.MyComparable</someClass>
   </myExtension>
   ```
-  
-  where:
-  
-  - `com.example.MyCustomType` must be a subtype of `com.example.ParentType`
-  - `com.example.MyComparable` must be a subtype of `java.lang.Comparable`
+
+其中：
+
+- `com.example.MyCustomType` 必须是 `com.example.ParentType` 的子类型
+- `com.example.MyComparable` 必须是 `java.lang.Comparable` 的子类型
 
 ### `resource-bundle`
 {#idea-plugin__resource-bundle}
 
-A resource bundle to be used with message key attributes in extension declarations and for
-[action and group localization](basic_action_system.md#localizing-actions-and-groups).
-A single [`<idea-plugin>`](#idea-plugin) element can contain multiple `<resource-bundle>` elements.
+用于扩展声明中的消息键属性和 [操作及组本地化](basic_action_system.md#localizing-actions-and-groups) 的资源包。  
+单个 [`<idea-plugin>`](#idea-plugin) 元素可以包含多个 `<resource-bundle>` 元素。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
-Example
+示例
 :
-  To load the content of <path>messages/Bundle.properties</path> bundle, declare:
+要加载 <path>messages/Bundle.properties</path> 包的内容，声明如下：
     ```xml
     <resource-bundle>messages.Bundle</resource-bundle>
     ```
@@ -721,38 +657,35 @@ Example
 
 <tldr>
 
-**Reference:** [Actions](basic_action_system.md)
+**参考:** [操作](basic_action_system.md)
 
 </tldr>
 
-Defines the plugin actions.
+定义插件操作。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
-
-Attributes
+属性
 :
-- `resource-bundle` _(optional; available since 2020.1)_<br/>
+- `resource-bundle` _(可选；自 2020.1 起可用)_<br/>
 
-    Defines the dedicated actions resource bundle.
-    See [Localizing Actions and Groups](basic_action_system.md#localizing-actions-and-groups)
-    for more details.
+  定义专用的操作资源包。  
+  有关更多详细信息，请参阅 [本地化操作和组](basic_action_system.md#localizing-actions-and-groups)。
 
-Children
+子元素
 :
   - [`<action>`](#idea-plugin__actions__action)
   - [`<group>`](#idea-plugin__actions__group)
   - [`<reference>`](#idea-plugin__actions__group__reference)
 
-Example
+示例
 :
   ```xml
   <actions resource-bundle="messages.ActionsBundle">
     <!--
-    Actions/Groups defined here will use keys
-    from the ActionsBundle.properties bundle.
+  此处定义的操作/组将使用 ActionsBundle.properties 包中的键。
     -->
   </actions>
   ```
@@ -762,40 +695,38 @@ Example
 
 <tldr>
 
-**Reference:** [Registering Actions in plugin.xml](basic_action_system.md#registering-actions-in-pluginxml)
+**参考:** [在 plugin.xml 中注册操作](basic_action_system.md#registering-actions-in-pluginxml)
 
 </tldr>
 
-A single action entry of the [`<actions>`](#idea-plugin__actions) implemented by the plugin.
-A single `<actions>` element can contain multiple `<action>` elements.
+插件实现的 [`<actions>`](#idea-plugin__actions) 中的单个操作条目。  
+单个 `<actions>` 元素可以包含多个 `<action>` 元素。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
 
-Attributes
+属性
 :
-- `id` _(**required**)_<br/>
-  A unique action identifier.
-  The action identifier must be unique between different plugins.
-  Thus, it is recommended to prepend it with the value of the plugin [`<id>`](#idea-plugin__id).
-- `class` _(**required**)_<br/>
-  The fully qualified name of the action implementation class.
-- `text` _(**required** if the action is not
-[localized](basic_action_system.md#localizing-actions-and-groups))_<br/>
-  The default long-version text to be displayed for the action (tooltip for toolbar button or text for menu item).
-- `description` _(optional)_<br/>
-  The text which is displayed in the status bar when the action is focused.
-- `icon` _(optional)_<br/>
-  The icon that is displayed on the toolbar button or next to the action menu item.
-  See [Working with Icons](icons.md) for more information
-  about defining and using icons.
-- `use-shortcut-of` _(optional)_<br/>
+- `id` _(**必填**)_<br/>
+  唯一的操作标识符。  
+  操作标识符在不同插件之间必须唯一。  
+  因此，建议在其前面加上插件 [`<id>`](#idea-plugin__id) 的值。
+- `class` _(**必填**)_<br/>
+  操作实现类的完全限定名称。
+- `text` _(如果操作未[本地化](basic_action_system.md#localizing-actions-and-groups)，则**必填**)_<br/>
+  为操作显示的默认长文本（工具栏按钮的工具提示或菜单项的文本）。
+- `description` _(可选)_<br/>
+  当操作获得焦点时显示在状态栏中的文本。
+- `icon` _(可选)_<br/>
+  显示在工具栏按钮上或操作菜单项旁边的图标。  
+  有关定义和使用图标的更多信息，请参阅 [使用图标](icons.md)。
+- `use-shortcut-of` _(可选)_<br/>
 
-    The ID of the action whose keyboard shortcut this action will use.
+  此操作将使用的键盘快捷键的操作 ID。
 
-Children
+子元素
 :
   - [`<abbreviation>`](#idea-plugin__actions__action__abbreviation)
   - [`<add-to-group>`](#idea-plugin__actions__action__add-to-group)
@@ -804,9 +735,9 @@ Children
   - [`<override-text>`](#idea-plugin__actions__action__override-text)
   - [`<synonym>`](#idea-plugin__actions__action__synonym)
 
-Examples
+示例
 :
-- Action declaring explicit `text`:
+- 声明显式 `text` 的操作：
     ```xml
     <action
         id="com.example.myframeworksupport.MyAction"
@@ -814,13 +745,10 @@ Examples
         text="Do Action"
         description="Do something with the code"
         icon="AllIcons.Actions.GC">
-      <!-- action children elements -->
+      <!-- 操作子元素 -->
     </action>
     ```
-- Action without the `text` attribute must use the texts from the resource bundle declared with
-the [`<resource-bundle>`](#idea-plugin__resource-bundle) element,
-or the `resource-bundle` attribute of
-the [`<actions>`](#idea-plugin__actions) element:
+- 没有 `text` 属性的操作必须使用由 [`<resource-bundle>`](#idea-plugin__resource-bundle) 元素或 [`<actions>`](#idea-plugin__actions) 元素的 `resource-bundle` 属性声明的资源包中的文本：
     ```xml
     <action
         id="com.example.myframeworksupport.MyAction"
@@ -831,33 +759,31 @@ the [`<actions>`](#idea-plugin__actions) element:
 ##### `add-to-group`
 {#idea-plugin__actions__action__add-to-group}
 
-Specifies that the action should be added to an existing [`<group>`](#idea-plugin__actions__group).
-A single action can be added to multiple groups.
+指定操作应添加到现有的 [`<group>`](#idea-plugin__actions__group) 中。  
+单个操作可以添加到多个组中。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
 
-Attributes
+属性
 :
-- `group-id` _(**required**)_<br/>
-  Specifies the ID of the [`<group>`](#idea-plugin__actions__group) to which the action is added.
-  The group must be an implementation of the
-  [`DefaultActionGroup`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/actionSystem/DefaultActionGroup.java)
-  class.
-- `anchor` _(optional)_<br/>
-  Specifies the position of the action relative to other actions.
-  Allowed values:
-    - `first` - the action is placed as the first in the group
-    - `last` _(default)_ - the action is placed as the last in the group
-    - `before` - the action is placed before the action specified by the `relative-to-action` attribute
-    - `after` - the action is placed after the action specified by the `relative-to-action` attribute
-- `relative-to-action` _(**required** if `anchor` is `before`/`after`)_<br/>
+- `group-id` _(**必填**)_<br/>
+  指定操作要添加到的 [`<group>`](#idea-plugin__actions__group) 的 ID。  
+  该组必须是 [`DefaultActionGroup`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/actionSystem/DefaultActionGroup.java) 类的实现。
+- `anchor` _(可选)_<br/>
+  指定操作相对于其他操作的位置。  
+  允许的值：
+  - `first` - 操作放置在组的第一个位置
+  - `last` _(默认)_ - 操作放置在组的最后一个位置
+  - `before` - 操作放置在 `relative-to-action` 属性指定的操作之前
+  - `after` - 操作放置在 `relative-to-action` 属性指定的操作之后
+- `relative-to-action` _(如果 `anchor` 为 `before`/`after`，则**必填**)_<br/>
 
-    The action before or after which the current action is inserted.
+  当前操作插入之前或之后的操作。
 
-Example
+示例
 :
   ```xml
     <add-to-group
@@ -869,43 +795,40 @@ Example
 ##### `keyboard-shortcut`
 {#idea-plugin__actions__action__keyboard-shortcut}
 
-Specifies the keyboard shortcut for the action.
-A single action can have several keyboard shortcuts.
+指定操作的键盘快捷键。  
+单个操作可以有多个键盘快捷键。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
 
-Attributes
+属性
 :
-- `keymap` _(**required**)_<br/>
-  Specifies the keymap for which the action shortcut is active.
-  IDs of the standard keymaps are defined as constants in the
-  [KeymapManager](%gh-ic%/platform/platform-api/src/com/intellij/openapi/keymap/KeymapManager.java)
-  class.
-- `first-keystroke` _(**required**)_<br/>
-  Specifies the first keystroke of the action shortcut.
-  The keystrokes are specified according to the regular Swing rules.
-- `second-keystroke` _(optional)_<br/>
-  Specifies the second keystroke of the action shortcut.
-- `remove` _(optional)_<br/>
-  Removes a shortcut from the specified action.
-- `replace-all` _(optional)_<br/>
+- `keymap` _(**必填**)_<br/>
+  指定操作快捷键生效的键映射。  
+  标准键映射的 ID 在 [KeymapManager](%gh-ic%/platform/platform-api/src/com/intellij/openapi/keymap/KeymapManager.java) 类中定义为常量。
+- `first-keystroke` _(**必填**)_<br/>
+  指定操作快捷键的第一个按键。  
+  按键按照常规的 Swing 规则指定。
+- `second-keystroke` _(可选)_<br/>
+  指定操作快捷键的第二个按键。
+- `remove` _(可选)_<br/>
+  从指定操作中移除快捷键。
+- `replace-all` _(可选)_<br/>
 
-    Removes all keyboard and mouse shortcuts from the specified action before adding
-    the specified shortcut.
+  在添加指定快捷键之前，从指定操作中移除所有键盘和鼠标快捷键。
 
-Examples
+示例
 :
-- Add the first and second keystrokes to all keymaps:
+- 为所有键映射添加第一个和第二个按键：
     ```xml
     <keyboard-shortcut
         keymap="$default"
         first-keystroke="control alt G"
         second-keystroke="C"/>
     ```
-- Remove the given shortcut from the _Mac OS X_ keymap:
+- 从 _Mac OS X_ 键映射中移除给定的快捷键：
     ```xml
     <keyboard-shortcut
         keymap="Mac OS X"
@@ -913,7 +836,7 @@ Examples
         second-keystroke="C"
         remove="true"/>
     ```
-- Remove all existing keyboard and mouse shortcuts and register one for the _Mac OS X 10.5+_ keymap only:
+- 移除所有现有的键盘和鼠标快捷键，并仅为 _Mac OS X 10.5+_ 键映射注册一个：
     ```xml
     <keyboard-shortcut
         keymap="Mac OS X 10.5+"
@@ -925,50 +848,47 @@ Examples
 ##### `mouse-shortcut`
 {#idea-plugin__actions__action__mouse-shortcut}
 
-Specifies the mouse shortcut for the action.
-A single action can have several mouse shortcuts.
+指定操作的鼠标快捷键。  
+单个操作可以有多个鼠标快捷键。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
 
-Attributes
+属性
 :
-- `keymap` _(**required**)_<br/>
-  Specifies the keymap for which the action shortcut is active.
-  IDs of the standard keymaps are defined as constants in the
-  [KeymapManager](%gh-ic%/platform/platform-api/src/com/intellij/openapi/keymap/KeymapManager.java)
-  class.
-- `keystroke` _(**required**)_<br/>
-  Specifies the clicks and modifiers for the action.
-  It is defined as a sequence of words separated by spaces:
-    - modifier keys: `shift`, `control`, `meta`, `alt`, `altGraph`
-    - mouse buttons: `button1`, `button2`, `button3`
-    - button double-click: `doubleClick`
-- `remove` _(optional)_<br/>
-  Removes a shortcut from the specified action.
-- `replace-all` _(optional)_<br/>
+- `keymap` _(**必填**)_<br/>
+  指定操作快捷键生效的键映射。  
+  标准键映射的 ID 在 [KeymapManager](%gh-ic%/platform/platform-api/src/com/intellij/openapi/keymap/KeymapManager.java) 类中定义为常量。
+- `keystroke` _(**必填**)_<br/>
+  指定操作的点击和修饰键。  
+  它被定义为由空格分隔的单词序列：
+  - 修饰键：`shift`、`control`、`meta`、`alt`、`altGraph`
+  - 鼠标按钮：`button1`、`button2`、`button3`
+  - 按钮双击：`doubleClick`
+- `remove` _(可选)_<br/>
+  从指定操作中移除快捷键。
+- `replace-all` _(可选)_<br/>
 
-    Removes all keyboard and mouse shortcuts from the specified action before adding
-    the specified shortcut.
+  在添加指定快捷键之前，从指定操作中移除所有键盘和鼠标快捷键。
 
-Examples
+示例
 :
-- Add the shortcut to all keymaps:
+- 为所有键映射添加快捷键：
     ```xml
     <mouse-shortcut
         keymap="$default"
         keystroke="control button3 doubleClick"/>
     ```
-- Remove the given shortcut from the _Mac OS X_ keymap:
+- 从 _Mac OS X_ 键映射中移除给定的快捷键：
     ```xml
     <mouse-shortcut
         keymap="Mac OS X"
         keystroke="control button3 doubleClick"
         remove="true"/>
     ```
-- Remove all existing keyboard and mouse shortcuts and register one for the _Mac OS X 10.5+_ keymap only:
+- 移除所有现有的键盘和鼠标快捷键，并仅为 _Mac OS X 10.5+_ 键映射注册一个：
     ```xml
     <mouse-shortcut
         keymap="Mac OS X 10.5+"
@@ -981,35 +901,35 @@ Examples
 
 <primary-label ref="2020.1"/>
 
-Defines an alternate menu action or group text depending on context: menu location, toolbar, and other.
+根据上下文定义替代的菜单操作或组文本：菜单位置、工具栏等。
 
 {style="narrow"}
-Supported
+支持
 :
-2020.1+ for actions<br/>
-2020.3+ for groups
+2020.1+ 用于操作<br/>
+2020.3+ 用于组
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
 
-Attributes
+属性
 :
-- `place` _(**required**)_<br/>
-  Declares where the alternate text should be used.
-- `text` _(`text` or `use-text-of-place` is **required**)_<br/>
-  Defines the text to be displayed for the action.
-- `use-text-of-place` _(`text` or `use-text-of-place` is **required**)_<br/>
+- `place` _(**必填**)_<br/>
+  声明应在何处使用替代文本。
+- `text` _(`text` 或 `use-text-of-place` 是**必填**)_<br/>
+  定义要为操作显示的文本。
+- `use-text-of-place` _(`text` 或 `use-text-of-place` 是**必填**)_<br/>
 
-    Defines a location whose text should be displayed for this action.
+  定义应为此操作显示其文本的位置。
 
-Examples
+示例
 :
-- Explicitly overridden text:
+- 显式覆盖的文本：
     ```xml
     <!--
-    Default action text:
+    默认操作文本：
     "Garbage Collector: Collect _Garbage"
     -->
     <action
@@ -1017,7 +937,7 @@ Examples
         text="Garbage Collector: Collect _Garbage"
         ...>
       <!--
-      Alternate text displayed anywhere in the main menu:
+      在主菜单中任何位置显示的替代文本：
       "Collect _Garbage"
       -->
       <override-text
@@ -1025,7 +945,7 @@ Examples
           text="Collect _Garbage"/>
     </action>
     ```
-- Overridden text reused from the `MainMenu` place:
+- 从 `MainMenu` 位置重用的覆盖文本：
     ```xml
     <override-text
         place="EditorPopup"
@@ -1037,27 +957,25 @@ Examples
 
 <primary-label ref="2020.3"/>
 
-Defines an alternative text for searching the action in <ui-path>Help | Find Action...</ui-path> or
-<ui-path>Navigate | Search Everywhere</ui-path> popups.
-A single action can have multiple synonyms.
+定义在 <ui-path>帮助 | 查找操作...</ui-path> 或 <ui-path>导航 | 随处搜索</ui-path> 弹出窗口中搜索操作的替代文本。  
+单个操作可以有多个同义词。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
-
-Attributes
+属性
 :
-- `key` _(`key` or `text` is **required**)_<br/>
-  The key of the synonym text provided in a [message bundle](basic_action_system.md#localizing-actions-and-groups).
-- `text` _(`key` or `text` is **required**)_<br/>
+- `key` _(`key` 或 `text` 是**必填**)_<br/>
+  [消息包](basic_action_system.md#localizing-actions-and-groups) 中提供的同义词文本的键。
+- `text` _(`key` 或 `text` 是**必填**)_<br/>
 
-    The synonym text.
+  同义词文本。
 
-Example
+示例
 :
   ```xml
-  <!-- Default action text: Delete Element -->
+  <!-- 默认操作文本：Delete Element -->
   <synonym key="my.action.text.remove.element"/>
   <synonym text="Remove Element"/>
   ```
@@ -1065,25 +983,24 @@ Example
 ##### `abbreviation`
 {#idea-plugin__actions__action__abbreviation}
 
-Defines an abbreviation for searching the action in <ui-path>Help | Find Action...</ui-path> or
-<ui-path>Navigate | Search Everywhere</ui-path> popups.
-A single action can have multiple abbreviations.
+定义在 <ui-path>帮助 | 查找操作...</ui-path> 或 <ui-path>导航 | 随处搜索</ui-path> 弹出窗口中搜索操作的缩写。  
+单个操作可以有多个缩写。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
 
-Attributes
+属性
 :
-- `value` _(**required**)_<br/>
+- `value` _(**必填**)_<br/>
 
-    The abbreviation value.
+  缩写值。
 
-Example
+示例
 :
   ```xml
-  <!-- Default action text: UI Inspector -->
+  <!-- 默认操作文本：UI Inspector -->
   <abbreviation value="uii"/>
   ```
 
@@ -1092,57 +1009,52 @@ Example
 
 <tldr>
 
-**Reference:** [Grouping Actions](basic_action_system.md#grouping-actions)
+**参考:** [分组操作](basic_action_system.md#grouping-actions)
 
 </tldr>
 
-Defines an action group.
-The [`<action>`](#idea-plugin__actions__action), `<group>` and [`<separator>`](#idea-plugin__actions__group__separator) elements defined inside the group are automatically included in it.
-The `<group>` elements can be nested.
+定义操作组。  
+在组内定义的 [`<action>`](#idea-plugin__actions__action)、`<group>` 和 [`<separator>`](#idea-plugin__actions__group__separator) 元素会自动包含在其中。  
+`<group>` 元素可以嵌套。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
 
-Attributes
+属性
 :
-- `id` _(**required**)_<br/>
-  A unique group identifier.
-  The group identifier must be unique between different plugins.
-  Thus, it is recommended to prepend it with the value of the plugin [`<id>`](#idea-plugin__id).
-- `class` _(optional)_<br/>
-  The fully qualified name of the group implementation class.
-  If not specified,
-  [`DefaultActionGroup`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/actionSystem/DefaultActionGroup.java)
-  is used.
-- `text` _(**required** if the `popup` is `true` and the group is not
-[localized](basic_action_system.md#localizing-actions-and-groups))_<br/>
-  The default long-version text to be displayed for the group (text for the menu item showing the submenu).
-- `description` _(optional)_<br/>
-  The text which is displayed in the status bar when the group is focused.
-- `icon` _(optional)_<br/>
-  The icon that is displayed next to the group menu item.
-  See [Working with Icons](icons.md) for more information about defining
-  and using icons.
-- `popup` _(optional)_<br/>
-  Boolean flag defining whether the group items are presented in the submenu popup.
-    - `true` - group actions are placed in a submenu
-    - `false` _(default)_ - actions are displayed as a section of the same menu delimited by separators
-- `compact` _(optional)_<br/>
-  Boolean flag defining whether disabled actions within this group are hidden.
-  If the value is:
-    - `true` - disabled actions are hidden
-    - `false` _(default)_ - disabled actions are visible
-- `use-shortcut-of` _(optional)_<br/>
-  The ID of the action whose keyboard shortcut this group will use.
-- `searchable` _(optional; available since 2020.3)_<br/>
+- `id` _(**必填**)_<br/>
+  唯一的组标识符。  
+  组标识符在不同插件之间必须唯一。  
+  因此，建议在其前面加上插件 [`<id>`](#idea-plugin__id) 的值。
+- `class` _(可选)_<br/>
+  组实现类的完全限定名称。  
+  如果未指定，则使用 [`DefaultActionGroup`](%gh-ic%/platform/platform-api/src/com/intellij/openapi/actionSystem/DefaultActionGroup.java)。
+- `text` _(如果 `popup` 为 `true` 且组未[本地化](basic_action_system.md#localizing-actions-and-groups)，则**必填**)_<br/>
+  为组显示的默认长文本（显示子菜单的菜单项的文本）。
+- `description` _(可选)_<br/>
+  当组获得焦点时显示在状态栏中的文本。
+- `icon` _(可选)_<br/>
+  显示在组菜单项旁边的图标。  
+  有关定义和使用图标的更多信息，请参阅 [使用图标](icons.md)。
+- `popup` _(可选)_<br/>
+  布尔标志，定义组项是否显示在子菜单弹出窗口中。
+  - `true` - 组操作放置在子菜单中
+  - `false` _(默认)_ - 操作显示为同一菜单中的部分，由分隔符分隔
+- `compact` _(可选)_<br/>
+  布尔标志，定义此组中禁用的操作是否隐藏。  
+  如果值为：
+  - `true` - 禁用的操作被隐藏
+  - `false` _(默认)_ - 禁用的操作可见
+- `use-shortcut-of` _(可选)_<br/>
+  此组将使用的键盘快捷键的操作 ID。
+- `searchable` _(可选；自 2020.3 起可用)_<br/>
 
-    Boolean flag defining whether the group is displayed in <ui-path>Help&nbsp;|&nbsp;Find Action...</ui-path>
-    or <ui-path>Navigate | Search Everywhere</ui-path> popups.<br/>
-    Default value: `true`.
+  布尔标志，定义组是否显示在 <ui-path>帮助&nbsp;|&nbsp;查找操作...</ui-path> 或 <ui-path>导航 | 随处搜索</ui-path> 弹出窗口中。<br/>
+  默认值：`true`。
 
-Children
+子元素
 :
   - [`<action>`](#idea-plugin__actions__action)
   - [`<add-to-group>`](#idea-plugin__actions__action__add-to-group)
@@ -1151,27 +1063,24 @@ Children
   - [`<reference>`](#idea-plugin__actions__group__reference)
   - [`<separator>`](#idea-plugin__actions__group__separator)
 
-Examples
+示例
 :
-- Group declaring explicit `text`:
+- 声明显式 `text` 的组：
     ```xml
     <group
         id="com.example.myframeworksupport.MyGroup"
         popup="true"
         text="My Tools">
-      <!-- group children elements -->
+      <!-- 组子元素 -->
     </group>
     ```
-- A popup group without the `text` attribute must use the texts from the resource bundle declared with
-the [`<resource-bundle>`](#idea-plugin__resource-bundle) element,
-or the `resource-bundle` attribute
-of the [`<actions>`](#idea-plugin__actions) element:
+- 没有 `text` 属性的弹出组必须使用由 [`<resource-bundle>`](#idea-plugin__resource-bundle) 元素或 [`<actions>`](#idea-plugin__actions) 元素的 `resource-bundle` 属性声明的资源包中的文本：
     ```xml
     <group
         id="com.example.myframeworksupport.MyGroup"
         popup="true"/>
     ```
-- A group with custom implementation and icon:
+- 具有自定义实现和图标的组：
     ```xml
     <group
         id="com.example.myframeworksupport.MyGroup"
@@ -1182,37 +1091,36 @@ of the [`<actions>`](#idea-plugin__actions) element:
 ##### `reference`
 {#idea-plugin__actions__group__reference}
 
-Allows adding an existing action to the group.
-The element can be used directly under the [`<actions>`](#idea-plugin__actions) element, or in
-the [`<group>`](#idea-plugin__actions__group) element.
+允许将现有操作添加到组中。  
+该元素可以直接在 [`<actions>`](#idea-plugin__actions) 元素下使用，也可以在 [`<group>`](#idea-plugin__actions__group) 元素中使用。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
 
-Attributes
+属性
 :
-- `ref` _(**required**)_<br/>
-  The ID of the action to add to a group.
-- `id` _(optional)_<br/>
-    **_Deprecated_**: Use `ref` instead. 
+- `ref` _(**必填**)_<br/>
+  要添加到组中的操作的 ID。
+- `id` _(可选)_<br/>
+  **_已弃用_**: 使用 `ref` 代替。
 
-    The ID of the action to add to a group.
+  要添加到组中的操作的 ID。
 
-Children
+子元素
 :
-  - [`<add-to-group>`](#idea-plugin__actions__action__add-to-group)
+- [`<add-to-group>`](#idea-plugin__actions__action__add-to-group)
 
-Examples
+示例
 :
-- An action reference in a group:
+- 组中的操作引用：
     ```xml
     <group ...>
       <reference ref="EditorCopy"/>
     </group>
     ```
-- An action reference registered directly in the [`<actions>`](#idea-plugin__actions) element:
+- 直接在 [`<actions>`](#idea-plugin__actions) 元素中注册的操作引用：
     ```xml
     <actions>
       <reference ref="com.example.MyAction">
@@ -1224,35 +1132,34 @@ Examples
 ##### `separator`
 {#idea-plugin__actions__group__separator}
 
-Defines a separator between actions in a group.
-The element can be used directly under the [`<actions>`](#idea-plugin__actions) element with the child
-[`<add-to-group>`](#idea-plugin__actions__action__add-to-group) element defining the target group, or in the
-[`<group>`](#idea-plugin__actions__group) element.
+定义组中操作之间的分隔符。  
+该元素可以直接在 [`<actions>`](#idea-plugin__actions) 元素下使用，并使用子元素
+[`<add-to-group>`](#idea-plugin__actions__action__add-to-group) 定义目标组，也可以在
+[`<group>`](#idea-plugin__actions__group) 元素中使用。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
 
-Attributes
+属性
 :
-- `text` _(optional)_<br/>
-  Text displayed on the separator.
-  Separator text is displayed only in specific contexts such as popup menus, toolbars, etc.
-- `key` _(optional)_<br/>
+- `text` _(可选)_<br/>
+  分隔符上显示的文本。  
+  分隔符文本仅在特定上下文中显示，例如弹出菜单、工具栏等。
+- `key` _(可选)_<br/>
 
-    The [message key]([message key](https://plugins.jetbrains.com/docs/intellij/basic-action-system.html#localizing-actions-and-groups)) for the separator text.
-    The message bundle for use should be registered via the `resource-bundle` attribute of
-    the [`<actions>`](#idea-plugin__actions) element.
-    The attribute is ignored if the `text` attribute is specified.
+  分隔符文本的 [消息键](https://plugins.jetbrains.com/docs/intellij/basic-action-system.html#localizing-actions-and-groups)。  
+  应通过 [`<actions>`](#idea-plugin__actions) 元素的 `resource-bundle` 属性注册要使用的消息包。  
+  如果指定了 `text` 属性，则忽略此属性。
 
-Children
+子元素
 :
-  - [`<add-to-group>`](#idea-plugin__actions__action__add-to-group)
+- [`<add-to-group>`](#idea-plugin__actions__action__add-to-group)
 
-Examples
+示例
 :
-- A separator dividing two actions in a group:
+- 分隔组中的两个操作：
     ```xml
     <group ...>
       <action .../>
@@ -1260,7 +1167,7 @@ Examples
       <action .../>
     </group>
     ```
-- A separator registered directly in the [`<actions>`](#idea-plugin__actions) element:
+- 直接在 [`<actions>`](#idea-plugin__actions) 元素中注册的分隔符：
     ```xml
     <actions>
       <separator>
@@ -1270,11 +1177,11 @@ Examples
       </separator>
     </group>
     ```
-- A separator with a defined text:
+- 带有定义文本的分隔符：
     ```xml
     <separator text="Group By"/>
     ```
-- A separator with a text defined by a message key:
+- 带有由消息键定义的文本的分隔符：
     ```xml
     <separator key="message.key"/>
     ```
@@ -1286,19 +1193,19 @@ Examples
 
 <tldr>
 
-**Reference:** [Defining Application-Level Listeners](plugin_listeners.md#defining-application-level-listeners)
+**参考:** [定义应用程序级监听器](plugin_listeners.md#defining-application-level-listeners)
 
 </tldr>
 
-Defines the application-level listeners.
+定义应用程序级监听器。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
-Children
+子元素
 :
-  - [`<listener>`](#idea-plugin__applicationListeners__listener)
+- [`<listener>`](#idea-plugin__applicationListeners__listener)
 
 #### `listener`
 {#idea-plugin__applicationListeners__listener}
@@ -1307,49 +1214,49 @@ Children
 
 <tldr>
 
-**Reference:** [Listeners](plugin_listeners.md)
+**参考:** [监听器](plugin_listeners.md)
 
 </tldr>
 
-Defines a single application or project-level listener.
-A single [`<applicationListeners>`](#idea-plugin__applicationListeners) or
-[`<projectListeners>`](#idea-plugin__projectListeners) can contain multiple `<listener>` elements.
+定义单个应用程序或项目级监听器。  
+单个 [`<applicationListeners>`](#idea-plugin__applicationListeners) 或
+[`<projectListeners>`](#idea-plugin__projectListeners) 可以包含多个 `<listener>` 元素。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
 
-Attributes
+属性
 :
-- `topic` _(**required**)_<br/>
-  The fully qualified name of the listener interface corresponding to the type of received events.
-- `class` _(**required**)_<br/>
-  The fully qualified name of the class implementing the listener interface that receives and handles the events.
-- `os` _(optional; available since 2020.1)_<br/>
-  Restricts listener instantiation to a specific operating system.
-  Allowed values:
-    - `freebsd`
-    - `mac`
-    - `linux`
-    - `unix`
-    - `windows`
-- `activeInTestMode` _(optional)_<br/>
-  Boolean flag defining whether the listener should be instantiated in test mode.<br/>
-  Default value: `true`.
-- `activeInHeadlessMode` _(optional)_<br/>
+- `topic` _(**必填**)_<br/>
+  与接收事件类型对应的监听器接口的完全限定名称。
+- `class` _(**必填**)_<br/>
+  实现监听器接口的类的完全限定名称，该类接收并处理事件。
+- `os` _(可选；自 2020.1 起可用)_<br/>
+  将监听器实例化限制为特定操作系统。  
+  允许的值：
+  - `freebsd`
+  - `mac`
+  - `linux`
+  - `unix`
+  - `windows`
+- `activeInTestMode` _(可选)_<br/>
+  布尔标志，定义是否应在测试模式下实例化监听器。<br/>
+  默认值：`true`。
+- `activeInHeadlessMode` _(可选)_<br/>
 
-    Boolean flag defining whether the listener should be instantiated in headless mode.<br/>
-    Default value: `true`.
+  布尔标志，定义是否应在无头模式下实例化监听器。<br/>
+  默认值：`true`。
 
-Example
+示例
 :
   ```xml
   <listener
-      topic="com.intellij.ide.AppLifecycleListener"
-      class="com.example.MyListener"
-      os="mac"
-      activeInTestMode="false"/>
+        topic="com.intellij.ide.AppLifecycleListener"
+        class="com.example.MyListener"
+        os="mac"
+        activeInTestMode="false"/>
   ```
 
 ### `projectListeners`
@@ -1359,233 +1266,229 @@ Example
 
 <tldr>
 
-**Reference:** [Defining Project-Level Listeners](plugin_listeners.md#defining-project-level-listeners)
+**参考:** [定义项目级监听器](plugin_listeners.md#defining-project-level-listeners)
 
 </tldr>
 
-Defines the project-level listeners.
+定义项目级监听器。
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
-Children
+子元素
 :
-  - [`<listener>`](#idea-plugin__applicationListeners__listener)
+- [`<listener>`](#idea-plugin__applicationListeners__listener)
 
 ### `application-components`
 {#idea-plugin__application-components collapsible="true" initial-collapse-state="collapsed"}
 
 <primary-label ref="Deprecated"/>
 
-> Do not use it in new plugins.
-> See [Components](plugin_components.md) for the migration guide.
+> 不要在新插件中使用它。  
+> 有关迁移指南，请参阅 [组件](plugin_components.md)。
 >
 {style="warning"}
 
-Defines a list of application [components](plugin_components.md).
+定义应用程序 [组件](plugin_components.md) 列表。
 
 {style="narrow"}
-Deprecated
+已弃用
 :
-since 2020.1
+自 2020.1 起
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
-Children
+子元素
 :
-  - [`<component>`](#idea-plugin__application-components__component)  ![Deprecated][deprecated]
+- [`<component>`](#idea-plugin__application-components__component)  ![已弃用][deprecated]
 
 #### `component`
 {#idea-plugin__application-components__component}
 
-> Do not use it in new plugins.
-> See [Components](plugin_components.md) for the migration guide.
+> 不要在新插件中使用它。  
+> 有关迁移指南，请参阅 [组件](plugin_components.md)。
 >
 {style="warning"}
 
-Defines a single application, project, or
-module [component](plugin_components.md).
-A single [`<application-components>`](#idea-plugin__application-components),
-[`<project-components>`](#idea-plugin__project-components), or [`<module-components>`](#idea-plugin__module-components)
-element can contain multiple `<component>` elements.
+定义单个应用程序、项目或模块 [组件](plugin_components.md)。  
+单个 [`<application-components>`](#idea-plugin__application-components)、[`<project-components>`](#idea-plugin__project-components) 或 [`<module-components>`](#idea-plugin__module-components) 元素可以包含多个 `<component>` 元素。
 
 {style="narrow"}
-Deprecated
+已弃用
 :
-since 2020.1
+自 2020.1 起
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
-Children
+子元素
 :
-  - [`<headless-implementation-class>`](#idea-plugin__application-components__component__headless-implementation-class)  ![Deprecated][deprecated]
-  - [`<implementation-class>`](#idea-plugin__application-components__component__implementation-class)  ![Deprecated][deprecated]
-  - [`<interface-class>`](#idea-plugin__application-components__component__interface-class)  ![Deprecated][deprecated]
-  - [`<loadForDefaultProject>`](#idea-plugin__application-components__component__loadForDefaultProject)  ![Deprecated][deprecated]
-  - [`<option>`](#idea-plugin__application-components__component__option)  ![Deprecated][deprecated]
+- [`<headless-implementation-class>`](#idea-plugin__application-components__component__headless-implementation-class)  ![已弃用][deprecated]
+- [`<implementation-class>`](#idea-plugin__application-components__component__implementation-class)  ![已弃用][deprecated]
+- [`<interface-class>`](#idea-plugin__application-components__component__interface-class)  ![已弃用][deprecated]
+- [`<loadForDefaultProject>`](#idea-plugin__application-components__component__loadForDefaultProject)  ![已弃用][deprecated]
+- [`<option>`](#idea-plugin__application-components__component__option)  ![已弃用][deprecated]
 
 ##### `implementation-class`
 {#idea-plugin__application-components__component__implementation-class}
 
-> Do not use it in new plugins.
-> See [Components](plugin_components.md) for the migration guide.
+> 不要在新插件中使用它。  
+> 有关迁移指南，请参阅 [组件](plugin_components.md)。
 >
 {style="warning"}
 
-The fully qualified name of the component implementation class.
+组件实现类的完全限定名称。
 
 {style="narrow"}
-Deprecated
+已弃用
 :
-since 2020.1
+自 2020.1 起
 
 {style="narrow"}
-Required
-: **yes**
+必填
+: **是**
 
 ##### `interface-class`
 {#idea-plugin__application-components__component__interface-class}
 
-> Do not use it in new plugins.
-> See [Components](plugin_components.md) for the migration guide.
+> 不要在新插件中使用它。  
+> 有关迁移指南，请参阅 [组件](plugin_components.md)。
 >
 {style="warning"}
 
-The fully qualified name of the component interface class. If not specified, the interface will be the same as
-defined by [`<implementation-class>`](#idea-plugin__application-components__component__interface-class) element.
+组件接口类的完全限定名称。如果未指定，则接口将与 [`<implementation-class>`](#idea-plugin__application-components__component__interface-class) 元素定义的相同。
 
 {style="narrow"}
-Deprecated
+已弃用
 :
-since 2020.1
+自 2020.1 起
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
 ##### `headless-implementation-class`
 {#idea-plugin__application-components__component__headless-implementation-class}
 
-> Do not use it in new plugins.
-> See [Components](plugin_components.md) for the migration guide.
+> 不要在新插件中使用它。  
+> 有关迁移指南，请参阅 [组件](plugin_components.md)。
 >
 {style="warning"}
 
-The fully qualified name of the component implementation class to be used when the IDE runs in headless mode.
+当 IDE 在无头模式下运行时使用的组件实现类的完全限定名称。
 
 {style="narrow"}
-Deprecated
+已弃用
 :
-since 2020.1
+自 2020.1 起
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
 ##### `option`
 {#idea-plugin__application-components__component__option}
 
-> Do not use it in new plugins.
-> See [Components](plugin_components.md) for the migration guide.
+> 不要在新插件中使用它。  
+> 有关迁移指南，请参阅 [组件](plugin_components.md)。
 >
 {style="warning"}
 
-Allows to provide additional component options.
-A single [`<component>`](#idea-plugin__application-components__component) element can contain multiple `<option>` elements.
+允许提供额外的组件选项。  
+单个 [`<component>`](#idea-plugin__application-components__component) 元素可以包含多个 `<option>` 元素。
 
 {style="narrow"}
-Deprecated
+已弃用
 :
-since 2020.1
+自 2020.1 起
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
 
-Attributes
+属性
 :
-- `name` _(**required**)_<br/>
-  Option name.
-- `value` _(**required**)_<br/>
+- `name` _(**必填**)_<br/>
+  选项名称。
+- `value` _(**必填**)_<br/>
 
-    Option value.
+  选项值。
 
 ##### `loadForDefaultProject`
 {#idea-plugin__application-components__component__loadForDefaultProject}
 
-> Do not use it in new plugins.
-> See [Components](plugin_components.md) for the migration guide.
+> 不要在新插件中使用它。  
+> 有关迁移指南，请参阅 [组件](plugin_components.md)。
 >
 {style="warning"}
 
-If present, the component is instantiated also for the default project. It takes effect only when used inside
-[`<project-components>`](#idea-plugin__project-components) element.
+如果存在，则组件也会为默认项目实例化。仅在
+[`<project-components>`](#idea-plugin__project-components) 元素中使用时生效。
 
 {style="narrow"}
-Deprecated
+已弃用
 :
-since 2020.1
+自 2020.1 起
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
 ### `project-components`
 {#idea-plugin__project-components collapsible="true" initial-collapse-state="collapsed"}
 
 <primary-label ref="Deprecated"/>
 
-> Do not use it in new plugins.
-> See [Components](plugin_components.md) for the migration guide.
+> 不要在新插件中使用它。  
+> 有关迁移指南，请参阅 [组件](plugin_components.md)。
 >
 {style="warning"}
 
-Defines a list of project [components](plugin_components.md).
+定义项目 [组件](plugin_components.md) 列表。
 
 {style="narrow"}
-Deprecated
+已弃用
 :
-since 2020.1
+自 2020.1 起
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
-Children
+子元素
 :
-  - [`<component>`](#idea-plugin__application-components__component)  ![Deprecated][deprecated]
+- [`<component>`](#idea-plugin__application-components__component)  ![已弃用][deprecated]
 
 ### `module-components`
 {#idea-plugin__module-components collapsible="true" initial-collapse-state="collapsed"}
 
 <primary-label ref="Deprecated"/>
 
-> Do not use it in new plugins.
-> See [Components](plugin_components.md) for the migration guide.
+> 不要在新插件中使用它。  
+> 有关迁移指南，请参阅 [组件](plugin_components.md)。
 >
 {style="warning"}
 
-Defines a list of module [components](plugin_components.md).
+定义模块 [组件](plugin_components.md) 列表。
 
 {style="narrow"}
-Deprecated
+已弃用
 :
-since 2020.1
+自 2020.1 起
 
 {style="narrow"}
-Required
-: no
+必填
+: 否
 
-Children
+子元素
 :
-  - [`<component>`](#idea-plugin__application-components__component)  ![Deprecated][deprecated]
+- [`<component>`](#idea-plugin__application-components__component)  ![已弃用][deprecated]
 
 [//]: # (GENERATED CONTENT END)
 
-[deprecated]: https://img.shields.io/badge/-Deprecated-7f7f7f?style=flat-square
+[deprecated]: https://img.shields.io/badge/-已弃用-7f7f7f?style=flat-square

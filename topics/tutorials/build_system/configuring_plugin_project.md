@@ -55,8 +55,8 @@ IntelliJ 平台插件项目可以依赖于捆绑的或第三方的插件。
 Gradle 插件将获取由 [`intellij.plugins`](tools_gradle_intellij_plugin.md#intellij-extension-plugins) 定义的插件列表中的任何插件。
 有关指定插件和版本的信息，请参阅 Gradle 插件 [IntelliJ 扩展](tools_gradle_intellij_plugin.md#configuration-intellij-extension)。
 
-Note that this attribute describes a dependency so that the Gradle plugin can fetch the required artifacts.
-The runtime dependency must be added in the [Plugin Configuration](plugin_configuration_file.md) (<path>plugin.xml</path>) file as described in [Plugin Dependencies](plugin_dependencies.md#dependency-declaration-in-pluginxml).
+请注意，此属性描述了依赖项，以便 Gradle 插件可以获取所需的工件。  
+运行时依赖项必须按照 [插件依赖项](plugin_dependencies.md#dependency-declaration-in-pluginxml) 中的描述添加到 [插件配置](plugin_configuration_file.md)（<path>plugin.xml</path>）文件中。
 
 ## 运行 IDE 任务
 

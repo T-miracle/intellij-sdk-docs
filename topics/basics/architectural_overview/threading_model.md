@@ -1,158 +1,148 @@
 <!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Threading Model
+# 线程模型
 
 <!-- short link: https://jb.gg/ij-platform-threading -->
 
-<link-summary>Threading rules for reading and writing to IntelliJ Platform data models, running and canceling background processes, and avoiding UI freezes.</link-summary>
+<link-summary>用于读取和写入 IntelliJ Platform 数据模型、运行和取消后台进程以及避免 UI 冻结的线程规则。</link-summary>
 
-> It is highly recommended that readers unfamiliar with Java threads go through the official [Java Concurrency](https://docs.oracle.com/javase/tutorial/essential/concurrency/index.html) tutorial before reading this section.
+> 强烈建议不熟悉 Java 线程的读者在阅读本节之前先学习官方的 [Java 并发](https://docs.oracle.com/javase/tutorial/essential/concurrency/index.html) 教程。
 
-The IntelliJ Platform is a highly concurrent environment.
-Code is executed in many threads simultaneously.
-In general, as in a regular [Swing](https://docs.oracle.com/javase%2Ftutorial%2Fuiswing%2F%2F/index.html) application, threads can be categorized into two main groups:
-- [Event Dispatch Thread](https://docs.oracle.com/javase/tutorial/uiswing/concurrency/dispatch.html) (EDT) – also known as the UI thread.
-  Its main purpose is handling UI events (such as reacting to clicking a button or updating the UI), but the platform uses it also for writing data.
-  EDT executes events taken from the Event Queue.
-  Operations performed on EDT must be as fast as possible to not block other events in the queue and freeze the UI.
-  There is only one EDT in the running application.
-- background threads (BGT) – used for performing long-running and costly operations, or background tasks
+IntelliJ Platform 是一个高度并发的环境。代码在多个线程中同时执行。一般来说，与常规的 [Swing](https://docs.oracle.com/javase%2Ftutorial%2Fuiswing%2F%2F/index.html) 应用程序一样，线程可以分为两大类：
+- [事件分发线程](https://docs.oracle.com/javase/tutorial/uiswing/concurrency/dispatch.html) (EDT) —— 也称为 UI 线程。它的主要目的是处理 UI 事件（例如响应按钮点击或更新 UI），但平台也使用它来写入数据。EDT 从事件队列中取出事件并执行。在 EDT 上执行的操作必须尽可能快，以免阻塞队列中的其他事件并导致 UI 冻结。运行的应用程序中只有一个 EDT。
+- 后台线程 (BGT) —— 用于执行长时间运行和耗时的操作或后台任务。
 
-It is possible to switch between BGT and EDT in both directions.
-Operations can be scheduled to execute on EDT from BGT (and EDT) with `invokeLater()` methods (see the rest of this page for details).
-Executing on BGT from EDT can be achieved with [background processes](background_processes.md).
+可以在 BGT 和 EDT 之间双向切换。可以通过 `invokeLater()` 方法从 BGT（和 EDT）调度操作在 EDT 上执行（详见本页其余部分）。通过 [后台进程](background_processes.md) 可以从 EDT 切换到 BGT 执行操作。
 
-> Plugins targeting versions 2024.1+ should use [coroutine dispatchers](coroutine_dispatchers.md) for switching between threads.
+> 针对 2024.1+ 版本的插件应使用 [协程调度器](coroutine_dispatchers.md) 来切换线程。
 >
 {style="warning"}
 
-## Read-Write Lock
+## 读写锁 {id=read-write-lock}
 
-The IntelliJ Platform data structures (such as [Program Structure Interface](psi.md), [Virtual File System](virtual_file_system.md), or [Project root model](project_model.md)) aren't thread-safe.
-Accessing them requires a synchronization mechanism ensuring that all threads see the data in a consistent and up-to-date state.
-This is implemented with a single application-wide [read-write (RW) lock](https://w.wiki/7dBy) that must be acquired by threads requiring reading or writing to data models.
+IntelliJ Platform 的数据结构（例如 [程序结构接口](psi.md)、[虚拟文件系统](virtual_file_system.md) 或 [项目根模型](project_model.md)）不是线程安全的。
+访问它们需要一种同步机制，以确保所有线程都能看到一致且最新的数据状态。
+这是通过一个应用程序范围的 [读写锁 (RW)](https://w.wiki/7dBy) 实现的，线程在读取或写入数据模型时必须获取该锁。
 
-If a thread requires accessing a data model, it must acquire one of the locks:
+如果一个线程需要访问数据模型，它必须获取以下锁之一：
 
 <table>
     <tr>
-        <td width="33%">Read Lock</td>
-        <td width="33%">Write Intent Lock</td>
-        <td width="33%">Write Lock</td>
+        <td width="33%">读锁</td>
+        <td width="33%">写意向锁</td>
+        <td width="33%">写锁</td>
     </tr>
     <tr>
-        <td>Allows a thread for reading data.</td>
-        <td>Allows a thread for reading data and potentially upgrade to the write lock.</td>
-        <td>Allows a thread for reading and writing data.</td>
+        <td>允许线程读取数据。</td>
+        <td>允许线程读取数据并可能升级为写锁。</td>
+        <td>允许线程读取和写入数据。</td>
     </tr>
     <tr>
-        <td>Can be acquired from any thread concurrently with other read locks and write intent lock.</td>
-        <td>Can be acquired from any thread concurrently with read locks.</td>
-        <td>Can be acquired only from EDT concurrently with a write intent lock acquired on EDT.</td>
+        <td>可以从任何线程获取，与其他读锁和写意向锁并发。</td>
+        <td>可以从任何线程获取，与读锁并发。</td>
+        <td>只能从 EDT 获取，与在 EDT 上获取的写意向锁并发。</td>
     </tr>
     <tr>
-        <td>Can't be acquired if write lock is held on another thread.</td>
-        <td>Can't be acquired if another write intent lock or write lock is held on another thread.</td>
-        <td>Can't be acquired if any other lock is held on another thread.</td>
+        <td>如果写锁被另一个线程持有，则无法获取。</td>
+        <td>如果另一个写意向锁或写锁被另一个线程持有，则无法获取。</td>
+        <td>如果另一个线程持有任何其他锁，则无法获取。</td>
     </tr>
 </table>
 
-> See the [reasons](#why-can-write-intent-lock-be-acquired-from-any-thread-but-write-lock-only-from-edt) for allowing to acquire write intent lock from any thread and the write lock only from EDT.
+> 查看 [原因](#why-can-write-intent-lock-be-acquired-from-any-thread-but-write-lock-only-from-edt) 了解为什么允许从任何线程获取写意向锁，而写锁只能从 EDT 获取。
 
-The following table shows compatibility between locks in a simplified form:
+下表以简化的形式展示了锁之间的兼容性：
 
 <table style="both">
     <tr>
         <td width="25%"></td>
-        <td width="25%">Read Lock</td>
-        <td width="25%">Write Intent Lock</td>
-        <td width="25%">Write Lock</td>
+        <td width="25%">读锁</td>
+        <td width="25%">写意向锁</td>
+        <td width="25%">写锁</td>
     </tr>
     <tr>
-        <td>Read Lock</td>
+        <td>读锁</td>
         <td><img src="green_checkmark.svg" alt="+"/></td>
         <td><img src="green_checkmark.svg" alt="+"/></td>
         <td><img src="red_cross.svg" alt="-"/></td>
     </tr>
     <tr>
-        <td>Write Intent Lock</td>
+        <td>写意向锁</td>
         <td><img src="green_checkmark.svg" alt="+"/></td>
         <td><img src="red_cross.svg" alt="-"/></td>
         <td><img src="red_cross.svg" alt="-"/></td>
     </tr>
     <tr>
-        <td>Write Lock</td>
+        <td>写锁</td>
         <td><img src="red_cross.svg" alt="-"/></td>
         <td><img src="red_cross.svg" alt="-"/></td>
         <td><img src="red_cross.svg" alt="-"/></td>
     </tr>
 </table>
 
-The described lock characteristics conclude the following:
-- multiple threads can read data at the same time
-- once a thread acquires the write lock, no other threads can read or write data
+上述锁的特性可以总结如下：
+- 多个线程可以同时读取数据
+- 一旦一个线程获取了写锁，其他线程将无法读取或写入数据
 
-Acquiring and releasing locks explicitly in code would be verbose and error-prone and must never be done by plugins.
-The IntelliJ Platform enables write intent lock implicitly on EDT (see [](#locks-and-edt) for details) and provides an [API for accessing data under read or write locks](#accessing-data).
+在代码中显式获取和释放锁会显得冗长且容易出错，插件绝不应这样做。IntelliJ Platform 在 EDT 上隐式启用了写意向锁（详见 [](#locks-and-edt)），并提供了 [用于在读取或写入锁下访问数据的 API](#accessing-data)。
 
-### Locks and EDT
+### 锁与 EDT {id=locks-and-edt}
 
-Although acquiring all types of locks can be, in theory, done from any threads, the platform implicitly acquires write intent lock and allows acquiring the write lock only on EDT.
-It means that **writing data can be done only on EDT**.
+尽管理论上可以从任何线程获取所有类型的锁，但平台隐式获取写意向锁，并且只允许在 EDT 上获取写锁。
+这意味着 **写入数据只能在 EDT 上进行**。
 
-> It is known that writing data only on EDT has negative consequences of potentially freezing the UI.
-> There is an in-progress effort to [allow writing data from any thread](https://youtrack.jetbrains.com/issue/IJPL-53).
-> See the [historical reason](#why-write-actions-are-currently-allowed-only-on-edt) for this behavior in the current platform versions.
+> 众所周知，仅在 EDT 上写入数据可能会导致 UI 冻结的负面后果。
+> 目前正在进行一项工作以 [允许从任何线程写入数据](https://youtrack.jetbrains.com/issue/IJPL-53)。
+> 有关当前平台版本中此行为的 [历史原因](#why-write-actions-are-currently-allowed-only-on-edt)，请参阅相关说明。
 
-The scope of implicitly acquiring the write intent lock on EDT differs depending on the platform version:
+在 EDT 上隐式获取写意向锁的范围因平台版本而异：
 
 <tabs group="threading">
 
 <tab title="2023.3+" group-key="newThreading">
 
-Write intent lock is acquired automatically when operation is invoked on EDT with [`Application.invokeLater()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/Application.java).
+当在 EDT 上使用 [`Application.invokeLater()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/Application.java) 调用操作时，写意向锁会自动获取。
 
 </tab>
 
-<tab title="Earlier versions" group-key="oldThreading">
+<tab title="更早版本" group-key="oldThreading">
 
-Write intent lock is acquired automatically when operation is invoked on EDT with methods such as:
+当在 EDT 上使用以下方法调用操作时，写意向锁会自动获取：
 - [`Application.invokeLater()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/Application.java),
 - [`SwingUtilities.invokeLater()`](https://docs.oracle.com/javase/8/docs/api/javax/swing/SwingUtilities.html#invokeLater-java.lang.Runnable-),
 - [`UIUtil.invokeAndWaitIfNeeded()`](%gh-ic%/platform/util/ui/src/com/intellij/util/ui/UIUtil.java),
 - [`EdtInvocationManager.invokeLaterIfNeeded()`](%gh-ic%/platform/util/src/com/intellij/util/ui/EdtInvocationManager.java),
-- and other similar methods
+- 以及其他类似方法
 
-It is recommended to use `Application.invokeLater()` if the operation is supposed to write data.
-Use other methods for pure UI operations.
+如果操作需要写入数据，建议使用 `Application.invokeLater()`。对于纯 UI 操作，请使用其他方法。
 
 </tab>
 
 </tabs>
 
-## Accessing Data
+## 访问数据 {id=accessing-data}
 
-The IntelliJ Platform provides a simple API for accessing data under read or write locks in a form of read and write actions.
+IntelliJ Platform 提供了一个简单的 API，用于以读取和写入操作的形式在读取或写入锁下访问数据。
 
-Read and write actions allow executing a piece of code under a lock, automatically acquiring it before an action starts, and releasing it after the action is finished.
+读取和写入操作允许在锁下执行一段代码，自动在操作开始前获取锁，并在操作完成后释放锁。
 
-> Always try to wrap only the required operations into read/write actions, minimizing the time of holding locks.
-> If the read operation itself is long, consider using one of [read action cancellability techniques](#read-action-cancellability) to avoid blocking the write lock and EDT.
+> 始终尝试将仅需要的操作包装到读取/写入操作中，以最小化持有锁的时间。
+> 如果读取操作本身较长，请考虑使用 [读取操作可取消性技术](#read-action-cancellability) 之一，以避免阻塞写锁和 EDT。
 >
-{style="warning" title="Minimize Locking Scopes"}
+{style="warning" title="最小化锁定范围"}
 
-### Read Actions
+### 读取操作 {id=read-actions}
 
 #### API
 {#read-actions-api}
 
-- [`ReadAction`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/ReadAction.java) `run()` or `compute()`:
+- [`ReadAction`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/ReadAction.java) `run()` 或 `compute()`：
   <tabs group="languages">
   <tab title="Kotlin" group-key="kotlin">
 
   ```kotlin
   val psiFile = ReadAction.compute<PsiFile, Throwable> {
-    // read and return PsiFile
+    // 读取并返回 PsiFile
   }
   ```
   </tab>
@@ -160,22 +150,21 @@ Read and write actions allow executing a piece of code under a lock, automatical
 
   ```java
   PsiFile psiFile = ReadAction.compute(() -> {
-    // read and return PsiFile
+    // 读取并返回 PsiFile
   });
   ```
   </tab>
   </tabs>
 
-##### Alternative APIs
-{#read-action-alternative-apis collapsible=true default-state=collapsed}
+##### 替代 API {id=read-action-alternative-apis collapsible=true default-state=collapsed}
 
-- [`Application.runReadAction()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/Application.java):
+- [`Application.runReadAction()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/Application.java)：
   <tabs group="languages">
   <tab title="Kotlin" group-key="kotlin">
 
   ```kotlin
   val psiFile = ApplicationManager.application.runReadAction {
-    // read and return PsiFile
+    // 读取并返回 PsiFile
   }
   ```
   </tab>
@@ -184,66 +173,66 @@ Read and write actions allow executing a piece of code under a lock, automatical
   ```java
   PsiFile psiFile = ApplicationManager.getApplication()
       .runReadAction((Computable<PsiFile>)() -> {
-        // read and return PsiFile
+        // 读取并返回 PsiFile
       });
   ```
   </tab>
   </tabs>
-  Note that this API is considered low-level and should be avoided.
+  请注意，此 API 被视为低级 API，应避免使用。
 
-- Kotlin [`runReadAction()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/actions.kt):
+- Kotlin [`runReadAction()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/actions.kt)：
   ```kotlin
   val psiFile = runReadAction {
-    // read and return PsiFile
+    // 读取并返回 PsiFile
   }
   ```
-  Note that this API is obsolete since 2024.1.
-  Plugins implemented in Kotlin and targeting versions 2024.1+ should use suspending [`readAction()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/coroutines.kt).
-  See also [](coroutine_read_actions.topic).
+  请注意，此 API 自 2024.1 版本起已过时。
+  使用 Kotlin 实现并针对 2024.1+ 版本的插件应使用挂起函数 [`readAction()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/coroutines.kt)。
+  另请参阅 [](coroutine_read_actions.topic)。
 
-#### Rules
+#### 规则
 {#read-actions-rules}
 
 <tabs group="threading">
 
 <tab title="2023.3+" group-key="newThreading">
 
-Reading data is allowed from any thread.
+从任何线程读取数据都是允许的。
 
-Reading data on EDT invoked with `Application.invokeLater()` doesn't require an explicit read action, as the write intent lock allowing to read data is [acquired implicitly](#locks-and-edt).
+在通过 `Application.invokeLater()` 调用的 EDT 上读取数据不需要显式的读取操作，因为允许读取数据的写意向锁是 [隐式获取的](#locks-and-edt)。
 
 </tab>
 
-<tab title="Earlier versions" group-key="oldThreading">
+<tab title="更早版本" group-key="oldThreading">
 
-Reading data is allowed from any thread.
+从任何线程读取数据都是允许的。
 
-Reading data on EDT doesn't require an explicit read action, as the write intent lock allowing to read data is [acquired implicitly](#locks-and-edt).
+在 EDT 上读取数据不需要显式的读取操作，因为允许读取数据的写意向锁是 [隐式获取的](#locks-and-edt)。
 
 </tab>
 
 </tabs>
 
-In all other cases, it is required to wrap read operation in a read action with one of the [API](#read-actions-api) methods.
+在所有其他情况下，需要使用 [API](#read-actions-api) 方法之一将读取操作包装在读取操作中。
 
-##### Objects Validity
+##### 对象有效性 {id=objects-validity}
 
-The read objects aren't guaranteed to survive between several consecutive read actions.
-Whenever starting a read action, check if the PSI/VFS/project/module is still valid.
-Example:
+读取的对象不保证在多个连续的读取操作之间保持有效。
+每当启动一个读取操作时，请检查 PSI/VFS/项目/模块是否仍然有效。
+示例：
 ```kotlin
-val virtualFile = runReadAction { // read action 1
-  // read a virtual file
+val virtualFile = runReadAction { // 读取操作 1
+  // 读取虚拟文件
 }
-// do other time-consuming work...
-val psiFile = runReadAction { // read action 2
-  if (virtualFile.isValid()) { // check if the virtual file is valid
+// 执行其他耗时操作...
+val psiFile = runReadAction { // 读取操作 2
+  if (virtualFile.isValid()) { // 检查虚拟文件是否有效
     PsiManager.getInstance(project).findFile(virtualFile)
   } else null
 }
 ```
 
-Between executing first and second read actions, another thread could invalidate the virtual file:
+在执行第一个和第二个读取操作之间，另一个线程可能会使虚拟文件失效：
 
 ```mermaid
 ---
@@ -261,18 +250,17 @@ gantt
         delete virtual file : crit, 2, 3
 ```
 
-### Write Actions
+### 写入操作 {id=write-actions}
 
-#### API
-{#write-actions-api}
+#### API {id=write-actions-api}
 
-- [`WriteAction`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/WriteAction.java) `run()` or `compute()`:
+- [`WriteAction`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/WriteAction.java) `run()` 或 `compute()`：
   <tabs group="languages">
   <tab title="Kotlin" group-key="kotlin">
 
   ```kotlin
   WriteAction.run<Throwable> {
-    // write data
+    // 写入数据
   }
   ```
   </tab>
@@ -280,22 +268,21 @@ gantt
 
   ```java
   WriteAction.run(() -> {
-    // write data
+    // 写入数据
   });
   ```
   </tab>
   </tabs>
 
-##### Alternative APIs
-{#write-action-alternative-apis collapsible=true default-state=collapsed}
+##### 替代 API {id=write-action-alternative-apis collapsible=true default-state=collapsed}
 
-- [`Application.runWriteAction()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/Application.java):
+- [`Application.runWriteAction()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/Application.java)：
   <tabs group="languages">
   <tab title="Kotlin" group-key="kotlin">
 
   ```kotlin
   ApplicationManager.application.runWriteAction {
-    // write data
+    // 写入数据
   }
   ```
   </tab>
@@ -303,71 +290,71 @@ gantt
 
   ```java
   ApplicationManager.getApplication().runWriteAction(() -> {
-    // write data
+    // 写入数据
   });
   ```
   </tab>
   </tabs>
-  Note that this API is considered low-level and should be avoided.
+  请注意，此 API 被视为低级 API，应避免使用。
 
-- Kotlin [`runWriteAction()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/actions.kt):
+- Kotlin [`runWriteAction()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/actions.kt)：
   ```kotlin
   runWriteAction {
-    // write data
+    // 写入数据
   }
   ```
-  Note that this API is obsolete since 2024.1.
-  Plugins implemented in Kotlin and targeting versions 2024.1+ should use suspending [`writeAction()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/coroutines.kt).
+  请注意，此 API 自 2024.1 版本起已过时。
+  使用 Kotlin 实现并针对 2024.1+ 版本的插件应使用挂起函数 [`writeAction()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/coroutines.kt)。
 
-#### Rules
+#### 规则
 {#write-actions-rules}
 
 <tabs group="threading">
 
 <tab title="2023.3+" group-key="newThreading">
 
-Writing data is only allowed on EDT invoked with `Application.invokeLater()`.
+写入数据仅允许在通过 `Application.invokeLater()` 调用的 EDT 上进行。
 
-Write operations must always be wrapped in a write action with one of the [API](#write-actions-api) methods.
+写入操作必须始终使用 [API](#write-actions-api) 方法之一包装在写入操作中。
 
-Modifying the model is only allowed from write-safe contexts (see [](#invoking-operations-on-edt-and-modality)).
+修改模型仅允许在写入安全的上下文中进行（参见 [](#invoking-operations-on-edt-and-modality)）。
 
 </tab>
 
-<tab title="Earlier versions" group-key="oldThreading">
+<tab title="更早版本" group-key="oldThreading">
 
-Writing data is only allowed on EDT.
+写入数据仅允许在 EDT 上进行。
 
-Write operations must always be wrapped in a write action with one of the [API](#write-actions-api) methods.
+写入操作必须始终使用 [API](#write-actions-api) 方法之一包装在写入操作中。
 
-Modifying the model is only allowed from write-safe contexts, including user actions and `SwingUtilities.invokeLater()` calls from them (see [](#invoking-operations-on-edt-and-modality)).
+修改模型仅允许在写入安全的上下文中进行，包括用户操作和从中调用的 `SwingUtilities.invokeLater()`（参见 [](#invoking-operations-on-edt-and-modality)）。
 
-Modifying PSI, VFS, or project model from inside UI renderers or `SwingUtilities.invokeLater()` calls is forbidden.
+禁止在 UI 渲染器内部或 `SwingUtilities.invokeLater()` 调用中修改 PSI、VFS 或项目模型。
 
 </tab>
 
 </tabs>
 
-> [Thread Access Info](https://plugins.jetbrains.com/plugin/16815-thread-access-info) plugin visualizes Read/Write Access and Thread information in the debugger.
+> [Thread Access Info](https://plugins.jetbrains.com/plugin/16815-thread-access-info) 插件在调试器中可视化读取/写入访问和线程信息。
 
-## Invoking Operations on EDT and Modality
+## 在 EDT 和模态状态下调用操作 {id=invoking-operations-on-edt-and-modality}
 
-Operations that write data on EDT should be invoked with `Application.invokeLater()` because it allows specifying the _modality state_ ([`ModalityState`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/ModalityState.java)) for the scheduled operation.
-This is not supported by `SwingUtilities.invokeLater()` and similar APIs.
+在 EDT 上写入数据的操作应使用 `Application.invokeLater()` 调用，因为它允许为计划的操作指定 _模态状态_ ([`ModalityState`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/ModalityState.java))。
+这是 `SwingUtilities.invokeLater()` 和类似 API 不支持的。
 
-> Note that `Application.invokeLater()` must be used to write data in versions 2023.3+.
+> 注意，在 2023.3+ 版本中，必须使用 `Application.invokeLater()` 来写入数据。
 >
 {style="warning"}
 
-`ModalityState` represents the stack of active modal dialogs and is used in calls to `Application.invokeLater()` to ensure the scheduled runnable can execute within the given modality state, meaning when the same set of modal dialogs or a subset is present.
+`ModalityState` 表示活动模态对话框的堆栈，并在调用 `Application.invokeLater()` 时使用，以确保计划的 runnable 可以在给定的模态状态下执行，这意味着当相同的模态对话框集或其子集存在时。
 
-To better understand what problem `ModalityState` solves, consider the following scenario:
-1. A user action is started.
-2. In the meantime, another operation is scheduled on EDT with `SwingUtilities.invokeLater()` (without modality state support).
-3. The action from 1. now shows a dialog asking a <control>Yes</control>/<control>No</control> question.
-4. While the dialog is shown, the operation from 2. is now processed and does changes to the data model, which invalidates PSI.
-5. The user clicks <control>Yes</control> or <control>No</control> in the dialog, and it executes some code based on the answer.
-6. Now, the code to be executed as the result of the user's answer has to deal with the changed data model it was not prepared for. For example, it was supposed to execute changes in the PSI that might be already invalid.
+为了更好地理解 `ModalityState` 解决的问题，请考虑以下场景：
+1. 启动了一个用户操作。
+2. 同时，另一个操作通过 `SwingUtilities.invokeLater()`（不支持模态状态）在 EDT 上调度。
+3. 步骤 1 中的操作现在显示一个对话框，询问 <control>是</control>/<control>否</control> 问题。
+4. 当对话框显示时，步骤 2 中的操作现在被处理并对数据模型进行了更改，这会使 PSI 失效。
+5. 用户在对话框中点击 <control>是</control> 或 <control>否</control>，并根据答案执行一些代码。
+6. 现在，作为用户答案结果要执行的代码必须处理它未准备好的已更改数据模型。例如，它本应在 PSI 中执行更改，但 PSI 可能已经失效。
 
 ```mermaid
 ---
@@ -387,16 +374,16 @@ gantt
         2. invokeLater()        : crit, active, 1, 2
 ```
 
-Passing the modality state solves this problem:
-1. A user action is started.
-2. In the meantime, another operation is scheduled on EDT with `Application.invokeLater()` (supporting modality state).
-   The operation is scheduled with `ModalityState.defaultModalityState()` (see the table below for other helper methods).
-3. The action from 1. now shows a dialog asking a <control>Yes</control>/<control>No</control> question.
-   This adds a modal dialog to the modality state stack.
-4. While the dialog is shown, the scheduled operation waits as it was scheduled with a "lower" modality state than the current state with an additional dialog.
-5. The user clicks <control>Yes</control> or <control>No</control> in the dialog, and it executes some code based on the answer.
-6. The code is executed on data in the same state as before the dialog was shown.
-7. The operation from 1. is executed now without interfering with the user's action.
+传递模态状态可以解决这个问题：
+1. 启动了一个用户操作。
+2. 同时，另一个操作通过 `Application.invokeLater()`（支持模态状态）在 EDT 上调度。
+   该操作使用 `ModalityState.defaultModalityState()` 调度（其他辅助方法请参见下表）。
+3. 步骤 1 中的操作现在显示一个对话框，询问 <control>是</control>/<control>否</control> 问题。
+   这会将一个模态对话框添加到模态状态堆栈中。
+4. 当对话框显示时，调度的操作会等待，因为它是以比当前状态（带有额外对话框）更低的模态状态调度的。
+5. 用户在对话框中点击 <control>是</control> 或 <control>否</control>，并根据答案执行一些代码。
+6. 代码在对话框显示前的相同数据状态下执行。
+7. 步骤 1 中的操作现在执行，而不会干扰用户的操作。
 
 ```mermaid
 ---
@@ -417,27 +404,27 @@ gantt
         4. Wait for dialog close : done, 2, 4
 ```
 
-The following table presents methods providing useful modality states to be passed to `Application.invokeLater()`:
+下表列出了提供有用模态状态的方法，这些状态可以传递给 `Application.invokeLater()`：
 
-| [`ModalityState`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/ModalityState.java) | Description                                                                                                                                                                                                                                                                                   |
+| [`ModalityState`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/ModalityState.java) | 描述                                                                                                                                                                                                                                                                                   |
 |------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <p>`defaultModalityState()`</p><p>_Used if none specified_</p>                                       | <p>If invoked from EDT, it uses the `ModalityState.current()`.</p><p>If invoked from a background process started with `ProgressManager`, the operation can be executed in the same dialog that the process started.</p><p>**This is the optimal choice in most cases.**</p>                  |
-| `current()`                                                                                          | The operation can be executed when the modality state stack doesn't grow since the operation was scheduled.                                                                                                                                                                                   |
-| `stateForComponent()`                                                                                | The operation can be executed when the topmost shown dialog is the one that contains the specified component or is one of its parent dialogs.                                                                                                                                                 |
-| <p>`nonModal()` or</p><p>`NON_MODAL`</p>                                                             | The operation will be executed after all modal dialogs are closed. If any of the open (unrelated) projects displays a per-project modal dialog, the operation will be performed after the dialog is closed.                                                                                   |
-| `any()`                                                                                              | The operation will be executed as soon as possible regardless of modal dialogs (the same as with `SwingUtilities.invokeLater()`). It can be used for scheduling only pure UI operations. Modifying PSI, VFS, or project model is prohibited.<p>**Don't use it unless absolutely needed.**</p> |
+| <p>`defaultModalityState()`</p><p>_如果未指定，则使用此状态_</p>                                       | <p>如果从 EDT 调用，则使用 `ModalityState.current()`。</p><p>如果从使用 `ProgressManager` 启动的后台进程调用，则操作可以在进程启动的同一对话框中执行。</p><p>**在大多数情况下，这是最佳选择。**</p>                  |
+| `current()`                                                                                          | 操作可以在模态状态堆栈自操作调度以来未增长时执行。                                                                                                                                                                                   |
+| `stateForComponent()`                                                                                | 操作可以在最顶层的显示对话框是包含指定组件或其父对话框之一时执行。                                                                                                                                                 |
+| <p>`nonModal()` 或</p><p>`NON_MODAL`</p>                                                             | 操作将在所有模态对话框关闭后执行。如果任何打开的（不相关的）项目显示每个项目的模态对话框，则操作将在对话框关闭后执行。                                                                                   |
+| `any()`                                                                                              | 操作将尽快执行，无论模态对话框如何（与 `SwingUtilities.invokeLater()` 相同）。它可用于调度仅纯 UI 操作。禁止修改 PSI、VFS 或项目模型。<p>**除非绝对需要，否则不要使用它。**</p> |
 
-> If EDT activity needs to access a [file-based index](indexing_and_psi_stubs.md) (for example, it is doing any project-wide PSI analysis, resolves references, or performs other tasks depending on indexes), use [`DumbService.smartInvokeLater()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/DumbService.kt).
-> This API also supports `ModalityState` and runs the operation after all possible indexing processes have been completed.
+> 如果 EDT 活动需要访问 [基于文件的索引](indexing_and_psi_stubs.md)（例如，它正在进行任何项目范围的 PSI 分析、解析引用或执行其他依赖于索引的任务），请使用 [`DumbService.smartInvokeLater()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/project/DumbService.kt)。
+> 此 API 还支持 `ModalityState`，并在所有可能的索引过程完成后运行操作。
 >
 {style="note"}
 
-## Read Action Cancellability
+## 读取操作的可取消性 {id=read-action-cancellability}
 
-BGT shouldn't hold read locks for a long time.
-The reason is that if EDT needs a write action (for example, the user types something in the editor), it must be acquired as soon as possible.
-Otherwise, the UI will freeze until all BGTs have released their read actions.
-The following diagram presents this problem:
+BGT 不应长时间持有读取锁。
+原因是如果 EDT 需要写入操作（例如，用户在编辑器中输入内容），则必须尽快获取。
+否则，UI 将冻结，直到所有 BGT 释放其读取操作。
+下图展示了这个问题：
 
 ```mermaid
 ---
@@ -455,8 +442,8 @@ gantt
         UI freeze                           : crit, 1, 5
 ```
 
-Sometimes, it is required to run a long read action, and it isn't possible to speed it up.
-In such a case, the recommended approach is to cancel the read action whenever there is a write action about to occur and restart that read action later from scratch:
+有时，需要运行一个长时间的读取操作，并且无法加快其速度。
+在这种情况下，推荐的方法是每当有写入操作即将发生时取消读取操作，并在稍后从头开始重新启动该读取操作：
 
 ```mermaid
 ---
@@ -475,103 +462,104 @@ gantt
         write action : 1, 2
 ```
 
-In this case, the EDT won't be blocked and the UI freeze is avoided.
-The total execution time of the read action will be longer due to multiple attempts, but not affecting the UI responsiveness is more important.
+在这种情况下，EDT 不会被阻塞，UI 冻结得以避免。
+由于多次尝试，读取操作的总执行时间会更长，但不影响 UI 响应性更为重要。
 
-The canceling approach is widely used in various areas of the IntelliJ Platform: editor highlighting, code completion, "go to class/file/…" actions all work like this.
-Read the [](background_processes.md) section for more details.
+这种取消方法在 IntelliJ Platform 的各个领域广泛使用：编辑器高亮、代码补全、“转到类/文件/…” 操作都以这种方式工作。
+有关更多详细信息，请阅读 [](background_processes.md) 部分。
 
-### Cancellable Read Actions API
+### 可取消的读取操作 API {id=cancellable-read-actions-api}
 
-> Plugins targeting versions 2024.1+ should use Write Allowing Read Actions available in the [Kotlin Coroutines Read Actions API](coroutine_read_actions.topic#coroutine-read-actions-api).
+> 针对 2024.1+ 版本的插件应使用 [Kotlin 协程读取操作 API](coroutine_read_actions.topic#coroutine-read-actions-api) 中提供的允许写入的读取操作。
 >
 {style="warning"}
 
-To run a cancellable read action, use one of the available APIs:
+要运行可取消的读取操作，请使用以下可用 API 之一：
 
-- [`ReadAction.nonBlocking()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/ReadAction.java) which returns [`NonBlockingReadAction`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/NonBlockingReadAction.java) (NBRA). NBRA handles restarting the action out-of-the-box.
-- [`ReadAction.computeCancellable()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/ReadAction.java) which computes the result immediately in the current thread or throws an exception if there is a running or requested write action.
+- [`ReadAction.nonBlocking()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/ReadAction.java)，它返回 [`NonBlockingReadAction`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/NonBlockingReadAction.java) (NBRA)。NBRA 开箱即用地处理操作的重新启动。
+- [`ReadAction.computeCancellable()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/ReadAction.java)，它在当前线程中立即计算结果，或者如果有正在运行或请求的写入操作，则抛出异常。
 
-In both cases, when a read action is started and a write action occurs in the meantime, the read action is marked as canceled.
-Read actions must [check for cancellation](background_processes.md#handling-cancellation) often enough to trigger actual cancellation.
-Although the cancellation mechanism may differ under the hood ([Progress API](background_processes.md#progress-api) or [Kotlin Coroutines](kotlin_coroutines.md)), the cancellation handling rules are the same in both cases.
+在这两种情况下，当读取操作启动并且同时发生写入操作时，读取操作会被标记为已取消。
+读取操作必须 [经常检查取消](background_processes.md#handling-cancellation) 以触发实际取消。
+尽管底层的取消机制可能有所不同（[Progress API](background_processes.md#progress-api) 或 [Kotlin 协程](kotlin_coroutines.md)），但取消处理规则在两种情况下是相同的。
 
-Always check at the start of each read action if the [objects are still valid](#objects-validity), and if the whole operation still makes sense.
-With `ReadAction.nonBlocking()`, use `expireWith()` or `expireWhen()` for that.
+始终在每次读取操作开始时检查 [对象是否仍然有效](#objects-validity)，以及整个操作是否仍然有意义。
+对于 `ReadAction.nonBlocking()`，请使用 `expireWith()` 或 `expireWhen()` 来实现这一点。
 
-> If NBRA needs to access a [file-based index](indexing_and_psi_stubs.md) (for example, it is doing any project-wide PSI analysis, resolves references, or performs other tasks depending on indexes), use `ReadAction.nonBlocking(…).inSmartMode()`.
+> 如果 NBRA 需要访问 [基于文件的索引](indexing_and_psi_stubs.md)（例如，它正在进行任何项目范围的 PSI 分析、解析引用或执行其他依赖于索引的任务），请使用 `ReadAction.nonBlocking(…).inSmartMode()`。
 >
 {style="note"}
 
-## Avoiding UI Freezes
+## 避免 UI 冻结 {id=avoiding-ui-freezes}
 
-### Don't Perform Long Operations on EDT
+### 不要在 EDT 上执行长时间操作 {id=dont-perform-long-operations-on-edt}
 
-In particular, don't traverse [VFS](virtual_file_system.md), parse [PSI](psi.md), resolve [references,](psi_references.md) or query [indexes](indexing_and_psi_stubs.md).
+特别是，不要遍历 [VFS](virtual_file_system.md)、解析 [PSI](psi.md)、解析 [引用](psi_references.md) 或查询 [索引](indexing_and_psi_stubs.md)。
 
-There are still some cases when the platform itself invokes such expensive code (for example, resolve in `AnAction.update()`), but these are being worked on.
-Meanwhile, try to speed up what you can in your plugin as it will be generally beneficial and will also improve background highlighting performance.
+仍然有一些情况下平台本身会调用这些昂贵的代码（例如，在 `AnAction.update()` 中解析引用），但这些情况正在改进中。
+同时，尝试在插件中尽可能加快操作速度，这通常是有益的，并且还会提高后台高亮性能。
 
-#### Action Update
+#### 操作更新 {id=action-update}
 
-For implementations of [`AnAction`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnAction.java), plugin authors should specifically
-review the documentation of `AnAction.getActionUpdateThread()` in the [](basic_action_system.md) section as it describes how threading works for actions.
+对于 [`AnAction`](%gh-ic%/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnAction.java) 的实现，插件作者应特别查看
+[](basic_action_system.md) 部分中 `AnAction.getActionUpdateThread()` 的文档，因为它描述了操作的线程工作原理。
 
-#### Minimize Write Actions Scope
+#### 最小化写入操作范围 {id=minimize-write-actions-scope}
 
-Write actions currently [have to happen on EDT](#locks-and-edt).
-To speed them up, as much as possible should be moved out of the write action into a preparation step which can be then invoked in the [background](background_processes.md) or inside an [NBRA](#cancellable-read-actions-api).
+写入操作目前 [必须在 EDT 上进行](#locks-and-edt)。
+为了加快速度，应尽可能将操作从写入操作中移出，放入可以在 [后台](background_processes.md) 或 [NBRA](#cancellable-read-actions-api) 中调用的准备步骤中。
 
-#### Slow Operations on EDT Assertion
+#### EDT 上的慢操作断言 {id=slow-operations-on-edt-assertion}
 
-Some of the long operations are reported by [`SlowOperations.assertSlowOperationsAreAllowed()`](%gh-ic%/platform/core-api/src/com/intellij/util/SlowOperations.java).
-According to its Javadoc, they must be moved to BGT.
-This can be achieved with the techniques mentioned in the Javadoc, [background processes](background_processes.md), [`Application.executeOnPooledThread()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/Application.java), or [coroutines](kotlin_coroutines.md) (recommended for plugins targeting 2024.1+).
-Note that the assertion is enabled in IDE EAP versions, [internal mode](enabling_internal.md), or [development instance](ide_development_instance.md), and regular users don't see them in the IDE.
-This will change in the future, so fixing these exceptions is required.
+一些长时间操作会被 [`SlowOperations.assertSlowOperationsAreAllowed()`](%gh-ic%/platform/core-api/src/com/intellij/util/SlowOperations.java) 报告。
+根据其 Javadoc，这些操作必须移到 BGT 中。
+可以通过 Javadoc 中提到的技术、[后台进程](background_processes.md)、[`Application.executeOnPooledThread()`](%gh-ic%/platform/core-api/src/com/intellij/openapi/application/Application.java) 或 [协程](kotlin_coroutines.md)（推荐用于针对 2024.1+ 版本的插件）来实现这一点。
+请注意，断言在 IDE EAP 版本、[内部模式](enabling_internal.md) 或 [开发实例](ide_development_instance.md) 中启用，普通用户在 IDE 中看不到它们。
+这将在未来发生变化，因此需要修复这些异常。
 
-### Event Listeners
+### 事件监听器 {id=event-listeners}
 
-Listeners mustn't perform any heavy operations.
-Ideally, they should only clear some caches.
+监听器不得执行任何繁重的操作。
+理想情况下，它们应该只清除一些缓存。
 
-It is also possible to schedule background processing of events.
-In such cases, be prepared that some new events might be delivered before the background processing starts – and thus the world might have changed by that moment or even in the middle of background processing.
-Consider using [`MergingUpdateQueue`](%gh-ic%/platform/ide-core/src/com/intellij/util/ui/update/MergingUpdateQueue.kt) and [NBRA](#cancellable-read-actions-api) to mitigate these issues.
+也可以调度事件的背景处理。
+在这种情况下，请准备好在新事件交付之前可能已经发生了一些变化——因此世界可能在那时甚至在背景处理过程中已经发生了变化。
+考虑使用 [`MergingUpdateQueue`](%gh-ic%/platform/ide-core/src/com/intellij/util/ui/update/MergingUpdateQueue.kt) 和 [NBRA](#cancellable-read-actions-api) 来缓解这些问题。
 
-### VFS Events
+### VFS 事件 {id=vfs-events}
 
-Massive batches of VFS events can be pre-processed in the background with [`AsyncFileListener`](%gh-ic%/platform/core-api/src/com/intellij/openapi/vfs/AsyncFileListener.java).
+大量的 VFS 事件可以使用 [`AsyncFileListener`](%gh-ic%/platform/core-api/src/com/intellij/openapi/vfs/AsyncFileListener.java) 在后台进行预处理。
 
-## FAQ
+## 常见问题 {id=faq}
 
-### How to check whether the current thread is the EDT/UI thread?
+### 如何检查当前线程是否是 EDT/UI 线程？ {id=how-to-check-whether-the-current-thread-is-the-edtui-thread}
 
-Use `Application.isDispatchThread()`.
+使用 `Application.isDispatchThread()`。
 
-If code must be invoked on EDT and the current thread can be EDT or BGT, use [`UIUtil.invokeLaterIfNeeded()`](%gh-ic%/platform/util/ui/src/com/intellij/util/ui/UIUtil.java).
-If the current thread is EDT, this method will run code immediately, or will schedule a later invocation if the current thread is BGT.
+如果代码必须在 EDT 上调用，而当前线程可能是 EDT 或 BGT，请使用 [`UIUtil.invokeLaterIfNeeded()`](%gh-ic%/platform/util/ui/src/com/intellij/util/ui/UIUtil.java)。
+如果当前线程是 EDT，此方法将立即运行代码；如果当前线程是 BGT，则会调度稍后的调用。
 
-### Why write actions are currently allowed only on EDT?
+### 为什么目前只允许在 EDT 上进行写入操作？ {id=why-write-actions-are-currently-allowed-only-on-edt}
 
-Reading data model was often performed on EDT to display results in the UI.
-The IntelliJ Platform is more than 20 years old, and in its beginnings Java didn't offer features like generics and lambdas.
-Code that acquired read locks was very verbose.
-For convenience, it was decided that reading data can be done on EDT without read locks (even implicitly acquired).
+读取数据模型通常是在 EDT 上执行的，以便在 UI 中显示结果。
+IntelliJ Platform 已有超过 20 年的历史，在其初期，Java 并未提供泛型和 lambda 等特性。
+获取读取锁的代码非常冗长。
+为了方便起见，决定在 EDT 上无需读取锁（即使是隐式获取的）即可读取数据。
 
-The consequence of this was that writing had to be allowed only on EDT to avoid read/write conflicts.
-The nature of EDT provided this possibility out-of-the-box due to being a single thread.
-Event queue guaranteed that reads and writes were ordered and executed one by one and couldn't interweave.
+这样做的后果是，写入操作只能在 EDT 上进行，以避免读写冲突。
+由于 EDT 是单线程的，其性质本身就提供了这种可能性。
+事件队列保证了读取和写入操作是有序的，并且逐一执行，不会相互交织。
 
-### Why can write intent lock be acquired from any thread but write lock only from EDT?
+### 为什么写意图锁可以从任何线程获取，但写锁只能从 EDT 获取？
+{id=why-can-write-intent-lock-be-acquired-from-any-thread-but-write-lock-only-from-edt}
 
-In the current platform state, technically, write intent lock can be acquired on any thread (it is done only on EDT in practice), but write lock can be acquired only on EDT.
+在当前平台状态下，从技术上讲，写意图锁可以在任何线程上获取（实际上只在 EDT 上执行），但写锁只能在 EDT 上获取。
 
-Write intent lock was introduced as a "replacement" for EDT in the context of acquiring write lock.
-Instead of allowing to acquire write lock on EDT only, it was planned to make it possible to acquire it from under write intent lock on any thread.
-Write intent lock provides read access that was also available on EDT.
-This behavior wasn't enabled in production, and the planned locking mechanism has changed.
-It is planned to allow for acquiring write lock from any thread, even without a write intent lock.
-Write intent lock will be still available and will allow performing read sessions finished with data writing.
+写意图锁是在获取写锁的上下文中作为 EDT 的“替代品”引入的。  
+原本计划不是只允许在 EDT 上获取写锁，而是允许在任何线程上通过写意图锁获取写锁。  
+写意图锁提供了在 EDT 上也可用的读访问权限。  
+此行为未在生产环境中启用，并且计划的锁定机制已更改。  
+现在计划允许从任何线程获取写锁，甚至不需要写意图锁。  
+写意图锁仍然可用，并允许执行以数据写入结束的读会话。
 
 <include from="snippets.md" element-id="missingContent"/>

@@ -168,7 +168,7 @@ kotlin.stdlib.default.dependency = false
 
 通常建议始终使用捆绑的库版本。
 
-See [Third-Party Software and Licenses](https://www.jetbrains.com/legal/third-party-software/) for an overview of all bundled libraries.
+有关所有捆绑库的概述，请参阅 [第三方软件和许可证](https://www.jetbrains.com/legal/third-party-software/)。
 
 ### 增量编译 {id=incremental-compilation}
 

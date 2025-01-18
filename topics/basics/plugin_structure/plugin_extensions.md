@@ -6,7 +6,7 @@
 
 _扩展_ 是插件以不像将操作添加到菜单或工具栏那样直接的方式，来扩展 IntelliJ 平台功能的最常见方式。
 
-The following are some of the most common tasks achieved using extensions:
+以下是一些使用扩展实现的最常见任务：
 
 * `com.intellij.toolWindow` 扩展点允许插件添加 [工具窗口](tool_windows.md)（显示在IDE用户界面两侧的面板）；
 * `com.intellij.applicationConfigurable` 和 `com.intellij.projectConfigurable` 扩展点允许插件向 [设置对话框](settings.md) 添加页面；
@@ -76,10 +76,10 @@ The following are some of the most common tasks achieved using extensions:
 
 请注意以下重要点：
 
-- Extension implementation must be stateless. Use explicit [services](plugin_services.md) for managing (runtime) data.
-- Avoid any initialization in the constructor, see also notes for [services](plugin_services.md#ctor).
-- Do not perform any static initialization. Use inspection <control>Plugin DevKit | Code | Static initialization in extension point implementations</control> (2023.3).
-- An extension implementation must not be registered as a [service](plugin_services.md) additionally. Use inspection <control>Plugin DevKit | Code | Extension registered as service/component</control> (2023.3).
+- 扩展实现必须是无状态的。使用显式的[服务](plugin_services.md)来管理（运行时）数据。
+- 避免在构造函数中进行任何初始化，另请参阅[服务](plugin_services.md#ctor)的说明。
+- 不要执行任何静态初始化。使用检查 <control>Plugin DevKit | Code | Static initialization in extension point implementations(扩展点实现中的静态初始化)</control>（2023.3）。
+- 扩展实现不得额外注册为[服务](plugin_services.md)。使用检查 <control>Plugin DevKit | Code | Extension registered as service/component(扩展注册为服务/组件)</control>（2023.3）。
 
 在使用 [Kotlin](using_kotlin.md) 时：
 

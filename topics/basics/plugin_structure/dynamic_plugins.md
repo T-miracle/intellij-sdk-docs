@@ -3,121 +3,120 @@
 # 动态插件
 <primary-label ref="2020.1"/>
 
-<link-summary>Making a plugin dynamic allows installing, updating, and uninstalling it without an IDE restart, as well as hot reloading plugin changes during the development.</link-summary>
+<link-summary>使插件动态化允许在不重启 IDE 的情况下安装、更新和卸载插件，以及在开发期间热重载插件更改。</link-summary>
 
-Installing, updating, and uninstalling plugins without restarting the IDE is available for all plugins following the restrictions listed below.
+对于所有遵循以下限制的插件，可以在不重启 IDE 的情况下安装、更新和卸载插件。
 
-During plugin development, [Auto-Reload](ide_development_instance.md#enabling-auto-reload) also allows code changes to take effect immediately in the sandbox IDE instance.
-To test whether dynamic installation works correctly, verify installing [local build distribution](publishing_plugin.md#building-distribution) succeeds (see [Troubleshooting](#troubleshooting)).
+在插件开发期间，[自动重载](ide_development_instance.md#enabling-auto-reload) 还允许代码更改在沙盒 IDE 实例中立即生效。
+要测试动态安装是否正常工作，请验证安装 [本地构建分发](publishing_plugin.md#building-distribution) 是否成功（请参阅 [故障排除](#troubleshooting)）。
 
-Note that any unloading problems in a production environment will ask the user to restart the IDE.
+请注意，生产环境中的任何卸载问题都会要求用户重启 IDE。
 
-> If a plugin _requires_ restart (for example, due to using native libraries) specify `require-restart="true"` for [`<idea-plugin>`](plugin_configuration_file.md#idea-plugin) root tag in <path>[plugin.xml](plugin_configuration_file.md)</path>.
+> 如果插件 _需要_ 重启（例如，由于使用原生库），请在 <path>[plugin.xml](plugin_configuration_file.md)</path> 中的 [`<idea-plugin>`](plugin_configuration_file.md#idea-plugin) 根标签中指定 `require-restart="true"`。
 >
 {style="note"}
 
-> Third-party **paid** plugins can't be installed, updated, or uninstalled without restarting the IDE.
+> 第三方 **付费** 插件无法在不重启 IDE 的情况下安装、更新或卸载。
 >
 {style="warning"}
 
-## Restrictions
+## 限制 {id=restrictions}
 
-For a plugin to support this, all restrictions listed below must be met.
-To verify a plugin locally, invoke <ui-path>Code | Analyze Code | Run Inspection by Name…</ui-path> and run <control>Plugin DevKit | Plugin descriptor | Plugin.xml dynamic plugin verification</control> inspection on all plugin descriptor files.
+为了使插件支持此功能，必须满足以下列出的所有限制条件。
+要在本地验证插件，请调用 `<ui-path>代码 | 分析代码 | 按名称运行检查…</ui-path>` 并在所有插件描述文件上运行 `<control>插件开发工具包 | 插件描述符 | Plugin.xml 动态插件验证</control>` 检查。
 
-For plugins hosted on the [JetBrains Marketplace](https://plugins.jetbrains.com), the built-in [Plugin Verifier](https://blog.jetbrains.com/platform/2018/07/plugins-repository-now-integrates-with-the-plugin-verification-tool/) will run these checks automatically.
-See [](verifying_plugin_compatibility.md#plugin-verifier) for more information on how to run it locally or on CI.
+对于托管在 [JetBrains Marketplace](https://plugins.jetbrains.com) 上的插件，内置的 [插件验证器](https://blog.jetbrains.com/platform/2018/07/plugins-repository-now-integrates-with-the-plugin-verification-tool/) 将自动运行这些检查。
+有关如何在本地或 CI 上运行它的更多信息，请参阅 [](verifying_plugin_compatibility.md#plugin-verifier)。
 
-### No Use of Components
+### 不使用组件 {id=no-use-of-components}
 
-No Components must be used; existing ones [must be migrated](plugin_components.md) to services, extensions, or listeners.
+不得使用任何组件；现有的组件 [必须迁移](plugin_components.md) 到服务、扩展或监听器中。
 
-### Action Group Requires ID
+### 操作组需要 ID {id=action-group-requires-id}
 
-All [`<group>`](plugin_configuration_file.md#idea-plugin__actions__group) elements must declare a unique `id`.
+所有 [`<group>`](plugin_configuration_file.md#idea-plugin__actions__group) 元素必须声明一个唯一的 `id`。
 
-### Use Only Dynamic Extensions
+### 仅使用动态扩展 {id=use-only-dynamic-extensions}
 
-Whether defined in the platform itself ([](intellij_platform_extension_point_list.md)) or coming from other plugins, all used extension points must be marked explicitly as dynamic (see next paragraph).
+无论是在平台本身中定义的（[](intellij_platform_extension_point_list.md)）还是来自其他插件的，所有使用的扩展点都必须明确标记为动态（参见下一段）。
 
-Some deprecated extension points (for example, `com.intellij.configurationProducer`) are intentionally non-dynamic, and their usage should be migrated to the corresponding replacement.
+一些已弃用的扩展点（例如 `com.intellij.configurationProducer`）故意不是动态的，应将其用法迁移到相应的替代方案。
 
-### Mark Extension Points as Dynamic
+### 将扩展点标记为动态 {id=mark-extension-points-as-dynamic}
 
-If a plugin defines its own custom extension points, they must adhere to specific usage rules and then [be declared](plugin_extension_points.md#dynamic-extension-points) ready for dynamic use explicitly.
+如果插件定义了其自定义扩展点，则它们必须遵守特定的使用规则，然后 [明确声明](plugin_extension_points.md#dynamic-extension-points) 为动态使用。
 
-### Configurables Depending on Extension Points
+### 依赖于扩展点的可配置项 {id=configurables-depending-on-extension-points}
 
-Any [`Configurable`](%gh-ic%/platform/ide-core/src/com/intellij/openapi/options/Configurable.java) which depends on dynamic extension points must implement `Configurable.WithEpDependencies`.
+任何依赖于动态扩展点的 [`Configurable`](%gh-ic%/platform/ide-core/src/com/intellij/openapi/options/Configurable.java) 都必须实现 `Configurable.WithEpDependencies`。
 
-### No Use of Service Overrides
+### 不使用服务覆盖 {id=no-use-of-service-overrides}
 
-Application, project, and module [services](plugin_services.md) declared with `overrides="true"` aren't allowed.
+不允许使用 `overrides="true"` 声明的应用、项目和模块 [服务](plugin_services.md)。
 
-## Code
+## 代码 {id=code}
 
-> Loading and unloading plugins happens in [EDT](threading_model.md) and under write action.
+> 插件的加载和卸载发生在 [EDT](threading_model.md) 中，并且在写操作下进行。
 >
 {style="note"}
 
-### `CachedValue`
+### `CachedValue` {id=cachedvalue}
 
-Loading/Unloading a plugin clears all cached values created using [`CachedValuesManager`](%gh-ic%/platform/core-api/src/com/intellij/psi/util/CachedValuesManager.java).
+加载/卸载插件会清除所有使用 [`CachedValuesManager`](%gh-ic%/platform/core-api/src/com/intellij/psi/util/CachedValuesManager.java) 创建的缓存值。
 
-### Do Not Store PSI
+### 不要存储 PSI {id=do-not-store-psi}
 
-Do not store references to PSI elements in objects which can survive plugin loading or unloading; use [`SmartPsiElementPointer`](%gh-ic%/platform/core-api/src/com/intellij/psi/SmartPsiElementPointer.java) instead.
+不要在可能存活于插件加载或卸载的对象中存储对 PSI 元素的引用；请改用 [`SmartPsiElementPointer`](%gh-ic%/platform/core-api/src/com/intellij/psi/SmartPsiElementPointer.java)。
 
-### Do not Use `FileType`/`Language` as Map Key
+### 不要使用 `FileType`/`Language` 作为 Map 键 {id=do-not-use-filetypelanguage-as-map-key}
 
-Replace with `String` from `Language.getID()`/`FileType.getName()` (use inspection <control>Plugin DevKit | Code | Map key may leak</control>).
+替换为 `Language.getID()`/`FileType.getName()` 返回的 `String`（使用检查 <control>插件开发工具包 | 代码 | Map 键可能泄漏</control>）。
 
-### Plugin Load/Unload Events
-{id="pluginLoadUnloadEvents"}
+### 插件加载/卸载事件 {id=pluginloadunloadevents}
 
-Register [`DynamicPluginListener`](%gh-ic%/platform/core-api/src/com/intellij/ide/plugins/DynamicPluginListener.kt) [application listener](plugin_listeners.md) to receive updates on plugin load/unload events.
+注册 [`DynamicPluginListener`](%gh-ic%/platform/core-api/src/com/intellij/ide/plugins/DynamicPluginListener.kt) [应用监听器](plugin_listeners.md) 以接收插件加载/卸载事件的更新。
 
-This can be used to, for example:
-- cancel long-running activities or disallow unloading due to ongoing processes
-- clearing data from `UserDataHolder` objects (see `clearInjectorCache()` and `dropFileCaches()` in [`InjectedLanguageManagerImpl`](%gh-ic%/platform/analysis-impl/src/com/intellij/psi/impl/source/tree/injected/InjectedLanguageManagerImpl.java))
-- and similar cases
+这可以用于以下场景：
+- 取消长时间运行的活动或由于正在进行的进程而禁止卸载
+- 清除 `UserDataHolder` 对象中的数据（参见 [`InjectedLanguageManagerImpl`](%gh-ic%/platform/analysis-impl/src/com/intellij/psi/impl/source/tree/injected/InjectedLanguageManagerImpl.java) 中的 `clearInjectorCache()` 和 `dropFileCaches()`）
+- 以及其他类似情况
 
-### Resource Cleanup
+### 资源清理 {id=resource-cleanup}
 
-Use [](plugin_services.md) implementing [`Disposable`](%gh-ic%/platform/util/src/com/intellij/openapi/Disposable.java) and perform cleanup in `Disposable.dispose()`.
+使用实现 [`Disposable`](%gh-ic%/platform/util/src/com/intellij/openapi/Disposable.java) 的 [](plugin_services.md)，并在 `Disposable.dispose()` 中执行清理操作。
 
-## Troubleshooting
+## 故障排除 {id=troubleshooting}
 
-When a plugin is being uninstalled or updated, the IDE waits synchronously for the plugin unload and asks for restart if the unloading failed.
+当插件被卸载或更新时，IDE 会同步等待插件卸载，如果卸载失败则会要求重启。
 
-If it fails:
+如果卸载失败：
 
-1. Try a newer version of the IDE (eventually latest available from [Early Access Program](https://eap.jetbrains.com)), in some cases platform bugs might be an issue.
-   See this [list of known platform issues](https://youtrack.jetbrains.com/issues/IDEA?q=%23dynamic-plugins%20) related to handling dynamic plugins.
+1. 尝试使用更新版本的 IDE（最终可以从 [早期访问计划](https://eap.jetbrains.com) 获取最新版本），在某些情况下，平台错误可能是问题的原因。
+   请参阅此 [已知平台问题列表](https://youtrack.jetbrains.com/issues/IDEA?q=%23dynamic-plugins%20)，了解与处理动态插件相关的问题。
 
-2. Try in a fresh and new configuration (for example, clean the [sandbox](ide_development_instance.md#the-development-instance-sandbox-directory) or use a different configuration directory).
+2. 尝试在全新配置中运行（例如，清理 [沙盒](ide_development_instance.md#the-development-instance-sandbox-directory) 或使用不同的配置目录）。
 
-### Logging
+### 日志记录 {id=logging}
 
-All events are tracked under the ` com.intellij.ide.plugins.DynamicPlugins` category in the IDE log file.
-If a plugin fails to reload, the log will contain a cause as to why.
+所有事件都在 IDE 日志文件的 `com.intellij.ide.plugins.DynamicPlugins` 类别下跟踪。
+如果插件无法重新加载，日志中将包含失败的原因。
 
-### Diagnosing Leaks
+### 诊断内存泄漏 {id=diagnosing-leaks}
 
-<procedure title="Finding leaks preventing unload">
+<procedure title="查找阻止卸载的内存泄漏">
 
-1. Verify that the IDE is running with the VM parameter `-XX:+UnlockDiagnosticVMOptions`. When using [Gradle](creating_plugin_project.md), specify `runIde.jvmArgs += "-XX:+UnlockDiagnosticVMOptions"` otherwise [Configure JVM Options](https://www.jetbrains.com/help/idea/tuning-the-ide.html#procedure-jvm-options).
-2. Set Registry key `ide.plugins.snapshot.on.unload.fail` to `true` (Go to <ui-path>Navigate | Search Everywhere</ui-path> and type `Registry`).
-3. Trigger the plugin reload.
-4. Open the <path>.hprof</path> memory snapshot generated in the user home directory on plugin unloading, look for the plugin ID string. [IntelliJ Ultimate](https://www.jetbrains.com/help/idea/analyze-hprof-memory-snapshots.html) can open memory snapshots directly.
-5. Find the `PluginClassLoader` referencing the plugin ID string
-6. Look at references to the `PluginClassLoader` instance.
-7. Every one of them is a memory leak (or part of a memory leak) that needs to be resolved.
+1. 确保 IDE 运行时启用了 VM 参数 `-XX:+UnlockDiagnosticVMOptions`。使用 [Gradle](creating_plugin_project.md) 时，指定 `runIde.jvmArgs += "-XX:+UnlockDiagnosticVMOptions"`，否则请 [配置 JVM 选项](https://www.jetbrains.com/help/idea/tuning-the-ide.html#procedure-jvm-options)。
+2. 将注册表键 `ide.plugins.snapshot.on.unload.fail` 设置为 `true`（转到 <ui-path>导航 | 搜索所有内容</ui-path> 并输入 `Registry`）。
+3. 触发插件重新加载。
+4. 打开插件卸载时在用户主目录中生成的 <path>.hprof</path> 内存快照，查找插件 ID 字符串。[IntelliJ Ultimate](https://www.jetbrains.com/help/idea/analyze-hprof-memory-snapshots.html) 可以直接打开内存快照。
+5. 找到引用插件 ID 字符串的 `PluginClassLoader`。
+6. 查看对 `PluginClassLoader` 实例的引用。
+7. 每一个引用都是需要解决的内存泄漏（或内存泄漏的一部分）。
 
 </procedure>
 
-When steps 1 and 2 are completed, the log will contain more information about the memory leak.
-For example, the following shows a chain of field references that is keeping the class loader in memory:
+完成步骤 1 和 2 后，日志中将包含有关内存泄漏的更多信息。
+例如，以下内容显示了将类加载器保留在内存中的字段引用链：
 
 ```
 2020-12-26 14:43:24,563 [ 251086]   INFO - lij.ide.plugins.DynamicPlugins - Snapshot analysis result: Root 1:

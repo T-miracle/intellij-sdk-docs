@@ -1,12 +1,12 @@
 <!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Fundamentals
+# 基础
 
-<link-summary>Fundamental low-level building blocks of the IntelliJ Platform.</link-summary>
+<link-summary>IntelliJ 平台的基础底层构建模块。</link-summary>
 
-This section describes the low-level fundamental building blocks of the IntelliJ Platform:
+本节描述了 IntelliJ 平台的底层基础构建模块：
 
-* The component model - how the application is hosted and composed. Lifetime and dependency management.
-* [Disposers](disposers.md) - managing object lifetimes and resource cleanup
-* [Threading models](threading_model.md)
-* [Messaging](messaging_infrastructure.md)
+* 组件模型 - 应用程序如何托管和组成。生命周期和依赖管理。
+* [Disposers](disposers.md) - 管理对象生命周期和资源清理
+* [线程模型](threading_model.md)
+* [消息机制](messaging_infrastructure.md)

@@ -66,9 +66,9 @@ IntelliJ 平台提供三种类型的服务：_应用级_ 服务（全局单例�
 
 使用以下检查来验证上述限制，并突出显示可以转换为轻量级服务的非轻量级服务（2023.3）：
 
-- <control>Plugin DevKit | Code | Light service must be final</control>
-- <control>Plugin DevKit | Code | Mismatch between light service level and its constructor</control>
-- <control>Plugin DevKit | Code | A service can be converted to a light one</control> 和相应的 <control>Plugin DevKit | Plugin descriptor | A service can be converted to a light one</control> 用于 <path>plugin.xml</path>
+- <control>Plugin DevKit | Code | 轻量服务必须是 final 的</control>
+- <control>Plugin DevKit | Code | 轻量服务级别与其构造函数不匹配</control>
+- <control>Plugin DevKit | Code | 服务可以转换为轻量服务</control> 和相应的 <control>Plugin DevKit | Plugin descriptor | 服务可以转换为轻量服务</control> 用于 <path>plugin.xml</path>
 
 ### Examples {id=examples}
 

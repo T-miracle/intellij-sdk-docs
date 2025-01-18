@@ -1,9 +1,9 @@
 name: Generate Libraries releases variable file
 
-on:
-  schedule:
-    - cron: "1 1 * * *"
-  workflow_dispatch:
+#on:
+#  schedule:
+#    - cron: "1 1 * * *"
+#  workflow_dispatch:
 
 jobs:
   generate:

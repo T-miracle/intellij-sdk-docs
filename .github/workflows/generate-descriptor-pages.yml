@@ -1,9 +1,9 @@
 name: Generate Descriptor Pages Content
 
-on:
-  schedule:
-    - cron: '1 1 * * *'
-  workflow_dispatch:  # Allow manual triggering
+#on:
+#  schedule:
+#    - cron: '1 1 * * *'
+#  workflow_dispatch:  # Allow manual triggering
 
 jobs:
   generate-pages:

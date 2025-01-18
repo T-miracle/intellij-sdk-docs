@@ -1,39 +1,39 @@
 <!-- Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
 
-# Disposer and Disposable
+# Disposer 和 Disposable
 
-<link-summary>Cleaning up resources on plugin components' lifetime expiration.</link-summary>
+<link-summary>在插件组件生命周期结束时清理资源。</link-summary>
 
-The IntelliJ Platform's [`Disposer`](%gh-ic%/platform/util/src/com/intellij/openapi/util/Disposer.java) facilitates resource cleanup.
-If a subsystem keeps a set of resources alive coincident with a parent object's lifetime, the subsystem's resources should be registered with the `Disposer` to be released before or at the same time as the parent object.
+IntelliJ 平台的 [`Disposer`](%gh-ic%/platform/util/src/com/intellij/openapi/util/Disposer.java) 有助于资源清理。
+如果一个子系统保持一组资源与父对象的生命周期一致，则该子系统的资源应注册到 `Disposer`，以便在父对象释放之前或同时释放。
 
-The most common resource type managed by `Disposer` is listeners, but there are other possible types:
-* File handles, and database connections,
-* Caches and other significant data structures.
+`Disposer` 管理的最常见资源类型是监听器，但也可能有其他类型：
+* 文件句柄和数据库连接，
+* 缓存和其他重要的数据结构。
 
-The `Disposer` is a singleton that manages a tree of [`Disposable`](%gh-ic%/platform/util/src/com/intellij/openapi/Disposable.java) instances.
-A `Disposable` is an interface for any object providing a `Disposable.dispose()` method to release heavyweight resources after a specific lifetime.
+`Disposer` 是一个单例，管理 [`Disposable`](%gh-ic%/platform/util/src/com/intellij/openapi/Disposable.java) 实例的树。
+`Disposable` 是一个接口，任何对象都可以实现它，提供一个 `Disposable.dispose()` 方法，在特定生命周期结束后释放重量级资源。
 
-The `Disposer` supports chaining `Disposable` objects in parent-child relationships.
+`Disposer` 支持将 `Disposable` 对象以父子关系链接起来。
 
-## Automatically Disposed Objects
+## 自动释放的对象 {id=automatically-disposed-objects}
 
-Many objects are disposed automatically by the platform if they implement the `Disposable` interface.
-The most important type of such objects is [services](plugin_services.md).
-Application-level services are automatically disposed by the platform when the IDE is closed or the plugin providing the service is unloaded.
-Project-level services are disposed on project close or plugin unload events.
+许多对象如果实现了 `Disposable` 接口，平台会自动释放它们。
+其中最重要的类型是 [服务](plugin_services.md)。
+应用程序级服务在 IDE 关闭或提供服务的插件卸载时由平台自动释放。
+项目级服务在项目关闭或插件卸载事件时释放。
 
-Note that extensions registered in <path>[plugin.xml](plugin_configuration_file.md)</path> are *not* automatically disposed.
-If an extension requires executing some code to dispose it, you need to define a service and to put the code in its `dispose()` method or use it as a parent disposable.
+请注意，在 <path>[plugin.xml](plugin_configuration_file.md)</path> 中注册的扩展*不会*自动释放。
+如果扩展需要执行一些代码来释放它，你需要定义一个服务，并将代码放在其 `dispose()` 方法中，或将其用作父级 disposable。
 
-## The `Disposer` Singleton
-The primary purpose of the [`Disposer`](%gh-ic%/platform/util/src/com/intellij/openapi/util/Disposer.java) singleton is to enforce the rule that _a child `Disposable` never outlives its parent_.
+## `Disposer` 单例 {id=the-disposer-singleton}
+[`Disposer`](%gh-ic%/platform/util/src/com/intellij/openapi/util/Disposer.java) 单例的主要目的是强制执行 _子 `Disposable` 永远不会比其父级存活更久_ 的规则。
 
-The `Disposer` organizes `Disposable` objects in a tree of parent-child relationships.
-The tree of `Disposable` objects ensures the `Disposer` releases children of a parent first.
-Parent objects always live longer than their children.
+`Disposer` 将 `Disposable` 对象组织成父子关系的树。
+`Disposable` 对象的树确保 `Disposer` 先释放父级的子级。
+父对象总是比它们的子对象存活更久。
 
-The following diagram shows a simplified example of `Disposer`'s tree:
+下图展示了 `Disposer` 树的简化示例：
 
 ```plantuml
 @startuml
@@ -84,34 +84,34 @@ projectServices -- projectService2
 @enduml
 ```
 
-When _My Project_ is closed and its disposal is triggered by the platform, the Disposer API will dispose _My Listener_ and _My Alarm_ before _My Project_, and _Project Service A_ and _Project Service B_ before _Services of My Project_.
+当 _My Project_ 关闭并由平台触发其释放时，Disposer API 将在释放 _My Project_ 之前释放 _My Listener_ 和 _My Alarm_，并在释放 _Services of My Project_ 之前释放 _Project Service A_ 和 _Project Service B_。
 
-See [The Disposable Interface](#implementing-the-disposable-interface) for more information about creating `Disposable` classes.
+有关创建 `Disposable` 类的更多信息，请参阅 [The Disposable Interface](#implementing-the-disposable-interface)。
 
-Registering a disposable is performed by calling `Disposer.register()`:
+注册 disposable 是通过调用 `Disposer.register()` 来完成的：
 
 ```java
 Disposer.register(parentDisposable, childDisposable);
 ```
 
-### Choosing a Disposable Parent
+### 选择 Disposable 父级 {id=choosing-a-disposable-parent}
 
-To register a child `Disposable`, a parent `Disposable` of a suitable lifetime is used to establish the parent-child relationship.
-One of the parent `Disposables` provided by the IntelliJ Platform can be chosen, or it can be another `Disposable`.
+为了注册一个子 `Disposable`，需要使用一个具有合适生命周期的父 `Disposable` 来建立父子关系。
+可以选择 IntelliJ 平台提供的父 `Disposable` 之一，也可以是另一个 `Disposable`。
 
-Use the following guidelines to choose the correct parent:
+使用以下指南选择正确的父级：
 
-* For resources required for a plugin's entire lifetime, use an application or project level [service](plugin_services.md). Example: [`PythonPluginDisposable`](%gh-ic%/python/openapi/src/com/jetbrains/python/PythonPluginDisposable.java).
-* For resources required while a [dialog](dialog_wrapper.md) is displayed, use `DialogWrapper.getDisposable()`.
-* For resources required while a [tool window](tool_windows.md) tab is displayed, pass your instance implementing `Disposable` to `Content.setDisposer()`.
-* For resources with a shorter lifetime, create a disposable using `Disposer.newDisposable()` and dispose it manually using `Disposable.dispose()`.
-  Note that it's always best to specify a parent for such a disposable (e.g., a project-level service), so that there is no memory leak if the `Disposable.dispose()` call is not reached because of an exception or a programming error.
+* 对于插件整个生命周期所需的资源，使用应用程序或项目级别的 [服务](plugin_services.md)。例如：[`PythonPluginDisposable`](%gh-ic%/python/openapi/src/com/jetbrains/python/PythonPluginDisposable.java)。
+* 对于 [对话框](dialog_wrapper.md) 显示期间所需的资源，使用 `DialogWrapper.getDisposable()`。
+* 对于 [工具窗口](tool_windows.md) 选项卡显示期间所需的资源，将实现 `Disposable` 的实例传递给 `Content.setDisposer()`。
+* 对于生命周期较短的资源，使用 `Disposer.newDisposable()` 创建一个 disposable，并使用 `Disposable.dispose()` 手动释放它。
+  请注意，最好始终为此类 disposable 指定一个父级（例如项目级别的服务），以便在由于异常或编程错误未调用 `Disposable.dispose()` 时不会发生内存泄漏。
 
-> Even though `Application` and `Project` implement `Disposable`, they must **never** be used as parent disposables in plugin code.
-> Disposables registered using those objects as parents will not be disposed when the plugin is unloaded, leading to memory leaks.
+> 尽管 `Application` 和 `Project` 实现了 `Disposable`，但它们**绝不能**在插件代码中用作父级 disposable。
+> 使用这些对象作为父级注册的 disposable 在插件卸载时不会被释放，从而导致内存泄漏。
 >
-> Consider a case of a disposable resource created by a plugin and registered with a project as its parent.
-> The following lifetime diagram shows that the resource will outlive the plugin and live as long as the project.
+> 考虑一个由插件创建并使用项目作为其父级注册的 disposable 资源的情况。
+> 以下生命周期图显示该资源将比插件存活更久，并与项目共存。
 > ```mermaid
 > %%{init: {'theme': 'base', 'themeVariables': { 'primaryBorderColor': 'green', 'background': 'yellow'}}}%%
 > gantt
@@ -124,7 +124,7 @@ Use the following guidelines to choose the correct parent:
 >         Plugin Resource : crit, 3, 10
 > ```
 >
-> If the resource used, e.g., a plugin's project-level service (if shorter living parents are possible, prefer them), the resource would be disposed together with the plugin:
+> 如果资源使用了例如插件的项目级服务（如果可以使用生命周期更短的父级，则优先使用它们），资源将与插件一起被释放：
 > ```mermaid
 > gantt
 >     dateFormat X
@@ -136,22 +136,22 @@ Use the following guidelines to choose the correct parent:
 >         Plugin Resource : 3, 5
 > ```
 >
-> Inspection <control>Plugin DevKit | Code | Incorrect parentDisposable parameter</control> will highlight such problems.
+> 检查 <control>插件开发工具包 | 代码 | 不正确的 parentDisposable 参数</control> 将突出显示此类问题。
 >
-{style="warning" title="Plugin disposable leaks"}
+{style="warning" title="插件 disposable 泄漏"}
 
-The `Disposer` API flexibility means that if the parent instance is chosen unwisely, the child may consume resources for longer than required.
-Continuing to use resources when they are no longer needed can be a severe source of contention due to leaving some zombie objects behind due to each invocation.
-An additional challenge is that these kinds of issues won't be reported by the regular leak checker utilities, because technically, it's not a memory leak from the test suite perspective.
+`Disposer` API 的灵活性意味着，如果父级实例选择不当，子级可能会消耗比所需时间更长的资源。
+当不再需要资源时继续使用它们可能会成为一个严重的资源竞争问题，因为每次调用都会留下一些僵尸对象。
+另一个挑战是，这些问题不会被常规的泄漏检查工具报告，因为从测试套件的角度来看，技术上这不是内存泄漏。
 
-For example, suppose a UI component created for a specific operation uses a project-level service as a parent disposable.
-In that case, the entire component will remain in memory after the operation is complete.
-This creates memory pressure and can waste CPU cycles on processing events that are no longer relevant.
+例如，假设为特定操作创建的 UI 组件使用项目级服务作为父级 disposable。
+在这种情况下，操作完成后整个组件将保留在内存中。
+这会增加内存压力，并可能浪费 CPU 周期来处理不再相关的事件。
 
-### Registering Listeners with Parent Disposable
+### 使用父级 Disposable 注册监听器 {id=registering-listeners-with-parent-disposable}
 
-Many IntelliJ Platform APIs for registering listeners either require passing a parent disposable or have overloads that take a parent disposable.
-For example:
+许多 IntelliJ 平台 API 用于注册监听器时，要么需要传递父级 disposable，要么有重载方法可以接受父级 disposable。
+例如：
 
 ```java
 public abstract class EditorFactory {
@@ -162,35 +162,35 @@ public abstract class EditorFactory {
 }
 ```
 
-Methods with a `parentDisposable` parameter automatically unsubscribe the listener when the corresponding parent disposable is disposed.
-Using such methods is always preferable to removing listeners explicitly from the `dispose` method because it requires less code and is easier to verify for correctness.
+带有 `parentDisposable` 参数的方法在相应的父级 disposable 被释放时自动取消订阅监听器。
+使用此类方法总是比从 `dispose` 方法中显式移除监听器更可取，因为它需要更少的代码并且更容易验证正确性。
 
-To choose the correct parent disposable, use the guidelines from the previous section.
+要选择正确的父级 disposable，请使用上一节中的指南。
 
-The same rules apply to [message bus](messaging_infrastructure.md) connections.
-Always pass a parent disposable to `MessageBus.connect()`, and make sure it has the shortest possible lifetime.
+同样的规则适用于 [消息总线](messaging_infrastructure.md) 连接。
+始终将父级 disposable 传递给 `MessageBus.connect()`，并确保其生命周期尽可能短。
 
-### Determining Disposal Status
-You can use `Disposer.isDisposed()` to check whether a `Disposable` has already been disposed.
-This check is useful, for example, for an asynchronous callback to a `Disposable` that may be disposed before the callback is executed.
-In such a case, the best strategy is usually to do nothing and return early.
+### 确定释放状态 {id=determining-disposal-status}
+你可以使用 `Disposer.isDisposed()` 来检查 `Disposable` 是否已被释放。
+例如，对于异步回调到一个可能在回调执行之前被释放的 `Disposable`，这种检查非常有用。
+在这种情况下，通常最好的策略是什么都不做并提前返回。
 
-> Non-disposed objects shouldn't hold onto references to disposed objects, as this constitutes a memory leak.
-> Once a `Disposable` is released, it should be completely inactive, and there's no reason to refer to it anymore.
+> 未释放的对象不应持有对已释放对象的引用，因为这会导致内存泄漏。
+> 一旦 `Disposable` 被释放，它应该完全处于非活动状态，并且没有理由再引用它。
 >
 {style="warning"}
 
-### Ending a Disposable Lifecycle
-A plugin can manually end a `Disposable` lifecycle by calling `Disposer.dispose(Disposable)`.
-This method handles recursively disposing of all the `Disposable` child descendants as well.
+### 结束 Disposable 生命周期 {id=ending-a-disposable-lifecycle}
+插件可以通过调用 `Disposer.dispose(Disposable)` 手动结束 `Disposable` 的生命周期。
+此方法还会递归释放所有 `Disposable` 子级。
 
-## Implementing the `Disposable` Interface
+## 实现 `Disposable` 接口 {id=implementing-the-disposable-interface}
 
-Creating a class requires implementing the `Disposable` interface and defining the `dispose()` method.
+创建一个类需要实现 `Disposable` 接口并定义 `dispose()` 方法。
 
-In many cases, when the object implements `Disposable` only to be used as a parent disposable, the method's implementation will be completely empty.
+在许多情况下，当对象实现 `Disposable` 仅用作父级 disposable 时，该方法的实现将完全为空。
 
-An example of a non-trivial `dispose` implementation is shown below:
+以下是一个非平凡的 `dispose` 实现示例：
 
 ```java
 public class Foo<T> extends JBFoo implements Disposable {
@@ -215,27 +215,27 @@ public class Foo<T> extends JBFoo implements Disposable {
 }
 ```
 
-A lot of code setting up all the conditions requiring release in `dispose()` has been omitted for simplicity.
+为了简化，省略了大量设置需要在 `dispose()` 中释放所有条件的代码。
 
-Regardless, it illustrates the basic pattern, which is:
-* In this case, the parent disposable is passed into the constructor,
-* The `Foo` disposable is registered as a child of `parentDisposable` in the constructor.
-* The `dispose()` method consolidates the necessary release actions and will be called by the `Disposer`.
+尽管如此，它展示了基本模式，即：
+* 在这种情况下，父级 disposable 被传递到构造函数中，
+* `Foo` disposable 在构造函数中注册为 `parentDisposable` 的子级。
+* `dispose()` 方法整合了必要的释放操作，并将由 `Disposer` 调用。
 
-> Never call `Disposable.dispose()` directly because it bypasses the parent-child relationships established in `Disposer`.
-> Always call `Disposer.dispose(Disposable)` instead.
+> 永远不要直接调用 `Disposable.dispose()`，因为它绕过了在 `Disposer` 中建立的父子关系。
+> 始终调用 `Disposer.dispose(Disposable)` 代替。
 >
 {style="warning"}
 
-## Diagnosing `Disposer` Leaks
+## 诊断 `Disposer` 泄漏 {id=diagnosing-disposer-leaks}
 
-When the application exits, it performs a final sanity check to verify everything was disposed.
-If something was registered with the `Disposer` but remains undisposed, the IntelliJ Platform reports it before shutting down.
+当应用程序退出时，它会执行最终的健康检查以验证所有内容是否已释放。
+如果某些内容已注册到 `Disposer` 但未被释放，IntelliJ 平台会在关闭前报告它。
 
-In test, [internal](enabling_internal.md), and debug mode (add `idea.disposer.debug=on` in <ui-path>Help | Edit Custom Properties...</ui-path>), registering a `Disposable` with the `Disposer` also registers a stack trace for the object's allocation path.
-The `Disposer` accomplishes this by creating a `Throwable` at the time of registration.
+在测试、[内部](enabling_internal.md) 和调试模式下（在 <ui-path>帮助 | 编辑自定义属性...</ui-path> 中添加 `idea.disposer.debug=on`），将 `Disposable` 注册到 `Disposer` 时还会注册对象分配路径的堆栈跟踪。
+`Disposer` 通过在注册时创建一个 `Throwable` 来实现这一点。
 
-The following snippet represents the sort of "memory leak detected" error encountered in practice:
+以下片段代表了在实践中遇到的“检测到内存泄漏”错误：
 
 ```text
     java.lang.RuntimeException:
@@ -261,13 +261,13 @@ The following snippet represents the sort of "memory leak detected" error encoun
         …
 ```
 
-> The first part of the callstack is unrelated to diagnosing the memory leak.
-> Instead, pay attention to the second part of the call stack, after `Caused by: java.lang.Throwable`.
+> 调用堆栈的第一部分与诊断内存泄漏无关。
+> 相反，请注意调用堆栈的第二部分，即 `Caused by: java.lang.Throwable` 之后的部分。
 >
 
-In this specific case, the IntelliJ Platform ([`CoreProgressManager`](%gh-ic%/platform/core-impl/src/com/intellij/openapi/progress/impl/CoreProgressManager.java)) started a task that contained the `DynamicWizard` code.
-In turn, that code allocated a `Project` that was never disposed by the time the application exited.
-That is a promising place to start digging.
+在这个特定情况下，IntelliJ 平台（[`CoreProgressManager`](%gh-ic%/platform/core-impl/src/com/intellij/openapi/progress/impl/CoreProgressManager.java)）启动了一个包含 `DynamicWizard` 代码的任务。
+反过来，该代码分配了一个 `Project`，该 `Project` 在应用程序退出时从未被释放。
+这是一个值得开始挖掘的地方。
 
-The above memory leak was ultimately caused by failing to pass a `Project` instance to a function responsible for registering it for disposal.
-Often the fix for a memory leak is as simple as understanding the memory scope of the object being allocated - usually a UI container, project, or application - and making sure a `Disposer.register()` call is made appropriately for it.
+上述内存泄漏最终是由于未能将 `Project` 实例传递给负责注册它以进行释放的函数引起的。
+通常，修复内存泄漏的方法很简单，只需了解所分配对象的内存范围（通常是 UI 容器、项目或应用程序），并确保为其适当地调用 `Disposer.register()`。
